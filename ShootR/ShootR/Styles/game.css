@@ -1,0 +1,50 @@
+﻿html, body {
+    width:100%;
+    height:100%;
+}
+
+#game {        
+    display:block;
+    position:absolute;
+}
+
+#gameWrapper {
+    border:2px solid black;
+    margin: 0 auto;
+    position:relative;
+    width:1280px;
+    height:600px;
+    background: url('/Images/bg_stars.jpg') repeat;
+}
+
+.animation {
+    position:absolute;
+}
+
+.explosion {
+    width:64px;
+    height:64px;
+    background:url('/Images/SpriteSheets/explosion_1.png') no-repeat;
+    position: absolute;
+    top:200px;
+    left:200px;
+}
+
+.ship {
+    width: 50px;
+    height: 50px; 
+    position:absolute;
+    left:0;
+    top:0;
+    background-image:url('/Images/Ship.png');
+    background-repeat:no-repeat;
+}
+
+.bullet{
+    position:absolute;
+    top:0;
+    left:0;
+    background-color:green;
+    width: 10px;
+    height: 4px;
+}
