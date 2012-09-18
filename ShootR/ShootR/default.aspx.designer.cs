@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Shooter {
+namespace ShootR {
     
     
     public partial class _default {
