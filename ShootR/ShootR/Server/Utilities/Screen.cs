@@ -1,4 +1,4 @@
-﻿namespace Shooter
+﻿namespace ShootR
 {
     /// <summary>
     /// Used to represent a game screen.  In one case the BulletManager utilizes the GameScreen class to decide

@@ -7,5 +7,6 @@ namespace ShootR
 {
     public class Payload
     {
+
     }
 }
