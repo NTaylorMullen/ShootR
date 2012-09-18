@@ -5,11 +5,7 @@ using System.Web;
 
 namespace ShootR
 {
-    public enum Movement
+    public class Payload
     {
-        RotatingLeft,
-        RotatingRight,
-        Forward,
-        Backward,
     }
 }

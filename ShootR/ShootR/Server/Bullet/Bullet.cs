@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shooter
+namespace ShootR
 {
     /// <summary>
     /// The Bullet is fired by Ships and can be used to damage other ships.

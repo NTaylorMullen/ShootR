@@ -1,4 +1,4 @@
-﻿namespace Shooter
+﻿namespace ShootR
 {
     /// <summary>
     /// Flags to show which way an object is moving.  It can be multile directions which is why this is not an enum.

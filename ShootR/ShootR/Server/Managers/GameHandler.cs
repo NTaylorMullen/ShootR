@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Shooter
+namespace ShootR
 {
     public class GameHandler
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Shooter
+namespace ShootR
 {
     /// <summary>
     /// Ship's Movement Controller.  Handles all of the movement.

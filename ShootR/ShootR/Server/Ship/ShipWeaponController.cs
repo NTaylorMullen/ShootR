@@ -1,4 +1,4 @@
-﻿namespace Shooter
+﻿namespace ShootR
 {
     /// <summary>
     /// The ship weapon controller.

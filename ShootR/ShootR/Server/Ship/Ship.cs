@@ -1,4 +1,4 @@
-﻿namespace Shooter
+﻿namespace ShootR
 {
     /// <summary>
     /// A ship on the game field.  Only the owner of the ship can control the ship.  Ownership is decided via the connection id.

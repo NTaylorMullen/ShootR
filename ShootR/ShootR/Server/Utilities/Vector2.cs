@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shooter
+namespace ShootR
 {
     public class Vector2
     {

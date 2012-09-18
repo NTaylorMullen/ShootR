@@ -1,4 +1,4 @@
-﻿namespace Shooter
+﻿namespace ShootR
 {
     public class GameConfiguration
     {

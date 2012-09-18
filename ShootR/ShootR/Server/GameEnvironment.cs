@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Timers;
 using SignalR.Hubs;
 
-namespace Shooter
+namespace ShootR
 {
     public class GameEnvironment : Hub, IConnected, IDisconnect
     {

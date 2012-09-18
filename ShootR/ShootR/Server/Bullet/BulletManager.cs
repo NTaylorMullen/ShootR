@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Shooter
+namespace ShootR
 {
     /// <summary>
     /// Used to monitor all bullets on the game field.

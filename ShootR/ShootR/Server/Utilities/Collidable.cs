@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shooter
+namespace ShootR
 {
     /// <summary>
     /// Base object for all collidable objects which is used to check collisions.  Some examples of usage are through the Ship and Bullet classes.
