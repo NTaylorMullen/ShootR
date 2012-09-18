@@ -21,8 +21,8 @@
     <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
 
-    <script src="Client/Utilities/AnimationManager.js" type="text/javascript"></script>
-    <script src="Client/Utilities/CanvasRenderer.js" type="text/javascript"></script>
+    <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
+    <script src="Client/CanvasRenderer.js" type="text/javascript"></script>
     <script src="Client/Utilities/GameTime.js" type="text/javascript"></script>
     <script src="Client/Utilities/Collidable.js" type="text/javascript"></script>
     <script src="Client/Bullet/Bullet.js" type="text/javascript"></script>

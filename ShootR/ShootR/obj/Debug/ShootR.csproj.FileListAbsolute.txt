@@ -12,3 +12,17 @@ C:\Users\nimullen\Documents\GitHub\ShootR\ShootR\ShootR\bin\SignalR.Hosting.Comm
 C:\Users\nimullen\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.csprojResolveAssemblyReference.cache
 C:\Users\nimullen\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.dll
 C:\Users\nimullen\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.pdb
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\ShootR.dll
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\ShootR.pdb
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\Newtonsoft.Json.dll
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\SignalR.dll
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\SignalR.Hosting.AspNet.dll
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\SignalR.Hosting.Common.dll
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\Newtonsoft.Json.xml
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\SignalR.xml
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\SignalR.Hosting.AspNet.xml
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\SignalR.Hosting.Common.xml
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.csprojResolveAssemblyReference.cache
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.dll
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.pdb

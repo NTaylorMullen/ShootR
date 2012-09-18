@@ -80,8 +80,8 @@
     <Content Include="Client\Main.js" />
     <Content Include="Client\Ship\Ship.js" />
     <Content Include="Client\Ship\ShipVehicle.js" />
-    <Content Include="Client\Utilities\AnimationManager.js" />
-    <Content Include="Client\Utilities\CanvasRenderer.js" />
+    <Content Include="Client\Managers\AnimationManager.js" />
+    <Content Include="Client\CanvasRenderer.js" />
     <Content Include="Client\Utilities\Collidable.js" />
     <Content Include="Client\Utilities\GameTime.js" />
     <Content Include="Client\Utilities\ShipStatRecorder.js" />
@@ -112,13 +112,13 @@
     <Compile Include="Server\Bullet\Bullet.cs" />
     <Compile Include="Server\Bullet\BulletManager.cs" />
     <Compile Include="Server\Bullet\BulletMovementController.cs" />
-    <Compile Include="Server\CollisionManager.cs" />
+    <Compile Include="Server\Managers\CollisionManager.cs" />
     <Compile Include="Server\Configuration\BulletConfiguration.cs" />
     <Compile Include="Server\Configuration\ConfigurationManager.cs" />
     <Compile Include="Server\Configuration\GameConfiguration.cs" />
     <Compile Include="Server\Configuration\ShipConfiguration.cs" />
     <Compile Include="Server\GameEnvironment.cs" />
-    <Compile Include="Server\GameHandler.cs" />
+    <Compile Include="Server\Managers\GameHandler.cs" />
     <Compile Include="Server\Ship\Ship.cs" />
     <Compile Include="Server\Ship\ShipMovementController.cs" />
     <Compile Include="Server\Ship\ShipWeaponController.cs" />
