@@ -30,7 +30,6 @@
     <script src="Client/Ship/ShipVehicle.js"></script>
     <script src="Client/Ship/Ship.js" type="text/javascript"></script>
     <script src="Client/Utilities/ShipStatRecorder.js" type="text/javascript"></script>
-    <script src="Client/Utilities/AnimationManager.js" type="text/javascript"></script>
     <script src="Client/Game.js" type="text/javascript"></script>
     <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
     <script src="Client/Main.js"></script>
