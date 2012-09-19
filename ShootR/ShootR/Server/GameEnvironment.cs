@@ -8,17 +8,19 @@ namespace ShootR
     public class GameEnvironment : Hub, IConnected, IDisconnect
     {
         // How frequently the Update loop is executed
-        public const int UPDATE_INTERVAL = 17;
-        // How frequently the Draw loop is executed.  Draw is what triggers the client side pings
-        public const int DRAW_INTERVAL = 33;
+        public const int UPDATE_INTERVAL = 17; // Must evenly divide into DRAW_INTERVAL
+        // How frequently the Draw loop is executed.  Draw is what triggers the client side pings, it must be larger than UPDATE_INTERVAL but
+        public const int DRAW_INTERVAL = 34;
+        // Will trigger Draw after X many update intervals;
+        private const int DRAW_AFTER = DRAW_INTERVAL / UPDATE_INTERVAL;        
 
         public static GameHandler gameHandler = new GameHandler();
         public static PayloadManager payloadManager = new PayloadManager();
         public static Timer updateTimer = new Timer(UPDATE_INTERVAL);
-        public static Timer drawTimer = new Timer(DRAW_INTERVAL);
         public static GameTime gameTime = new GameTime();
 
-        private static ConfigurationManager configuration = new ConfigurationManager();
+        private static ConfigurationManager _configuration = new ConfigurationManager();
+        private static int _updateCount = 0;
 
         public GameEnvironment()
         {
@@ -26,21 +28,14 @@ namespace ShootR
             {
                 updateTimer.Enabled = true;
                 updateTimer.Elapsed += new ElapsedEventHandler(Update);
-                updateTimer.Start();
-            }
-
-            if (!drawTimer.Enabled)
-            {
-                drawTimer.Enabled = true;
-                drawTimer.Elapsed += new ElapsedEventHandler(Draw);
-                drawTimer.Start();
+                updateTimer.Start();                
             }
         }
 
         /// <summary>
         /// Sends down batches of data to the clients in order to update their screens
         /// </summary>
-        public void Draw(object sender, ElapsedEventArgs e)
+        public void Draw()
         {
             Dictionary<string, Payload> payloads = payloadManager.GetPayloads(gameHandler.ships, gameHandler.bulletManager.bulletsInAir, gameHandler.GetDisposedAmunition());
 
@@ -58,6 +53,12 @@ namespace ShootR
         {
             gameTime.Update();
             gameHandler.Update(gameTime);
+
+            if (++_updateCount % DRAW_AFTER == 0)
+            {
+                _updateCount = 0; // Reset update count to 0
+                Draw();
+            }
         }
 
         #region Connection Methods
@@ -100,7 +101,7 @@ namespace ShootR
         /// <returns>The game's configuration</returns>
         public ConfigurationManager getConfiguration()
         {
-            return configuration;
+            return _configuration;
         }
 
         /// <summary>

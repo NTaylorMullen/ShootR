@@ -32,8 +32,8 @@ $(function () {
     env.LoadMapInfo = function (info) {//ship_list, bullet_list, amunition) {
         lastPayload = info;
         game.LoadMultiplayerShips(info.Ships);
-        game.LoadBullets(info.Bullets);
         game.LoadDisposedAmmunition(info.Collisions);
+        game.LoadBullets(info.Bullets);        
     }
 
     env.RemoveShip = function (connectionID) {
