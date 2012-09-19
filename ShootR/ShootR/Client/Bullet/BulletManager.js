@@ -3,6 +3,7 @@
     var bulletsInAir = {};
 
     that.UpdateBullets = function (bullet_list) {
+        var activeBullets = {}
         for (var i = 0; i < bullet_list.length; i++) {
             var id = bullet_list[i].ID;
 
@@ -13,6 +14,14 @@
             }
             else {
                 bulletsInAir[id] = new Bullet(bullet_list[i]);
+            }
+
+            activeBullets[id] = true;
+        }
+
+        for (var key in bulletsInAir) {
+            if (!activeBullets[key]) {
+                delete bulletsInAir[key];
             }
         }
     }

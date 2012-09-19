@@ -48,3 +48,22 @@
     width: 10px;
     height: 4px;
 }
+
+#shipStats {
+    height:100px;
+}
+
+.column {
+    width:250px;
+    height:88px;
+    float:left;
+}
+
+.column.wide {
+    width: 350px;
+}
+
+h3 {
+    margin-top:0px;
+    margin-bottom:5px;
+}

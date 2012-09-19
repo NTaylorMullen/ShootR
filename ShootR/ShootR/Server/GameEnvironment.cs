@@ -13,6 +13,7 @@ namespace ShootR
         public const int DRAW_INTERVAL = 33;
 
         public static GameHandler gameHandler = new GameHandler();
+        public static PayloadManager payloadManager = new PayloadManager();
         public static Timer updateTimer = new Timer(UPDATE_INTERVAL);
         public static Timer drawTimer = new Timer(DRAW_INTERVAL);
         public static GameTime gameTime = new GameTime();
@@ -41,7 +42,12 @@ namespace ShootR
         /// </summary>
         public void Draw(object sender, ElapsedEventArgs e)
         {
-            Clients.LoadMapInfo(gameHandler.ships, gameHandler.bulletManager.bulletsInAir, gameHandler.GetDisposedAmunition());
+            Dictionary<string, Payload> payloads = payloadManager.GetPayloads(gameHandler.ships, gameHandler.bulletManager.bulletsInAir, gameHandler.GetDisposedAmunition());
+
+            foreach (string connectionID in payloads.Keys)
+            {
+                Clients[connectionID].LoadMapInfo(payloads[connectionID]);
+            }
         }
 
         /// <summary>

@@ -40,6 +40,14 @@ namespace ShootR
             Disposed = true;
         }
 
+        public double DistanceFrom(Collidable from)
+        {
+            Vector2 myCenter = this.Center(),
+                    theirCenter = from.Center();
+
+            return Math.Sqrt(Math.Pow(myCenter.X - theirCenter.X, 2) + Math.Pow(myCenter.Y - theirCenter.Y, 2));
+        }
+
         /// <summary>
         /// Called when there is a collision with another object "<paramref name="c"/>."
         /// </summary>
@@ -67,6 +75,11 @@ namespace ShootR
             Vector2 myOffsetPosition = new Vector2(MovementController.Position.X - offsetWidth, MovementController.Position.Y - offsetHeight);
 
             return (offsetPosition.X >= myOffsetPosition.X && offsetPosition.Y >= myOffsetPosition.Y && offsetPosition.X <= myOffsetPosition.X + c.Width && offsetPosition.Y <= myOffsetPosition.Y + c.Height);
+        }
+
+        public Vector2 Center()
+        {
+            return new Vector2(this.MovementController.Position.X + .5 * this.Width, this.MovementController.Position.Y + .5 * this.Height);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace ShootR
 {
@@ -31,7 +32,7 @@ namespace ShootR
         /// Used to capture all of the amunition that needs to be cleaned up on the client.
         /// </summary>
         /// <returns>A combined list of the bullets that are out of range and the list of bullets that have collided with objects.</returns>
-        public Collidable[] GetDisposedAmunition()
+        public List<Collidable> GetDisposedAmunition()
         {
             Collidable[] collisions = collisionManager.GetAmunitionCollisions();
             Collidable[] cleaning = BulletManager.GetBulletsToBeCleanedUp();
@@ -40,7 +41,7 @@ namespace ShootR
             collisions.CopyTo(result, 0);
             cleaning.CopyTo(result, collisions.Length);
 
-            return result;
+            return new List<Collidable>(result);
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ $(function () {
     var env = $.connection.gameEnvironment;
     var game;
     var configurationManager;
+    var lastPayload = { Ships: {}, Bullets: [], Collisions: [] };
 
     function Initialize(config) {
         configurationManager = new ConfigurationManager(config);
@@ -23,14 +24,16 @@ $(function () {
 
         (function animloop() {
             requestAnimFrame(animloop);
-            game.Update();
+            game.Update(lastPayload);
         })();
     }
+    
 
-    env.LoadMapInfo = function (ship_list, bullet_list, amunition) {
-        game.LoadMultiplayerShips(ship_list);
-        game.LoadBullets(bullet_list);
-        game.LoadDisposedAmmunition(amunition);
+    env.LoadMapInfo = function (info) {//ship_list, bullet_list, amunition) {
+        lastPayload = info;
+        game.LoadMultiplayerShips(info.Ships);
+        game.LoadBullets(info.Bullets);
+        game.LoadDisposedAmmunition(info.Collisions);
     }
 
     env.RemoveShip = function (connectionID) {

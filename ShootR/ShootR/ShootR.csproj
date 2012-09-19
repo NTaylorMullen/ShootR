@@ -119,6 +119,7 @@
     <Compile Include="Server\Configuration\ShipConfiguration.cs" />
     <Compile Include="Server\GameEnvironment.cs" />
     <Compile Include="Server\Managers\GameHandler.cs" />
+    <Compile Include="Server\Managers\PayloadManager.cs" />
     <Compile Include="Server\Ship\Ship.cs" />
     <Compile Include="Server\Ship\ShipMovementController.cs" />
     <Compile Include="Server\Ship\ShipWeaponController.cs" />

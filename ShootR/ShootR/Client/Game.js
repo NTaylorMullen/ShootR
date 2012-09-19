@@ -21,13 +21,20 @@ function Game(conn) {
 
     // This will update all ship positions on the screen.  Including in correcting the client side ship movement
     that.LoadMultiplayerShips = function (ship_list) {
+        var activeShips = {};
         for (var connectionID in ship_list) {
             if ($(ships[connectionID]).length === 0) {//Need to add the ship
                 ships[connectionID] = new ShipVehicle({ x: ship_list[connectionID].MovementController.Position.X, y: ship_list[connectionID].MovementController.Position.Y });
             }
-
+            activeShips[connectionID] = true;
             ships[connectionID].UpdateProperties(ship_list[connectionID]);
             ships[connectionID].Draw();
+        }
+
+        for (var key in ships) {
+            if (!activeShips[key]) {
+                delete ships[key];
+            }
         }
     }
 
@@ -44,7 +51,7 @@ function Game(conn) {
         delete ships[connectionID];
     }
 
-    that.Update = function () {
+    that.Update = function (payload) {
         gameTime.Update();
         CanvasContext.clear();
 
@@ -53,7 +60,7 @@ function Game(conn) {
         // Move the ships on the client
         for (var key in ships) {
             ships[key].Update(gameTime);
-        }        
+        }
 
         // Move the bullets on the client
         bullet_manager.Update(gameTime);
@@ -61,6 +68,6 @@ function Game(conn) {
         GAME_GLOBALS.AnimationManager.Update(gameTime);
 
         CanvasContext.Render();
-        shipStats.Update();
+        shipStats.Update(payload);
     }
 }
