@@ -42,10 +42,6 @@ function Game(conn) {
         bullet_manager.UpdateBullets(bullet_list);
     }
 
-    that.LoadDisposedAmmunition = function (amunition) {
-        bullet_manager.DestroyBullets(amunition);
-    }
-
     that.RemoveShip = function (connectionID) {
         ships[connectionID].Destroy();
         delete ships[connectionID];

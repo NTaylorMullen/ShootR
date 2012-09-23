@@ -7,12 +7,22 @@
     {
         public const int WIDTH = 50;
         public const int HEIGHT = 50;
+        public const int SCREEN_WIDTH = 1280;
+        public const int SCREEN_HEIGHT = 600;
 
-        public Ship(Vector2 position, BulletManager bm)
+        private string _connectionID;
+
+        public Ship(string connectionID, Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT)
         {
+            _connectionID = connectionID;
             MovementController = new ShipMovementController(position);
             WeaponController = new ShipWeaponController(this, bm);
+        }
+
+        public string GetConnectionID()
+        {
+            return _connectionID;
         }
 
         public ShipMovementController MovementController
@@ -35,8 +45,8 @@
             base.Update();
         }
 
-        public override void HandleCollisionWith(Collidable c)
-        {            
+        public override void HandleCollisionWith(Collidable c, QuadTree map)
+        {
         }
     }
 }

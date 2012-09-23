@@ -38,13 +38,13 @@ namespace ShootR
             {
                 if (_objects[i].Disposed)
                 {
-                    // Need to verify that this object was not the "potential" in the last loop aka has not already been removed from the map
-                    if (_objects[i].GetMapArea() != null)
-                    {
-                        _map.Remove(_objects[i]);
-                    }
-
                     _objects.Remove(_objects[i--]);
+                    continue;
+                }
+
+                // If this bullet has already collided
+                if (_objects[i].Collided)
+                {
                     continue;
                 }
 
@@ -54,14 +54,14 @@ namespace ShootR
                 for (int j = 0; j < potentials.Count; j++)
                 {
                     // If the potential object is our outer object then move on
-                    if (potentials[j] == _objects[i])
+                    if (potentials[j].Collided || potentials[j] == _objects[i])
                     {
                         continue;
                     }
 
                     if (_objects[i].IsCollidingWith(potentials[j]))
                     {
-                        if (_objects.GetType() == typeof(Bullet))
+                        if (_objects[i].GetType() == typeof(Bullet))
                         {
                             _amunitionCollisions.Add(_objects[i]);
                         }
@@ -70,20 +70,14 @@ namespace ShootR
                             _amunitionCollisions.Add(potentials[j]);
                         }
 
-                        _objects[i].HandleCollisionWith(potentials[j]);
-                        potentials[j].HandleCollisionWith(_objects[i]);
-                    }
+                        _objects[i].HandleCollisionWith(potentials[j], _map);
+                        potentials[j].HandleCollisionWith(_objects[i], _map);
 
-                    if (potentials[j].Disposed)
-                    {
-                        _map.Remove(potentials[j]);
-                    }
-
-                    if (_objects[i].Disposed)
-                    {
-                        _map.Remove(_objects[i]);
-                        _objects.Remove(_objects[i--]);
-                        break;
+                        if (_objects[i].Disposed)
+                        {
+                            _objects.Remove(_objects[i--]);
+                            break;
+                        }
                     }
                 }
             }

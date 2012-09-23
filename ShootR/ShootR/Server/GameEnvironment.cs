@@ -43,7 +43,7 @@ namespace ShootR
         /// </summary>
         public void Draw()
         {
-            Dictionary<string, Payload> payloads = payloadManager.GetPayloads(_gameHandler.ships, _gameHandler.bulletManager.bulletsInAir, _gameHandler.GetDisposedAmunition());
+            Dictionary<string, Payload> payloads = payloadManager.GetPayloads(_gameHandler.ships, _gameHandler.bulletManager.bulletsInAir, _gameHandler.GetDisposedAmunition(), Map);
 
             foreach (string connectionID in payloads.Keys)
             {
@@ -71,7 +71,7 @@ namespace ShootR
         #region Connection Methods
         public System.Threading.Tasks.Task Connect()
         {
-            _gameHandler.collisionManager.Monitor(_gameHandler.AddShip(new Ship(new Vector2(MAP_WIDTH * .5, MAP_HEIGHT * .5), _gameHandler.bulletManager), Context.ConnectionId));
+            _gameHandler.collisionManager.Monitor(_gameHandler.AddShip(new Ship(Context.ConnectionId, new Vector2(MAP_WIDTH * .5, MAP_HEIGHT * .5), _gameHandler.bulletManager), Context.ConnectionId));
             return null;
         }
 

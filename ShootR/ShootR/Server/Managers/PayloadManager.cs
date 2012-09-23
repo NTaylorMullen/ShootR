@@ -1,100 +1,52 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace ShootR
 {
     public class PayloadManager
     {
-        public const int SCREEN_PERIMETER = 700;
-
-        public Dictionary<string, Payload> GetPayloads(ConcurrentDictionary<string, Ship> ships, List<Bullet> bullets, List<Collidable> collisions)
-        {
-            Dictionary<string, Payload> payloads = GetInitializedPayloads(ships.Keys, ships.Count, bullets.Count, collisions.Count);
-
-            GenerateShipPayloads(payloads, ships);
-            GenerateBulletPayloads(payloads, ships, bullets);
-            GenerateCollisionPayloads(payloads, ships, collisions);
-
-            return payloads;
-        }
-
-        private Dictionary<string, Payload> GetInitializedPayloads(ICollection<string> connectionIDs, int shipCount, int bulletCount, int collisionCount)
+        public Dictionary<string, Payload> GetPayloads(ConcurrentDictionary<string, Ship> ships, List<Bullet> bullets, List<Collidable> collisions, QuadTree map)
         {
             Dictionary<string, Payload> payloads = new Dictionary<string, Payload>();
+            int shipCount = ships.Count,
+                bulletCount = bullets.Count;
+            Vector2 screenOffset = new Vector2((Ship.SCREEN_WIDTH / 2) + Ship.HEIGHT / 2, (Ship.SCREEN_HEIGHT / 2) + Ship.HEIGHT / 2);
 
-            foreach (string connectionID in connectionIDs)
+            foreach (string connectionID in ships.Keys)
             {
                 payloads.Add(connectionID, new Payload()
                 {
                     ShipsInWorld = shipCount,
-                    BulletsInWorld = bulletCount,
-                    CollisionsInWorld = collisionCount
+                    BulletsInWorld = bulletCount
                 });
+
+                Vector2 screenPosition = ships[connectionID].MovementController.Position - screenOffset;
+                List<Collidable> onScreen = map.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), Ship.SCREEN_WIDTH, Ship.SCREEN_HEIGHT));
+
+                foreach (Collidable obj in onScreen)
+                {
+                    if (obj.GetType() == typeof(Bullet))
+                    {
+                        // This bullet has been seen so tag the bullet as seen
+                        ((Bullet)obj).Seen();
+                        payloads[connectionID].Bullets.Add((Bullet)obj);
+                    }
+                    else if (obj.GetType() == typeof(Ship))
+                    {
+                        payloads[connectionID].Ships.TryAdd(((Ship)obj).GetConnectionID(), (Ship)obj);
+                    }
+                }
+            }
+
+            // Once we've created our payload we now need to remove all of the collisions from our map
+            foreach (Collidable obj in collisions)
+            {
+                map.Remove(obj);
             }
 
             return payloads;
-        }
-
-        private void GenerateShipPayloads(Dictionary<string, Payload> payloads, ConcurrentDictionary<string, Ship> ships)
-        {
-            foreach (string connectionIDA in ships.Keys)
-            {
-                payloads[connectionIDA].Ships.TryAdd(connectionIDA, ships[connectionIDA]);
-
-                bool first = true;
-                foreach (string connectionIDB in ships.Keys)
-                {
-                    if (first)
-                    {
-                        first = false;
-                        continue;
-                    }
-
-                    // If the ships are on the screen then we need to add them to eachothers draw list
-                    if (ShareScreen(ships[connectionIDA], ships[connectionIDB]))
-                    {
-                        payloads[connectionIDA].Ships.TryAdd(connectionIDB, ships[connectionIDB]);
-                        payloads[connectionIDB].Ships.TryAdd(connectionIDA, ships[connectionIDA]);
-                    }
-                }
-            }
-        }
-
-        private void GenerateBulletPayloads(Dictionary<string, Payload> payloads, ConcurrentDictionary<string, Ship> ships, List<Bullet> bullets)
-        {
-            int bulletCount = bullets.Count;
-
-            foreach (string connectionIDA in ships.Keys)
-            {
-                foreach (Bullet bullet in bullets)
-                {
-                    if (ShareScreen(ships[connectionIDA], bullet))
-                    {
-                        payloads[connectionIDA].Bullets.Add(bullet);
-                    }
-                }
-            }
-        }
-
-        private void GenerateCollisionPayloads(Dictionary<string, Payload> payloads, ConcurrentDictionary<string, Ship> ships, List<Collidable> collisions)
-        {
-            int bulletCount = collisions.Count;
-
-            foreach (string connectionIDA in ships.Keys)
-            {
-                foreach (Bullet collision in collisions)
-                {
-                    if (ShareScreen(ships[connectionIDA], collision))
-                    {
-                        payloads[connectionIDA].Collisions.Add(collision);
-                    }
-                }
-            }
-        }
-
-        private bool ShareScreen(Collidable A, Collidable B)
-        {
-            return (A.DistanceFrom(B) <= SCREEN_PERIMETER);
         }
     }
 }

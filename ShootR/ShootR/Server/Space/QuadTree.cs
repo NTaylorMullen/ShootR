@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace ShootR
@@ -18,7 +14,7 @@ namespace ShootR
             _height = height;
             _minWidth = minWidth;
             _minHeight = minHeight;
-            _root = new QuadTreeNode(new Rectangle(0, 0, _width, _height), _minWidth, _minHeight,null);
+            _root = new QuadTreeNode(new Rectangle(0, 0, _width, _height), _minWidth, _minHeight, null);
             _root.Partition();
         }
 
@@ -46,8 +42,12 @@ namespace ShootR
 
         public void Remove(Collidable obj)
         {
-            obj.GetMapArea().Contents.Remove(obj);
-            obj.ClearMapArea();
+            QuadTreeNode node = obj.GetMapArea();
+            if (node != null)
+            {
+                obj.GetMapArea().Contents.Remove(obj);
+                obj.ClearMapArea();
+            }
         }
 
         public void Clear()

@@ -2,15 +2,18 @@
     Collidable.call(this);
     var that = this;
 
+    that.PropertiesToCopy.push("Collided");
+    that.PropertiesToCopy.push("CollidedAt");
+
     that.Vehicle = CanvasContext.IMAGE_ASSETS.Laser;
 
-    that.Destroy = function (collided, collidedAt) {
+    that.Destroy = function () {
         // Bullet collided into another object
-        if (collided) {
+        if (that.Collided) {
             // We want to explode
             GAME_GLOBALS.AnimationManager.Add(new spritify({
                 image: CanvasContext.IMAGE_ASSETS.Explosion,
-                centerOn: { X: collidedAt.X, Y: collidedAt.Y },
+                centerOn: { X: that.CollidedAt.X, Y: that.CollidedAt.Y },
                 frameCount: 24,
                 spriteSheetSize: {
                     width: 320,

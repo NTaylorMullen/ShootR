@@ -21,16 +21,9 @@
 
         for (var key in bulletsInAir) {
             if (!activeBullets[key]) {
+                bulletsInAir[key].Destroy();
                 delete bulletsInAir[key];
             }
-        }
-    }
-
-    that.DestroyBullets = function (bullet_list) {
-        for (var i = 0; i < bullet_list.length; i++) {
-            var id = bullet_list[i].ID;
-            bulletsInAir[id].Destroy(bullet_list[i].Collided, bullet_list[i].CollidedAt);
-            delete bulletsInAir[id];
         }
     }
 

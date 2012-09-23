@@ -48,7 +48,7 @@ namespace ShootR
         {
             Disposed = true;
         }
-        
+
         public double DistanceFrom(Collidable from)
         {
             Vector2 myCenter = this.Center(),
@@ -61,7 +61,7 @@ namespace ShootR
         /// Called when there is a collision with another object "<paramref name="c"/>."
         /// </summary>
         /// <param name="c">The object that I colided with</param>
-        public virtual void HandleCollisionWith(Collidable c)
+        public virtual void HandleCollisionWith(Collidable c, QuadTree map)
         {
             Collided = true;
             // Copy over the position to find collision location

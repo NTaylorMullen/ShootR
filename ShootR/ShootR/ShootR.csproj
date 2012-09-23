@@ -131,7 +131,6 @@
     <Compile Include="Server\Utilities\MovementController.cs" />
     <Compile Include="Server\Utilities\MovementFlags.cs" />
     <Compile Include="Server\Utilities\Payload.cs" />
-    <Compile Include="Server\Utilities\Screen.cs" />
     <Compile Include="Server\Utilities\Vector2.cs" />
   </ItemGroup>
   <ItemGroup>

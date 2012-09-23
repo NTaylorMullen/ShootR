@@ -62,7 +62,6 @@ namespace ShootR
 
         public void Update(GameTime gameTime)
         {
-            bulletManager.UpdateRelativeScreen(ships);
             bulletManager.Update(gameTime);
 
             foreach (string key in ships.Keys)
