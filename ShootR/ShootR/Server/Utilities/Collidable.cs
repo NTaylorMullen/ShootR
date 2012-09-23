@@ -1,16 +1,23 @@
 ﻿using System;
+using System.Drawing;
 
 namespace ShootR
 {
     /// <summary>
     /// Base object for all collidable objects which is used to check collisions.  Some examples of usage are through the Ship and Bullet classes.
     /// </summary>
-    public abstract class Collidable : IDisposable
+    public class Collidable : IDisposable
     {
+        private Rectangle _bounds;
+        private QuadTreeNode _mapLocation;
+
         public Collidable(MovementController mc)
         {
             MovementController = mc;
             CollidedAt = new Vector2();
+            Width = 0;
+            Height = 0;
+            _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), Width, Height);
         }
 
         public Collidable(int w, int h)
@@ -18,6 +25,7 @@ namespace ShootR
             Width = w;
             Height = h;
             CollidedAt = new Vector2();
+            _bounds = new Rectangle(0, 0, Width, Height);
         }
 
         public Collidable(int w, int h, MovementController mc)
@@ -26,6 +34,7 @@ namespace ShootR
             Height = h;
             CollidedAt = new Vector2();
             MovementController = mc;
+            _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), Width, Height);
         }
 
         public MovementController MovementController { get; set; }
@@ -39,7 +48,7 @@ namespace ShootR
         {
             Disposed = true;
         }
-
+        
         public double DistanceFrom(Collidable from)
         {
             Vector2 myCenter = this.Center(),
@@ -67,19 +76,43 @@ namespace ShootR
         /// <returns>Whether or not I am colliding with <paramref name="c"/>.</returns>
         public bool IsCollidingWith(Collidable c)
         {
-            // Extending the width of our object and then transposing the c object to a singular point
-            // If the singular point falls within the extended width region then the two objects are colliding
-            double offsetWidth = c.Width * .5;
-            double offsetHeight = c.Height * .5;
-            Vector2 offsetPosition = new Vector2(c.MovementController.Position.X + offsetWidth, c.MovementController.Position.Y + offsetHeight);
-            Vector2 myOffsetPosition = new Vector2(MovementController.Position.X - offsetWidth, MovementController.Position.Y - offsetHeight);
+            return _bounds.IntersectsWith(c.GetBounds());
+        }
 
-            return (offsetPosition.X >= myOffsetPosition.X && offsetPosition.Y >= myOffsetPosition.Y && offsetPosition.X <= myOffsetPosition.X + c.Width && offsetPosition.Y <= myOffsetPosition.Y + c.Height);
+        public Rectangle GetBounds()
+        {
+            return _bounds;
         }
 
         public Vector2 Center()
         {
             return new Vector2(this.MovementController.Position.X + .5 * this.Width, this.MovementController.Position.Y + .5 * this.Height);
+        }
+
+        #region Quad Tree methods
+
+        public void ClearMapArea()
+        {
+            _mapLocation = null;
+        }
+
+        public void SetMapArea(QuadTreeNode node)
+        {
+            _mapLocation = node;
+        }
+
+        public QuadTreeNode GetMapArea()
+        {
+            return _mapLocation;
+        }
+
+        #endregion
+
+
+        public void Update()
+        {
+            _bounds.X = Convert.ToInt32(MovementController.Position.X);
+            _bounds.Y = Convert.ToInt32(MovementController.Position.Y);
         }
     }
 }

@@ -123,6 +123,8 @@
     <Compile Include="Server\Ship\Ship.cs" />
     <Compile Include="Server\Ship\ShipMovementController.cs" />
     <Compile Include="Server\Ship\ShipWeaponController.cs" />
+    <Compile Include="Server\Space\QuadTree.cs" />
+    <Compile Include="Server\Space\QuadTreeNode.cs" />
     <Compile Include="Server\Utilities\Collidable.cs" />
     <Compile Include="Server\Utilities\GameTime.cs" />
     <Compile Include="Server\Utilities\Movement.cs" />

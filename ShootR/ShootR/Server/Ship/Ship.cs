@@ -8,10 +8,10 @@
         public const int WIDTH = 50;
         public const int HEIGHT = 50;
 
-        public Ship(Vector2 pos, BulletManager bm)
+        public Ship(Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT)
         {
-            MovementController = new ShipMovementController();
+            MovementController = new ShipMovementController(position);
             WeaponController = new ShipWeaponController(this, bm);
         }
 
@@ -32,6 +32,11 @@
         public void Update(GameTime gameTime)
         {
             MovementController.Update(gameTime);
+            base.Update();
+        }
+
+        public override void HandleCollisionWith(Collidable c)
+        {            
         }
     }
 }

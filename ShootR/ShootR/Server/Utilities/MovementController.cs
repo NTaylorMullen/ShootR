@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ShootR
 {
-    public abstract class MovementController
+    public class MovementController
     {
         public MovementController(double mass)
         {

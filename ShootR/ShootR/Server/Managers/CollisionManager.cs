@@ -4,14 +4,14 @@ namespace ShootR
 {
     public class CollisionManager
     {
-        private List<Collidable> _vehicles;
-        private List<Collidable> _amunitions;
         private List<Collidable> _amunitionCollisions;
+        private List<Collidable> _objects;
+        private QuadTree _map;
 
-        public CollisionManager()
+        public CollisionManager(QuadTree map)
         {
-            _vehicles = new List<Collidable>();
-            _amunitions = new List<Collidable>();
+            _map = map;
+            _objects = new List<Collidable>();
             _amunitionCollisions = new List<Collidable>();
         }
 
@@ -26,59 +26,64 @@ namespace ShootR
             return temp;
         }
 
-        /// <summary>
-        /// Adds <paramref name="amo"/> to the amunitions list in order to be tracked for collisions.
-        /// </summary>
-        /// <param name="amo">Amunition to be tracked</param>
-        public void MonitorAmunition(Collidable amo)
+        public void Monitor(Collidable obj)
         {
-            _amunitions.Add(amo);
-        }
-
-        /// <summary>
-        /// Adds <paramref name="vehicle"/> to the vehicles list in order to be tracked for collisions.
-        /// </summary>
-        /// <param name="vehicle">Vehicle to be tracked</param>
-        public void MonitorVehicle(Collidable vehicle)
-        {
-            _vehicles.Add(vehicle);
+            _map.Insert(obj);
+            _objects.Add(obj);
         }
 
         public void Update(GameTime gameTime)
         {
-            // Need to cycle through each vehicle and check to see if it's colliding with a piece of amo.
-            for (int i = 0; i < _vehicles.Count; i++)
+            for (int i = 0; i < _objects.Count; i++)
             {
-                // If the vehicle is already disposed then we don't want to waste loop cycles on testing if it collided with an object
-                if (_vehicles[i].Disposed)
+                if (_objects[i].Disposed)
                 {
-                    _vehicles.Remove(_vehicles[i--]);
+                    // Need to verify that this object was not the "potential" in the last loop aka has not already been removed from the map
+                    if (_objects[i].GetMapArea() != null)
+                    {
+                        _map.Remove(_objects[i]);
+                    }
+
+                    _objects.Remove(_objects[i--]);
                     continue;
                 }
 
-                // Cycle through each amunition piece to see if it's colliding with the current vehicle
-                for (int j = 0; j < _amunitions.Count; j++)
-                {
-                    // This check is to see if a previous amunition destroyed a vehicle and then we don't need to continue in the loop
-                    if (_vehicles[i].Disposed)
-                    {
-                        _vehicles.Remove(_vehicles[i--]);
-                        break;
-                    }
+                // Retrieve objects that it could be colliding with
+                List<Collidable> potentials = _objects[i].GetMapArea().GetSubTreeContents();
 
-                    // Verifies that we aren't needlessly checking disposed amunition
-                    if (_amunitions[j].Disposed)
+                for (int j = 0; j < potentials.Count; j++)
+                {
+                    // If the potential object is our outer object then move on
+                    if (potentials[j] == _objects[i])
                     {
-                        _amunitions.Remove(_amunitions[j--]);
                         continue;
                     }
 
-                    // Colliding 
-                    if (_amunitions[j].IsCollidingWith(_vehicles[i]))
+                    if (_objects[i].IsCollidingWith(potentials[j]))
                     {
-                        _amunitionCollisions.Add(_amunitions[j]);
-                        _vehicles[i].HandleCollisionWith(_amunitions[j]);
-                        _amunitions[j].HandleCollisionWith(_vehicles[i]);
+                        if (_objects.GetType() == typeof(Bullet))
+                        {
+                            _amunitionCollisions.Add(_objects[i]);
+                        }
+                        if (potentials[j].GetType() == typeof(Bullet))
+                        {
+                            _amunitionCollisions.Add(potentials[j]);
+                        }
+
+                        _objects[i].HandleCollisionWith(potentials[j]);
+                        potentials[j].HandleCollisionWith(_objects[i]);
+                    }
+
+                    if (potentials[j].Disposed)
+                    {
+                        _map.Remove(potentials[j]);
+                    }
+
+                    if (_objects[i].Disposed)
+                    {
+                        _map.Remove(_objects[i]);
+                        _objects.Remove(_objects[i--]);
+                        break;
                     }
                 }
             }

@@ -11,7 +11,7 @@ namespace ShootR
         public const int WIDTH = 4;
 
         public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity)
-            : base(new BulletMovementController(position, direction, initialVelocity))
+            : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, initialVelocity))
         {
             ID = Guid.NewGuid();
         }
@@ -43,6 +43,7 @@ namespace ShootR
         public void Update(GameTime gameTime)
         {
             MovementController.Update(gameTime);
+            base.Update();
         }
     }
 }

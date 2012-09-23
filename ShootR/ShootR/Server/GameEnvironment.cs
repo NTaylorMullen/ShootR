@@ -7,20 +7,26 @@ namespace ShootR
 {
     public class GameEnvironment : Hub, IConnected, IDisconnect
     {
-        // How frequently the Update loop is executed
-        public const int UPDATE_INTERVAL = 17; // Must evenly divide into DRAW_INTERVAL
-        // How frequently the Draw loop is executed.  Draw is what triggers the client side pings, it must be larger than UPDATE_INTERVAL but
-        public const int DRAW_INTERVAL = 34;
-        // Will trigger Draw after X many update intervals;
-        private const int DRAW_AFTER = DRAW_INTERVAL / UPDATE_INTERVAL;        
+        public const int MAP_WIDTH = 5000;
+        public const int MAP_HEIGHT = 5000;
+        public const int MAP_MIN_WIDTH = 156;
+        public const int MAP_MIN_HEIGHT = 156;
 
-        public static GameHandler gameHandler = new GameHandler();
+        // How frequently the Update loop is executed
+        public const int UPDATE_INTERVAL = 20; // Must evenly divide into DRAW_INTERVAL
+        // How frequently the Draw loop is executed.  Draw is what triggers the client side pings, it must be larger than UPDATE_INTERVAL but
+        public const int DRAW_INTERVAL = 40;
+        // Will trigger Draw after X many update intervals;
+        private const int DRAW_AFTER = DRAW_INTERVAL / UPDATE_INTERVAL;
+
         public static PayloadManager payloadManager = new PayloadManager();
         public static Timer updateTimer = new Timer(UPDATE_INTERVAL);
         public static GameTime gameTime = new GameTime();
 
         private static ConfigurationManager _configuration = new ConfigurationManager();
         private static int _updateCount = 0;
+        private static QuadTree Map = new QuadTree(MAP_WIDTH, MAP_HEIGHT, MAP_MIN_WIDTH, MAP_MIN_HEIGHT);
+        private static GameHandler _gameHandler = new GameHandler(Map);
 
         public GameEnvironment()
         {
@@ -28,7 +34,7 @@ namespace ShootR
             {
                 updateTimer.Enabled = true;
                 updateTimer.Elapsed += new ElapsedEventHandler(Update);
-                updateTimer.Start();                
+                updateTimer.Start();
             }
         }
 
@@ -37,7 +43,7 @@ namespace ShootR
         /// </summary>
         public void Draw()
         {
-            Dictionary<string, Payload> payloads = payloadManager.GetPayloads(gameHandler.ships, gameHandler.bulletManager.bulletsInAir, gameHandler.GetDisposedAmunition());
+            Dictionary<string, Payload> payloads = payloadManager.GetPayloads(_gameHandler.ships, _gameHandler.bulletManager.bulletsInAir, _gameHandler.GetDisposedAmunition());
 
             foreach (string connectionID in payloads.Keys)
             {
@@ -52,7 +58,8 @@ namespace ShootR
         public void Update(object sender, ElapsedEventArgs e)
         {
             gameTime.Update();
-            gameHandler.Update(gameTime);
+            _gameHandler.Update(gameTime);
+            Map.Update();
 
             if (++_updateCount % DRAW_AFTER == 0)
             {
@@ -64,7 +71,7 @@ namespace ShootR
         #region Connection Methods
         public System.Threading.Tasks.Task Connect()
         {
-            gameHandler.collisionManager.MonitorVehicle(gameHandler.AddShip(new Ship(new Vector2(), gameHandler.bulletManager), Context.ConnectionId));
+            _gameHandler.collisionManager.Monitor(_gameHandler.AddShip(new Ship(new Vector2(MAP_WIDTH * .5, MAP_HEIGHT * .5), _gameHandler.bulletManager), Context.ConnectionId));
             return null;
         }
 
@@ -79,7 +86,8 @@ namespace ShootR
         /// </summary>
         public System.Threading.Tasks.Task Disconnect()
         {
-            gameHandler.RemoveShipByKey(Context.ConnectionId);
+            // Map.Remove(_gameHandler.RemoveShipByKey(Context.ConnectionId));
+            _gameHandler.RemoveShipByKey(Context.ConnectionId);
             return Clients.RemoveShip(Context.ConnectionId);
         }
 
@@ -92,7 +100,7 @@ namespace ShootR
         /// </summary>
         public void fire()
         {
-            gameHandler.collisionManager.MonitorAmunition(gameHandler.ships[Context.ConnectionId].WeaponController.Fire());
+            _gameHandler.collisionManager.Monitor(_gameHandler.ships[Context.ConnectionId].WeaponController.Fire());
         }
 
         /// <summary>
@@ -112,7 +120,7 @@ namespace ShootR
         {
             //DateTime dt = DateTime.FromFileTimeUtc(when);
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-            gameHandler.ships[Context.ConnectionId].MovementController.StartMoving(where);
+            _gameHandler.ships[Context.ConnectionId].MovementController.StartMoving(where);
         }
 
         /// <summary>
@@ -122,7 +130,7 @@ namespace ShootR
         public void registerMoveStop(string movement)
         {
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-            gameHandler.ships[Context.ConnectionId].MovementController.StopMoving(where);
+            _gameHandler.ships[Context.ConnectionId].MovementController.StopMoving(where);
         }
 
         #endregion

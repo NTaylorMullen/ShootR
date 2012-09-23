@@ -5,11 +5,11 @@ namespace ShootR
 {
     public class GameHandler
     {
-        public GameHandler()
+        public GameHandler(QuadTree map)
         {
             ships = new ConcurrentDictionary<string, Ship>();
             bulletManager = new BulletManager();
-            collisionManager = new CollisionManager();
+            collisionManager = new CollisionManager(map);
         }
 
         public ConcurrentDictionary<string, Ship> ships { get; set; }
@@ -21,7 +21,6 @@ namespace ShootR
         /// </summary>
         /// <param name="s">The ship to add</param>
         /// <param name="key">The connection ID for a key</param>
-        /// <returns>The ship that was added, aka s</returns>
         public Ship AddShip(Ship s, string key)
         {
             ships.TryAdd(key, s);
@@ -48,7 +47,7 @@ namespace ShootR
         /// Removes ship from the game handler.  This is used when a ship is destroyed and no longer needs to be monitored.
         /// </summary>
         /// <param name="key"></param>
-        public void RemoveShipByKey(string key)
+        public Ship RemoveShipByKey(string key)
         {
             Ship removedShip;
             ships.TryRemove(key, out removedShip);
@@ -57,6 +56,8 @@ namespace ShootR
             {
                 removedShip.Dispose();
             }
+
+            return removedShip;
         }
 
         public void Update(GameTime gameTime)

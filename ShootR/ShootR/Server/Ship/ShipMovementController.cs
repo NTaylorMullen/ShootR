@@ -16,9 +16,10 @@ namespace ShootR
         public const double DRAG_COEFFICIENT = .2;
         public const double DRAG_AREA = 5;
 
-        public ShipMovementController() :
+        public ShipMovementController(Vector2 position) :
             base(MASS)
         {
+            Position = position;
             RotateSpeed = ROTATE_SPEED;
             MaxSpeed = MAX_SPEED;
             Moving = new MovementFlags();
