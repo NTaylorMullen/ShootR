@@ -7,11 +7,6 @@ namespace ShootR
 {
     public class GameEnvironment : Hub, IConnected, IDisconnect
     {
-        public const int MAP_WIDTH = 5000;
-        public const int MAP_HEIGHT = 5000;
-        public const int MAP_MIN_WIDTH = 156;
-        public const int MAP_MIN_HEIGHT = 156;
-
         // How frequently the Update loop is executed
         public const int UPDATE_INTERVAL = 20; // Must evenly divide into DRAW_INTERVAL
         // How frequently the Draw loop is executed.  Draw is what triggers the client side pings, it must be larger than UPDATE_INTERVAL but
@@ -25,8 +20,8 @@ namespace ShootR
 
         private static ConfigurationManager _configuration = new ConfigurationManager();
         private static int _updateCount = 0;
-        private static QuadTree Map = new QuadTree(MAP_WIDTH, MAP_HEIGHT, MAP_MIN_WIDTH, MAP_MIN_HEIGHT);
-        private static GameHandler _gameHandler = new GameHandler(Map);
+        private static Map Space = new Map();
+        private static GameHandler _gameHandler = new GameHandler(Space);
 
         public GameEnvironment()
         {
@@ -43,7 +38,7 @@ namespace ShootR
         /// </summary>
         public void Draw()
         {
-            Dictionary<string, Payload> payloads = payloadManager.GetPayloads(_gameHandler.ships, _gameHandler.bulletManager.bulletsInAir, _gameHandler.GetDisposedAmunition(), Map);
+            Dictionary<string, Payload> payloads = payloadManager.GetPayloads(_gameHandler.ships, _gameHandler.bulletManager.bulletsInAir, _gameHandler.GetDisposedAmunition(), Space);
 
             foreach (string connectionID in payloads.Keys)
             {
@@ -59,7 +54,7 @@ namespace ShootR
         {
             gameTime.Update();
             _gameHandler.Update(gameTime);
-            Map.Update();
+            Space.Update();
 
             if (++_updateCount % DRAW_AFTER == 0)
             {
@@ -71,7 +66,7 @@ namespace ShootR
         #region Connection Methods
         public System.Threading.Tasks.Task Connect()
         {
-            _gameHandler.collisionManager.Monitor(_gameHandler.AddShip(new Ship(Context.ConnectionId, new Vector2(MAP_WIDTH * .5, MAP_HEIGHT * .5), _gameHandler.bulletManager), Context.ConnectionId));
+            _gameHandler.collisionManager.Monitor(_gameHandler.AddShip(new Ship(Context.ConnectionId, Space.Center, _gameHandler.bulletManager), Context.ConnectionId));
             return null;
         }
 

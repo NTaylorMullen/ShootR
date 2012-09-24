@@ -112,6 +112,7 @@
     <Compile Include="Server\Bullet\Bullet.cs" />
     <Compile Include="Server\Bullet\BulletManager.cs" />
     <Compile Include="Server\Bullet\BulletMovementController.cs" />
+    <Compile Include="Server\Configuration\ScreenConfiguration.cs" />
     <Compile Include="Server\Managers\CollisionManager.cs" />
     <Compile Include="Server\Configuration\BulletConfiguration.cs" />
     <Compile Include="Server\Configuration\ConfigurationManager.cs" />
@@ -123,6 +124,8 @@
     <Compile Include="Server\Ship\Ship.cs" />
     <Compile Include="Server\Ship\ShipMovementController.cs" />
     <Compile Include="Server\Ship\ShipWeaponController.cs" />
+    <Compile Include="Server\Space\Map.cs" />
+    <Compile Include="Server\Space\MapBoundary.cs" />
     <Compile Include="Server\Space\QuadTree.cs" />
     <Compile Include="Server\Space\QuadTreeNode.cs" />
     <Compile Include="Server\Utilities\Collidable.cs" />

@@ -68,6 +68,7 @@ namespace ShootR
             // Check if object has left the bounds of this node then go up another level
             if (!this.Bounds.Contains(obj.GetBounds()))
             {
+                // NOTE: If you get an error here chances are an object is out of bounds. aka off the quad tree map.
                 // In order to avoid an additional check we assume that the obj is smaller than
                 // the root node.
                 this.Parent.ReverseInsert(obj);
@@ -206,9 +207,12 @@ namespace ShootR
         {
             for (int i = 0; i < Contents.Count; i++)
             {
-                if (UpdateObject(Contents[i])) // If the object moved nodes then we need to adjust i
+                if (!Contents[i].Disposed)
                 {
-                    i--;
+                    if (UpdateObject(Contents[i])) // If the object moved nodes then we need to adjust i
+                    {
+                        i--;
+                    }
                 }
             }
         }

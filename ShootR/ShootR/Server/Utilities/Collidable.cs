@@ -8,7 +8,7 @@ namespace ShootR
     /// </summary>
     public class Collidable : IDisposable
     {
-        private Rectangle _bounds;
+        protected Rectangle _bounds;
         private QuadTreeNode _mapLocation;
 
         public Collidable(MovementController mc)
@@ -61,12 +61,28 @@ namespace ShootR
         /// Called when there is a collision with another object "<paramref name="c"/>."
         /// </summary>
         /// <param name="c">The object that I colided with</param>
-        public virtual void HandleCollisionWith(Collidable c, QuadTree map)
+        public virtual void HandleCollisionWith(Collidable c, Map space)
+        {
+            HandleCollision();
+        }
+
+        public virtual void HandleCollision()
         {
             Collided = true;
             // Copy over the position to find collision location
             CollidedAt.X = MovementController.Position.X;
             CollidedAt.Y = MovementController.Position.Y;
+        }
+
+        public virtual void HandleOutOfBounds()
+        {
+            // Re-position object in bounds
+            MovementController.RepositionInBounds(Width, Height);
+
+            // Reverse velocity, aka bounce
+            MovementController.Forces *= -1;
+            MovementController.Velocity *= -1;
+            UpdateBounds();
         }
 
         /// <summary>
@@ -110,6 +126,11 @@ namespace ShootR
 
 
         public void Update()
+        {
+            UpdateBounds();
+        }
+
+        public void UpdateBounds()
         {
             _bounds.X = Convert.ToInt32(MovementController.Position.X);
             _bounds.Y = Convert.ToInt32(MovementController.Position.Y);

@@ -7,7 +7,7 @@ namespace ShootR
 {
     public class PayloadManager
     {
-        public Dictionary<string, Payload> GetPayloads(ConcurrentDictionary<string, Ship> ships, List<Bullet> bullets, List<Collidable> collisions, QuadTree map)
+        public Dictionary<string, Payload> GetPayloads(ConcurrentDictionary<string, Ship> ships, List<Bullet> bullets, List<Collidable> collisions, Map space)
         {
             Dictionary<string, Payload> payloads = new Dictionary<string, Payload>();
             int shipCount = ships.Count,
@@ -23,7 +23,7 @@ namespace ShootR
                 });
 
                 Vector2 screenPosition = ships[connectionID].MovementController.Position - screenOffset;
-                List<Collidable> onScreen = map.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), Ship.SCREEN_WIDTH, Ship.SCREEN_HEIGHT));
+                List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), Ship.SCREEN_WIDTH, Ship.SCREEN_HEIGHT));
 
                 foreach (Collidable obj in onScreen)
                 {
@@ -43,7 +43,7 @@ namespace ShootR
             // Once we've created our payload we now need to remove all of the collisions from our map
             foreach (Collidable obj in collisions)
             {
-                map.Remove(obj);
+                space.Remove(obj);
             }
 
             return payloads;

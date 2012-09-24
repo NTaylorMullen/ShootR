@@ -14,9 +14,12 @@ namespace ShootR
             _height = height;
             _minWidth = minWidth;
             _minHeight = minHeight;
-            _root = new QuadTreeNode(new Rectangle(0, 0, _width, _height), _minWidth, _minHeight, null);
+            MapBoundary = new Rectangle(0, 0, _width, _height);
+            _root = new QuadTreeNode(MapBoundary, _minWidth, _minHeight, null);
             _root.Partition();
         }
+
+        public Rectangle MapBoundary { get; set; }
 
         public void Insert(Collidable obj)
         {
@@ -53,7 +56,8 @@ namespace ShootR
         public void Clear()
         {
             _root.ClearCollidableMaps();
-            _root = new QuadTreeNode(new Rectangle(0, 0, _width, _height), _minWidth, _minHeight, null);
+            MapBoundary = new Rectangle(0, 0, _width, _height);
+            _root = new QuadTreeNode(MapBoundary, _minWidth, _minHeight, null);
         }
 
         public void Update()

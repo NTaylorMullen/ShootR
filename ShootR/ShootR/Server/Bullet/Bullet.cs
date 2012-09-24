@@ -19,6 +19,8 @@ namespace ShootR
             _lastSeen = DateTime.Now;
         }
 
+        public Guid ID { get; set; }
+
         public void Seen()
         {
             _lastSeen = DateTime.Now;
@@ -47,16 +49,23 @@ namespace ShootR
             }
         }
 
-        public Guid ID { get; set; }
-
         /// <summary>
         /// When a bullet hits another object it must be destroyed.  So we dispose of it.
         /// </summary>
         /// <param name="c">The object that I colided with.</param>
-        public override void HandleCollisionWith(Collidable c, QuadTree map)
+        public override void HandleCollisionWith(Collidable c, Map space)
         {
-            base.HandleCollisionWith(c, map);
+            base.HandleCollisionWith(c, space);
             Dispose(); // Destroy bullet when collision
+        }
+
+        public override void HandleOutOfBounds()
+        {
+            MovementController.Moving = false;
+            MovementController.RepositionInBounds(Width, Height);
+            UpdateBounds();
+            base.HandleCollision();
+            Dispose();
         }
 
         public void Update(GameTime gameTime)

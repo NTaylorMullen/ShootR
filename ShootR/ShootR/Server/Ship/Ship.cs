@@ -45,7 +45,7 @@
             base.Update();
         }
 
-        public override void HandleCollisionWith(Collidable c, QuadTree map)
+        public override void HandleCollisionWith(Collidable c, Map space)
         {
         }
     }

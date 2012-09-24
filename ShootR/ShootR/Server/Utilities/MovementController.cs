@@ -17,6 +17,7 @@ namespace ShootR
             Velocity = new Vector2();
             RotateSpeed = 0;
             MaxSpeed = 0;
+            Moving = true;
         }
 
         public MovementController(Vector2 position, double mass)
@@ -31,7 +32,7 @@ namespace ShootR
         public Vector2 Position { get; set; }
         public double Rotation { get; set; }
         public Vector2 Velocity { get; set; }
-
+        public bool Moving { get; set; }
         public double MaxSpeed { get; set; }
         public double RotateSpeed { get; set; }
 
@@ -45,19 +46,44 @@ namespace ShootR
             Acceleration += acceleration;
         }
 
+        public void RepositionInBounds(int objectWidth, int objectHeight)
+        {
+            // Re-position to be in-bounds
+            if (Position.X < 0)
+            {
+                Position.X = 0;
+            }
+            else if (Position.X + objectWidth > Map.WIDTH)
+            {
+                Position.X = Map.WIDTH - objectWidth;
+            }
+
+            if (Position.Y < 0)
+            {
+                Position.Y = 0;
+            }
+            else if (Position.Y + objectHeight > Map.HEIGHT)
+            {
+                Position.Y = Map.HEIGHT - objectHeight;
+            }
+        }
+
         public virtual void Move(double percentOfSecond)
         {
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            double PercentOfSecond = gameTime.PercentOfSecond;
-            Acceleration += Forces / Mass;
-            Position += Velocity * PercentOfSecond + Acceleration * PercentOfSecond * PercentOfSecond;
-            Velocity += Acceleration * PercentOfSecond;
+            if (Moving)
+            {
+                double PercentOfSecond = gameTime.PercentOfSecond;
+                Acceleration += Forces / Mass;
+                Position += Velocity * PercentOfSecond + Acceleration * PercentOfSecond * PercentOfSecond;
+                Velocity += Acceleration * PercentOfSecond;
 
-            Acceleration = new Vector2();
-            Forces = new Vector2();
+                Acceleration = new Vector2();
+                Forces = new Vector2();
+            }
         }
     }
 }

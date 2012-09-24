@@ -6,11 +6,11 @@ namespace ShootR
     {
         private List<Collidable> _amunitionCollisions;
         private List<Collidable> _objects;
-        private QuadTree _map;
+        private Map _space;
 
-        public CollisionManager(QuadTree map)
+        public CollisionManager(Map space)
         {
-            _map = map;
+            _space = space;
             _objects = new List<Collidable>();
             _amunitionCollisions = new List<Collidable>();
         }
@@ -28,7 +28,7 @@ namespace ShootR
 
         public void Monitor(Collidable obj)
         {
-            _map.Insert(obj);
+            _space.Insert(obj);
             _objects.Add(obj);
         }
 
@@ -36,8 +36,17 @@ namespace ShootR
         {
             for (int i = 0; i < _objects.Count; i++)
             {
-                if (_objects[i].Disposed)
+                if(!_space.OnMap(_objects[i]) && !_objects[i].Collided)
                 {
+                    _objects[i].HandleOutOfBounds();
+                    if (_objects[i].GetType() == typeof(Bullet))
+                    {
+                        _amunitionCollisions.Add(_objects[i]);
+                    }
+                }
+
+                if (_objects[i].Disposed)
+                {                  
                     _objects.Remove(_objects[i--]);
                     continue;
                 }
@@ -70,8 +79,8 @@ namespace ShootR
                             _amunitionCollisions.Add(potentials[j]);
                         }
 
-                        _objects[i].HandleCollisionWith(potentials[j], _map);
-                        potentials[j].HandleCollisionWith(_objects[i], _map);
+                        _objects[i].HandleCollisionWith(potentials[j], _space);
+                        potentials[j].HandleCollisionWith(_objects[i], _space);
 
                         if (_objects[i].Disposed)
                         {
@@ -80,6 +89,8 @@ namespace ShootR
                         }
                     }
                 }
+
+
             }
         }
     }

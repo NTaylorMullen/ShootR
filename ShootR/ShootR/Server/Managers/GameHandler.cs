@@ -5,7 +5,7 @@ namespace ShootR
 {
     public class GameHandler
     {
-        public GameHandler(QuadTree map)
+        public GameHandler(Map map)
         {
             ships = new ConcurrentDictionary<string, Ship>();
             bulletManager = new BulletManager();
