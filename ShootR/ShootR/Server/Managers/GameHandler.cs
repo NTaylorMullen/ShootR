@@ -8,13 +8,13 @@ namespace ShootR
         public GameHandler(Map map)
         {
             ships = new ConcurrentDictionary<string, Ship>();
-            bulletManager = new BulletManager();
-            collisionManager = new CollisionManager(map);
+            BulletManager = new BulletManager();
+            CollisionManager = new CollisionManager(map);
         }
 
         public ConcurrentDictionary<string, Ship> ships { get; set; }
-        public BulletManager bulletManager { get; set; }
-        public CollisionManager collisionManager { get; set; }
+        public BulletManager BulletManager { get; set; }
+        public CollisionManager CollisionManager { get; set; }
 
         /// <summary>
         /// Adds a ship and returns the added ship.  Used to chain methods together.
@@ -25,22 +25,6 @@ namespace ShootR
         {
             ships.TryAdd(key, s);
             return s;
-        }
-
-        /// <summary>
-        /// Used to capture all of the amunition that needs to be cleaned up on the client.
-        /// </summary>
-        /// <returns>A combined list of the bullets that are out of range and the list of bullets that have collided with objects.</returns>
-        public List<Collidable> GetDisposedAmunition()
-        {
-            Collidable[] collisions = collisionManager.GetAmunitionCollisions();
-            Collidable[] cleaning = BulletManager.GetBulletsToBeCleanedUp();
-            Collidable[] result = new Collidable[collisions.Length + cleaning.Length];
-
-            collisions.CopyTo(result, 0);
-            cleaning.CopyTo(result, collisions.Length);
-
-            return new List<Collidable>(result);
         }
 
         /// <summary>
@@ -62,7 +46,7 @@ namespace ShootR
 
         public void Update(GameTime gameTime)
         {
-            bulletManager.Update(gameTime);
+            BulletManager.Update(gameTime);
 
             foreach (string key in ships.Keys)
             {
@@ -75,8 +59,7 @@ namespace ShootR
                     RemoveShipByKey(key);
                 }
             }
-
-            collisionManager.Update(gameTime);
+            CollisionManager.Update(gameTime);
         }
     }
 }

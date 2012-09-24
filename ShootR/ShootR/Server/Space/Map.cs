@@ -15,9 +15,12 @@ namespace ShootR
 
         private QuadTree _space;
         private MapBoundary _boundary;
+        private List<Collidable> _allObjects;
 
         public Map()
         {
+            // Double collidable for fast removes/inserts
+            _allObjects = new List<Collidable>();
             _space = new QuadTree(WIDTH, HEIGHT, MIN_PARTITION_WIDTH, MIN_PARTITION_HEIGHT);
             _boundary = new MapBoundary(WIDTH, HEIGHT);
             Center = new Vector2(WIDTH * .5, HEIGHT * .5);
@@ -27,6 +30,7 @@ namespace ShootR
 
         public void Insert(Collidable obj)
         {
+            _allObjects.Add(obj);
             _space.Insert(obj);
         }
 
@@ -42,12 +46,24 @@ namespace ShootR
 
         public void Remove(Collidable obj)
         {
+            _allObjects.Remove(obj);
             _space.Remove(obj);
         }
 
         public void Clear()
         {
             _space.Clear();
+        }
+
+        public void Clean()
+        {
+            for(int i=0;i<_allObjects.Count;i++)
+            {
+                if (_allObjects[i].Disposed)
+                {
+                    Remove(_allObjects[i--]);
+                }
+            }
         }
 
         public void Update()

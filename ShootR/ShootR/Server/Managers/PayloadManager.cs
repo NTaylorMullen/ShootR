@@ -7,11 +7,11 @@ namespace ShootR
 {
     public class PayloadManager
     {
-        public Dictionary<string, Payload> GetPayloads(ConcurrentDictionary<string, Ship> ships, List<Bullet> bullets, List<Collidable> collisions, Map space)
+        public Dictionary<string, Payload> GetPayloads(ConcurrentDictionary<string, Ship> ships, int bulletCount, Map space)
         {
             Dictionary<string, Payload> payloads = new Dictionary<string, Payload>();
-            int shipCount = ships.Count,
-                bulletCount = bullets.Count;
+            int shipCount = ships.Count;
+
             Vector2 screenOffset = new Vector2((Ship.SCREEN_WIDTH / 2) + Ship.HEIGHT / 2, (Ship.SCREEN_HEIGHT / 2) + Ship.HEIGHT / 2);
 
             foreach (string connectionID in ships.Keys)
@@ -40,11 +40,8 @@ namespace ShootR
                 }
             }
 
-            // Once we've created our payload we now need to remove all of the collisions from our map
-            foreach (Collidable obj in collisions)
-            {
-                space.Remove(obj);
-            }
+            // Remove all disposed objects from the map
+            space.Clean();
 
             return payloads;
         }

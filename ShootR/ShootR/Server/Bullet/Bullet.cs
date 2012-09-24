@@ -61,7 +61,6 @@ namespace ShootR
 
         public override void HandleOutOfBounds()
         {
-            MovementController.Moving = false;
             MovementController.RepositionInBounds(Width, Height);
             UpdateBounds();
             base.HandleCollision();

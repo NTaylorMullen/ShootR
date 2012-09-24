@@ -20,8 +20,8 @@ namespace ShootR
 
         private static ConfigurationManager _configuration = new ConfigurationManager();
         private static int _updateCount = 0;
-        private static Map Space = new Map();
-        private static GameHandler _gameHandler = new GameHandler(Space);
+        private static Map _space = new Map();
+        private static GameHandler _gameHandler = new GameHandler(_space);
 
         public GameEnvironment()
         {
@@ -38,7 +38,7 @@ namespace ShootR
         /// </summary>
         public void Draw()
         {
-            Dictionary<string, Payload> payloads = payloadManager.GetPayloads(_gameHandler.ships, _gameHandler.bulletManager.bulletsInAir, _gameHandler.GetDisposedAmunition(), Space);
+            Dictionary<string, Payload> payloads = payloadManager.GetPayloads(_gameHandler.ships, _gameHandler.BulletManager.BulletsInAir.Count, _space);
 
             foreach (string connectionID in payloads.Keys)
             {
@@ -54,7 +54,7 @@ namespace ShootR
         {
             gameTime.Update();
             _gameHandler.Update(gameTime);
-            Space.Update();
+            _space.Update();
 
             if (++_updateCount % DRAW_AFTER == 0)
             {
@@ -66,7 +66,7 @@ namespace ShootR
         #region Connection Methods
         public System.Threading.Tasks.Task Connect()
         {
-            _gameHandler.collisionManager.Monitor(_gameHandler.AddShip(new Ship(Context.ConnectionId, Space.Center, _gameHandler.bulletManager), Context.ConnectionId));
+            _gameHandler.CollisionManager.Monitor(_gameHandler.AddShip(new Ship(Context.ConnectionId, _space.Center, _gameHandler.BulletManager), Context.ConnectionId));
             return null;
         }
 
@@ -95,7 +95,7 @@ namespace ShootR
         /// </summary>
         public void fire()
         {
-            _gameHandler.collisionManager.Monitor(_gameHandler.ships[Context.ConnectionId].WeaponController.Fire());
+            _gameHandler.CollisionManager.Monitor(_gameHandler.ships[Context.ConnectionId].WeaponController.Fire());
         }
 
         /// <summary>

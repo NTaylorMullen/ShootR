@@ -9,42 +9,23 @@ namespace ShootR
     {
         public BulletManager()
         {
-            if (bulletsToBeCleanedUp == null)
-            {
-                bulletsToBeCleanedUp = new List<Collidable>();
-            }
-
-            bulletsInAir = new List<Bullet>();
+            BulletsInAir = new List<Bullet>();
         }
 
-        public List<Bullet> bulletsInAir { get; set; }
-        private static List<Collidable> bulletsToBeCleanedUp { get; set; }
-
-        /// <summary>
-        /// Retrieves all bullets that have gone off the screen.
-        /// </summary>
-        /// <returns>The bullets that are off the screen.</returns>
-        public static Collidable[] GetBulletsToBeCleanedUp()
-        {
-            Collidable[] temp = bulletsToBeCleanedUp.ToArray();
-            bulletsToBeCleanedUp.Clear();
-            return temp;
-        }
+        public List<Bullet> BulletsInAir { get; set; }
 
         public void Update(GameTime gameTime)
         {
-            for (int i = 0; i < bulletsInAir.Count; i++)
+            for (int i = 0; i < BulletsInAir.Count; i++)
             {
-                if (bulletsInAir[i].ShouldDispose())
+                if (BulletsInAir[i].ShouldDispose())
                 {
-                    bulletsInAir[i].Dispose();
-                    // We need to add it to the cleanup list so the client knows to also rid itself of the bullet
-                    bulletsToBeCleanedUp.Add(bulletsInAir[i]);
-                    bulletsInAir.Remove(bulletsInAir[i--]);
+                    BulletsInAir[i].Dispose();
+                    BulletsInAir.Remove(BulletsInAir[i--]);
                 }
                 else
                 {
-                    bulletsInAir[i].Update(gameTime);
+                    BulletsInAir[i].Update(gameTime);
                 }
             }
         }
