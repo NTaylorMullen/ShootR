@@ -12,16 +12,21 @@
         that.Destroyed = true;
     }
 
+    that.Acceleration = {
+        X: 0,
+        Y: 0
+    }
+
     that.Update = function (gameTime) {
         var PercentOfSecond = gameTime.PercentOfSecond;
-        that.MovementController.Acceleration.X += that.MovementController.Forces.X / that.MovementController.Mass;
-        that.MovementController.Acceleration.Y += that.MovementController.Forces.Y / that.MovementController.Mass;
-        that.MovementController.Position.X += that.MovementController.Velocity.X * PercentOfSecond + that.MovementController.Acceleration.X * PercentOfSecond * PercentOfSecond;
-        that.MovementController.Position.Y += that.MovementController.Velocity.Y * PercentOfSecond + that.MovementController.Acceleration.Y * PercentOfSecond * PercentOfSecond;
-        that.MovementController.Velocity.X += that.MovementController.Acceleration.X * PercentOfSecond;
-        that.MovementController.Velocity.Y += that.MovementController.Acceleration.Y * PercentOfSecond;
+        that.Acceleration.X += that.MovementController.Forces.X / that.MovementController.Mass;
+        that.Acceleration.Y += that.MovementController.Forces.Y / that.MovementController.Mass;
+        that.MovementController.Position.X += that.MovementController.Velocity.X * PercentOfSecond + that.Acceleration.X * PercentOfSecond * PercentOfSecond;
+        that.MovementController.Position.Y += that.MovementController.Velocity.Y * PercentOfSecond + that.Acceleration.Y * PercentOfSecond * PercentOfSecond;
+        that.MovementController.Velocity.X += that.Acceleration.X * PercentOfSecond;
+        that.MovementController.Velocity.Y += that.Acceleration.Y * PercentOfSecond;
 
-        that.MovementController.Acceleration = { X: 0, Y: 0 };
+        that.Acceleration = { X: 0, Y: 0 };
         that.MovementController.Forces = { X: 0, Y: 0 };
 
         var rotationIncrementor = PercentOfSecond * that.ROTATE_SPEED,
@@ -59,7 +64,7 @@
         CanvasContext.drawText(that.Name, that.MovementController.Position.X + that.WIDTH * .5, that.MovementController.Position.Y + that.HEIGHT + 20);
     }
 
-    that.UpdateProperties({ MovementController: { Position: { X: 0, Y: 0 }, Forces: { X: 0, Y: 0 }, Acceleration: { X: 0, Y: 0 }, Velocity: { X: 0, Y: 0 }, Moving: { RotatingLeft: false, RotatingRight: false, Forward: false, Backward: false }, Rotation: 0 } });
+    that.UpdateProperties({ MovementController: { Position: { X: 0, Y: 0 }, Forces: { X: 0, Y: 0 }, Velocity: { X: 0, Y: 0 }, Moving: { RotatingLeft: false, RotatingRight: false, Forward: false, Backward: false }, Rotation: 0 } });
 }
 
 ShipVehicle.prototype = new Collidable();

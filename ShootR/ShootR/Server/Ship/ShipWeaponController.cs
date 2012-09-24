@@ -25,7 +25,7 @@
         /// <returns>Newly created bullet</returns>
         public Bullet Fire()
         {
-            var shipCenter = new Vector2(ship.MovementController.Position.X + .5 * ship.Width, ship.MovementController.Position.Y + .5 * ship.Height);
+            var shipCenter = new Vector2(ship.MovementController.Position.X + .5 * ship.Width(), ship.MovementController.Position.Y + .5 * ship.Height());
             var shipDirection = new Vector2(ship.MovementController.Rotation);
             var bulletOffset = new Vector2(Bullet.WIDTH / 2, Bullet.HEIGHT / 2);
             var startPosition = new Vector2((shipCenter + (BULLET_LEAD * shipDirection)) + bulletOffset);

@@ -9,40 +9,51 @@ namespace ShootR
     public class Collidable : IDisposable
     {
         protected Rectangle _bounds;
-        private QuadTreeNode _mapLocation;
+        protected int _width { get; set; }
+        protected int _height { get; set; }
+
+        private QuadTreeNode _mapLocation;        
 
         public Collidable(MovementController mc)
         {
             MovementController = mc;
             CollidedAt = new Vector2();
-            Width = 0;
-            Height = 0;
-            _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), Width, Height);
+            _width = 0;
+            _height = 0;
+            _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), _width, _height);
         }
 
         public Collidable(int w, int h)
         {
-            Width = w;
-            Height = h;
+            _width = w;
+            _height = h;
             CollidedAt = new Vector2();
-            _bounds = new Rectangle(0, 0, Width, Height);
+            _bounds = new Rectangle(0, 0, _width, _height);
         }
 
         public Collidable(int w, int h, MovementController mc)
         {
-            Width = w;
-            Height = h;
+            _width = w;
+            _height = h;
             CollidedAt = new Vector2();
             MovementController = mc;
-            _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), Width, Height);
+            _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), _width, _height);
         }
 
-        public MovementController MovementController { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public MovementController MovementController { get; set; }        
         public bool Disposed { get; set; }
         public bool Collided { get; set; }
         public Vector2 CollidedAt { get; set; }
+
+        public int Width()
+        {
+            return _width;
+        }
+
+        public int Height()
+        {
+            return _height;
+        }
 
         public void Dispose()
         {
@@ -77,7 +88,7 @@ namespace ShootR
         public virtual void HandleOutOfBounds()
         {
             // Re-position object in bounds
-            MovementController.RepositionInBounds(Width, Height);
+            MovementController.RepositionInBounds(_width, _height);
 
             // Reverse velocity, aka bounce
             MovementController.Forces *= -1;
@@ -102,7 +113,7 @@ namespace ShootR
 
         public Vector2 Center()
         {
-            return new Vector2(this.MovementController.Position.X + .5 * this.Width, this.MovementController.Position.Y + .5 * this.Height);
+            return new Vector2(this.MovementController.Position.X + .5 * this._width, this.MovementController.Position.Y + .5 * this._height);
         }
 
         #region Quad Tree methods

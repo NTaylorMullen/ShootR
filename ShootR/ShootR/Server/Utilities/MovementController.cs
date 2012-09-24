@@ -7,9 +7,11 @@ namespace ShootR
 {
     public class MovementController
     {
+        private Vector2 _acceleration;
+
         public MovementController(double mass)
         {
-            Acceleration = new Vector2();
+            _acceleration = new Vector2();
             Forces = new Vector2();
             Mass = mass;
             Position = new Vector2();
@@ -25,8 +27,7 @@ namespace ShootR
         {
             Position = position;
         }
-
-        public Vector2 Acceleration { get; set; }
+        
         public Vector2 Forces { get; set; }
         public double Mass { get; set; }
         public Vector2 Position { get; set; }
@@ -43,7 +44,7 @@ namespace ShootR
 
         public void Accelerate(Vector2 acceleration)
         {
-            Acceleration += acceleration;
+            _acceleration += acceleration;
         }
 
         public void RepositionInBounds(int objectWidth, int objectHeight)
@@ -77,11 +78,11 @@ namespace ShootR
             if (Moving)
             {
                 double PercentOfSecond = gameTime.PercentOfSecond;
-                Acceleration += Forces / Mass;
-                Position += Velocity * PercentOfSecond + Acceleration * PercentOfSecond * PercentOfSecond;
-                Velocity += Acceleration * PercentOfSecond;
+                _acceleration += Forces / Mass;
+                Position += Velocity * PercentOfSecond + _acceleration * PercentOfSecond * PercentOfSecond;
+                Velocity += _acceleration * PercentOfSecond;
 
-                Acceleration = new Vector2();
+                _acceleration = new Vector2();
                 Forces = new Vector2();
             }
         }

@@ -11,13 +11,14 @@
         public const int SCREEN_HEIGHT = 600;
 
         private string _connectionID;
+        private ShipWeaponController _weaponController;
 
         public Ship(string connectionID, Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT)
         {
             _connectionID = connectionID;
             MovementController = new ShipMovementController(position);
-            WeaponController = new ShipWeaponController(this, bm); 
+            _weaponController = new ShipWeaponController(this, bm);
         }
 
         public string Name { get; set; }
@@ -39,8 +40,11 @@
             }
         }
 
-        public ShipWeaponController WeaponController { get; set; }
-
+        public ShipWeaponController GetWeaponController()
+        {
+            return _weaponController;
+        }
+        
         public void Update(GameTime gameTime)
         {
             MovementController.Update(gameTime);

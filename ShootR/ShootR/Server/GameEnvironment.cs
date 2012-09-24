@@ -23,6 +23,7 @@ namespace ShootR
         private static int _updateCount = 0;
         private static Map _space = new Map();
         private static GameHandler _gameHandler = new GameHandler(_space);
+        private static Random gen = new Random();
         public static object locker = new object();
 
         public GameEnvironment()
@@ -73,7 +74,10 @@ namespace ShootR
         {
             lock (locker)
             {
-                Ship s = new Ship(Context.ConnectionId, _space.Center, _gameHandler.BulletManager);
+                int x = gen.Next(Ship.WIDTH * 2, Map.WIDTH - Ship.WIDTH * 2);
+                int y = gen.Next(Ship.HEIGHT * 2, Map.HEIGHT - Ship.HEIGHT * 2);
+
+                Ship s = new Ship(Context.ConnectionId, new Vector2(x,y), _gameHandler.BulletManager);
                 s.Name = "Ship" + shipCount++;
                 _gameHandler.AddShip(s, Context.ConnectionId);
                 _gameHandler.CollisionManager.Monitor(s);
@@ -109,7 +113,7 @@ namespace ShootR
         /// </summary>
         public void fire()
         {
-            _gameHandler.CollisionManager.Monitor(_gameHandler.ships[Context.ConnectionId].WeaponController.Fire());
+            _gameHandler.CollisionManager.Monitor(_gameHandler.ships[Context.ConnectionId].GetWeaponController().Fire());
         }
 
         /// <summary>
