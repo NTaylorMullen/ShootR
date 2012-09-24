@@ -1,6 +1,7 @@
 ﻿function BulletManager(connection) {
     var that = this;
-    var bulletsInAir = {};
+
+    that.bulletsInAir = {};
 
     that.UpdateBullets = function (bullet_list) {
         var activeBullets = {}
@@ -8,28 +9,28 @@
             var id = bullet_list[i].ID;
 
             // If bullet exists then we need to move it, aka update it.
-            if ($(bulletsInAir[id]).length > 0) {
-                bulletsInAir[id].UpdateProperties(bullet_list[i]);
-                bulletsInAir[id].Draw();
+            if ($(that.bulletsInAir[id]).length > 0) {
+                that.bulletsInAir[id].UpdateProperties(bullet_list[i]);
+                that.bulletsInAir[id].Draw();
             }
             else {
-                bulletsInAir[id] = new Bullet(bullet_list[i]);
+                that.bulletsInAir[id] = new Bullet(bullet_list[i]);
             }
 
             activeBullets[id] = true;
         }
 
-        for (var key in bulletsInAir) {
+        for (var key in that.bulletsInAir) {
             if (!activeBullets[key]) {
-                bulletsInAir[key].Destroy();
-                delete bulletsInAir[key];
+                that.bulletsInAir[key].Destroy();
+                delete that.bulletsInAir[key];
             }
         }
     }
 
     that.Update = function (gameTime) {
-        for (var key in bulletsInAir) {
-            bulletsInAir[key].Update(gameTime);
+        for (var key in that.bulletsInAir) {
+            that.bulletsInAir[key].Update(gameTime);
         }
     }
 }

@@ -3,7 +3,7 @@
     var drawContext = target[0].getContext("2d");
     var canvasBuffer = document.createElement("canvas");
     var canvasBufferContext = canvasBuffer.getContext("2d");
-    var drawBoundary = 707; // Will not draw objects more then X pixels away from the camera
+    var drawBoundary = 707; // Will not draw objects more then X pixels away from the camera    
 
     var TO_RADIANS = Math.PI / 180;
 
@@ -12,6 +12,9 @@
 
     canvasBuffer.width = that.CanvasSize.width;
     canvasBuffer.height = that.CanvasSize.height;
+
+    that.Width = target.width();
+    that.Height = target.height();
 
     function calculateDistance(A, B) {
         return Math.sqrt(Math.pow(A.X - B.X, 2) + Math.pow(A.Y - B.Y, 2));
@@ -23,6 +26,10 @@
             X: 0,
             Y: 0
         },
+        Size: {
+            Width: that.Width,
+            Height: that.Height
+        },
         Move: function (Position) {
             // Update position
             this.Position = Position;
@@ -32,6 +39,20 @@
         Follow: function (obj) {
             this.Following = obj.GUID;
         }
+    }
+
+    that.drawMapBoundary = function (width, height) {
+        var cameraOffset = { X: -that.Camera.Position.X + that.CanvasCenter.X, Y: -that.Camera.Position.Y + that.CanvasCenter.Y };
+
+        canvasBufferContext.save();
+
+        canvasBufferContext.translate(cameraOffset.X, cameraOffset.Y);
+        canvasBufferContext.lineWidth = "5";
+        canvasBufferContext.strokeStyle = "#f00";
+        canvasBufferContext.strokeRect(0, 0, width, height);
+
+        canvasBufferContext.restore();
+
     }
 
     that.drawRotatedImage = function (image, angle, sx, sy, swidth, sheight, x, y, width, height) {
@@ -81,9 +102,6 @@
         drawContext.clearRect(0, 0, that.Width, that.Height);
         drawContext.drawImage(canvasBuffer, 0, 0);
     }
-
-    that.Width = target.width();
-    that.Height = target.height();
 }
 
 var CanvasContext = new CanvasRenderer($("#game"));

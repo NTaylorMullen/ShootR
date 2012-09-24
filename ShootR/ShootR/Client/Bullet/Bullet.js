@@ -5,6 +5,7 @@
     that.PropertiesToCopy.push("Collided");
     that.PropertiesToCopy.push("CollidedAt");
 
+    that.Visible = true;
     that.Vehicle = CanvasContext.IMAGE_ASSETS.Laser;
 
     that.Destroy = function () {
@@ -36,7 +37,9 @@
         that.MovementController.Position.X += incrementor.X;
         that.MovementController.Position.Y += incrementor.Y;
 
-        that.Draw();
+        if (that.Visible) {
+            that.Draw();
+        }
     }
 
     that.UpdateProperties(properties);

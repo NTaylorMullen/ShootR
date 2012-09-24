@@ -15,6 +15,7 @@ function Game(conn) {
     var shipStats = new ShipStatRecorder(ship);
     var ships = {};
     var gameTime = new GameTime();
+    var map = new Map();
 
     ships[conn._.proxy.connection.id] = ship;
     CanvasContext.Camera.Follow(ship);
@@ -63,6 +64,9 @@ function Game(conn) {
 
         GAME_GLOBALS.AnimationManager.Update(gameTime);
 
+        map.CheckBoundaryCollisions(ships, bullet_manager.bulletsInAir);
+
+        map.Draw();
         CanvasContext.Render();
         shipStats.Update(payload);
     }

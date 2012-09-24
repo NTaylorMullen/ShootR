@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Timers;
 using SignalR.Hubs;
 
@@ -22,6 +23,9 @@ namespace ShootR
         private static int _updateCount = 0;
         private static Map _space = new Map();
         private static GameHandler _gameHandler = new GameHandler(_space);
+
+        private static int abc = 0;
+        private static int maxabc = 0;
 
         public GameEnvironment()
         {
@@ -52,6 +56,7 @@ namespace ShootR
         /// </summary>
         public void Update(object sender, ElapsedEventArgs e)
         {
+            abc++;
             gameTime.Update();
             _gameHandler.Update(gameTime);
             _space.Update();
@@ -61,6 +66,9 @@ namespace ShootR
                 _updateCount = 0; // Reset update count to 0
                 Draw();
             }
+            maxabc = Math.Max(abc, maxabc);
+            abc = 0;
+            Debug.WriteLine(maxabc);
         }
 
         #region Connection Methods

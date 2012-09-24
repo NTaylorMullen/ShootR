@@ -22,7 +22,8 @@
     <script src="signalr/hubs" type="text/javascript"></script>
 
     <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
-    <script src="Client/CanvasRenderer.js" type="text/javascript"></script>
+    <script type="text/javascript" src="Client/Space/Map.js"></script>
+    <script src="Client/Space/CanvasRenderer.js" type="text/javascript"></script>
     <script src="Client/Utilities/GameTime.js" type="text/javascript"></script>
     <script src="Client/Utilities/Collidable.js" type="text/javascript"></script>
     <script src="Client/Bullet/Bullet.js" type="text/javascript"></script>

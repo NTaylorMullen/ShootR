@@ -7,6 +7,7 @@
             bulletConfig = new BulletConfiguration();
             gameConfig = new GameConfiguration();
             shipConfig = new ShipConfiguration();
+            mapConfig = new MapConfiguration();
         }
 
         // Bullet Configurations
@@ -17,5 +18,8 @@
 
         // Ship Configurations
         public ShipConfiguration shipConfig { get; set; }
+
+        // Map Configurations
+        public MapConfiguration mapConfig { get; set; }
     }
 }

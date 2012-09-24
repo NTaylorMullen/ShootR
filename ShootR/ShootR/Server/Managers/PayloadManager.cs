@@ -7,6 +7,7 @@ namespace ShootR
 {
     public class PayloadManager
     {
+        public const int SCREEN_BUFFER_AREA = 100; // Send X extra pixels down to the client to allow for latency between client and server
         public Dictionary<string, Payload> GetPayloads(ConcurrentDictionary<string, Ship> ships, int bulletCount, Map space)
         {
             Dictionary<string, Payload> payloads = new Dictionary<string, Payload>();
@@ -23,7 +24,7 @@ namespace ShootR
                 });
 
                 Vector2 screenPosition = ships[connectionID].MovementController.Position - screenOffset;
-                List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), Ship.SCREEN_WIDTH, Ship.SCREEN_HEIGHT));
+                List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), Ship.SCREEN_WIDTH + SCREEN_BUFFER_AREA, Ship.SCREEN_HEIGHT + SCREEN_BUFFER_AREA));
 
                 foreach (Collidable obj in onScreen)
                 {

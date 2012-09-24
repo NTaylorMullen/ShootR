@@ -5,12 +5,12 @@ using System.Web;
 
 namespace ShootR
 {
-    public class ScreenConfiguration
+    public class MapConfiguration
     {
-        public ScreenConfiguration()
+        public MapConfiguration()
         {
-            WIDTH = Ship.SCREEN_WIDTH;
-            HEIGHT = Ship.SCREEN_HEIGHT;
+            WIDTH = Map.WIDTH;
+            HEIGHT = Map.HEIGHT;
         }
 
         public int WIDTH { get; set; }
