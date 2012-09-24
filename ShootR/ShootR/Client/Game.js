@@ -20,7 +20,7 @@ function Game(conn) {
     ships[conn._.proxy.connection.id] = ship;
     CanvasContext.Camera.Follow(ship);
 
-    that.DrawName = false;
+    that.DrawName = true;
 
     // This will update all ship positions on the screen.  Including in correcting the client side ship movement
     that.LoadMultiplayerShips = function (ship_list) {

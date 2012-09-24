@@ -4,6 +4,7 @@
     var MovementColumn = $("<div class='column'><h3>Movement</h3></div>");
     var RenderedColumn = $("<div class='column wide'><h3>Rendered</h3></div>");
     var WorldColumn = $("<div class='column wide'><h3>World</h3></div>");
+    var ControlColumn = $("<div class='column wide'><h3>Controls</h3></div>");
 
     var shipPosition = $("<div id='shipPosition'></div>"),
         shipSpeed = $("<div id='shipSpeed'></div>"),
@@ -15,10 +16,14 @@
     var shipsInWorld = $("<div id='shipsInWorld'></div>"),
         bulletsInWorld = $("<div id='bulletsInWorld'></div>");
 
+    var moveControls = $("<div id='moveControls'><strong>Movement: </strong>w, a, s, d</div>"),
+        shootControls = $("<div id='shootControls'><strong>Shoot: </strong>space</div>");
+
     MovementColumn.append(shipPosition, shipSpeed, shipVelocity);
     RenderedColumn.append(bulletsOnScreen, shipsOnScreen);
     WorldColumn.append(shipsInWorld, bulletsInWorld);
-    holder.append(MovementColumn, RenderedColumn, WorldColumn);
+    ControlColumn.append(moveControls, shootControls);
+    holder.append(MovementColumn, RenderedColumn, WorldColumn,ControlColumn);
 
     $("body").prepend(holder);
 

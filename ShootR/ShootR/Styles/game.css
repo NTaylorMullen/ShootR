@@ -19,9 +19,8 @@
 
 #gameWrapper #ShipNameHolder {
     position:absolute;
-    left:490px;
+    left:400px;
     top:-30px;
-    width:300px;
     height:23px;
 }
 
