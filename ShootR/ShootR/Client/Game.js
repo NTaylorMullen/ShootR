@@ -20,6 +20,8 @@ function Game(conn) {
     ships[conn._.proxy.connection.id] = ship;
     CanvasContext.Camera.Follow(ship);
 
+    that.DrawName = false;
+
     // This will update all ship positions on the screen.  Including in correcting the client side ship movement
     that.LoadMultiplayerShips = function (ship_list) {
         var activeShips = {};
@@ -48,16 +50,21 @@ function Game(conn) {
         delete ships[connectionID];
     }
 
-    that.Update = function (payload) {
+    that.Update = function (payload) {      
         gameTime.Update();
         CanvasContext.clear();
 
-        //CanvasContext.Camera.Move({ X: ship.MovementController.Position.X + ship.Width * .5, Y: ship.MovementController.Position.Y + ship.Height * .5 });
+        CanvasContext.Camera.Move({ X: ship.MovementController.Position.X + ship.Width * .5, Y: ship.MovementController.Position.Y + ship.Height * .5 });
 
         // Move the ships on the client
         for (var key in ships) {
             ships[key].Update(gameTime);
+            if (that.DrawName) {
+                ships[key].DrawName();
+            }
         }
+
+        
 
         // Move the bullets on the client
         bullet_manager.Update(gameTime);

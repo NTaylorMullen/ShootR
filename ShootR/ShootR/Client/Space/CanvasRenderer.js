@@ -4,6 +4,8 @@
     var canvasBuffer = document.createElement("canvas");
     var canvasBufferContext = canvasBuffer.getContext("2d");
     var drawBoundary = 707; // Will not draw objects more then X pixels away from the camera    
+    var textFont = "15px verdana";
+    var textColor = "white";
 
     var TO_RADIANS = Math.PI / 180;
 
@@ -53,6 +55,21 @@
 
         canvasBufferContext.restore();
 
+    }
+
+    that.drawText = function (text, x, y) {
+        var cameraOffset = { X: -that.Camera.Position.X + that.CanvasCenter.X, Y: -that.Camera.Position.Y + that.CanvasCenter.Y };
+
+        canvasBufferContext.save();
+
+        canvasBufferContext.translate(cameraOffset.X + x, y + cameraOffset.Y);
+        canvasBufferContext.textAlign = "center";
+        canvasBufferContext.font = textFont;
+        canvasBufferContext.strokeStyle = textColor;
+        
+        canvasBufferContext.strokeText(text, 0, 0);
+
+        canvasBufferContext.restore();
     }
 
     that.drawRotatedImage = function (image, angle, sx, sy, swidth, sheight, x, y, width, height) {

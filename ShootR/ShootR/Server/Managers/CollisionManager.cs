@@ -24,6 +24,12 @@ namespace ShootR
             _objects.Add(obj);
         }
 
+        public void UnMonitor(Collidable obj)
+        {
+            _space.Remove(obj);
+            _objects.Remove(obj);
+        }
+
         public void Update(GameTime gameTime)
         {
             for (int i = 0; i < _objects.Count; i++)

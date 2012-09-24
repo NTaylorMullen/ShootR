@@ -17,6 +17,23 @@
     background: url('/Images/bg_stars.jpg') repeat;
 }
 
+#gameWrapper #ShipNameHolder {
+    position:absolute;
+    left:490px;
+    top:-30px;
+    width:300px;
+    height:23px;
+}
+
+#gameWrapper #ShipName {
+    width:180px;
+}
+
+#gameWrapper #ShipName input[type="button"] {
+    width:100px;
+    text-align:center;
+}
+    
 .animation {
     position:absolute;
 }

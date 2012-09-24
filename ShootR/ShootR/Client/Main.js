@@ -10,6 +10,7 @@ $(function () {
 
     function Initialize(config) {
         configurationManager = new ConfigurationManager(config);
+        game = new Game(env);
 
         window.requestAnimFrame = (function () {
             return window.requestAnimationFrame ||
@@ -21,6 +22,20 @@ $(function () {
                         window.setTimeout(callback, configurationManager.UPDATE_INTERVAL);
                     };
         })();
+
+        $("#ShipName").keyup(function (e) {
+            if (e.keyCode == 13) {
+                env.changeName($("#ShipName").val());
+            }
+        });
+
+        $("#ChangeShipName").click(function () {
+            env.changeName($("#ShipName").val());
+        });
+
+        shortcut.add("X", function () {
+            game.DrawName = !game.DrawName;
+        }, { 'disable_in_input': true, 'type': 'keyup' });
 
         (function animloop() {
             requestAnimFrame(animloop);
@@ -39,10 +54,13 @@ $(function () {
         game.RemoveShip(connectionID);
     }
 
-    $.connection.hub.start().done(function () {
-        game = new Game(env);
+    env.updateShipName = function (newName) {
+        $("#ShipName").val(newName);
+    }
+
+    $.connection.hub.start().done(function () {        
         env.getConfiguration().done(function (value) {
             Initialize(value);
-        });
+        });        
     });
 });

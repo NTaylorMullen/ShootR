@@ -4,7 +4,7 @@
     var keyMapping = new Array();
 
     that.PropertiesToCopy.push("Width");
-    that.PropertiesToCopy.push("Height");
+    that.PropertiesToCopy.push("Height");    
 
     keyMapping.push({ key: rotateLeft, dir: "RotatingLeft" });
     keyMapping.push({ key: rotateRight, dir: "RotatingRight" });
@@ -20,14 +20,14 @@
                     that.MovementController.Moving[keyMapping[k].dir] = true;
                 }
             };
-        })(k), { 'type': 'keydown' });
+        })(k), { 'disable_in_input':true, 'type': 'keydown' });
 
         shortcut.add(keyMapping[k].key, (function (k) {
             return function () {
                 conn.registerMoveStop(keyMapping[k].dir);
                 that.MovementController.Moving[keyMapping[k].dir] = false;
             };
-        })(k), { 'type': 'keyup' });
+        })(k), { 'disable_in_input': true, 'type': 'keyup' });
     }
 
     function shoot() {

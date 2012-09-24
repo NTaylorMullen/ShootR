@@ -10,6 +10,7 @@
 </head>
 <body style="height: 100%;">
     <div id="gameWrapper">
+        <div id="ShipNameHolder"><input type="text" id="ShipName" value=""/><input type="button" id="ChangeShipName" value="Change" /></div>
         <canvas id="game" width="1280" height="600"></canvas>
     </div>
     <form runat="server">

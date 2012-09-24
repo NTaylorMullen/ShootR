@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Timers;
 using SignalR.Hubs;
 
@@ -18,14 +17,13 @@ namespace ShootR
         public static PayloadManager payloadManager = new PayloadManager();
         public static Timer updateTimer = new Timer(UPDATE_INTERVAL);
         public static GameTime gameTime = new GameTime();
+        public static int shipCount = 0;
 
         private static ConfigurationManager _configuration = new ConfigurationManager();
         private static int _updateCount = 0;
         private static Map _space = new Map();
         private static GameHandler _gameHandler = new GameHandler(_space);
-
-        private static int abc = 0;
-        private static int maxabc = 0;
+        public static object locker = new object();
 
         public GameEnvironment()
         {
@@ -56,26 +54,32 @@ namespace ShootR
         /// </summary>
         public void Update(object sender, ElapsedEventArgs e)
         {
-            abc++;
-            gameTime.Update();
-            _gameHandler.Update(gameTime);
-            _space.Update();
-
-            if (++_updateCount % DRAW_AFTER == 0)
+            lock (locker)
             {
-                _updateCount = 0; // Reset update count to 0
-                Draw();
+                gameTime.Update();
+                _gameHandler.Update(gameTime);
+                _space.Update();
+
+                if (++_updateCount % DRAW_AFTER == 0)
+                {
+                    _updateCount = 0; // Reset update count to 0
+                    Draw();
+                }
             }
-            maxabc = Math.Max(abc, maxabc);
-            abc = 0;
-            Debug.WriteLine(maxabc);
         }
 
         #region Connection Methods
         public System.Threading.Tasks.Task Connect()
         {
-            _gameHandler.CollisionManager.Monitor(_gameHandler.AddShip(new Ship(Context.ConnectionId, _space.Center, _gameHandler.BulletManager), Context.ConnectionId));
-            return null;
+            lock (locker)
+            {
+                Ship s = new Ship(Context.ConnectionId, _space.Center, _gameHandler.BulletManager);
+                s.Name = "Ship" + shipCount++;
+                _gameHandler.AddShip(s, Context.ConnectionId);
+                _gameHandler.CollisionManager.Monitor(s);
+                Caller.updateShipName(s.Name);
+                return null;
+            }
         }
 
         public System.Threading.Tasks.Task Reconnect(IEnumerable<string> groups)
@@ -89,9 +93,11 @@ namespace ShootR
         /// </summary>
         public System.Threading.Tasks.Task Disconnect()
         {
-            // Map.Remove(_gameHandler.RemoveShipByKey(Context.ConnectionId));
-            _gameHandler.RemoveShipByKey(Context.ConnectionId);
-            return Clients.RemoveShip(Context.ConnectionId);
+            lock (locker)
+            {
+                _gameHandler.ships[Context.ConnectionId].Dispose();
+                return null;
+            }
         }
 
         #endregion
@@ -134,6 +140,11 @@ namespace ShootR
         {
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
             _gameHandler.ships[Context.ConnectionId].MovementController.StopMoving(where);
+        }
+
+        public void changeName(string newName)
+        {
+            _gameHandler.ships[Context.ConnectionId].Name = newName;
         }
 
         #endregion

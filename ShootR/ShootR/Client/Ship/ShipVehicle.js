@@ -2,6 +2,8 @@
     Collidable.call(this);
     var that = this;
 
+    that.PropertiesToCopy.push("Name");
+
     that.Vehicle = CanvasContext.IMAGE_ASSETS.Ship;
 
     that.GUID = ShipVehicle.prototype.GUID++;
@@ -51,6 +53,10 @@
         that.MovementController.Forces.Y += dragForce.Y;
 
         that.Draw();
+    }
+
+    that.DrawName = function () {
+        CanvasContext.drawText(that.Name, that.MovementController.Position.X + that.WIDTH * .5, that.MovementController.Position.Y + that.HEIGHT + 20);
     }
 
     that.UpdateProperties({ MovementController: { Position: { X: 0, Y: 0 }, Forces: { X: 0, Y: 0 }, Acceleration: { X: 0, Y: 0 }, Velocity: { X: 0, Y: 0 }, Moving: { RotatingLeft: false, RotatingRight: false, Forward: false, Backward: false }, Rotation: 0 } });

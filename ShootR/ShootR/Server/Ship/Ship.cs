@@ -17,8 +17,10 @@
         {
             _connectionID = connectionID;
             MovementController = new ShipMovementController(position);
-            WeaponController = new ShipWeaponController(this, bm);
+            WeaponController = new ShipWeaponController(this, bm); 
         }
+
+        public string Name { get; set; }
 
         public string GetConnectionID()
         {
