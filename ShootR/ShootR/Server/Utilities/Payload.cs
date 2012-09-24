@@ -18,6 +18,5 @@ namespace ShootR
 
         public int ShipsInWorld { get; set; }
         public int BulletsInWorld { get; set; }
-        public int CollisionsInWorld { get; set; }
     }
 }

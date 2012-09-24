@@ -10,16 +10,14 @@
         shipVelocity = $("<div id='shipVelocity'></div>");
 
     var bulletsOnScreen = $("<div id='bulletsOnScreen'></div>"),
-        shipsOnScreen = $("<div id='shipsOnScreen'></div>"),
-        collisionsOnScreen = $("<div id='collisionsOnScreen'></div>");
+        shipsOnScreen = $("<div id='shipsOnScreen'></div>")
 
     var shipsInWorld = $("<div id='shipsInWorld'></div>"),
-        bulletsInWorld = $("<div id='bulletsInWorld'></div>"),
-        collisionsInWorld = $("<div id='collisionsInWorld'></div>");
+        bulletsInWorld = $("<div id='bulletsInWorld'></div>");
 
     MovementColumn.append(shipPosition, shipSpeed, shipVelocity);
-    RenderedColumn.append(bulletsOnScreen, shipsOnScreen, collisionsOnScreen);
-    WorldColumn.append(shipsInWorld, bulletsInWorld, collisionsInWorld);
+    RenderedColumn.append(bulletsOnScreen, shipsOnScreen);
+    WorldColumn.append(shipsInWorld, bulletsInWorld);
     holder.append(MovementColumn, RenderedColumn, WorldColumn);
 
     $("body").prepend(holder);
@@ -39,11 +37,9 @@
         }
         shipsOnScreen.html("Ships On Screen: " + i);
         bulletsOnScreen.html("Bullets On Screen: " + payload.Bullets.length);
-        collisionsOnScreen.html("Collisions On Screen: " + payload.Collisions.length);
 
         // World Column
         shipsInWorld.html("Ships In World: " + payload.ShipsInWorld);
         bulletsInWorld.html("Bullets In World: " + payload.BulletsInWorld);
-        collisionsInWorld.html("Collisions In World: " + payload.CollisionsInWorld);
     }
 }
