@@ -84,6 +84,7 @@
     <Content Include="Client\Space\CanvasRenderer.js" />
     <Content Include="Client\Space\Map.js" />
     <Content Include="Client\Utilities\Collidable.js" />
+    <Content Include="Client\Utilities\PayloadManagement\PayloadManager.js" />
     <Content Include="Client\Utilities\GameTime.js" />
     <Content Include="Client\Utilities\ShipStatRecorder.js" />
     <Content Include="default.aspx" />
@@ -121,7 +122,11 @@
     <Compile Include="Server\Configuration\ShipConfiguration.cs" />
     <Compile Include="Server\GameEnvironment.cs" />
     <Compile Include="Server\Managers\GameHandler.cs" />
-    <Compile Include="Server\Managers\PayloadManager.cs" />
+    <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\BulletCompressionContract.cs" />
+    <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\CollidableCompressionContract.cs" />
+    <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\ShipCompressionContract.cs" />
+    <Compile Include="Server\Utilities\PayloadManagement\PayloadCompressor.cs" />
+    <Compile Include="Server\Utilities\PayloadManagement\PayloadManager.cs" />
     <Compile Include="Server\Ship\Ship.cs" />
     <Compile Include="Server\Ship\ShipMovementController.cs" />
     <Compile Include="Server\Ship\ShipWeaponController.cs" />
@@ -134,7 +139,7 @@
     <Compile Include="Server\Utilities\Movement.cs" />
     <Compile Include="Server\Utilities\MovementController.cs" />
     <Compile Include="Server\Utilities\MovementFlags.cs" />
-    <Compile Include="Server\Utilities\Payload.cs" />
+    <Compile Include="Server\Utilities\PayloadManagement\Payload.cs" />
     <Compile Include="Server\Utilities\Vector2.cs" />
   </ItemGroup>
   <ItemGroup>

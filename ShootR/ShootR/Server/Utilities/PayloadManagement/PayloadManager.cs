@@ -8,6 +8,9 @@ namespace ShootR
     public class PayloadManager
     {
         public const int SCREEN_BUFFER_AREA = 100; // Send X extra pixels down to the client to allow for latency between client and server
+
+        public PayloadCompressor Compressor = new PayloadCompressor();
+
         public Dictionary<string, Payload> GetPayloads(ConcurrentDictionary<string, Ship> ships, int bulletCount, Map space)
         {
             Dictionary<string, Payload> payloads = new Dictionary<string, Payload>();
@@ -32,11 +35,11 @@ namespace ShootR
                     {
                         // This bullet has been seen so tag the bullet as seen
                         ((Bullet)obj).Seen();
-                        payloads[connectionID].Bullets.Add((Bullet)obj);
+                        payloads[connectionID].Bullets.Add(Compressor.Compress((Bullet)obj));
                     }
                     else if (obj.GetType() == typeof(Ship))
                     {
-                        payloads[connectionID].Ships.TryAdd(((Ship)obj).GetConnectionID(), (Ship)obj);
+                        payloads[connectionID].Ships.TryAdd(((Ship)obj).GetConnectionID(), Compressor.Compress(((Ship)obj)));
                     }
                 }
             }

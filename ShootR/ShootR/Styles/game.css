@@ -3,6 +3,10 @@
     height:100%;
 }
 
+a {
+    color: #13678B;
+}
+
 #game {        
     display:block;
     position:absolute;
@@ -67,6 +71,8 @@
 
 #shipStats {
     height:100px;
+    width:1280px;
+    margin:0 auto;
 }
 
 .column {
@@ -82,4 +88,9 @@
 h3 {
     margin-top:0px;
     margin-bottom:5px;
+}
+
+#banner {
+    margin-top:10px;
+    text-align:center;
 }

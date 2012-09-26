@@ -36,7 +36,7 @@ namespace ShootR
             Ship removedShip;
             ships.TryRemove(key, out removedShip);
 
-            if (removedShip != null && !removedShip.Disposed)
+            if (removedShip != null && !removedShip.IsDisposed())
             {
                 removedShip.Dispose();
             }
@@ -50,7 +50,7 @@ namespace ShootR
 
             foreach (string key in ships.Keys)
             {
-                if (!ships[key].Disposed)
+                if (!ships[key].IsDisposed())
                 {
                     ships[key].Update(gameTime);
                 }

@@ -1,4 +1,5 @@
-﻿namespace ShootR
+﻿using System;
+namespace ShootR
 {
     /// <summary>
     /// The ship weapon controller.
@@ -10,13 +11,14 @@
         // Lead the weapon by 50 pixels
         public const double BULLET_LEAD = 50;
 
-        private BulletManager bulletManager;
-        private Ship ship;
+        private BulletManager _bulletManager;
+        private Ship _ship;
+        private DateTime _lastFired = DateTime.UtcNow;
 
         public ShipWeaponController(Ship s, BulletManager bm)
         {
-            bulletManager = bm;
-            ship = s;
+            _bulletManager = bm;
+            _ship = s;
         }
 
         /// <summary>
@@ -25,14 +27,20 @@
         /// <returns>Newly created bullet</returns>
         public Bullet Fire()
         {
-            var shipCenter = new Vector2(ship.MovementController.Position.X + .5 * ship.Width(), ship.MovementController.Position.Y + .5 * ship.Height());
-            var shipDirection = new Vector2(ship.MovementController.Rotation);
-            var bulletOffset = new Vector2(Bullet.WIDTH / 2, Bullet.HEIGHT / 2);
-            var startPosition = new Vector2((shipCenter + (BULLET_LEAD * shipDirection)) + bulletOffset);
+            if ((DateTime.UtcNow - _lastFired).TotalMilliseconds >= FIRE_RATE)
+            {
+                var shipCenter = new Vector2(_ship.MovementController.Position.X + .5 * _ship.Width(), _ship.MovementController.Position.Y + .5 * _ship.Height());
+                var shipDirection = new Vector2(_ship.MovementController.Rotation);
+                var bulletOffset = new Vector2(Bullet.WIDTH / 2, Bullet.HEIGHT / 2);
+                var startPosition = new Vector2((shipCenter + (BULLET_LEAD * shipDirection)) + bulletOffset);
 
-            Bullet spawnedBullet = new Bullet(startPosition, shipDirection, ship.MovementController.Velocity);
-            bulletManager.BulletsInAir.Add(spawnedBullet);
-            return spawnedBullet;           
+                Bullet spawnedBullet = new Bullet(startPosition, shipDirection, _ship.MovementController.Velocity);
+                _lastFired = DateTime.UtcNow;
+                _bulletManager.BulletsInAir.Add(spawnedBullet);
+                return spawnedBullet;
+            }
+
+            return null;
         }
     }
 }

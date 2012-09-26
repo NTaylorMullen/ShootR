@@ -9,7 +9,6 @@
             ENGINE_POWER = ShipMovementController.ENGINE_POWER;
             FIRE_RATE = ShipWeaponController.FIRE_RATE;
             HEIGHT = Ship.HEIGHT;
-            MAX_SPEED = ShipMovementController.MAX_SPEED;
             ROTATE_SPEED = ShipMovementController.ROTATE_SPEED;
             WIDTH = Ship.WIDTH;
         }
@@ -19,8 +18,8 @@
         public double ENGINE_POWER { get; set; }
         public int FIRE_RATE { get; set; }
         public int HEIGHT { get; set; }
-        public double MAX_SPEED { get; set; }
+        public double ROTATE_SPEED { get; set; }
         public int WIDTH { get; set; }
-        public double ROTATE_SPEED { get; set; }        
+                
     }
 }

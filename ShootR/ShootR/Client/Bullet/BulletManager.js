@@ -1,20 +1,21 @@
-﻿function BulletManager(connection) {
+﻿function BulletManager(connection, payloadManager) {
     var that = this;
 
     that.bulletsInAir = {};
 
-    that.UpdateBullets = function (bullet_list) {
+    that.UpdateBullets = function (bulletList) {
         var activeBullets = {}
-        for (var i = 0; i < bullet_list.length; i++) {
-            var id = bullet_list[i].ID;
+        for (var i = 0; i < bulletList.length; i++) {
+            var currentBullet = payloadManager.DecompressBullet(bulletList[i]);
+            var id = currentBullet.ID;
 
             // If bullet exists then we need to move it, aka update it.
             if ($(that.bulletsInAir[id]).length > 0) {
-                that.bulletsInAir[id].UpdateProperties(bullet_list[i]);
+                that.bulletsInAir[id].UpdateProperties(currentBullet);
                 that.bulletsInAir[id].Draw();
             }
             else {
-                that.bulletsInAir[id] = new Bullet(bullet_list[i]);
+                that.bulletsInAir[id] = new Bullet(currentBullet);
             }
 
             activeBullets[id] = true;

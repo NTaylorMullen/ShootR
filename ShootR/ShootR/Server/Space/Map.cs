@@ -59,7 +59,7 @@ namespace ShootR
         {
             for(int i=0;i<_allObjects.Count;i++)
             {
-                if (_allObjects[i].Disposed)
+                if (_allObjects[i].IsDisposed())
                 {
                     Remove(_allObjects[i--]);
                 }

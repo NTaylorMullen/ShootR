@@ -8,9 +8,10 @@ $(function () {
     var configurationManager;
     var lastPayload = { Ships: {}, Bullets: [], Collisions: [] };
 
-    function Initialize(config) {
-        configurationManager = new ConfigurationManager(config);
+    function Initialize(init) {
+        configurationManager = new ConfigurationManager(init.Configuration);
         game = new Game(env);
+        game.InitializeCompressionContracts(init.CompressionContracts);
 
         window.requestAnimFrame = (function () {
             return window.requestAnimationFrame ||
@@ -46,7 +47,7 @@ $(function () {
 
     env.LoadMapInfo = function (info) {
         lastPayload = info;
-        game.LoadMultiplayerShips(info.Ships);
+        game.LoadMultiplayerShips(info.Ships, info.temp);
         game.LoadBullets(info.Bullets);
     }
 
@@ -59,7 +60,7 @@ $(function () {
     }
 
     $.connection.hub.start().done(function () {        
-        env.getConfiguration().done(function (value) {
+        env.initializeClient().done(function (value) {
             Initialize(value);
         });        
     });

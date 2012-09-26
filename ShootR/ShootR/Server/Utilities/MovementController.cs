@@ -8,6 +8,7 @@ namespace ShootR
     public class MovementController
     {
         private Vector2 _acceleration;
+        private bool _moving;
 
         public MovementController(double mass)
         {
@@ -17,9 +18,7 @@ namespace ShootR
             Position = new Vector2();
             Rotation = 0;
             Velocity = new Vector2();
-            RotateSpeed = 0;
-            MaxSpeed = 0;
-            Moving = true;
+            _moving = true;
         }
 
         public MovementController(Vector2 position, double mass)
@@ -33,9 +32,11 @@ namespace ShootR
         public Vector2 Position { get; set; }
         public double Rotation { get; set; }
         public Vector2 Velocity { get; set; }
-        public bool Moving { get; set; }
-        public double MaxSpeed { get; set; }
-        public double RotateSpeed { get; set; }
+
+        public bool IsMoving()
+        {
+            return _moving;
+        }
 
         public void ApplyForce(Vector2 force)
         {
@@ -75,7 +76,7 @@ namespace ShootR
 
         public virtual void Update(GameTime gameTime)
         {
-            if (Moving)
+            if (_moving)
             {
                 double PercentOfSecond = gameTime.PercentOfSecond;
                 _acceleration += Forces / Mass;

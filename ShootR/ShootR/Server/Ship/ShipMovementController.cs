@@ -9,7 +9,6 @@ namespace ShootR
     /// </summary>
     public class ShipMovementController : MovementController
     {
-        public const double MAX_SPEED = 400;
         public const double ROTATE_SPEED = 180;
         public const double MASS = 50;
         public const double ENGINE_POWER = 100000;
@@ -20,8 +19,6 @@ namespace ShootR
             base(MASS)
         {
             Position = position;
-            RotateSpeed = ROTATE_SPEED;
-            MaxSpeed = MAX_SPEED;
             Moving = new MovementFlags();
         }
 

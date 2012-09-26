@@ -12,7 +12,8 @@ namespace ShootR
         protected int _width { get; set; }
         protected int _height { get; set; }
 
-        private QuadTreeNode _mapLocation;        
+        private QuadTreeNode _mapLocation;
+        private bool _disposed = false;
 
         public Collidable(MovementController mc)
         {
@@ -40,8 +41,13 @@ namespace ShootR
             _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), _width, _height);
         }
 
-        public MovementController MovementController { get; set; }        
-        public bool Disposed { get; set; }
+        public MovementController MovementController { get; set; }
+
+        public bool IsDisposed()
+        {
+            return _disposed;
+        }
+
         public bool Collided { get; set; }
         public Vector2 CollidedAt { get; set; }
 
@@ -57,7 +63,7 @@ namespace ShootR
 
         public void Dispose()
         {
-            Disposed = true;
+            _disposed = true;
         }
 
         public double DistanceFrom(Collidable from)

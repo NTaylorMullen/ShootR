@@ -74,10 +74,12 @@ namespace ShootR
         {
             lock (locker)
             {
+                PayloadCompressor comp = new PayloadCompressor();
+
                 int x = gen.Next(Ship.WIDTH * 2, Map.WIDTH - Ship.WIDTH * 2);
                 int y = gen.Next(Ship.HEIGHT * 2, Map.HEIGHT - Ship.HEIGHT * 2);
 
-                Ship s = new Ship(Context.ConnectionId, new Vector2(x,y), _gameHandler.BulletManager);
+                Ship s = new Ship(Context.ConnectionId, new Vector2(x, y), _gameHandler.BulletManager);
                 s.Name = "Ship" + shipCount++;
                 _gameHandler.AddShip(s, Context.ConnectionId);
                 _gameHandler.CollisionManager.Monitor(s);
@@ -113,16 +115,30 @@ namespace ShootR
         /// </summary>
         public void fire()
         {
-            _gameHandler.CollisionManager.Monitor(_gameHandler.ships[Context.ConnectionId].GetWeaponController().Fire());
+            Bullet bullet = _gameHandler.ships[Context.ConnectionId].GetWeaponController().Fire();
+
+            if (bullet != null)
+            {
+                _gameHandler.CollisionManager.Monitor(bullet);
+            }
         }
 
         /// <summary>
         /// Retrieves the game's configuration
         /// </summary>
         /// <returns>The game's configuration</returns>
-        public ConfigurationManager getConfiguration()
+        public object initializeClient()
         {
-            return _configuration;
+            return new
+            {
+                Configuration = _configuration,
+                CompressionContracts = new
+                {
+                    CollidableContract = payloadManager.Compressor.CollidableCompressionContract,
+                    ShipContract = payloadManager.Compressor.ShipCompressionContract,
+                    BulletContract = payloadManager.Compressor.BulletCompressionContract
+                }
+            };
         }
 
         /// <summary>

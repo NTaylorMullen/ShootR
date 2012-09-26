@@ -10,9 +10,10 @@ var GAME_GLOBALS = {
 
 function Game(conn) {
     var that = this;
-    var bullet_manager = new BulletManager(conn);
-    var ship = new Ship("a", "w", "d", "s", "Space", bullet_manager, conn);
-    var shipStats = new ShipStatRecorder(ship);
+    var payloadManager = new PayloadManager();
+    var bulletManager = new BulletManager(conn, payloadManager);
+    var ship = new Ship("a", "w", "d", "s", "Space", bulletManager, conn);
+    var shipStats = new ShipStatRecorder(ship);    
     var ships = {};
     var gameTime = new GameTime();
     var map = new Map();
@@ -26,11 +27,12 @@ function Game(conn) {
     that.LoadMultiplayerShips = function (ship_list) {
         var activeShips = {};
         for (var connectionID in ship_list) {
-            if ($(ships[connectionID]).length === 0) {//Need to add the ship
-                ships[connectionID] = new ShipVehicle({ x: ship_list[connectionID].MovementController.Position.X, y: ship_list[connectionID].MovementController.Position.Y });
+            var currentShip = payloadManager.DecompressShip(ship_list[connectionID]);
+            if (!ships[connectionID]) {
+                ships[connectionID] = new ShipVehicle({ x: currentShip.MovementController.Position.X, y: currentShip.MovementController.Position.Y });
             }
             activeShips[connectionID] = true;
-            ships[connectionID].UpdateProperties(ship_list[connectionID]);
+            ships[connectionID].UpdateProperties(currentShip);
             ships[connectionID].Draw();
         }
 
@@ -42,7 +44,7 @@ function Game(conn) {
     }
 
     that.LoadBullets = function (bullet_list) {
-        bullet_manager.UpdateBullets(bullet_list);
+        bulletManager.UpdateBullets(bullet_list);
     }
 
     that.RemoveShip = function (connectionID) {
@@ -50,7 +52,11 @@ function Game(conn) {
         delete ships[connectionID];
     }
 
-    that.Update = function (payload) {      
+    that.InitializeCompressionContracts = function (contracts) {
+        payloadManager.LoadContracts(contracts);
+    }
+
+    that.Update = function (payload) {
         gameTime.Update();
         CanvasContext.clear();
 
@@ -64,14 +70,12 @@ function Game(conn) {
             }
         }
 
-        
-
         // Move the bullets on the client
-        bullet_manager.Update(gameTime);
+        bulletManager.Update(gameTime);
 
         GAME_GLOBALS.AnimationManager.Update(gameTime);
 
-        map.CheckBoundaryCollisions(ships, bullet_manager.bulletsInAir);
+        map.CheckBoundaryCollisions(ships, bulletManager.bulletsInAir);
 
         map.Draw();
         CanvasContext.Render();
