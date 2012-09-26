@@ -1,4 +1,6 @@
-﻿namespace ShootR
+﻿using SignalR;
+
+namespace ShootR
 {
     /// <summary>
     /// A ship on the game field.  Only the owner of the ship can control the ship.  Ownership is decided via the connection id.
@@ -22,6 +24,10 @@
         }
 
         public string Name { get; set; }
+
+        public int Hits { get; set; }
+
+        public int Damage { get; set; }
 
         public string GetConnectionID()
         {
@@ -53,6 +59,13 @@
 
         public override void HandleCollisionWith(Collidable c, Map space)
         {
+            Bullet bullet = c as Bullet;
+            if (bullet != null)
+            {
+                Damage++;
+                bullet.FiredBy.Hits++;
+                GlobalHost.ConnectionManager.GetHubContext<GameEnvironment>().Clients.hit(bullet.FiredBy.GetConnectionID(), GetConnectionID());
+            }
         }
     }
 }

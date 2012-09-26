@@ -12,14 +12,17 @@ namespace ShootR
         public const int DISPOSE_AFTER = 5; // Disposes bullet after 5 seconds of not being seen.
         private DateTime _lastSeen;
 
-        public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity)
+        public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity, Ship firedBy)
             : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, initialVelocity))
         {
             ID = Guid.NewGuid();
             _lastSeen = DateTime.Now;
+            FiredBy = firedBy;
         }
 
         public Guid ID { get; set; }
+
+        public Ship FiredBy { get; set; }
 
         public void Seen()
         {

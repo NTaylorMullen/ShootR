@@ -10,11 +10,11 @@
 
 #gameWrapper {
     border:2px solid black;
-    margin: 0 auto;
-    position:relative;
+    float:left;
+    right:0px;
     width:1280px;
     height:600px;
-    background: url('/Images/bg_stars.jpg') repeat;
+    background:url('/Images/bg_stars.jpg') repeat;
 }
 
 #gameWrapper #ShipNameHolder {
@@ -32,6 +32,27 @@
     width:100px;
     text-align:center;
 }
+
+#leaderboard {
+    float:left;
+    padding-left:20px;
+    text-align: center;
+}
+
+#leaderboard table {
+    border-collapse:collapse;
+}
+
+#leaderboard th {
+    padding:7px;
+    border-bottom:1px solid;
+}
+
+#leaderboard td {
+    padding:7px;
+    border-top:1px solid;
+    border-bottom:1px solid;
+}
     
 .animation {
     position:absolute;
@@ -40,7 +61,7 @@
 .explosion {
     width:64px;
     height:64px;
-    background:url('/Images/SpriteSheets/explosion_1.png') no-repeat;
+    background:url('Images/SpriteSheets/explosion_1.png') no-repeat;
     position: absolute;
     top:200px;
     left:200px;
@@ -52,7 +73,7 @@
     position:absolute;
     left:0;
     top:0;
-    background-image:url('/Images/Ship.png');
+    background-image:url('Images/Ship.png');
     background-repeat:no-repeat;
 }
 

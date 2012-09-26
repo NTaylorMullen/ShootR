@@ -9,9 +9,36 @@
     <title>SignalR Shooter</title>
 </head>
 <body style="height: 100%;">
-    <div id="gameWrapper">
-        <div id="ShipNameHolder"><em>Press X to turn off/on names </em><input type="text" id="ShipName" value=""/><input type="button" id="ChangeShipName" value="Change" /></div>
-        <canvas id="game" width="1280" height="600"></canvas>
+    <div id="ShipNameHolder">
+        <em>Press X to turn off/on names </em>
+        <input type="text" id="ShipName" value="" /><input type="button" id="ChangeShipName" value="Change" />
+    </div>
+    <div>
+        <div id="gameWrapper">
+            <canvas id="game" width="1280" height="600"></canvas>
+        </div>
+        <div id="leaderboard">
+            <b>Leaderboard</b>
+            <br />
+            <table>
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Name</th>
+                        <th>Hits</th>
+                        <th>Damage</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: leaderboard">
+                    <tr>
+                        <td>#<span data-bind="text: position"></span></td>
+                        <td data-bind="text: name"></td>
+                        <td data-bind="text: hits"></td>
+                        <td data-bind="text: damage"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <form runat="server">
     </form>
@@ -21,6 +48,7 @@
     <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>
     <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
+    <script src="Scripts/knockout-2.1.0.debug.js"></script>
 
     <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
     <script type="text/javascript" src="Client/Space/Map.js"></script>
