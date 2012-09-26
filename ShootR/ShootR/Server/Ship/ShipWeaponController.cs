@@ -30,7 +30,7 @@
             var bulletOffset = new Vector2(Bullet.WIDTH / 2, Bullet.HEIGHT / 2);
             var startPosition = new Vector2((shipCenter + (BULLET_LEAD * shipDirection)) + bulletOffset);
 
-            Bullet spawnedBullet = new Bullet(startPosition, shipDirection, ship.MovementController.Velocity);
+            Bullet spawnedBullet = new Bullet(startPosition, shipDirection, ship.MovementController.Velocity, ship);
             bulletManager.BulletsInAir.Add(spawnedBullet);
             return spawnedBullet;           
         }

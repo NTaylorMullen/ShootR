@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 using SignalR.Hubs;
 
@@ -82,6 +83,7 @@ namespace ShootR
                 _gameHandler.AddShip(s, Context.ConnectionId);
                 _gameHandler.CollisionManager.Monitor(s);
                 Caller.updateShipName(s.Name);
+                Clients.newShip(s.Name, s.GetConnectionID());
                 return null;
             }
         }
@@ -100,6 +102,7 @@ namespace ShootR
             lock (locker)
             {
                 _gameHandler.ships[Context.ConnectionId].Dispose();
+                Clients.removeShip(Context.ConnectionId);
                 return null;
             }
         }
@@ -125,8 +128,14 @@ namespace ShootR
             return _configuration;
         }
 
+        public IEnumerable<object> getLeaderboard()
+        {
+            return _gameHandler.ships.Values
+                .Select(ship => new { name = ship.Name, hits = ship.Hits, damage = ship.Damage, connectionId = ship.GetConnectionID() });
+        }
+
         /// <summary>
-        /// Registers the start of a movement on a clint.  Fires when the client presses a movement hotkey.
+        /// Registers the start of a movement on a client.  Fires when the client presses a movement hotkey.
         /// </summary>
         /// <param name="movement">Direction to start moving</param>
         public void registerMoveStart(string movement)
@@ -149,6 +158,7 @@ namespace ShootR
         public void changeName(string newName)
         {
             _gameHandler.ships[Context.ConnectionId].Name = newName;
+            Clients.nameChange(Context.ConnectionId, newName);
         }
 
         #endregion
