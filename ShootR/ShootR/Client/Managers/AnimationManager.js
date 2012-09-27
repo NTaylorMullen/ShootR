@@ -1,15 +1,15 @@
 ﻿function AnimationManager() {
-    var that = this;
-    var animations = [];
-    var animationCount = 0;
-    
-    that.Add = function(animation) {
+    var that = this,
+        animations = [],
+        animationCount = 0;
+
+    that.Add = function (animation) {
         animations.push(animation);
         animationCount++;
     }
 
-    that.Remove = function(index) {
-        animations.splice(index,1);
+    that.Remove = function (index) {
+        animations.splice(index, 1);
         animationCount--;
     }
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace ShootR
+﻿namespace ShootR
 {
     public class MovementController
     {
@@ -26,7 +21,7 @@ namespace ShootR
         {
             Position = position;
         }
-        
+
         public Vector2 Forces { get; set; }
         public double Mass { get; set; }
         public Vector2 Position { get; set; }

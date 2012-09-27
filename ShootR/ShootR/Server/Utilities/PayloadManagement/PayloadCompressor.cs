@@ -1,66 +1,57 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ShootR
 {
     public class PayloadCompressor
     {
+        public PayloadCompressionContract PayloadCompressionContract = new PayloadCompressionContract();
         public CollidableCompressionContract CollidableCompressionContract = new CollidableCompressionContract();
         public ShipCompressionContract ShipCompressionContract = new ShipCompressionContract();
         public BulletCompressionContract BulletCompressionContract = new BulletCompressionContract();
 
-        private void SetCollidableContractMembers(double[] numberList, Collidable obj)
+        private void SetCollidableContractMembers(object[] result, Collidable obj)
         {
-            numberList[CollidableCompressionContract.Collided] = Convert.ToInt32(obj.Collided);
-            numberList[CollidableCompressionContract.CollidedAtX] = Math.Round(obj.CollidedAt.X, 2);
-            numberList[CollidableCompressionContract.CollidedAtY] = Math.Round(obj.CollidedAt.Y, 2);
-            numberList[CollidableCompressionContract.ForcesX] = Math.Round(obj.MovementController.Forces.X, 2);
-            numberList[CollidableCompressionContract.ForcesY] = Math.Round(obj.MovementController.Forces.Y, 2);
-            numberList[CollidableCompressionContract.Mass] = obj.MovementController.Mass;
-            numberList[CollidableCompressionContract.PositionX] = Math.Round(obj.MovementController.Position.X, 2);
-            numberList[CollidableCompressionContract.PositionY] = Math.Round(obj.MovementController.Position.Y, 2);
-            numberList[CollidableCompressionContract.Rotation] = Math.Round(obj.MovementController.Rotation, 2);
-            numberList[CollidableCompressionContract.VelocityX] = Math.Round(obj.MovementController.Velocity.X, 2);
-            numberList[CollidableCompressionContract.VelocityY] = Math.Round(obj.MovementController.Velocity.Y, 2);
+            result[CollidableCompressionContract.Collided] = Convert.ToInt32(obj.Collided);
+            result[CollidableCompressionContract.CollidedAtX] = Math.Round(obj.CollidedAt.X, 2);
+            result[CollidableCompressionContract.CollidedAtY] = Math.Round(obj.CollidedAt.Y, 2);
+            result[CollidableCompressionContract.ForcesX] = Math.Round(obj.MovementController.Forces.X, 2);
+            result[CollidableCompressionContract.ForcesY] = Math.Round(obj.MovementController.Forces.Y, 2);
+            result[CollidableCompressionContract.Mass] = obj.MovementController.Mass;
+            result[CollidableCompressionContract.PositionX] = Math.Round(obj.MovementController.Position.X, 2);
+            result[CollidableCompressionContract.PositionY] = Math.Round(obj.MovementController.Position.Y, 2);
+            result[CollidableCompressionContract.Rotation] = Math.Round(obj.MovementController.Rotation, 2);
+            result[CollidableCompressionContract.VelocityX] = Math.Round(obj.MovementController.Velocity.X, 2);
+            result[CollidableCompressionContract.VelocityY] = Math.Round(obj.MovementController.Velocity.Y, 2);
+            result[CollidableCompressionContract.ID] = obj.ID;
         }
 
-        public object Compress(Ship ship)
+        public object[] Compress(Ship ship)
         {
-            double[] numberList = new double[15];
-            string[] stringList = new string[1];
+            object[] result = new object[17];
 
-            SetCollidableContractMembers(numberList, ship);
+            SetCollidableContractMembers(result, ship);
 
-            numberList[ShipCompressionContract.RotatingLeft] = Convert.ToInt32(ship.MovementController.Moving.RotatingLeft);
-            numberList[ShipCompressionContract.RotatingRight] = Convert.ToInt32(ship.MovementController.Moving.RotatingRight);
-            numberList[ShipCompressionContract.Forward] = Convert.ToInt32(ship.MovementController.Moving.Forward);
-            numberList[ShipCompressionContract.Backward] = Convert.ToInt32(ship.MovementController.Moving.Backward);
-            stringList[ShipCompressionContract.Name] = ship.Name;
+            result[ShipCompressionContract.RotatingLeft] = Convert.ToInt32(ship.MovementController.Moving.RotatingLeft);
+            result[ShipCompressionContract.RotatingRight] = Convert.ToInt32(ship.MovementController.Moving.RotatingRight);
+            result[ShipCompressionContract.Forward] = Convert.ToInt32(ship.MovementController.Moving.Forward);
+            result[ShipCompressionContract.Backward] = Convert.ToInt32(ship.MovementController.Moving.Backward);
+            result[ShipCompressionContract.Name] = ship.Name;
 
-            return new
-            {
-                n = numberList,
-                s = stringList
-            };
+            return result;
         }
 
-        public object Compress(Bullet bullet)
+        public object[] Compress(Bullet bullet)
         {
-            double[] numberList = new double[15];
-            string[] stringList = new string[1];
+            object[] result = new object[16];
 
-            SetCollidableContractMembers(numberList, bullet);
+            SetCollidableContractMembers(result, bullet);
 
-            stringList[BulletCompressionContract.ID] = bullet.ID.ToString();
+            return result;
+        }
 
-            return new
-            {
-                n = numberList,
-                s = stringList
-            };
+        public object[] Compress(Payload payload)
+        {
+            return new object[] { payload.Ships, payload.Bullets, payload.ShipsInWorld, payload.BulletsInWorld };
         }
     }
 }

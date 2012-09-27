@@ -1,10 +1,8 @@
-﻿var Collidable = function() {
+﻿var Collidable = function () {
     var that = this;
 
     that.Destroyed = false;
-
     that.PropertiesToCopy = ["MovementController"];
-
     that.Vehicle;
     that.FollowID;
 
@@ -25,5 +23,5 @@
         if (!that.Destroyed) {
             CanvasContext.drawRotatedImage.apply(that, [that.Vehicle, that.MovementController.Rotation, that.MovementController.Position.X, that.MovementController.Position.Y]);
         }
-    }    
+    }
 }

@@ -1,10 +1,10 @@
 ﻿function ShipStatRecorder(ship) {
     var that = this;
-    var holder = $("<div id='shipStats'></div>");
-    var MovementColumn = $("<div class='column' style='margin-left:140px;'><h3>Movement</h3></div>");
-    var RenderedColumn = $("<div class='column'><h3>Rendered</h3></div>");
-    var WorldColumn = $("<div class='column'><h3>World</h3></div>");
-    var ControlColumn = $("<div class='column'><h3>Controls</h3></div>");
+    var holder = $("<div id='shipStats'></div>"),
+        MovementColumn = $("<div class='column' style='margin-left:140px;'><h3>Movement</h3></div>"),
+        RenderedColumn = $("<div class='column'><h3>Rendered</h3></div>"),
+        WorldColumn = $("<div class='column'><h3>World</h3></div>"),
+        ControlColumn = $("<div class='column'><h3>Controls</h3></div>");
 
     var shipPosition = $("<div id='shipPosition'></div>"),
         shipSpeed = $("<div id='shipSpeed'></div>"),
@@ -23,7 +23,7 @@
     RenderedColumn.append(bulletsOnScreen, shipsOnScreen);
     WorldColumn.append(shipsInWorld, bulletsInWorld);
     ControlColumn.append(moveControls, shootControls);
-    holder.append(MovementColumn, RenderedColumn, WorldColumn,ControlColumn);
+    holder.append(MovementColumn, RenderedColumn, WorldColumn, ControlColumn);
 
     $("body").prepend(holder);
 

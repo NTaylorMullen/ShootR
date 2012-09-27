@@ -1,11 +1,11 @@
 ﻿function CanvasRenderer(target) {
-    var that = this;
-    var drawContext = target[0].getContext("2d");
-    var canvasBuffer = document.createElement("canvas");
-    var canvasBufferContext = canvasBuffer.getContext("2d");
-    var drawBoundary = 707; // Will not draw objects more then X pixels away from the camera    
-    var textFont = "15px verdana";
-    var textColor = "white";
+    var that = this,
+        drawContext = target[0].getContext("2d"),
+        canvasBuffer = document.createElement("canvas"),
+        canvasBufferContext = canvasBuffer.getContext("2d"),
+        drawBoundary = 707, // Will not draw objects more then X pixels away from the camera    
+        textFont = "15px verdana",
+        textColor = "white";
 
     var TO_RADIANS = Math.PI / 180;
 
@@ -57,6 +57,19 @@
 
     }
 
+    that.drawSquare = function (x, y, width, height) {
+        var cameraOffset = { X: x - that.Camera.Position.X + that.CanvasCenter.X, Y: y - that.Camera.Position.Y + that.CanvasCenter.Y };
+
+        canvasBufferContext.save();
+
+        canvasBufferContext.translate(cameraOffset.X, cameraOffset.Y);
+        canvasBufferContext.lineWidth = "1";
+        canvasBufferContext.strokeStyle = "#f00";
+        canvasBufferContext.strokeRect(0, 0, width, height);
+
+        canvasBufferContext.restore();
+    }
+
     that.drawText = function (text, x, y) {
         var cameraOffset = { X: -that.Camera.Position.X + that.CanvasCenter.X, Y: -that.Camera.Position.Y + that.CanvasCenter.Y };
 
@@ -66,13 +79,19 @@
         canvasBufferContext.textAlign = "center";
         canvasBufferContext.font = textFont;
         canvasBufferContext.strokeStyle = textColor;
-        
+
         canvasBufferContext.strokeText(text, 0, 0);
 
         canvasBufferContext.restore();
     }
 
     that.drawRotatedImage = function (image, angle, sx, sy, swidth, sheight, x, y, width, height) {
+
+        if (that !== this && this.GUID === that.Camera.Following) // Check to see if this function has been applied, if so we need to check if camera is following it
+        {
+            that.Camera.Move({ X: this.MovementController.Position.X + this.WIDTH * .5, Y: this.MovementController.Position.Y + this.HEIGHT * .5 });
+        }
+
         // Check if the object that we're drawing is beyond our draw border
         if (!swidth) {
             if (calculateDistance({ X: sx, Y: sy }, that.Camera.Position) >= drawBoundary) {
@@ -83,11 +102,6 @@
             if (calculateDistance({ X: x, Y: y }, that.Camera.Position) >= drawBoundary) {
                 return;
             }
-        }
-
-        if (that !== this && this.GUID === that.Camera.Following) // Check to see if this function has been applied, if so we need to check if camera is following it
-        {
-            that.Camera.Move(this.MovementController.Position);
         }
 
         canvasBufferContext.save();

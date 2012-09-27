@@ -6,9 +6,9 @@ namespace ShootR
     /// </summary>
     public class ShipWeaponController
     {
-        // Fire once per 200 milliseconds
-        public const int FIRE_RATE = 200;
-        // Lead the weapon by 50 pixels
+        // Fire once per X milliseconds
+        public const int FIRE_RATE = 190;
+        // Lead the weapon by X pixels
         public const double BULLET_LEAD = 50;
 
         private BulletManager _bulletManager;
@@ -35,8 +35,9 @@ namespace ShootR
                 var startPosition = new Vector2((shipCenter + (BULLET_LEAD * shipDirection)) + bulletOffset);
 
                 Bullet spawnedBullet = new Bullet(startPosition, shipDirection, _ship.MovementController.Velocity);
+                _bulletManager.Add(spawnedBullet);
+
                 _lastFired = DateTime.UtcNow;
-                _bulletManager.BulletsInAir.Add(spawnedBullet);
                 return spawnedBullet;
             }
 

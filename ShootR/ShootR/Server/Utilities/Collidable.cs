@@ -9,8 +9,6 @@ namespace ShootR
     public class Collidable : IDisposable
     {
         protected Rectangle _bounds;
-        protected int _width { get; set; }
-        protected int _height { get; set; }
 
         private QuadTreeNode _mapLocation;
         private bool _disposed = false;
@@ -42,14 +40,16 @@ namespace ShootR
         }
 
         public MovementController MovementController { get; set; }
+        public int ID { get; set; }
+        public bool Collided { get; set; }
+        public Vector2 CollidedAt { get; set; }
+        protected int _width { get; set; }
+        protected int _height { get; set; }
 
         public bool IsDisposed()
         {
             return _disposed;
         }
-
-        public bool Collided { get; set; }
-        public Vector2 CollidedAt { get; set; }
 
         public int Width()
         {

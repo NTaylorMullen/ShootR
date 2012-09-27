@@ -7,9 +7,18 @@ namespace ShootR
     /// </summary>
     public class BulletManager
     {
+        // Having an int GUID to reduce payload size
+        private static int _bulletGUID = 0;
+
         public BulletManager()
         {
             BulletsInAir = new List<Bullet>();
+        }
+
+        public void Add(Bullet bullet)
+        {
+            bullet.ID = _bulletGUID++;
+            BulletsInAir.Add(bullet);
         }
 
         public List<Bullet> BulletsInAir { get; set; }

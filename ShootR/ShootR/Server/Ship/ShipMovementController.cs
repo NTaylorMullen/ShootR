@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-namespace ShootR
+﻿namespace ShootR
 {
     /// <summary>
     /// Ship's Movement Controller.  Handles all of the movement.

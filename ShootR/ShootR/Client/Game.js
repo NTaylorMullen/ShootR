@@ -8,74 +8,33 @@ var GAME_GLOBALS = {
     AnimationManager: new AnimationManager()
 };
 
-function Game(conn) {
-    var that = this;
-    var payloadManager = new PayloadManager();
-    var bulletManager = new BulletManager(conn, payloadManager);
-    var ship = new Ship("a", "w", "d", "s", "Space", bulletManager, conn);
-    var shipStats = new ShipStatRecorder(ship);    
-    var ships = {};
-    var gameTime = new GameTime();
-    var map = new Map();
+function Game(conn, myShipID) {
+    var that = this,
+        gameTime = new GameTime(),
+        map = new Map();
 
-    ships[conn._.proxy.connection.id] = ship;
-    CanvasContext.Camera.Follow(ship);
+    that.BulletManager = new BulletManager(conn);
+    that.ShipManager = new ShipManager(myShipID);
+    that.ShipManager.InitializeMyShip(that.BulletManager, conn);
 
-    that.DrawName = true;
+    var shipStats = new ShipStatRecorder(that.ShipManager.MyShip),
+        myShip = that.ShipManager.MyShip;
 
-    // This will update all ship positions on the screen.  Including in correcting the client side ship movement
-    that.LoadMultiplayerShips = function (ship_list) {
-        var activeShips = {};
-        for (var connectionID in ship_list) {
-            var currentShip = payloadManager.DecompressShip(ship_list[connectionID]);
-            if (!ships[connectionID]) {
-                ships[connectionID] = new ShipVehicle({ x: currentShip.MovementController.Position.X, y: currentShip.MovementController.Position.Y });
-            }
-            activeShips[connectionID] = true;
-            ships[connectionID].UpdateProperties(currentShip);
-            ships[connectionID].Draw();
-        }
-
-        for (var key in ships) {
-            if (!activeShips[key]) {
-                delete ships[key];
-            }
-        }
-    }
-
-    that.LoadBullets = function (bullet_list) {
-        bulletManager.UpdateBullets(bullet_list);
-    }
-
-    that.RemoveShip = function (connectionID) {
-        ships[connectionID].Destroy();
-        delete ships[connectionID];
-    }
-
-    that.InitializeCompressionContracts = function (contracts) {
-        payloadManager.LoadContracts(contracts);
-    }
+    CanvasContext.Camera.Follow(myShip);
 
     that.Update = function (payload) {
         gameTime.Update();
         CanvasContext.clear();
 
-        CanvasContext.Camera.Move({ X: ship.MovementController.Position.X + ship.Width * .5, Y: ship.MovementController.Position.Y + ship.Height * .5 });
-
         // Move the ships on the client
-        for (var key in ships) {
-            ships[key].Update(gameTime);
-            if (that.DrawName) {
-                ships[key].DrawName();
-            }
-        }
+        that.ShipManager.Update(gameTime);
 
         // Move the bullets on the client
-        bulletManager.Update(gameTime);
+        that.BulletManager.Update(gameTime);
 
         GAME_GLOBALS.AnimationManager.Update(gameTime);
 
-        map.CheckBoundaryCollisions(ships, bulletManager.bulletsInAir);
+        map.CheckBoundaryCollisions(that.ShipManager.Ships, that.BulletManager.bulletsInAir);
 
         map.Draw();
         CanvasContext.Render();

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Web;
 
 namespace ShootR
 {
@@ -23,10 +20,7 @@ namespace ShootR
             _allObjects = new List<Collidable>();
             _space = new QuadTree(WIDTH, HEIGHT, MIN_PARTITION_WIDTH, MIN_PARTITION_HEIGHT);
             _boundary = new MapBoundary(WIDTH, HEIGHT);
-            Center = new Vector2(WIDTH * .5, HEIGHT * .5);
         }
-
-        public Vector2 Center;
 
         public void Insert(Collidable obj)
         {
@@ -57,7 +51,7 @@ namespace ShootR
 
         public void Clean()
         {
-            for(int i=0;i<_allObjects.Count;i++)
+            for (int i = 0; i < _allObjects.Count; i++)
             {
                 if (_allObjects[i].IsDisposed())
                 {

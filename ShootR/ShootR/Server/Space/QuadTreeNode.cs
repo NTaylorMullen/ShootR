@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShootR
 {
     public class QuadTreeNode
     {
-
         private const int TOP_LEFT = 0,
                           TOP_RIGHT = 1,
                           BOTTOM_LEFT = 2,
                           BOTTOM_RIGHT = 3;
         private bool _partitioned = false;
-        private int _minWidth;
-        private int _minHeight;
+        private int _minWidth,
+                    _minHeight;
 
         public QuadTreeNode(Rectangle bound, int minWidth, int minHeight, QuadTreeNode parent)
         {

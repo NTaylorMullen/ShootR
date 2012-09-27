@@ -1,10 +1,7 @@
 ﻿function Ship(rotateLeft, forward, rotateRight, backward, fire, bullet_manager, conn) {
-    var that = this;
-    var lastShot = new Date();
-    var keyMapping = new Array();
-
-    that.PropertiesToCopy.push("Width");
-    that.PropertiesToCopy.push("Height");    
+    var that = this,
+        lastShot = new Date(),
+        keyMapping = new Array();
 
     keyMapping.push({ key: rotateLeft, dir: "RotatingLeft" });
     keyMapping.push({ key: rotateRight, dir: "RotatingRight" });
@@ -20,7 +17,7 @@
                     that.MovementController.Moving[keyMapping[k].dir] = true;
                 }
             };
-        })(k), { 'disable_in_input':true, 'type': 'keydown' });
+        })(k), { 'disable_in_input': true, 'type': 'keydown' });
 
         shortcut.add(keyMapping[k].key, (function (k) {
             return function () {

@@ -2,31 +2,26 @@
     Collidable.call(this);
     var that = this;
 
+    that.GUID = ShipVehicle.prototype.GUID++;
     that.PropertiesToCopy.push("Name");
 
     that.Vehicle = CanvasContext.IMAGE_ASSETS.Ship;
 
-    that.GUID = ShipVehicle.prototype.GUID++;
-
     that.Destroy = function () {
         that.Destroyed = true;
     }
-
-    that.Acceleration = {
-        X: 0,
-        Y: 0
-    }
-
+   
     that.Update = function (gameTime) {
-        var PercentOfSecond = gameTime.PercentOfSecond;
-        that.Acceleration.X += that.MovementController.Forces.X / that.MovementController.Mass;
-        that.Acceleration.Y += that.MovementController.Forces.Y / that.MovementController.Mass;
-        that.MovementController.Position.X += that.MovementController.Velocity.X * PercentOfSecond + that.Acceleration.X * PercentOfSecond * PercentOfSecond;
-        that.MovementController.Position.Y += that.MovementController.Velocity.Y * PercentOfSecond + that.Acceleration.Y * PercentOfSecond * PercentOfSecond;
-        that.MovementController.Velocity.X += that.Acceleration.X * PercentOfSecond;
-        that.MovementController.Velocity.Y += that.Acceleration.Y * PercentOfSecond;
+        var PercentOfSecond = gameTime.PercentOfSecond,
+            Acceleration = { X: 0, Y: 0 };
 
-        that.Acceleration = { X: 0, Y: 0 };
+        Acceleration.X += that.MovementController.Forces.X / that.MovementController.Mass;
+        Acceleration.Y += that.MovementController.Forces.Y / that.MovementController.Mass;
+        that.MovementController.Position.X += that.MovementController.Velocity.X * PercentOfSecond + Acceleration.X * PercentOfSecond * PercentOfSecond;
+        that.MovementController.Position.Y += that.MovementController.Velocity.Y * PercentOfSecond + Acceleration.Y * PercentOfSecond * PercentOfSecond;
+        that.MovementController.Velocity.X += Acceleration.X * PercentOfSecond;
+        that.MovementController.Velocity.Y += Acceleration.Y * PercentOfSecond;
+
         that.MovementController.Forces = { X: 0, Y: 0 };
 
         var rotationIncrementor = PercentOfSecond * that.ROTATE_SPEED,
@@ -62,6 +57,10 @@
 
     that.DrawName = function () {
         CanvasContext.drawText(that.Name, that.MovementController.Position.X + that.WIDTH * .5, that.MovementController.Position.Y + that.HEIGHT + 20);
+    }
+
+    that.DrawBoundary = function () {
+        CanvasContext.drawSquare(that.MovementController.Position.X, that.MovementController.Position.Y, that.WIDTH, that.HEIGHT);
     }
 
     that.UpdateProperties({ MovementController: { Position: { X: 0, Y: 0 }, Forces: { X: 0, Y: 0 }, Velocity: { X: 0, Y: 0 }, Moving: { RotatingLeft: false, RotatingRight: false, Forward: false, Backward: false }, Rotation: 0 } });

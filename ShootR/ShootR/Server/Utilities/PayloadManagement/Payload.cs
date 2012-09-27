@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ShootR
 {
@@ -7,13 +6,12 @@ namespace ShootR
     {
         public Payload()
         {
-            Ships = new ConcurrentDictionary<string, object>();
+            Ships = new List<object>();
             Bullets = new List<object>();
         }
 
-        public ConcurrentDictionary<string, object> Ships { get; set; }
+        public List<object> Ships { get; set; }
         public List<object> Bullets { get; set; }
-
         public int ShipsInWorld { get; set; }
         public int BulletsInWorld { get; set; }
     }

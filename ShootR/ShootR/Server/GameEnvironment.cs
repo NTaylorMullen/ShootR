@@ -5,6 +5,7 @@ using SignalR.Hubs;
 
 namespace ShootR
 {
+    [HubName("h")]
     public class GameEnvironment : Hub, IConnected, IDisconnect
     {
         // How frequently the Update loop is executed
@@ -17,7 +18,6 @@ namespace ShootR
         public static PayloadManager payloadManager = new PayloadManager();
         public static Timer updateTimer = new Timer(UPDATE_INTERVAL);
         public static GameTime gameTime = new GameTime();
-        public static int shipCount = 0;
 
         private static ConfigurationManager _configuration = new ConfigurationManager();
         private static int _updateCount = 0;
@@ -41,11 +41,12 @@ namespace ShootR
         /// </summary>
         public void Draw()
         {
-            Dictionary<string, Payload> payloads = payloadManager.GetPayloads(_gameHandler.ships, _gameHandler.BulletManager.BulletsInAir.Count, _space);
+            Dictionary<string, object[]> payloads = payloadManager.GetPayloads(_gameHandler.ShipManager.Ships, _gameHandler.BulletManager.BulletsInAir.Count, _space);
 
             foreach (string connectionID in payloads.Keys)
             {
-                Clients[connectionID].LoadMapInfo(payloads[connectionID]);
+                // Client function is small to limit payload size
+                Clients[connectionID].d(payloads[connectionID]);
             }
         }
 
@@ -79,9 +80,10 @@ namespace ShootR
                 int x = gen.Next(Ship.WIDTH * 2, Map.WIDTH - Ship.WIDTH * 2);
                 int y = gen.Next(Ship.HEIGHT * 2, Map.HEIGHT - Ship.HEIGHT * 2);
 
-                Ship s = new Ship(Context.ConnectionId, new Vector2(x, y), _gameHandler.BulletManager);
-                s.Name = "Ship" + shipCount++;
-                _gameHandler.AddShip(s, Context.ConnectionId);
+                Ship s = new Ship(new Vector2(x, y), _gameHandler.BulletManager);
+                _gameHandler.ShipManager.AddShip(s, Context.ConnectionId);
+                s.Name = "Ship" + s.ID;
+
                 _gameHandler.CollisionManager.Monitor(s);
                 Caller.updateShipName(s.Name);
                 return null;
@@ -101,7 +103,7 @@ namespace ShootR
         {
             lock (locker)
             {
-                _gameHandler.ships[Context.ConnectionId].Dispose();
+                _gameHandler.ShipManager.Ships[Context.ConnectionId].Dispose();
                 return null;
             }
         }
@@ -115,7 +117,7 @@ namespace ShootR
         /// </summary>
         public void fire()
         {
-            Bullet bullet = _gameHandler.ships[Context.ConnectionId].GetWeaponController().Fire();
+            Bullet bullet = _gameHandler.ShipManager.Ships[Context.ConnectionId].GetWeaponController().Fire();
 
             if (bullet != null)
             {
@@ -134,10 +136,12 @@ namespace ShootR
                 Configuration = _configuration,
                 CompressionContracts = new
                 {
+                    PayloadContract = payloadManager.Compressor.PayloadCompressionContract,
                     CollidableContract = payloadManager.Compressor.CollidableCompressionContract,
                     ShipContract = payloadManager.Compressor.ShipCompressionContract,
                     BulletContract = payloadManager.Compressor.BulletCompressionContract
-                }
+                },
+                ShipID = _gameHandler.ShipManager.Ships[Context.ConnectionId].ID
             };
         }
 
@@ -149,7 +153,7 @@ namespace ShootR
         {
             //DateTime dt = DateTime.FromFileTimeUtc(when);
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-            _gameHandler.ships[Context.ConnectionId].MovementController.StartMoving(where);
+            _gameHandler.ShipManager.Ships[Context.ConnectionId].MovementController.StartMoving(where);
         }
 
         /// <summary>
@@ -159,12 +163,12 @@ namespace ShootR
         public void registerMoveStop(string movement)
         {
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-            _gameHandler.ships[Context.ConnectionId].MovementController.StopMoving(where);
+            _gameHandler.ShipManager.Ships[Context.ConnectionId].MovementController.StopMoving(where);
         }
 
         public void changeName(string newName)
         {
-            _gameHandler.ships[Context.ConnectionId].Name = newName;
+            _gameHandler.ShipManager.Ships[Context.ConnectionId].Name = newName;
         }
 
         #endregion

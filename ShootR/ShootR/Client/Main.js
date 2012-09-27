@@ -3,15 +3,18 @@
 /// <reference path="lib/jquery.spritify-0.0.0.js" />
 
 $(function () {
-    var env = $.connection.gameEnvironment;
-    var game;
-    var configurationManager;
-    var lastPayload = { Ships: {}, Bullets: [], Collisions: [] };
+    // The hub name is a single letter in order to reduce payload size
+    var env = $.connection.h,
+        game,
+        configurationManager,
+        payloadDecompressor = new PayloadDecompressor(),
+        gameInfoReceived = false,
+        lastPayload = { Ships: {}, Bullets: [], Collisions: [] };
 
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
-        game = new Game(env);
-        game.InitializeCompressionContracts(init.CompressionContracts);
+        game = new Game(env, init.ShipID);
+        payloadDecompressor.LoadContracts(init.CompressionContracts);
 
         window.requestAnimFrame = (function () {
             return window.requestAnimationFrame ||
@@ -35,33 +38,43 @@ $(function () {
         });
 
         shortcut.add("X", function () {
-            game.DrawName = !game.DrawName;
+            game.ShipManager.DrawName = !game.ShipManager.DrawName;
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
         (function animloop() {
             requestAnimFrame(animloop);
-            game.Update(lastPayload);
+
+            if (gameInfoReceived) {
+                game.Update(lastPayload);
+            }
         })();
     }
 
-
-    env.LoadMapInfo = function (info) {
+    function LoadMapInfo(info) {
         lastPayload = info;
-        game.LoadMultiplayerShips(info.Ships, info.temp);
-        game.LoadBullets(info.Bullets);
+        if (game) {
+            gameInfoReceived = true;
+            game.ShipManager.UpdateShips(info.Ships);
+            game.BulletManager.UpdateBullets(info.Bullets);
+        }
+    }
+
+    // Small name in order to minimize payload
+    env.d = function (compressedPayload) {
+        LoadMapInfo(payloadDecompressor.Decompress(compressedPayload));
     }
 
     env.RemoveShip = function (connectionID) {
-        game.RemoveShip(connectionID);
+        game.ShipManager.RemoveShip(connectionID);
     }
 
     env.updateShipName = function (newName) {
         $("#ShipName").val(newName);
     }
 
-    $.connection.hub.start().done(function () {        
+    $.connection.hub.start().done(function () {
         env.initializeClient().done(function (value) {
             Initialize(value);
-        });        
+        });
     });
 });

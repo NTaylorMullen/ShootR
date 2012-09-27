@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace ShootR
+﻿namespace ShootR
 {
     public class CollidableCompressionContract
     {
@@ -13,11 +8,12 @@ namespace ShootR
         public short CollidedAtY = 2;
         public short ForcesX = 3;
         public short ForcesY = 4;
-        public short Mass = 5;        
+        public short Mass = 5;
         public short PositionX = 6;
         public short PositionY = 7;
         public short Rotation = 8;
         public short VelocityX = 9;
         public short VelocityY = 10;
+        public short ID = 11;
     }
 }

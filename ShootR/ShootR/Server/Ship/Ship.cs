@@ -13,20 +13,14 @@
         private string _connectionID;
         private ShipWeaponController _weaponController;
 
-        public Ship(string connectionID, Vector2 position, BulletManager bm)
+        public Ship(Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT)
         {
-            _connectionID = connectionID;
             MovementController = new ShipMovementController(position);
             _weaponController = new ShipWeaponController(this, bm);
         }
 
         public string Name { get; set; }
-
-        public string GetConnectionID()
-        {
-            return _connectionID;
-        }
 
         public ShipMovementController MovementController
         {
@@ -44,7 +38,7 @@
         {
             return _weaponController;
         }
-        
+
         public void Update(GameTime gameTime)
         {
             MovementController.Update(gameTime);

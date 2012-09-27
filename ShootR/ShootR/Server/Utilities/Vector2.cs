@@ -114,7 +114,7 @@ namespace ShootR
             return new Vector2(num - v1.X, num - v1.Y);
         }
 
-        
+
         public override string ToString()
         {
             return "( " + X + " , " + Y + " )";

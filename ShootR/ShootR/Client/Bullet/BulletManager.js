@@ -4,13 +4,15 @@
     that.bulletsInAir = {};
 
     that.UpdateBullets = function (bulletList) {
-        var activeBullets = {}
-        for (var i = 0; i < bulletList.length; i++) {
-            var currentBullet = payloadManager.DecompressBullet(bulletList[i]);
-            var id = currentBullet.ID;
+        var activeBullets = {},
+            bulletCount = bulletList.length;
+
+        for (var i = 0; i < bulletCount; i++) {
+            var currentBullet = bulletList[i],
+                id = currentBullet.ID;
 
             // If bullet exists then we need to move it, aka update it.
-            if ($(that.bulletsInAir[id]).length > 0) {
+            if (that.bulletsInAir[id]) {
                 that.bulletsInAir[id].UpdateProperties(currentBullet);
                 that.bulletsInAir[id].Draw();
             }
