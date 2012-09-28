@@ -15,7 +15,7 @@
         <div id="ShipNameHolder"><em>Press X to turn off/on names </em><input type="text" id="ShipName" value=""/><input type="button" id="ChangeShipName" value="Change" /></div>
         <canvas id="game" width="1280" height="600"></canvas>
     </div>
-    <div id="banner"><em>For the latest updates, follow us on Twitter: </em> <a href="https://twitter.com/DamianEdwards">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen">@NTaylorMullen</a>, <a href="https://twitter.com/SignalR">@SignalR</a></div>
+    <div id="banner"><em>For the latest updates, follow us on Twitter: </em> <a href="https://twitter.com/DamianEdwards">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr">@StephenHaltR</a>, <a href="https://twitter.com/SignalR">@SignalR</a></div>
     <form runat="server">
     </form>
 
