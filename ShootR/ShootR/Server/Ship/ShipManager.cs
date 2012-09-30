@@ -35,7 +35,7 @@ namespace ShootR
             Ship removedShip;
             Ships.TryRemove(key, out removedShip);
 
-            if (removedShip != null && !removedShip.IsDisposed())
+            if (removedShip != null && !removedShip.Disposed)
             {
                 removedShip.Dispose();
             }

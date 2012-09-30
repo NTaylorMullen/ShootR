@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Timers;
 using SignalR.Hubs;
@@ -19,12 +20,13 @@ namespace ShootR
         public static Timer updateTimer = new Timer(UPDATE_INTERVAL);
         public static GameTime gameTime = new GameTime();
 
+        private static ConcurrentDictionary<string, User> _userList = new ConcurrentDictionary<string, User>();
         private static ConfigurationManager _configuration = new ConfigurationManager();
         private static int _updateCount = 0;
         private static Map _space = new Map();
         private static GameHandler _gameHandler = new GameHandler(_space);
         private static Random gen = new Random();
-        public static object locker = new object();
+        private static object _locker = new object();
 
         public GameEnvironment()
         {
@@ -41,7 +43,7 @@ namespace ShootR
         /// </summary>
         public void Draw()
         {
-            Dictionary<string, object[]> payloads = payloadManager.GetPayloads(_gameHandler.ShipManager.Ships, _gameHandler.BulletManager.BulletsInAir.Count, _space);
+            Dictionary<string, object[]> payloads = payloadManager.GetPayloads(_userList, _gameHandler.ShipManager.Ships.Count, _gameHandler.BulletManager.BulletsInAir.Count, _space);
 
             foreach (string connectionID in payloads.Keys)
             {
@@ -56,7 +58,7 @@ namespace ShootR
         /// </summary>
         public void Update(object sender, ElapsedEventArgs e)
         {
-            lock (locker)
+            lock (_locker)
             {
                 gameTime.Update();
                 _gameHandler.Update(gameTime);
@@ -73,26 +75,43 @@ namespace ShootR
         #region Connection Methods
         public System.Threading.Tasks.Task Connect()
         {
-            lock (locker)
+            lock (_locker)
             {
                 PayloadCompressor comp = new PayloadCompressor();
 
                 int x = gen.Next(Ship.WIDTH * 2, Map.WIDTH - Ship.WIDTH * 2);
                 int y = gen.Next(Ship.HEIGHT * 2, Map.HEIGHT - Ship.HEIGHT * 2);
 
-                Ship s = new Ship(new Vector2(x, y), _gameHandler.BulletManager);
-                _gameHandler.ShipManager.AddShip(s, Context.ConnectionId);
-                s.Name = "Ship" + s.ID;
+                Ship ship = new Ship(new Vector2(x, y), _gameHandler.BulletManager);
+                _gameHandler.ShipManager.AddShip(ship, Context.ConnectionId);
+                ship.Name = "Ship" + ship.ID;
 
-                _gameHandler.CollisionManager.Monitor(s);
-                Caller.updateShipName(s.Name);
+                _userList.TryAdd(Context.ConnectionId, new User(Context.ConnectionId, ship));
+                _gameHandler.CollisionManager.Monitor(ship);
+                Caller.updateShipName(ship.Name);
                 return null;
             }
         }
 
         public System.Threading.Tasks.Task Reconnect(IEnumerable<string> groups)
         {
-            return null;
+            lock (_locker)
+            {
+                // On reconnect, re-instantiate the entire user
+                if (_userList.ContainsKey(Context.ConnectionId))
+                {
+                    User u;
+                    _userList.TryRemove(Context.ConnectionId, out u);
+                }
+
+                if (_gameHandler.ShipManager.Ships.ContainsKey(Context.ConnectionId))
+                {
+                    _gameHandler.ShipManager.RemoveShipByKey(Context.ConnectionId);
+                }
+
+                Connect();
+                return null;
+            }
         }
 
         /// <summary>
@@ -101,8 +120,10 @@ namespace ShootR
         /// </summary>
         public System.Threading.Tasks.Task Disconnect()
         {
-            lock (locker)
+            lock (_locker)
             {
+                User u;
+                _userList.TryRemove(Context.ConnectionId, out u);
                 _gameHandler.ShipManager.Ships[Context.ConnectionId].Dispose();
                 return null;
             }
@@ -145,6 +166,11 @@ namespace ShootR
             };
         }
 
+        public void readyForPayloads()
+        {
+            _userList[Context.ConnectionId].ReadyForPayloads = true;
+        }
+
         /// <summary>
         /// Registers the start of a movement on a clint.  Fires when the client presses a movement hotkey.
         /// </summary>
@@ -153,7 +179,7 @@ namespace ShootR
         {
             //DateTime dt = DateTime.FromFileTimeUtc(when);
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-            _gameHandler.ShipManager.Ships[Context.ConnectionId].MovementController.StartMoving(where);
+            _gameHandler.ShipManager.Ships[Context.ConnectionId].StartMoving(where);
         }
 
         /// <summary>
@@ -163,7 +189,7 @@ namespace ShootR
         public void registerMoveStop(string movement)
         {
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-            _gameHandler.ShipManager.Ships[Context.ConnectionId].MovementController.StopMoving(where);
+            _gameHandler.ShipManager.Ships[Context.ConnectionId].StopMoving(where);
         }
 
         public void changeName(string newName)

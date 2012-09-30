@@ -9,46 +9,68 @@ namespace ShootR
     public class Collidable : IDisposable
     {
         protected Rectangle _bounds;
+        protected bool _altered;
 
         private QuadTreeNode _mapLocation;
-        private bool _disposed = false;
+        private int _serverID;
+        private static int _itemCount = 0;
 
         public Collidable(MovementController mc)
         {
+            _altered = true;
             MovementController = mc;
             CollidedAt = new Vector2();
             _width = 0;
             _height = 0;
             _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), _width, _height);
+
+            _serverID = _itemCount++;
         }
 
         public Collidable(int w, int h)
         {
+            _altered = true;
             _width = w;
             _height = h;
             CollidedAt = new Vector2();
             _bounds = new Rectangle(0, 0, _width, _height);
+
+            _serverID = _itemCount++;
         }
 
         public Collidable(int w, int h, MovementController mc)
         {
+            _altered = true;
             _width = w;
             _height = h;
             CollidedAt = new Vector2();
             MovementController = mc;
             _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), _width, _height);
+
+            _serverID = _itemCount++;
         }
 
         public MovementController MovementController { get; set; }
+        public bool Disposed { get; set; }
         public int ID { get; set; }
         public bool Collided { get; set; }
-        public Vector2 CollidedAt { get; set; }
+        public Vector2 CollidedAt { get; set; }        
         protected int _width { get; set; }
         protected int _height { get; set; }
 
-        public bool IsDisposed()
+        public int ServerID()
         {
-            return _disposed;
+            return _serverID;
+        }
+
+        public bool IsAltered()
+        {
+            return _altered;
+        }
+
+        public void ResetAltered()
+        {
+            _altered = false;
         }
 
         public int Width()
@@ -63,7 +85,7 @@ namespace ShootR
 
         public void Dispose()
         {
-            _disposed = true;
+            Disposed = true;
         }
 
         public double DistanceFrom(Collidable from)
@@ -79,12 +101,13 @@ namespace ShootR
         /// </summary>
         /// <param name="c">The object that I colided with</param>
         public virtual void HandleCollisionWith(Collidable c, Map space)
-        {
+        {            
             HandleCollision();
         }
 
         public virtual void HandleCollision()
         {
+            _altered = true;
             Collided = true;
             // Copy over the position to find collision location
             CollidedAt.X = MovementController.Position.X;
@@ -93,6 +116,8 @@ namespace ShootR
 
         public virtual void HandleOutOfBounds()
         {
+            _altered = true;
+
             // Re-position object in bounds
             MovementController.RepositionInBounds(_width, _height);
 

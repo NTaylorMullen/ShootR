@@ -82,6 +82,7 @@
     <Content Include="Client\Ship\ShipManager.js" />
     <Content Include="Client\Ship\ShipVehicle.js" />
     <Content Include="Client\Managers\AnimationManager.js" />
+    <Content Include="Client\Space\Camera.js" />
     <Content Include="Client\Space\CanvasRenderer.js" />
     <Content Include="Client\Space\Map.js" />
     <Content Include="Client\Utilities\Collidable.js" />
@@ -125,10 +126,12 @@
     <Compile Include="Server\GameEnvironment.cs" />
     <Compile Include="Server\GenericManagers\GameHandler.cs" />
     <Compile Include="Server\Ship\ShipManager.cs" />
+    <Compile Include="Server\User\User.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\BulletCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\CollidableCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\PayloadCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\ShipCompressionContract.cs" />
+    <Compile Include="Server\Utilities\PayloadManagement\PayloadCache.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\PayloadCompressor.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\PayloadManager.cs" />
     <Compile Include="Server\Ship\Ship.cs" />

@@ -39,7 +39,7 @@ namespace ShootR
                     _objects[i].HandleOutOfBounds();
                 }
 
-                if (_objects[i].IsDisposed())
+                if (_objects[i].Disposed)
                 {
                     _objects.Remove(_objects[i--]);
                     continue;
@@ -67,7 +67,7 @@ namespace ShootR
                         _objects[i].HandleCollisionWith(potentials[j], _space);
                         potentials[j].HandleCollisionWith(_objects[i], _space);
 
-                        if (_objects[i].IsDisposed())
+                        if (_objects[i].Disposed)
                         {
                             _objects.Remove(_objects[i--]);
                             break;

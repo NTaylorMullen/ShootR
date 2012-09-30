@@ -19,7 +19,7 @@
 
             foreach (string key in ShipManager.Ships.Keys)
             {
-                if (!ShipManager.Ships[key].IsDisposed())
+                if (!ShipManager.Ships[key].Disposed)
                 {
                     ShipManager.Ships[key].Update(gameTime);
                 }

@@ -53,9 +53,13 @@ namespace ShootR
         {
             for (int i = 0; i < _allObjects.Count; i++)
             {
-                if (_allObjects[i].IsDisposed())
+                if (_allObjects[i].Disposed)
                 {
                     Remove(_allObjects[i--]);
+                }
+                else // Reset altered tag
+                {
+                    _allObjects[i].ResetAltered();
                 }
             }
         }

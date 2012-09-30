@@ -6,9 +6,14 @@
         {
             DRAW_INTERVAL = GameEnvironment.DRAW_INTERVAL;
             UPDATE_INTERVAL = GameEnvironment.UPDATE_INTERVAL;
+            VIEW_WIDTH = Ship.SCREEN_WIDTH + PayloadManager.SCREEN_BUFFER_AREA;
+            VIEW_HEIGHT = Ship.SCREEN_HEIGHT + PayloadManager.SCREEN_BUFFER_AREA;
         }
 
         public int DRAW_INTERVAL { get; set; }
         public int UPDATE_INTERVAL { get; set; }
+        public int VIEW_WIDTH { get; set; }
+        public int VIEW_HEIGHT { get; set; }
+
     }
 }

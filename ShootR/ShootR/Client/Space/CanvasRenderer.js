@@ -22,26 +22,7 @@
         return Math.sqrt(Math.pow(A.X - B.X, 2) + Math.pow(A.Y - B.Y, 2));
     }
 
-    that.Camera = {
-        // Position is the center of the screen 
-        Position: {
-            X: 0,
-            Y: 0
-        },
-        Size: {
-            Width: that.Width,
-            Height: that.Height
-        },
-        Move: function (Position) {
-            // Update position
-            this.Position = Position;
-            // Update background position based on camera
-            $("#gameWrapper").css("background-position", -Position.X + "px " + -Position.Y + "px");
-        },
-        Follow: function (obj) {
-            this.Following = obj.GUID;
-        }
-    }
+    that.Camera = new Camera();
 
     that.drawMapBoundary = function (width, height) {
         var cameraOffset = { X: -that.Camera.Position.X + that.CanvasCenter.X, Y: -that.Camera.Position.Y + that.CanvasCenter.Y };

@@ -14,7 +14,7 @@
 
     function DecompressCollidable(obj) {
         return {
-            Collided: obj[CollidableContract.Collided],
+            Collided: !!obj[CollidableContract.Collided],
             CollidedAt: {
                 X: obj[CollidableContract.CollidedAtX],
                 Y: obj[CollidableContract.CollidedAtY]
@@ -35,7 +35,8 @@
                     Y: obj[CollidableContract.VelocityY]
                 }
             },
-            ID: obj[CollidableContract.ID]
+            ID: obj[CollidableContract.ID],
+            Disposed: !!obj[CollidableContract.Disposed]
         };
     }
 

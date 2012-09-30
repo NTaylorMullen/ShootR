@@ -15,7 +15,7 @@
         <div id="ShipNameHolder"><em>Press X to turn off/on names </em><input type="text" id="ShipName" value=""/><input type="button" id="ChangeShipName" value="Change" /></div>
         <canvas id="game" width="1280" height="600"></canvas>
     </div>
-    <div id="banner"><em>For the latest updates, follow us on Twitter: </em> <a href="https://twitter.com/DamianEdwards">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr">@StephenHaltR</a>, <a href="https://twitter.com/SignalR">@SignalR</a></div>
+    <div id="banner"><em>For the latest updates, follow us on Twitter: </em> <a href="https://twitter.com/DamianEdwards" target="_blank">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl" target="_blank">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen" target="_blank">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr" target="_blank">@StephenHaltR</a>, <a href="https://twitter.com/SignalR" target="_blank">@SignalR</a></div>
     <form runat="server">
     </form>
 
@@ -26,7 +26,8 @@
     <script src="signalr/hubs" type="text/javascript"></script>
 
     <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
-    <script type="text/javascript" src="Client/Space/Map.js"></script>
+    <script src="Client/Space/Map.js" type="text/javascript"></script>
+    <script src="Client/Space/Camera.js" type="text/javascript"></script>
     <script src="Client/Space/CanvasRenderer.js" type="text/javascript"></script>
     <script src="Client/Utilities/GameTime.js" type="text/javascript"></script>
     <script src="Client/Utilities/Collidable.js" type="text/javascript"></script>

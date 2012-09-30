@@ -17,8 +17,7 @@
     }
 
     that.UpdateShips = function (shipList) {
-        var activeShips = {},
-            shipCount = shipList.length;
+        var shipCount = shipList.length;
 
         for (var i = 0; i < shipCount; i++) {
             var currentShip = shipList[i],
@@ -28,23 +27,29 @@
                 that.Ships[id] = new ShipVehicle({ x: currentShip.MovementController.Position.X, y: currentShip.MovementController.Position.Y });
             }
 
-            activeShips[id] = true;
             that.Ships[id].UpdateProperties(currentShip);
-            that.Ships[id].Draw();
-        }
 
-        for (var key in that.Ships) {
-            if (!activeShips[key]) {
-                delete that.Ships[key];
+            // Check if the ship still exists
+            if (that.Ships[id].Disposed) {
+                that.RemoveShip(id);
+            }
+            else {
+                that.Ships[id].Draw();
             }
         }
     }
 
     that.Update = function (gameTime) {
         for (var key in that.Ships) {
-            that.Ships[key].Update(gameTime);
-            if (that.DrawName) {
-                that.Ships[key].DrawName();
+            // Ensure that the Ship is in view
+            if (CanvasContext.Camera.InView(that.Ships[key])) {
+                that.Ships[key].Update(gameTime);
+                if (that.DrawName) {
+                    that.Ships[key].DrawName();
+                }
+            }
+            else { // Ship is not in view, so remove it from our ship list
+                delete that.Ships[key];
             }
         }
     }

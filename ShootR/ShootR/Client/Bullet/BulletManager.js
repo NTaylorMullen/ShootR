@@ -4,8 +4,7 @@
     that.bulletsInAir = {};
 
     that.UpdateBullets = function (bulletList) {
-        var activeBullets = {},
-            bulletCount = bulletList.length;
+        var bulletCount = bulletList.length;
 
         for (var i = 0; i < bulletCount; i++) {
             var currentBullet = bulletList[i],
@@ -13,27 +12,32 @@
 
             // If bullet exists then we need to move it, aka update it.
             if (that.bulletsInAir[id]) {
-                that.bulletsInAir[id].UpdateProperties(currentBullet);
-                that.bulletsInAir[id].Draw();
+                that.bulletsInAir[id].UpdateProperties(currentBullet);                
             }
             else {
                 that.bulletsInAir[id] = new Bullet(currentBullet);
             }
 
-            activeBullets[id] = true;
-        }
-
-        for (var key in that.bulletsInAir) {
-            if (!activeBullets[key]) {
-                that.bulletsInAir[key].Destroy();
+            // Ensure that the bullet has not yet been disposed
+            if (that.bulletsInAir[id].Disposed) {
+                that.bulletsInAir[id].Destroy();
                 delete that.bulletsInAir[key];
             }
+            else {
+                that.bulletsInAir[id].Draw();
+            }            
         }
     }
 
     that.Update = function (gameTime) {
         for (var key in that.bulletsInAir) {
-            that.bulletsInAir[key].Update(gameTime);
+            // Ensure that the Ship is in view
+            if (CanvasContext.Camera.InView(that.bulletsInAir[key])) {
+                that.bulletsInAir[key].Update(gameTime);
+            }
+            else { // Bullet is not in view
+                delete that.bulletsInAir[key];
+            }
         }
     }
 }

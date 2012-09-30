@@ -9,7 +9,7 @@ $(function () {
         configurationManager,
         payloadDecompressor = new PayloadDecompressor(),
         gameInfoReceived = false,
-        lastPayload = { Ships: {}, Bullets: [], Collisions: [] };
+        lastPayload = { Ships: {}, Bullets: [] };
 
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
@@ -23,7 +23,7 @@ $(function () {
                     window.oRequestAnimationFrame ||
                     window.msRequestAnimationFrame ||
                     function (callback) {
-                        window.setTimeout(callback, configurationManager.UPDATE_INTERVAL);
+                        window.setTimeout(callback, configurationManager.gameConfig.UPDATE_INTERVAL);
                     };
         })();
 
@@ -48,15 +48,15 @@ $(function () {
                 game.Update(lastPayload);
             }
         })();
+
+        env.readyForPayloads();
     }
 
     function LoadMapInfo(info) {
         lastPayload = info;
-        if (game) {
-            gameInfoReceived = true;
-            game.ShipManager.UpdateShips(info.Ships);
-            game.BulletManager.UpdateBullets(info.Bullets);
-        }
+        gameInfoReceived = true;
+        game.ShipManager.UpdateShips(info.Ships);
+        game.BulletManager.UpdateBullets(info.Bullets);
     }
 
     // Small name in order to minimize payload

@@ -203,7 +203,7 @@ namespace ShootR
         {
             for (int i = 0; i < Contents.Count; i++)
             {
-                if (!Contents[i].IsDisposed())
+                if (!Contents[i].Disposed)
                 {
                     if (UpdateObject(Contents[i])) // If the object moved nodes then we need to adjust i
                     {

@@ -10,8 +10,7 @@
         public const int SCREEN_WIDTH = 1280;
         public const int SCREEN_HEIGHT = 600;
 
-        private string _connectionID;
-        private ShipWeaponController _weaponController;
+        private ShipWeaponController _weaponController;        
 
         public Ship(Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT)
@@ -34,6 +33,18 @@
             }
         }
 
+        public void StartMoving(Movement where)
+        {
+            _altered = true;
+            MovementController.StartMoving(where);
+        }
+
+        public void StopMoving(Movement where)
+        {
+            _altered = true;
+            MovementController.StopMoving(where);
+        }
+
         public ShipWeaponController GetWeaponController()
         {
             return _weaponController;
@@ -47,6 +58,7 @@
 
         public override void HandleCollisionWith(Collidable c, Map space)
         {
+            _altered = true;
         }
     }
 }
