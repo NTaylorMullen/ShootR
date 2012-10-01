@@ -4,7 +4,8 @@
     {
         public short Ships = 0;
         public short Bullets = 1;
-        public short ShipsInWorld = 2;
-        public short BulletsInWorld = 3;
+        public short MovementReceivedAt = 2;
+        public short ShipsInWorld = 3;
+        public short BulletsInWorld = 4;
     }
 }

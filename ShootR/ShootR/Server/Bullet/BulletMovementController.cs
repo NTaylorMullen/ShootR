@@ -22,9 +22,9 @@ namespace ShootR
             Position += incrementor;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(double PercentOfSecond)
         {
-            Move(gameTime.PercentOfSecond);
+            Move(PercentOfSecond);
         }
     }
 }

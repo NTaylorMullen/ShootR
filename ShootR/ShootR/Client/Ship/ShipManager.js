@@ -34,6 +34,7 @@
                 that.RemoveShip(id);
             }
             else {
+                that.Ships[id].Update();
                 that.Ships[id].Draw();
             }
         }
@@ -44,6 +45,8 @@
             // Ensure that the Ship is in view
             if (CanvasContext.Camera.InView(that.Ships[key])) {
                 that.Ships[key].Update(gameTime);
+
+                that.Ships[key].Draw();
                 if (that.DrawName) {
                     that.Ships[key].DrawName();
                 }

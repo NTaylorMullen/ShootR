@@ -69,11 +69,10 @@
         {
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update(double PercentOfSecond)
         {
             if (_moving)
             {
-                double PercentOfSecond = gameTime.PercentOfSecond;
                 _acceleration += Forces / Mass;
                 Position += Velocity * PercentOfSecond + _acceleration * PercentOfSecond * PercentOfSecond;
                 Velocity += _acceleration * PercentOfSecond;

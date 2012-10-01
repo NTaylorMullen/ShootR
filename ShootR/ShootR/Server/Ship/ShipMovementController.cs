@@ -93,11 +93,10 @@
             FlagMovement(where, false);
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(double PercentOfSecond)
         {
-
-            Move(gameTime.PercentOfSecond);
-            base.Update(gameTime);
+            base.Update(PercentOfSecond);
+            Move(PercentOfSecond);            
         }
     }
 }

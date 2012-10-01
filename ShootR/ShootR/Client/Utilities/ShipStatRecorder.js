@@ -17,17 +17,18 @@
         bulletsInWorld = $("<div id='bulletsInWorld'></div>");
 
     var moveControls = $("<div id='moveControls'><strong>Movement: </strong>w, a, s, d</div>"),
-        shootControls = $("<div id='shootControls'><strong>Shoot: </strong>space</div>");
+        shootControls = $("<div id='shootControls'><strong>Shoot: </strong>space</div>"),
+        latency = $("<div id='latencyIndicator'></div>");
 
     MovementColumn.append(shipPosition, shipSpeed, shipVelocity);
     RenderedColumn.append(bulletsOnScreen, shipsOnScreen);
     WorldColumn.append(shipsInWorld, bulletsInWorld);
-    ControlColumn.append(moveControls, shootControls);
+    ControlColumn.append(moveControls, shootControls, latency);
     holder.append(MovementColumn, RenderedColumn, WorldColumn, ControlColumn);
 
     $("body").prepend(holder);
 
-    that.Update = function (payload) {
+    that.Update = function (payload, myShip, ships, bullets) {
         var speed = Math.round(Math.sqrt(Math.pow(ship.MovementController.Velocity.X, 2) + Math.pow(ship.MovementController.Velocity.Y, 2)));
 
         // Movement Column
@@ -35,16 +36,24 @@
         shipSpeed.html("Speed: " + speed);
         shipVelocity.html("Velocity: ( " + Math.round(ship.MovementController.Velocity.X) + " , " + Math.round(ship.MovementController.Velocity.Y) + " )");
 
-        // Rendered Column
-        var i = 0;
-        for (var key in payload.Ships) {
-            i++;
+        var shipCount = 0,
+            bulletCount = 0;
+        for (var key in ships) {
+            shipCount++;
         }
-        shipsOnScreen.html("Ships On Screen: " + i);
-        bulletsOnScreen.html("Bullets On Screen: " + payload.Bullets.length);
+
+        for (var key in bullets) {
+            bulletCount++;
+        }
+
+        shipsOnScreen.html("Ships On Screen: " + shipCount);
+        bulletsOnScreen.html("Bullets On Screen: " + bulletCount);
 
         // World Column
         shipsInWorld.html("Ships In World: " + payload.ShipsInWorld);
         bulletsInWorld.html("Bullets In World: " + payload.BulletsInWorld);
+
+        // Controls Column
+        latency.html("<strong>Latency:</strong> " + myShip.Latency);
     }
 }

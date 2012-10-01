@@ -3,6 +3,7 @@
 
     that.Destroyed = false;
     that.PropertiesToCopy = ["MovementController"];
+    that.LastUpdated = new Date();
     that.Vehicle;
     that.FollowID;
 
@@ -16,10 +17,7 @@
     that.UpdateProperties = function (properties) {
         for (var key in properties) {
             that[key] = properties[key];
-        }/*
-        for (var i = 0; i < that.PropertiesToCopy.length; i++) {
-            that[that.PropertiesToCopy[i]] = properties[that.PropertiesToCopy[i]];
-        }*/
+        }
     }
 
     that.Draw = function () {

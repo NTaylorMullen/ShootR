@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Timers;
 using SignalR.Hubs;
 
@@ -69,6 +70,17 @@ namespace ShootR
                     _updateCount = 0; // Reset update count to 0
                     Draw();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Used to indicate to the client the "movement" that.Latency, aka the time it takes for a movement command to get to the server
+        /// </summary>
+        public void FlagMovementTimestamp()
+        {
+            if (!_userList[Context.ConnectionId].MovementReceivedAt.HasValue)
+            {
+                _userList[Context.ConnectionId].MovementReceivedAt = new DateTime?(DateTime.UtcNow);
             }
         }
 
@@ -177,7 +189,7 @@ namespace ShootR
         /// <param name="movement">Direction to start moving</param>
         public void registerMoveStart(string movement)
         {
-            //DateTime dt = DateTime.FromFileTimeUtc(when);
+            FlagMovementTimestamp();
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
             _gameHandler.ShipManager.Ships[Context.ConnectionId].StartMoving(where);
         }
@@ -188,6 +200,7 @@ namespace ShootR
         /// <param name="movement">Direction to stop moving</param>
         public void registerMoveStop(string movement)
         {
+            FlagMovementTimestamp();
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
             _gameHandler.ShipManager.Ships[Context.ConnectionId].StopMoving(where);
         }

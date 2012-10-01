@@ -16,11 +16,7 @@
     canvasBuffer.height = that.CanvasSize.height;
 
     that.Width = target.width();
-    that.Height = target.height();
-
-    function calculateDistance(A, B) {
-        return Math.sqrt(Math.pow(A.X - B.X, 2) + Math.pow(A.Y - B.Y, 2));
-    }
+    that.Height = target.height();    
 
     that.Camera = new Camera();
 
@@ -75,12 +71,12 @@
 
         // Check if the object that we're drawing is beyond our draw border
         if (!swidth) {
-            if (calculateDistance({ X: sx, Y: sy }, that.Camera.Position) >= drawBoundary) {
+            if (calculateLength({ X: sx, Y: sy }, that.Camera.Position) >= drawBoundary) {
                 return;
             }
         }
         else {
-            if (calculateDistance({ X: x, Y: y }, that.Camera.Position) >= drawBoundary) {
+            if (calculateLength({ X: x, Y: y }, that.Camera.Position) >= drawBoundary) {
                 return;
             }
         }

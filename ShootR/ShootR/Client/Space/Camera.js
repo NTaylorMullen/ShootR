@@ -38,4 +38,7 @@
         return (myBounds.X <= centralPoint.X && myBounds.X + myBounds.WIDTH >= centralPoint.X
                 && myBounds.Y <= centralPoint.Y && myBounds.Y + myBounds.HEIGHT >= centralPoint.Y);
     }
+
+    that.Update = function (PercentOfSecond) {
+    }
 }

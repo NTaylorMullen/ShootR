@@ -11,6 +11,7 @@ namespace ShootR
         protected Rectangle _bounds;
         protected bool _altered;
 
+        private int _alteredResetCount = 0;
         private QuadTreeNode _mapLocation;
         private int _serverID;
         private static int _itemCount = 0;
@@ -54,7 +55,8 @@ namespace ShootR
         public bool Disposed { get; set; }
         public int ID { get; set; }
         public bool Collided { get; set; }
-        public Vector2 CollidedAt { get; set; }        
+        public Vector2 CollidedAt { get; set; }
+        public DateTime LastUpdated { get; set; }
         protected int _width { get; set; }
         protected int _height { get; set; }
 
@@ -101,7 +103,7 @@ namespace ShootR
         /// </summary>
         /// <param name="c">The object that I colided with</param>
         public virtual void HandleCollisionWith(Collidable c, Map space)
-        {            
+        {
             HandleCollision();
         }
 
@@ -169,6 +171,7 @@ namespace ShootR
 
         public void Update()
         {
+            LastUpdated = DateTime.UtcNow;
             UpdateBounds();
         }
 

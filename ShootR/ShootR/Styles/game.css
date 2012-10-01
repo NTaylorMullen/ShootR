@@ -1,4 +1,12 @@
-﻿html, body {
+﻿#positionCheck {
+    width:100px;
+    height:800px;
+    position:absolute;
+    left:0;
+    top:200px;
+}
+
+html, body {
     width:100%;
     height:100%;
 }

@@ -7,7 +7,7 @@ namespace ShootR
 {
     public class PayloadManager
     {
-        public const int SCREEN_BUFFER_AREA = 100; // Send X extra pixels down to the client to allow for latency between client and server
+        public const int SCREEN_BUFFER_AREA = 100; // Send X extra pixels down to the client to allow for that.Latency between client and server
 
         public PayloadCompressor Compressor = new PayloadCompressor();
 
@@ -32,39 +32,36 @@ namespace ShootR
 
                     var payload = new Payload()
                     {
+                        MovementReceivedAt = user.MovementReceivedAt,
                         ShipsInWorld = shipCount,
                         BulletsInWorld = bulletCount
                     };
 
+                    // Reset the received at flag
+                    user.MovementReceivedAt = null;
+
                     Vector2 screenPosition = user.MyShip.MovementController.Position - screenOffset;
                     List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), Ship.SCREEN_WIDTH + SCREEN_BUFFER_AREA, Ship.SCREEN_HEIGHT + SCREEN_BUFFER_AREA));
-                    bool hasContent = false;
 
                     foreach (Collidable obj in onScreen)
                     {
-                        _payloadCache.Cache(connectionID, obj);
-
-                        // Only send down the item to the client if the object did not exist last payload or if it was altered
-                        if (!_payloadCache.ExistedLastPayload(connectionID, obj) || obj.IsAltered())
+                        if (obj.GetType() == typeof(Bullet))
                         {
-                            hasContent = true;
-                            if (obj.GetType() == typeof(Bullet))
+                            _payloadCache.Cache(connectionID, obj);
+
+                            if (!_payloadCache.ExistedLastPayload(connectionID,obj) || obj.IsAltered())
                             {
                                 // This bullet has been seen so tag the bullet as seen
                                 ((Bullet)obj).Seen();
                                 payload.Bullets.Add(Compressor.Compress((Bullet)obj));
                             }
-                            else if (obj.GetType() == typeof(Ship))
-                            {
-                                payload.Ships.Add(Compressor.Compress(((Ship)obj)));
-                            }
+                        }
+                        else if (obj.GetType() == typeof(Ship))
+                        {
+                            payload.Ships.Add(Compressor.Compress(((Ship)obj)));
                         }
                     }
-
-                    if (hasContent)
-                    {
-                        payloads[connectionID] = Compressor.Compress(payload);
-                    }
+                    payloads[connectionID] = Compressor.Compress(payload);
                 }
             }
 

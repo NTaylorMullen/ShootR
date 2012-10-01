@@ -4,23 +4,27 @@ namespace ShootR
 {
     public class GameTime
     {
-        private DateTime _lastUpdated;        
-
         public GameTime()
         {
-            _lastUpdated = DateTime.Now;
+            LastUpdated = DateTime.UtcNow;
             PercentOfSecond = 0;
         }
 
+        public static DateTime LastUpdated { get; set; }
         /// <summary>
         /// This is updated on Update to show what percent of a second has passed since the last Update loop.
         /// </summary>
         public double PercentOfSecond { get; set; }
 
+        public static double CalculatePercentOfSecond(DateTime from)
+        {
+            return (DateTime.UtcNow.Subtract(from).Milliseconds / 1000.0);
+        }
+
         public void Update()
         {
-            PercentOfSecond = (DateTime.Now.Subtract(_lastUpdated).Milliseconds / 1000.0);
-            _lastUpdated = DateTime.Now;
+            PercentOfSecond = CalculatePercentOfSecond(LastUpdated);
+            LastUpdated = DateTime.UtcNow;
         }
     }
 }

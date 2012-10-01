@@ -8,7 +8,8 @@
 
     Camera.prototype.View = {
         WIDTH: config.gameConfig.VIEW_WIDTH,
-        HEIGHT: config.gameConfig.VIEW_HEIGHT
+        HEIGHT: config.gameConfig.VIEW_HEIGHT,
+        SPEED: config.gameConfig.MAX_CAMERA_SPEED
     };
 
     $.extend(that, config);

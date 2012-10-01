@@ -24,11 +24,12 @@ namespace ShootR
             result[CollidableCompressionContract.VelocityY] = Math.Round(obj.MovementController.Velocity.Y, 2);
             result[CollidableCompressionContract.ID] = obj.ID;
             result[CollidableCompressionContract.Disposed] = Convert.ToInt32(obj.Disposed);
+            result[CollidableCompressionContract.LastUpdated] = obj.LastUpdated;
         }
 
         public object[] Compress(Ship ship)
         {
-            object[] result = new object[18];
+            object[] result = new object[19];
 
             SetCollidableContractMembers(result, ship);
 
@@ -43,7 +44,7 @@ namespace ShootR
 
         public object[] Compress(Bullet bullet)
         {
-            object[] result = new object[17];
+            object[] result = new object[14];
 
             SetCollidableContractMembers(result, bullet);
 
@@ -52,7 +53,22 @@ namespace ShootR
 
         public object[] Compress(Payload payload)
         {
-            return new object[] { payload.Ships, payload.Bullets, payload.ShipsInWorld, payload.BulletsInWorld };
+            object[] result = new object[5];
+            result[PayloadCompressionContract.Ships] = payload.Ships;
+            result[PayloadCompressionContract.Bullets] = payload.Bullets;
+
+            if (payload.MovementReceivedAt.HasValue)
+            {
+                result[PayloadCompressionContract.MovementReceivedAt] = payload.MovementReceivedAt.Value;
+            }
+            else
+            {
+                result[PayloadCompressionContract.MovementReceivedAt] = 0;
+            }
+
+            result[PayloadCompressionContract.ShipsInWorld] = payload.ShipsInWorld;
+            result[PayloadCompressionContract.BulletsInWorld] = payload.BulletsInWorld;
+            return result;
         }
     }
 }

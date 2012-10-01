@@ -3,17 +3,20 @@
     var that = this;
 
     that.GUID = ShipVehicle.prototype.GUID++;
-    that.PropertiesToCopy.push("Name");
 
     that.Vehicle = CanvasContext.IMAGE_ASSETS.Ship;
 
     that.Destroy = function () {
         that.Destroyed = true;
-    }
+    }   
    
-    that.Update = function (gameTime) {
-        var PercentOfSecond = gameTime.PercentOfSecond,
-            Acceleration = { X: 0, Y: 0 };
+    that.Update = function (gameTime) {        
+        var PercentOfSecond = CalculatePOS(that.LastUpdated);
+        that.UpdateFromSecond(PercentOfSecond);
+    }
+
+    that.UpdateFromSecond = function (PercentOfSecond) {
+        Acceleration = { X: 0, Y: 0 }
 
         Acceleration.X += that.MovementController.Forces.X / that.MovementController.Mass;
         Acceleration.Y += that.MovementController.Forces.Y / that.MovementController.Mass;
@@ -52,7 +55,7 @@
         that.MovementController.Forces.X += dragForce.X;
         that.MovementController.Forces.Y += dragForce.Y;
 
-        that.Draw();
+        that.LastUpdated = new Date();
     }
 
     that.DrawName = function () {

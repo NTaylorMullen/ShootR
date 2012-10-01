@@ -1,4 +1,5 @@
-﻿namespace ShootR
+﻿using System;
+namespace ShootR
 {
     /// <summary>
     /// A ship on the game field.  Only the owner of the ship can control the ship.  Ownership is decided via the connection id.
@@ -10,7 +11,7 @@
         public const int SCREEN_WIDTH = 1280;
         public const int SCREEN_HEIGHT = 600;
 
-        private ShipWeaponController _weaponController;        
+        private ShipWeaponController _weaponController;
 
         public Ship(Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT)
@@ -35,12 +36,14 @@
 
         public void StartMoving(Movement where)
         {
+            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
             _altered = true;
-            MovementController.StartMoving(where);
+            MovementController.StartMoving(where);            
         }
 
         public void StopMoving(Movement where)
         {
+            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
             _altered = true;
             MovementController.StopMoving(where);
         }
@@ -52,7 +55,12 @@
 
         public void Update(GameTime gameTime)
         {
-            MovementController.Update(gameTime);
+            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
+        }
+
+        public void Update(double PercentOfSecond)
+        {
+            MovementController.Update(PercentOfSecond);
             base.Update();
         }
 

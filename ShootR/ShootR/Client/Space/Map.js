@@ -45,6 +45,9 @@
                 bullets[key].Visible = false;
                 bullets[key].MovementController.Velocity.X = 0;
                 bullets[key].MovementController.Velocity.Y = 0;
+                bullets[key].Disposed = true;
+                bullets[key].Collided = true;
+                bullets[key].CollidedAt = bullets[key].MovementController.Position;
             }
         }
     }

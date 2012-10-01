@@ -67,7 +67,7 @@ namespace ShootR
 
         public void Update(GameTime gameTime)
         {
-            MovementController.Update(gameTime);
+            MovementController.Update(gameTime.PercentOfSecond);
             base.Update();
         }
     }

@@ -55,6 +55,11 @@ $(function () {
     function LoadMapInfo(info) {
         lastPayload = info;
         gameInfoReceived = true;
+
+        if (info.MovementReceivedAt) {
+            game.ShipManager.MyShip.acknowledgeMovement(info.MovementReceivedAt);
+        }
+
         game.ShipManager.UpdateShips(info.Ships);
         game.BulletManager.UpdateBullets(info.Bullets);
     }

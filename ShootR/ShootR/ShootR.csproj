@@ -89,6 +89,7 @@
     <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.js" />
     <Content Include="Client\Utilities\GameTime.js" />
     <Content Include="Client\Utilities\ShipStatRecorder.js" />
+    <Content Include="Client\Utilities\UtilityFunctions.js" />
     <Content Include="default.aspx" />
     <Content Include="Images\bg_stars.jpg" />
     <Content Include="Images\Laser.png" />

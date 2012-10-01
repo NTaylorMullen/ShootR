@@ -1,7 +1,7 @@
 ﻿function BulletManager(connection, payloadManager) {
     var that = this;
 
-    that.bulletsInAir = {};
+    that.Bullets = {};
 
     that.UpdateBullets = function (bulletList) {
         var bulletCount = bulletList.length;
@@ -11,32 +11,35 @@
                 id = currentBullet.ID;
 
             // If bullet exists then we need to move it, aka update it.
-            if (that.bulletsInAir[id]) {
-                that.bulletsInAir[id].UpdateProperties(currentBullet);                
+            if (that.Bullets[id]) {
+                that.Bullets[id].UpdateProperties(currentBullet);                
             }
             else {
-                that.bulletsInAir[id] = new Bullet(currentBullet);
+                that.Bullets[id] = new Bullet(currentBullet);
             }
 
             // Ensure that the bullet has not yet been disposed
-            if (that.bulletsInAir[id].Disposed) {
-                that.bulletsInAir[id].Destroy();
-                delete that.bulletsInAir[key];
+            if (that.Bullets[id].Disposed) {
+                that.Bullets[id].Destroy();
+                delete that.Bullets[id];
             }
             else {
-                that.bulletsInAir[id].Draw();
+                that.Bullets[id].Update();
+                //that.Bullets[id].Draw();
             }            
         }
     }
 
     that.Update = function (gameTime) {
-        for (var key in that.bulletsInAir) {
+        for (var key in that.Bullets) {
             // Ensure that the Ship is in view
-            if (CanvasContext.Camera.InView(that.bulletsInAir[key])) {
-                that.bulletsInAir[key].Update(gameTime);
+            if (CanvasContext.Camera.InView(that.Bullets[key]) && !that.Bullets[key].Disposed) {
+                that.Bullets[key].Update(gameTime);
+                that.Bullets[key].Draw();
             }
             else { // Bullet is not in view
-                delete that.bulletsInAir[key];
+                that.Bullets[key].Destroy();
+                delete that.Bullets[key];
             }
         }
     }

@@ -2,9 +2,6 @@
     Collidable.call(this);
     var that = this;
 
-    that.PropertiesToCopy.push("Collided");
-    that.PropertiesToCopy.push("CollidedAt");
-
     that.Visible = true;
     that.Vehicle = CanvasContext.IMAGE_ASSETS.Laser;
 
@@ -32,18 +29,22 @@
     }
 
     that.Update = function (gameTime) {
-        var incrementor = { X: gameTime.PercentOfSecond * that.MovementController.Velocity.X, Y: gameTime.PercentOfSecond * that.MovementController.Velocity.Y };
+        var PercentOfSecond = CalculatePOS(that.LastUpdated),
+            incrementor = { X: PercentOfSecond * that.MovementController.Velocity.X, Y: PercentOfSecond * that.MovementController.Velocity.Y };
 
         that.MovementController.Position.X += incrementor.X;
         that.MovementController.Position.Y += incrementor.Y;
 
-        if (that.Visible) {
+        /*if (that.Visible) {
             that.Draw();
-        }
+        }*/
+        that.LastUpdated = new Date();
     }
 
     that.UpdateProperties(properties);
     that.Draw();
+
+    that.LastUpdated = new Date();
 }
 
 Bullet.prototype = new Collidable();

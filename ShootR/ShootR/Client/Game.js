@@ -14,7 +14,7 @@ function Game(conn, myShipID) {
         map = new Map();
 
     that.BulletManager = new BulletManager(conn);
-    that.ShipManager = new ShipManager(myShipID);
+    that.ShipManager = new ShipManager(myShipID, gameTime);
     that.ShipManager.InitializeMyShip(that.BulletManager, conn);
 
     var shipStats = new ShipStatRecorder(that.ShipManager.MyShip),
@@ -34,10 +34,10 @@ function Game(conn, myShipID) {
 
         GAME_GLOBALS.AnimationManager.Update(gameTime);
 
-        map.CheckBoundaryCollisions(that.ShipManager.Ships, that.BulletManager.bulletsInAir);
+        map.CheckBoundaryCollisions(that.ShipManager.Ships, that.BulletManager.Bullets);
 
         map.Draw();
         CanvasContext.Render();
-        shipStats.Update(payload);
+        shipStats.Update(payload, myShip, that.ShipManager.Ships, that.BulletManager.Bullets);
     }
 }
