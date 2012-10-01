@@ -18,7 +18,7 @@ namespace ShootR
 
         public static double CalculatePercentOfSecond(DateTime from)
         {
-            return (DateTime.UtcNow.Subtract(from).Milliseconds / 1000.0);
+            return (DateTime.UtcNow.Subtract(from.ToUniversalTime()).Milliseconds / 1000.0);
         }
 
         public void Update()
