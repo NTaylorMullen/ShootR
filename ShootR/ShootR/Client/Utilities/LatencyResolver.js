@@ -35,7 +35,8 @@
                     CST.Delta = deltas[0];
                 }
                 else { // Latency Resolving complete
-                    callback(that.GenerateDeltaTime());
+                    CST.Delta = that.GenerateDeltaTime();
+                    callback(CST.Delta);
                 }
             });
         }

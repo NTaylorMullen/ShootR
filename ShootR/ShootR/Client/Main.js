@@ -35,9 +35,7 @@ $(function () {
         latencyResolver.Resolve(LatencyResolvingComplete);
     }
 
-    function LatencyResolvingComplete(deltaTime) {
-        alert(deltaTime);
-        
+    function LatencyResolvingComplete(deltaTime) {        
         game.InitializeGameTime(0);
         StartUpdateLoop();
         env.readyForPayloads();        
