@@ -3,7 +3,8 @@
     // Used to declare which sections of the array each piece of information resides in
     public class ShipCompressionContract
     {
-        // NOTE: CollidableCompressionContrat base class takes up the first 12 integer array arguments
+        // NOTE: CollidableCompressionContrat base class takes up the first X integer array arguments
+        public short LastUpdated = 13;
         public short RotatingLeft = 14;
         public short RotatingRight = 15;
         public short Forward = 16;

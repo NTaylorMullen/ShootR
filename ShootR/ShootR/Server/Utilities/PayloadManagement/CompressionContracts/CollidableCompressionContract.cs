@@ -15,7 +15,6 @@
         public short VelocityX = 9;
         public short VelocityY = 10;
         public short ID = 11;
-        public short Disposed = 12;
-        public short LastUpdated = 13;
+        public short Disposed = 12;        
     }
 }

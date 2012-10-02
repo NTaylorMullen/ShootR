@@ -23,8 +23,7 @@ namespace ShootR
             result[CollidableCompressionContract.VelocityX] = Math.Round(obj.MovementController.Velocity.X, 2);
             result[CollidableCompressionContract.VelocityY] = Math.Round(obj.MovementController.Velocity.Y, 2);
             result[CollidableCompressionContract.ID] = obj.ID;
-            result[CollidableCompressionContract.Disposed] = Convert.ToInt32(obj.Disposed);
-            result[CollidableCompressionContract.LastUpdated] = obj.LastUpdated.ToUniversalTime();
+            result[CollidableCompressionContract.Disposed] = Convert.ToInt32(obj.Disposed);            
         }
 
         public object[] Compress(Ship ship)
@@ -33,6 +32,7 @@ namespace ShootR
 
             SetCollidableContractMembers(result, ship);
 
+            result[ShipCompressionContract.LastUpdated] = ship.LastUpdated.ToUniversalTime();
             result[ShipCompressionContract.RotatingLeft] = Convert.ToInt32(ship.MovementController.Moving.RotatingLeft);
             result[ShipCompressionContract.RotatingRight] = Convert.ToInt32(ship.MovementController.Moving.RotatingRight);
             result[ShipCompressionContract.Forward] = Convert.ToInt32(ship.MovementController.Moving.Forward);

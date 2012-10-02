@@ -36,8 +36,7 @@
                 }
             },
             ID: obj[CollidableContract.ID],
-            Disposed: !!obj[CollidableContract.Disposed],
-            LastUpdated: GAME_GLOBALS.ClientServerTime.GetServerTime(new Date(obj[CollidableContract.LastUpdated]).getTime()) 
+            Disposed: !!obj[CollidableContract.Disposed]            
         };
     }
 
@@ -45,6 +44,7 @@
         var result = DecompressCollidable(ship);
 
         result.MovementController.Moving = {
+            LastUpdated: GAME_GLOBALS.ClientServerTime.GetServerTime(new Date(ship[ShipContract.LastUpdated]).getTime()),
             RotatingLeft: !!ship[ShipContract.RotatingLeft],
             RotatingRight: !!ship[ShipContract.RotatingRight],
             Forward: !!ship[ShipContract.Forward],
