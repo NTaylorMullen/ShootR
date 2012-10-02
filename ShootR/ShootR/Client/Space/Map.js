@@ -33,10 +33,10 @@
                 Reposition(ships[key].MovementController.Position, ships[key].WIDTH, ships[key].HEIGHT);
 
                 // Reverse velocity, aka bounce
-                ships[key].MovementController.Forces.X *= -.75;
-                ships[key].MovementController.Forces.Y *= -.75;
-                ships[key].MovementController.Velocity.X *= -.75;
-                ships[key].MovementController.Velocity.Y *= -.75;
+                ships[key].MovementController.Forces.X *= -that.BARRIER_DEPRECATION;
+                ships[key].MovementController.Forces.Y *= -that.BARRIER_DEPRECATION;
+                ships[key].MovementController.Velocity.X *= -that.BARRIER_DEPRECATION;
+                ships[key].MovementController.Velocity.Y *= -that.BARRIER_DEPRECATION;
             }
         }
 

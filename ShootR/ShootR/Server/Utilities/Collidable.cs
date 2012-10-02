@@ -105,8 +105,8 @@ namespace ShootR
             MovementController.RepositionInBounds(_width, _height);
 
             // Reverse velocity, aka bounce
-            MovementController.Forces *= -.75;
-            MovementController.Velocity *= -.75;
+            MovementController.Forces *= -Map.BARRIER_DEPRECATION;
+            MovementController.Velocity *= -Map.BARRIER_DEPRECATION;
             UpdateBounds();
         }
 

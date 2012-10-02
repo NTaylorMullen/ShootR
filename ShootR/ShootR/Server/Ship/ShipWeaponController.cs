@@ -7,7 +7,7 @@ namespace ShootR
     public class ShipWeaponController
     {
         // Fire once per X milliseconds
-        public const int FIRE_RATE = 10;
+        public const int FIRE_RATE = 190;
         // Lead the weapon by X pixels
         public const double BULLET_LEAD = 50;
 

@@ -9,6 +9,7 @@ namespace ShootR
         public const int HEIGHT = 5000;
         public const int MIN_PARTITION_WIDTH = 156;
         public const int MIN_PARTITION_HEIGHT = 156;
+        public const double BARRIER_DEPRECATION = .75;
 
         private QuadTree _space;
         private MapBoundary _boundary;
