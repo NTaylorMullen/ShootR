@@ -156,6 +156,11 @@ namespace ShootR
         {
             Bullet bullet = _gameHandler.ShipManager.Ships[Context.ConnectionId].GetWeaponController().Fire();
 
+            if (!_space.OnMap(bullet))
+            {
+                bullet.HandleOutOfBounds();
+            }
+
             if (bullet != null)
             {
                 _gameHandler.CollisionManager.Monitor(bullet);
