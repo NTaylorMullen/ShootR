@@ -71,12 +71,12 @@
 
         // Check if the object that we're drawing is beyond our draw border
         if (!swidth) {
-            if (calculateLength({ X: sx, Y: sy }, that.Camera.Position) >= drawBoundary) {
+            if (CalculateLength({ X: sx, Y: sy }, that.Camera.Position) >= drawBoundary) {
                 return;
             }
         }
         else {
-            if (calculateLength({ X: x, Y: y }, that.Camera.Position) >= drawBoundary) {
+            if (CalculateLength({ X: x, Y: y }, that.Camera.Position) >= drawBoundary) {
                 return;
             }
         }

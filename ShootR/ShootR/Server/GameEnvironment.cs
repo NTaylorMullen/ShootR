@@ -100,7 +100,6 @@ namespace ShootR
 
                 _userList.TryAdd(Context.ConnectionId, new User(Context.ConnectionId, ship));
                 _gameHandler.CollisionManager.Monitor(ship);
-                Caller.updateShipName(ship.Name);
                 return null;
             }
         }
@@ -145,6 +144,11 @@ namespace ShootR
 
         #region Client Accessor Methods
 
+        public DateTime ping()
+        {
+            return DateTime.UtcNow;
+        }
+
         /// <summary>
         /// Called when a ship fire's a bullet
         /// </summary>
@@ -174,7 +178,8 @@ namespace ShootR
                     ShipContract = payloadManager.Compressor.ShipCompressionContract,
                     BulletContract = payloadManager.Compressor.BulletCompressionContract
                 },
-                ShipID = _gameHandler.ShipManager.Ships[Context.ConnectionId].ID
+                ShipID = _userList[Context.ConnectionId].MyShip.ID,
+                ShipName = _userList[Context.ConnectionId].MyShip.Name
             };
         }
 

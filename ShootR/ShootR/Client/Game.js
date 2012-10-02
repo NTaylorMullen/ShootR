@@ -4,14 +4,14 @@
 /// <reference path="BulletManager.js" />
 /// <reference path="Configuration/CanvasRenderer.js" />
 
-var GAME_GLOBALS = {
-    AnimationManager: new AnimationManager()
-};
-
 function Game(conn, myShipID) {
     var that = this,
-        gameTime = new GameTime(),
+        gameTime,
         map = new Map();
+
+    that.InitializeGameTime = function (timeDelta) {
+        gameTime = new GameTime(timeDelta);
+    }
 
     that.BulletManager = new BulletManager(conn);
     that.ShipManager = new ShipManager(myShipID, gameTime);

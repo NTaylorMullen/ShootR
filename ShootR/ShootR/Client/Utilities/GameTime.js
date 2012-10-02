@@ -1,6 +1,6 @@
 ﻿function GameTime() {
-    var that = this;
-    var lastUpdated = new Date();
+    var that = this,
+        lastUpdated = new Date();
 
     that.PercentOfSecond = 0;
 

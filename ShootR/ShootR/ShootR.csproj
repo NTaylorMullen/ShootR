@@ -77,6 +77,7 @@
     <Content Include="Client\Bullet\BulletManager.js" />
     <Content Include="Client\Configuration\ConfigurationManager.js" />
     <Content Include="Client\Game.js" />
+    <Content Include="Client\GameGlobals.js" />
     <Content Include="Client\Main.js" />
     <Content Include="Client\Ship\Ship.js" />
     <Content Include="Client\Ship\ShipManager.js" />
@@ -85,6 +86,8 @@
     <Content Include="Client\Space\Camera.js" />
     <Content Include="Client\Space\CanvasRenderer.js" />
     <Content Include="Client\Space\Map.js" />
+    <Content Include="Client\Utilities\LatencyResolver.js" />
+    <Content Include="Client\Utilities\ClientServerTime.js" />
     <Content Include="Client\Utilities\Collidable.js" />
     <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.js" />
     <Content Include="Client\Utilities\GameTime.js" />

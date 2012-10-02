@@ -37,7 +37,7 @@
             },
             ID: obj[CollidableContract.ID],
             Disposed: !!obj[CollidableContract.Disposed],
-            LastUpdated: new Date(obj[CollidableContract.LastUpdated])
+            LastUpdated: new Date(obj[CollidableContract.LastUpdated]) 
         };
     }
 
@@ -65,7 +65,7 @@
         return {
             Ships: data[PayloadContract.Ships],
             Bullets: data[PayloadContract.Bullets],
-            MovementReceivedAt: (data[PayloadContract.MovementReceivedAt] !== 0) ? new Date(data[PayloadContract.MovementReceivedAt]) : false,
+            MovementReceivedAt: (data[PayloadContract.MovementReceivedAt] !== 0) ? new Date(obj[PayloadContract.MovementReceivedAt]) : false,
             ShipsInWorld: data[PayloadContract.ShipsInWorld],
             BulletsInWorld: data[PayloadContract.BulletsInWorld]
         };

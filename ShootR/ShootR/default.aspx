@@ -6,7 +6,7 @@
 <head runat="server">
     <link href="Styles/game.css" rel="stylesheet" />
 
-    <title>SignalR Shooter</title>
+    <title>SignalR ShootR</title>
 </head>
 <body style="height: 100%;">
     <a href="https://github.com/NTaylorMullen/ShootR" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/Images/Page/GitHubForkMe.png" alt="Fork me on GitHub" /></a>
@@ -25,9 +25,12 @@
     <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>
     <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
-
-    <script src="Client/Utilities/UtilityFunctions.js" type="text/javascript"></script>
+    
     <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
+    <script src="Client/GameGlobals.js" type="text/javascript"></script>
+    <script src="Client/Utilities/LatencyResolver.js" type="text/javascript"></script>
+    <script src="Client/Utilities/UtilityFunctions.js" type="text/javascript"></script>
+    <script src="Client/Utilities/ClientServerTime.js" type="text/javascript"></script>
     <script src="Client/Space/Map.js" type="text/javascript"></script>
     <script src="Client/Space/Camera.js" type="text/javascript"></script>
     <script src="Client/Space/CanvasRenderer.js" type="text/javascript"></script>

@@ -8,6 +8,7 @@ $(function () {
         game,
         configurationManager,
         payloadDecompressor = new PayloadDecompressor(),
+        latencyResolver = new LatencyResolver(env),
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] };
 
@@ -15,17 +16,7 @@ $(function () {
         configurationManager = new ConfigurationManager(init.Configuration);
         game = new Game(env, init.ShipID);
         payloadDecompressor.LoadContracts(init.CompressionContracts);
-
-        window.requestAnimFrame = (function () {
-            return window.requestAnimationFrame ||
-                    window.webkitRequestAnimationFrame ||
-                    window.mozRequestAnimationFrame ||
-                    window.oRequestAnimationFrame ||
-                    window.msRequestAnimationFrame ||
-                    function (callback) {
-                        window.setTimeout(callback, configurationManager.gameConfig.UPDATE_INTERVAL);
-                    };
-        })();
+        $("#ShipName").val(init.ShipName);
 
         $("#ShipName").keyup(function (e) {
             if (e.keyCode == 13) {
@@ -41,6 +32,29 @@ $(function () {
             game.ShipManager.DrawName = !game.ShipManager.DrawName;
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
+        latencyResolver.Resolve(LatencyResolvingComplete);
+    }
+
+    function LatencyResolvingComplete(deltaTime) {
+        alert(deltaTime);
+        
+        game.InitializeGameTime(0);
+        StartUpdateLoop();
+        env.readyForPayloads();        
+    }
+
+    function StartUpdateLoop() {
+        window.requestAnimFrame = (function () {
+            return window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    window.msRequestAnimationFrame ||
+                    function (callback) {
+                        window.setTimeout(callback, configurationManager.gameConfig.UPDATE_INTERVAL);
+                    };
+        })();
+
         (function animloop() {
             requestAnimFrame(animloop);
 
@@ -48,8 +62,6 @@ $(function () {
                 game.Update(lastPayload);
             }
         })();
-
-        env.readyForPayloads();
     }
 
     function LoadMapInfo(info) {
@@ -73,11 +85,7 @@ $(function () {
         game.ShipManager.RemoveShip(connectionID);
     }
 
-    env.updateShipName = function (newName) {
-        $("#ShipName").val(newName);
-    }
-
-    $.connection.hub.start().done(function () {
+    $.connection.hub.start(function () {
         env.initializeClient().done(function (value) {
             Initialize(value);
         });

@@ -24,7 +24,7 @@ namespace ShootR
             result[CollidableCompressionContract.VelocityY] = Math.Round(obj.MovementController.Velocity.Y, 2);
             result[CollidableCompressionContract.ID] = obj.ID;
             result[CollidableCompressionContract.Disposed] = Convert.ToInt32(obj.Disposed);
-            result[CollidableCompressionContract.LastUpdated] = obj.LastUpdated;
+            result[CollidableCompressionContract.LastUpdated] = obj.LastUpdated.ToUniversalTime();
         }
 
         public object[] Compress(Ship ship)
@@ -59,7 +59,7 @@ namespace ShootR
 
             if (payload.MovementReceivedAt.HasValue)
             {
-                result[PayloadCompressionContract.MovementReceivedAt] = payload.MovementReceivedAt.Value;
+                result[PayloadCompressionContract.MovementReceivedAt] = payload.MovementReceivedAt.Value.ToUniversalTime();
             }
             else
             {
