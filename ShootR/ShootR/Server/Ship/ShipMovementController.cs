@@ -7,7 +7,7 @@
     {
         public const double ROTATE_SPEED = 180;
         public const double MASS = 50;
-        public const double ENGINE_POWER = 100000;
+        public const double ENGINE_POWER = 110000;
         public const double DRAG_COEFFICIENT = .2;
         public const double DRAG_AREA = 5;
 

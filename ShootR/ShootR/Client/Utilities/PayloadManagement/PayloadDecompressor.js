@@ -65,7 +65,7 @@
         return {
             Ships: data[PayloadContract.Ships],
             Bullets: data[PayloadContract.Bullets],
-            MovementReceivedAt: (data[PayloadContract.MovementReceivedAt] !== 0) ? GAME_GLOBALS.ClientServerTime.GetServerTime(new Date(obj[PayloadContract.MovementReceivedAt]).getTime()) : false,
+            MovementReceivedAt: (data[PayloadContract.MovementReceivedAt] !== 0) ? GAME_GLOBALS.ClientServerTime.GetServerTime(new Date(data[PayloadContract.MovementReceivedAt]).getTime()) : false,
             ShipsInWorld: data[PayloadContract.ShipsInWorld],
             BulletsInWorld: data[PayloadContract.BulletsInWorld]
         };

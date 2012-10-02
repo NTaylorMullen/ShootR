@@ -14,7 +14,7 @@
 
     that.acknowledgeMovement = function (acknowledgedAt) {
         if (acknowledgedAt) {
-            that.Latency = acknowledgedAt.getTime() - that.MovementSentAt.getTime();            
+            that.Latency = acknowledgedAt - that.MovementSentAt.getTime();            
         }
         that.MovementSentAt = false;
     }
@@ -48,7 +48,6 @@
                     that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
                     that.MovementController.Moving[keyMapping[k].dir] = false;
                 })(k), that.Latency);
-                //that.MovementController.Moving[keyMapping[k].dir] = false;
             };
         })(k), { 'disable_in_input': true, 'type': 'keyup' });
     }

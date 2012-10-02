@@ -8,8 +8,6 @@ namespace ShootR
     /// <summary>
     /// NOTE: I created this in an attempt to only send deltas down to clients based on their cache'd behavior.  In the end I found a lot
     /// of inconsistencies with the two positions being calculated on the client/server.  I may re-visit this in the future.
-    /// 
-    /// For now I'm using it primarily to send down bullets and then client movement assumptions work perfectly
     /// </summary>
     public class PayloadCache
     {

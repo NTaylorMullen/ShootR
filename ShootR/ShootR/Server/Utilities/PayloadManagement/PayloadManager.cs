@@ -11,24 +11,17 @@ namespace ShootR
 
         public PayloadCompressor Compressor = new PayloadCompressor();
 
-        private PayloadCache _payloadCache = new PayloadCache();
-
         public Dictionary<string, object[]> GetPayloads(ConcurrentDictionary<string, User> userList, int shipCount, int bulletCount, Map space)
         {
             Dictionary<string, object[]> payloads = new Dictionary<string, object[]>();
 
             Vector2 screenOffset = new Vector2((Ship.SCREEN_WIDTH / 2) + Ship.HEIGHT / 2, (Ship.SCREEN_HEIGHT / 2) + Ship.HEIGHT / 2);
 
-            // Initiate the next payload cache
-            _payloadCache.StartNextPayloadCache();
-
             foreach (User user in userList.Values)
             {
                 if (user.ReadyForPayloads)
                 {
                     string connectionID = user.ConnectionID;
-
-                    _payloadCache.CreateCacheFor(connectionID);
 
                     var payload = new Payload()
                     {
@@ -47,14 +40,9 @@ namespace ShootR
                     {
                         if (obj.GetType() == typeof(Bullet))
                         {
-                            _payloadCache.Cache(connectionID, obj);
-
-                            if (!_payloadCache.ExistedLastPayload(connectionID,obj) || obj.IsAltered())
-                            {
-                                // This bullet has been seen so tag the bullet as seen
-                                ((Bullet)obj).Seen();
-                                payload.Bullets.Add(Compressor.Compress((Bullet)obj));
-                            }
+                            // This bullet has been seen so tag the bullet as seen
+                            ((Bullet)obj).Seen();
+                            payload.Bullets.Add(Compressor.Compress((Bullet)obj));
                         }
                         else if (obj.GetType() == typeof(Ship))
                         {

@@ -33,10 +33,10 @@
                 Reposition(ships[key].MovementController.Position, ships[key].WIDTH, ships[key].HEIGHT);
 
                 // Reverse velocity, aka bounce
-                ships[key].MovementController.Forces.X *= -1;
-                ships[key].MovementController.Forces.Y *= -1;
-                ships[key].MovementController.Velocity.X *= -1;
-                ships[key].MovementController.Velocity.Y *= -1;
+                ships[key].MovementController.Forces.X *= -.75;
+                ships[key].MovementController.Forces.Y *= -.75;
+                ships[key].MovementController.Velocity.X *= -.75;
+                ships[key].MovementController.Velocity.Y *= -.75;
             }
         }
 
@@ -45,9 +45,6 @@
                 bullets[key].Visible = false;
                 bullets[key].MovementController.Velocity.X = 0;
                 bullets[key].MovementController.Velocity.Y = 0;
-                bullets[key].Disposed = true;
-                bullets[key].Collided = true;
-                bullets[key].CollidedAt = bullets[key].MovementController.Position;
             }
         }
     }

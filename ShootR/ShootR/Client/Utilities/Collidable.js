@@ -2,6 +2,7 @@
     var that = this;
 
     that.Destroyed = false;
+    that.Visible = true;
     that.PropertiesToCopy = ["MovementController"];
     that.LastUpdated = new Date();
     that.Vehicle;
@@ -21,7 +22,7 @@
     }
 
     that.Draw = function () {
-        if (!that.Destroyed) {
+        if (!that.Destroyed && that.Visible) {
             CanvasContext.drawRotatedImage.apply(that, [that.Vehicle, that.MovementController.Rotation, that.MovementController.Position.X, that.MovementController.Position.Y]);
         }
     }

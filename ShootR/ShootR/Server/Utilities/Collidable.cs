@@ -9,16 +9,12 @@ namespace ShootR
     public class Collidable : IDisposable
     {
         protected Rectangle _bounds;
-        protected bool _altered;
-
-        private int _alteredResetCount = 0;
         private QuadTreeNode _mapLocation;
         private int _serverID;
         private static int _itemCount = 0;
 
         public Collidable(MovementController mc)
         {
-            _altered = true;
             MovementController = mc;
             CollidedAt = new Vector2();
             _width = 0;
@@ -30,7 +26,6 @@ namespace ShootR
 
         public Collidable(int w, int h)
         {
-            _altered = true;
             _width = w;
             _height = h;
             CollidedAt = new Vector2();
@@ -41,7 +36,6 @@ namespace ShootR
 
         public Collidable(int w, int h, MovementController mc)
         {
-            _altered = true;
             _width = w;
             _height = h;
             CollidedAt = new Vector2();
@@ -63,16 +57,6 @@ namespace ShootR
         public int ServerID()
         {
             return _serverID;
-        }
-
-        public bool IsAltered()
-        {
-            return _altered;
-        }
-
-        public void ResetAltered()
-        {
-            _altered = false;
         }
 
         public int Width()
@@ -109,7 +93,6 @@ namespace ShootR
 
         public virtual void HandleCollision()
         {
-            _altered = true;
             Collided = true;
             // Copy over the position to find collision location
             CollidedAt.X = MovementController.Position.X;
@@ -118,14 +101,12 @@ namespace ShootR
 
         public virtual void HandleOutOfBounds()
         {
-            _altered = true;
-
             // Re-position object in bounds
             MovementController.RepositionInBounds(_width, _height);
 
             // Reverse velocity, aka bounce
-            MovementController.Forces *= -1;
-            MovementController.Velocity *= -1;
+            MovementController.Forces *= -.75;
+            MovementController.Velocity *= -.75;
             UpdateBounds();
         }
 

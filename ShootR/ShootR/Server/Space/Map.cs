@@ -57,10 +57,6 @@ namespace ShootR
                 {
                     Remove(_allObjects[i--]);
                 }
-                else // Reset altered tag
-                {
-                    _allObjects[i].ResetAltered();
-                }
             }
         }
 

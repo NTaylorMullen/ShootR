@@ -35,9 +35,6 @@
         that.MovementController.Position.X += incrementor.X;
         that.MovementController.Position.Y += incrementor.Y;
 
-        /*if (that.Visible) {
-            that.Draw();
-        }*/
         that.LastUpdated = new Date();
     }
 

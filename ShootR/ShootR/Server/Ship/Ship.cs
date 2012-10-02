@@ -37,14 +37,12 @@ namespace ShootR
         public void StartMoving(Movement where)
         {
             Update(GameTime.CalculatePercentOfSecond(LastUpdated));
-            _altered = true;
             MovementController.StartMoving(where);            
         }
 
         public void StopMoving(Movement where)
         {
             Update(GameTime.CalculatePercentOfSecond(LastUpdated));
-            _altered = true;
             MovementController.StopMoving(where);
         }
 
@@ -66,7 +64,6 @@ namespace ShootR
 
         public override void HandleCollisionWith(Collidable c, Map space)
         {
-            _altered = true;
         }
     }
 }
