@@ -24,10 +24,10 @@ namespace ShootR
             foreach (User user in userList.Values)
             {
                 if (user.ReadyForPayloads)
-                {                    
+                {
                     string connectionID = user.ConnectionID;
 
-                    _payloadCache.CreateCacheFor(connectionID);                    
+                    _payloadCache.CreateCacheFor(connectionID);
 
                     var payload = GetInitializedPayload(user.MovementReceivedAt, shipCount, bulletCount);
 
@@ -41,12 +41,13 @@ namespace ShootR
                     {
                         if (obj.GetType() == typeof(Bullet))
                         {
-                            _payloadCache.Cache(connectionID,obj);
+                            _payloadCache.Cache(connectionID, obj);
 
-                            if(obj.Altered() || !_payloadCache.ExistedLastPayload(connectionID,obj))
+                            // This bullet has been seen so tag the bullet as seen                                
+                            ((Bullet)obj).Seen();
+
+                            if (obj.Altered() || !_payloadCache.ExistedLastPayload(connectionID, obj))
                             {
-                                // This bullet has been seen so tag the bullet as seen
-                                ((Bullet)obj).Seen();
                                 payload.Bullets.Add(Compressor.Compress((Bullet)obj));
                             }
                         }

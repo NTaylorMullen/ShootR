@@ -36,12 +36,8 @@
 
                     conn.registerMoveStart(keyMapping[k].dir);
 
-                    setTimeout((function (k) {
-                        return function () {
-                            that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-                            that.MovementController.Moving[keyMapping[k].dir] = true;
-                        }
-                    })(k), that.Latency);
+                    that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+                    that.MovementController.Moving[keyMapping[k].dir] = true;                        
                 }
             };
         })(k), { 'disable_in_input': true, 'type': 'keydown' });
@@ -54,12 +50,8 @@
 
                 conn.registerMoveStop(keyMapping[k].dir);
 
-                setTimeout((function (k) {
-                    return function () {
-                        that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-                        that.MovementController.Moving[keyMapping[k].dir] = false;
-                    }
-                })(k), that.Latency);
+                that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+                that.MovementController.Moving[keyMapping[k].dir] = false;                    
             };
         })(k), { 'disable_in_input': true, 'type': 'keyup' });
     }

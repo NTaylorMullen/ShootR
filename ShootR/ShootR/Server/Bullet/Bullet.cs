@@ -16,18 +16,18 @@ namespace ShootR
         public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity)
             : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, initialVelocity))
         {
-            _lastSeen = DateTime.Now;
+            _lastSeen = DateTime.UtcNow;
         }
 
         public void Seen()
         {
-            _lastSeen = DateTime.Now;
+            _lastSeen = DateTime.UtcNow;
         }
 
         public bool ShouldDispose()
         {
             // Check if bullet should die
-            if ((DateTime.Now - _lastSeen).TotalSeconds >= DISPOSE_AFTER)
+            if ((DateTime.UtcNow - _lastSeen).TotalSeconds >= DISPOSE_AFTER)
             {
                 return true;
             }
