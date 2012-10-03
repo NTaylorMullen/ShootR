@@ -20,7 +20,7 @@
         if (acknowledgedAt) {
             var sentAt = that.MovementSentAt.getTime() + (lastUpdate - acknowledgedAt);
             that.Latency = acknowledgedAt - that.MovementSentAt.getTime();
-            that.LatencyResolver.ResolveFromAcknowledgement(sentAt, lastUpdate);
+            that.LatencyResolver.ResolveFromAcknowledgement(GAME_GLOBALS.ClientServerTime.ToServerTime(sentAt), GAME_GLOBALS.ClientServerTime.ToServerTime(lastUpdate));
         }
         that.MovementSentAt = false;
     }
