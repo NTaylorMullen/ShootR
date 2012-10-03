@@ -43,7 +43,7 @@
     that.Update = function (gameTime) {
         for (var key in that.Ships) {
             // Ensure that the Ship is in view
-            if (CanvasContext.Camera.InView(that.Ships[key])) {
+            if (CanvasContext.Camera.InView(that.Ships[key]) || that.MyShip.ID === that.Ships[key].ID) {
                 that.Ships[key].Update(gameTime);
 
                 that.Ships[key].Draw();
