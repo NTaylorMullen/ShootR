@@ -18,4 +18,3 @@ C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\Microsoft.Web.Infra
 C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.dll
 C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.pdb
 C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\Microsoft.Web.Infrastructure.xml
-C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.csprojResolveAssemblyReference.cache
