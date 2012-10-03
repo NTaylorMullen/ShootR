@@ -12,29 +12,33 @@ namespace ShootR
 
         public BulletManager()
         {
-            BulletsInAir = new List<Bullet>();
+            Bullets = new List<Bullet>();
         }
 
         public void Add(Bullet bullet)
         {
             bullet.ID = _bulletGUID++;
-            BulletsInAir.Add(bullet);
+            Bullets.Add(bullet);
         }
 
-        public List<Bullet> BulletsInAir { get; set; }
+        public List<Bullet> Bullets { get; set; }
 
         public void Update(GameTime gameTime)
         {
-            for (int i = 0; i < BulletsInAir.Count; i++)
+            for (int i = 0; i < Bullets.Count; i++)
             {
-                if (BulletsInAir[i].ShouldDispose())
+                if (Bullets[i].ShouldDispose())
                 {
-                    BulletsInAir[i].Dispose();
-                    BulletsInAir.Remove(BulletsInAir[i--]);
+                    Bullets[i].Dispose();
+                    Bullets.Remove(Bullets[i--]);
+                }
+                else if (Bullets[i].Disposed)
+                {
+                    Bullets.Remove(Bullets[i--]);
                 }
                 else
                 {
-                    BulletsInAir[i].Update(gameTime);
+                    Bullets[i].Update(gameTime);
                 }
             }
         }

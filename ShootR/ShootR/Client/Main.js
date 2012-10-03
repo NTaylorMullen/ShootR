@@ -35,8 +35,7 @@ $(function () {
         latencyResolver.Resolve(LatencyResolvingComplete);
     }
 
-    function LatencyResolvingComplete(deltaTime) {        
-        game.InitializeGameTime(0);
+    function LatencyResolvingComplete() {        
         StartUpdateLoop();
         env.readyForPayloads();        
     }
@@ -67,6 +66,7 @@ $(function () {
         gameInfoReceived = true;
 
         if (info.MovementReceivedAt) {
+            alert(info.Ships[0].LastUpdated + "\n" + info.SentAt);
             game.ShipManager.MyShip.acknowledgeMovement(info.MovementReceivedAt);
         }
 
@@ -77,10 +77,6 @@ $(function () {
     // Small name in order to minimize payload
     env.d = function (compressedPayload) {
         LoadMapInfo(payloadDecompressor.Decompress(compressedPayload));
-    }
-
-    env.RemoveShip = function (connectionID) {
-        game.ShipManager.RemoveShip(connectionID);
     }
 
     $.connection.hub.start(function () {

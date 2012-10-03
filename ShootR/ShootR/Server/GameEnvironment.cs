@@ -22,11 +22,11 @@ namespace ShootR
         public static GameTime gameTime = new GameTime();
 
         private static ConcurrentDictionary<string, User> _userList = new ConcurrentDictionary<string, User>();
-        private static ConfigurationManager _configuration = new ConfigurationManager();
-        private static int _updateCount = 0;
+        private static ConfigurationManager _configuration = new ConfigurationManager();        
         private static Map _space = new Map();
         private static GameHandler _gameHandler = new GameHandler(_space);
-        private static Random gen = new Random();
+        private static Random _gen = new Random();
+        private static int _updateCount = 0;
         private static object _locker = new object();
 
         public GameEnvironment()
@@ -44,7 +44,7 @@ namespace ShootR
         /// </summary>
         public void Draw()
         {
-            Dictionary<string, object[]> payloads = payloadManager.GetPayloads(_userList, _gameHandler.ShipManager.Ships.Count, _gameHandler.BulletManager.BulletsInAir.Count, _space);
+            Dictionary<string, object[]> payloads = payloadManager.GetPayloads(_userList, _gameHandler.ShipManager.Ships.Count, _gameHandler.BulletManager.Bullets.Count, _space);
 
             foreach (string connectionID in payloads.Keys)
             {
@@ -89,13 +89,11 @@ namespace ShootR
         {
             lock (_locker)
             {
-                PayloadCompressor comp = new PayloadCompressor();
-
-                int x = gen.Next(Ship.WIDTH * 2, Map.WIDTH - Ship.WIDTH * 2);
-                int y = gen.Next(Ship.HEIGHT * 2, Map.HEIGHT - Ship.HEIGHT * 2);
+                int x = _gen.Next(Ship.WIDTH * 2, Map.WIDTH - Ship.WIDTH * 2);
+                int y = _gen.Next(Ship.HEIGHT * 2, Map.HEIGHT - Ship.HEIGHT * 2);
 
                 Ship ship = new Ship(new Vector2(x, y), _gameHandler.BulletManager);
-                _gameHandler.ShipManager.AddShip(ship, Context.ConnectionId);
+                _gameHandler.ShipManager.Add(ship, Context.ConnectionId);
                 ship.Name = "Ship" + ship.ID;
 
                 _userList.TryAdd(Context.ConnectionId, new User(Context.ConnectionId, ship));
@@ -156,13 +154,14 @@ namespace ShootR
         {
             Bullet bullet = _gameHandler.ShipManager.Ships[Context.ConnectionId].GetWeaponController().Fire();
 
-            if (!_space.OnMap(bullet))
-            {
-                bullet.HandleOutOfBounds();
-            }
 
             if (bullet != null)
             {
+                if (!_space.OnMap(bullet))
+                {
+                    bullet.HandleOutOfBounds();
+                }
+
                 _gameHandler.CollisionManager.Monitor(bullet);
             }
         }
@@ -217,6 +216,10 @@ namespace ShootR
 
         public void changeName(string newName)
         {
+            if (newName.Length > 25)
+            {
+                newName = newName.Substring(0,25);
+            }
             _gameHandler.ShipManager.Ships[Context.ConnectionId].Name = newName;
         }
 

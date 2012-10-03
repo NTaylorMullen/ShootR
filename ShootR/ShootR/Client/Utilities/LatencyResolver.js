@@ -36,7 +36,7 @@
                 }
                 else { // Latency Resolving complete
                     CST.Delta = that.GenerateDeltaTime();
-                    callback(CST.Delta);
+                    callback();
                 }
             });
         }
@@ -57,5 +57,8 @@
         }
 
         return Math.round(Average(deltas));
+    }
+
+    that.AutoResolveLatency = function() {
     }
 }

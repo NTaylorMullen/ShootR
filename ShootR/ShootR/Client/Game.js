@@ -6,12 +6,8 @@
 
 function Game(conn, myShipID) {
     var that = this,
-        gameTime,
+        gameTime = new GameTime(),
         map = new Map();
-
-    that.InitializeGameTime = function (timeDelta) {
-        gameTime = new GameTime(timeDelta);
-    }
 
     that.BulletManager = new BulletManager(conn);
     that.ShipManager = new ShipManager(myShipID, gameTime);
@@ -26,11 +22,11 @@ function Game(conn, myShipID) {
         gameTime.Update();
         CanvasContext.clear();
 
-        // Move the ships on the client
-        that.ShipManager.Update(gameTime);
-
         // Move the bullets on the client
         that.BulletManager.Update(gameTime);
+
+        // Move the ships on the client
+        that.ShipManager.Update(gameTime);        
 
         GAME_GLOBALS.AnimationManager.Update(gameTime);
 

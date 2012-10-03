@@ -19,11 +19,10 @@ namespace ShootR
         /// </summary>
         /// <param name="s">The ship to add</param>
         /// <param name="key">The connection ID for a key</param>
-        public Ship AddShip(Ship s, string key)
+        public void Add(Ship s, string key)
         {
             s.ID = _shipGUID++;
             Ships.TryAdd(key, s);
-            return s;
         }
 
         /// <summary>
@@ -41,6 +40,21 @@ namespace ShootR
             }
 
             return removedShip;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            foreach (string key in Ships.Keys)
+            {
+                if (!Ships[key].Disposed)
+                {
+                    Ships[key].Update(gameTime);
+                }
+                else
+                {
+                    RemoveShipByKey(key);
+                }
+            }
         }
     }
 }

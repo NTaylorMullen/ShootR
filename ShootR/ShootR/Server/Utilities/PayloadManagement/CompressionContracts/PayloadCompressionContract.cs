@@ -7,5 +7,6 @@
         public short MovementReceivedAt = 2;
         public short ShipsInWorld = 3;
         public short BulletsInWorld = 4;
+        public short SentAt = 5;
     }
 }

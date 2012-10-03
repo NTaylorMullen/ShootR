@@ -9,7 +9,7 @@ namespace ShootR
     {
         public const int HEIGHT = 10;
         public const int WIDTH = 4;
-        public const int DISPOSE_AFTER = 5; // Disposes bullet after 5 seconds of not being seen.
+        public const int DISPOSE_AFTER = 5; // Disposes bullet after X seconds of not being seen.
 
         private DateTime _lastSeen;
 
@@ -62,7 +62,7 @@ namespace ShootR
             MovementController.RepositionInBounds(_width, _height);
             UpdateBounds();
             base.HandleCollision();
-            Dispose();
+            Dispose(); // Destroy bullet when out of bounds
         }
 
         public void Update(GameTime gameTime)

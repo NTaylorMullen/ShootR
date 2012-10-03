@@ -16,18 +16,8 @@
         public void Update(GameTime gameTime)
         {
             BulletManager.Update(gameTime);
-
-            foreach (string key in ShipManager.Ships.Keys)
-            {
-                if (!ShipManager.Ships[key].Disposed)
-                {
-                    ShipManager.Ships[key].Update(gameTime);
-                }
-                else
-                {
-                    ShipManager.RemoveShipByKey(key);
-                }
-            }
+            ShipManager.Update(gameTime);
+            
             CollisionManager.Update(gameTime);
         }
     }

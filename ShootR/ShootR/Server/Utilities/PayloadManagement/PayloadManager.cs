@@ -11,8 +11,12 @@ namespace ShootR
 
         public PayloadCompressor Compressor = new PayloadCompressor();
 
+        private PayloadCache _payloadCache = new PayloadCache();
+
         public Dictionary<string, object[]> GetPayloads(ConcurrentDictionary<string, User> userList, int shipCount, int bulletCount, Map space)
         {
+            _payloadCache.StartNextPayloadCache();
+
             Dictionary<string, object[]> payloads = new Dictionary<string, object[]>();
 
             Vector2 screenOffset = new Vector2((Ship.SCREEN_WIDTH / 2) + Ship.HEIGHT / 2, (Ship.SCREEN_HEIGHT / 2) + Ship.HEIGHT / 2);
@@ -20,15 +24,12 @@ namespace ShootR
             foreach (User user in userList.Values)
             {
                 if (user.ReadyForPayloads)
-                {
+                {                    
                     string connectionID = user.ConnectionID;
 
-                    var payload = new Payload()
-                    {
-                        MovementReceivedAt = user.MovementReceivedAt,
-                        ShipsInWorld = shipCount,
-                        BulletsInWorld = bulletCount
-                    };
+                    _payloadCache.CreateCacheFor(connectionID);                    
+
+                    var payload = GetInitializedPayload(user.MovementReceivedAt, shipCount, bulletCount);
 
                     // Reset the received at flag
                     user.MovementReceivedAt = null;
@@ -40,9 +41,14 @@ namespace ShootR
                     {
                         if (obj.GetType() == typeof(Bullet))
                         {
-                            // This bullet has been seen so tag the bullet as seen
-                            ((Bullet)obj).Seen();
-                            payload.Bullets.Add(Compressor.Compress((Bullet)obj));
+                            _payloadCache.Cache(connectionID,obj);
+
+                            if(obj.Altered() || !_payloadCache.ExistedLastPayload(connectionID,obj))
+                            {
+                                // This bullet has been seen so tag the bullet as seen
+                                ((Bullet)obj).Seen();
+                                payload.Bullets.Add(Compressor.Compress((Bullet)obj));
+                            }
                         }
                         else if (obj.GetType() == typeof(Ship))
                         {
@@ -57,6 +63,17 @@ namespace ShootR
             space.Clean();
 
             return payloads;
+        }
+
+        public Payload GetInitializedPayload(DateTime? movementReceivedAt, int shipCount, int bulletCount)
+        {
+            return new Payload()
+            {
+                MovementReceivedAt = movementReceivedAt,
+                ShipsInWorld = shipCount,
+                BulletsInWorld = bulletCount,
+                SentAt = DateTime.UtcNow
+            };
         }
     }
 }

@@ -58,6 +58,10 @@ namespace ShootR
                 {
                     Remove(_allObjects[i--]);
                 }
+                else
+                {
+                    _allObjects[i].ResetAltered();
+                }
             }
         }
 

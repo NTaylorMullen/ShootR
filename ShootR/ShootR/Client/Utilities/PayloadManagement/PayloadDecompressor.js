@@ -43,14 +43,14 @@
     function DecompressShip(ship) {
         var result = DecompressCollidable(ship);
 
-        result.MovementController.Moving = {
-            LastUpdated: GAME_GLOBALS.ClientServerTime.GetServerTime(new Date(ship[ShipContract.LastUpdated]).getTime()),
+        result.MovementController.Moving = {            
             RotatingLeft: !!ship[ShipContract.RotatingLeft],
             RotatingRight: !!ship[ShipContract.RotatingRight],
             Forward: !!ship[ShipContract.Forward],
             Backward: !!ship[ShipContract.Backward]
         };
         result.Name = ship[ShipContract.Name];
+        result.LastUpdated = GAME_GLOBALS.ClientServerTime.GetServerTime(new Date(ship[ShipContract.LastUpdated]).getTime());
 
         return result;
     }
@@ -67,7 +67,8 @@
             Bullets: data[PayloadContract.Bullets],
             MovementReceivedAt: (data[PayloadContract.MovementReceivedAt] !== 0) ? GAME_GLOBALS.ClientServerTime.GetServerTime(new Date(data[PayloadContract.MovementReceivedAt]).getTime()) : false,
             ShipsInWorld: data[PayloadContract.ShipsInWorld],
-            BulletsInWorld: data[PayloadContract.BulletsInWorld]
+            BulletsInWorld: data[PayloadContract.BulletsInWorld],
+            SentAt: GAME_GLOBALS.ClientServerTime.GetServerTime(new Date(data[PayloadContract.SentAt]).getTime())
         };
     }
 

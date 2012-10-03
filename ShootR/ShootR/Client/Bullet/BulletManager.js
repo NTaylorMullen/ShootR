@@ -25,7 +25,7 @@
             }
             else {
                 that.Bullets[id].Update();
-                //that.Bullets[id].Draw();
+                that.Bullets[id].Draw();
             }            
         }
     }

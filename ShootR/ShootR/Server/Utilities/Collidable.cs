@@ -13,6 +13,8 @@ namespace ShootR
         private int _serverID;
         private static int _itemCount = 0;
 
+        protected static bool _altered = true;
+
         public Collidable(MovementController mc)
         {
             MovementController = mc;
@@ -54,6 +56,16 @@ namespace ShootR
         protected int _width { get; set; }
         protected int _height { get; set; }
 
+        public bool Altered()
+        {
+            return _altered;
+        }
+
+        public void ResetAltered()
+        {
+            _altered = false;
+        }
+
         public int ServerID()
         {
             return _serverID;
@@ -93,6 +105,7 @@ namespace ShootR
 
         public virtual void HandleCollision()
         {
+            _altered = true;
             Collided = true;
             // Copy over the position to find collision location
             CollidedAt.X = MovementController.Position.X;
@@ -101,6 +114,7 @@ namespace ShootR
 
         public virtual void HandleOutOfBounds()
         {
+            _altered = true;
             // Re-position object in bounds
             MovementController.RepositionInBounds(_width, _height);
 
