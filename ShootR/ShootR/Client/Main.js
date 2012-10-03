@@ -32,6 +32,7 @@ $(function () {
             game.ShipManager.DrawName = !game.ShipManager.DrawName;
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
+        game.ShipManager.MyShip.LatencyResolver = latencyResolver;
         latencyResolver.Resolve(LatencyResolvingComplete);
     }
 
@@ -63,13 +64,14 @@ $(function () {
 
     function LoadMapInfo(info) {
         lastPayload = info;
-        gameInfoReceived = true;
-
-        if (info.MovementReceivedAt) {
-            game.ShipManager.MyShip.acknowledgeMovement(info.MovementReceivedAt);
-        }
+        gameInfoReceived = true;        
 
         game.ShipManager.UpdateShips(info.Ships);
+
+        if (info.MovementReceivedAt) {
+            game.ShipManager.MyShip.acknowledgeMovement(info.MovementReceivedAt, game.ShipManager.MyShip.LastUpdated.getTime());
+        }
+
         game.BulletManager.UpdateBullets(info.Bullets);
     }
 

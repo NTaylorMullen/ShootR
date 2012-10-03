@@ -12,9 +12,15 @@
 
     that.MovementSentAt = false;
 
-    that.acknowledgeMovement = function (acknowledgedAt) {
+    that.LatencyResolver;
+
+    that.acknowledgeMovement = function (acknowledgedAt, lastUpdate) {
+        // Last Update will be modified to be the "serverTime", need to now calculate a modified
+        // "sent" time to account for the delay between updates and draws
         if (acknowledgedAt) {
-            that.Latency = acknowledgedAt - that.MovementSentAt.getTime();            
+            var sentAt = that.MovementSentAt.getTime() + (lastUpdate - acknowledgedAt);
+            that.LatencyResolver.ResolveFromAcknowledgement(sentAt, lastUpdate);
+            that.Latency = Math.round(that.LatencyResolver.CalculateLatencySince(sentAt));
         }
         that.MovementSentAt = false;
     }
@@ -29,9 +35,12 @@
                     }
 
                     conn.registerMoveStart(keyMapping[k].dir);
+
                     setTimeout((function (k) {
-                        that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-                        that.MovementController.Moving[keyMapping[k].dir] = true;
+                        return function () {
+                            that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+                            that.MovementController.Moving[keyMapping[k].dir] = true;
+                        }
                     })(k), that.Latency);
                 }
             };
@@ -44,9 +53,12 @@
                 }
 
                 conn.registerMoveStop(keyMapping[k].dir);
+
                 setTimeout((function (k) {
-                    that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-                    that.MovementController.Moving[keyMapping[k].dir] = false;
+                    return function () {
+                        that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+                        that.MovementController.Moving[keyMapping[k].dir] = false;
+                    }
                 })(k), that.Latency);
             };
         })(k), { 'disable_in_input': true, 'type': 'keyup' });

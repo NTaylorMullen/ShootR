@@ -9,7 +9,7 @@
     function CalculateDeltaTime(sentAt, result) {
         var ServerTime = CST.GetServerTime(new Date(result).getTime()),
             currentTime = new Date().getTime(),
-            latency = (currentTime - sentAt) / 2;
+            latency = that.CalculateLatencySince(sentAt);
 
         return (currentTime - ServerTime + latency);
     }
@@ -18,7 +18,22 @@
         deltas.push(CalculateDeltaTime(sentAt, result));
     }
 
+    that.ResolveFromAcknowledgement = function (sentAt, result) {
+        PushPingResults(sentAt, result);
+
+        if (deltas.length === that.SampleSize) {
+            var previous = CST.Delta;
+            CST.Delta = that.GenerateDeltaTime();
+            deltas = [];
+        }
+    }
+
+    that.CalculateLatencySince = function (sentAt) {
+        return (new Date().getTime() - sentAt) / 2
+    }
+
     that.Resolve = function (callback) {
+        deltas = [];
         // Do an initial ping (this clears the network/readies the tunnel).
         connection.ping().done(GetDelta);
 
@@ -36,6 +51,7 @@
                 }
                 else { // Latency Resolving complete
                     CST.Delta = that.GenerateDeltaTime();
+                    deltas = [];
                     callback();
                 }
             });
@@ -57,8 +73,5 @@
         }
 
         return Math.round(Average(deltas));
-    }
-
-    that.AutoResolveLatency = function() {
     }
 }
