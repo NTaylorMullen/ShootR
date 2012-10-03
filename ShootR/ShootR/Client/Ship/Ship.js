@@ -19,8 +19,8 @@
         // "sent" time to account for the delay between updates and draws
         if (acknowledgedAt) {
             var sentAt = that.MovementSentAt.getTime() + (lastUpdate - acknowledgedAt);
+            that.Latency = acknowledgedAt - that.MovementSentAt.getTime();
             that.LatencyResolver.ResolveFromAcknowledgement(sentAt, lastUpdate);
-            that.Latency = Math.round(that.LatencyResolver.CalculateLatencySince(sentAt));
         }
         that.MovementSentAt = false;
     }
