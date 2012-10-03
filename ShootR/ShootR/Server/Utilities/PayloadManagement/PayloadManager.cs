@@ -71,8 +71,7 @@ namespace ShootR
             {
                 MovementReceivedAt = movementReceivedAt,
                 ShipsInWorld = shipCount,
-                BulletsInWorld = bulletCount,
-                SentAt = DateTime.UtcNow
+                BulletsInWorld = bulletCount
             };
         }
     }

@@ -66,7 +66,6 @@ $(function () {
         gameInfoReceived = true;
 
         if (info.MovementReceivedAt) {
-            alert(info.Ships[0].LastUpdated + "\n" + info.SentAt);
             game.ShipManager.MyShip.acknowledgeMovement(info.MovementReceivedAt);
         }
 

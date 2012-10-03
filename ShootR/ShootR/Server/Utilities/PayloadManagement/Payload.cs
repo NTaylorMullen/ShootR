@@ -17,6 +17,5 @@ namespace ShootR
         public DateTime? MovementReceivedAt { get; set; }
         public int ShipsInWorld { get; set; }
         public int BulletsInWorld { get; set; }
-        public DateTime SentAt { get; set; }
     }
 }
