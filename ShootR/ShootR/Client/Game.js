@@ -22,11 +22,11 @@ function Game(conn, myShipID) {
         gameTime.Update();
         CanvasContext.clear();
 
+        // Move the ships on the client
+        that.ShipManager.Update(gameTime);
+
         // Move the bullets on the client
         that.BulletManager.Update(gameTime);
-
-        // Move the ships on the client
-        that.ShipManager.Update(gameTime);        
 
         GAME_GLOBALS.AnimationManager.Update(gameTime);
 

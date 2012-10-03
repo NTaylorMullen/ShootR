@@ -69,18 +69,6 @@
             that.Camera.Move({ X: this.MovementController.Position.X + this.WIDTH * .5, Y: this.MovementController.Position.Y + this.HEIGHT * .5 });
         }
 
-        // Check if the object that we're drawing is beyond our draw border
-        if (!swidth) {
-            if (CalculateLength({ X: sx, Y: sy }, that.Camera.Position) >= drawBoundary) {
-                return;
-            }
-        }
-        else {
-            if (CalculateLength({ X: x, Y: y }, that.Camera.Position) >= drawBoundary) {
-                return;
-            }
-        }
-
         canvasBufferContext.save();
 
         var halfSize,
