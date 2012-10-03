@@ -23,7 +23,7 @@
 
         if (deltas.length === that.SampleSize) {
             var previous = CST.Delta;
-            CST.Delta = that.GenerateDeltaTime();
+            CST.Delta += that.GenerateDeltaTime();
             deltas = [];
         }
     }
