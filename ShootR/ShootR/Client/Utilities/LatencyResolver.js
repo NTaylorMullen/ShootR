@@ -6,12 +6,11 @@
 
     that.SampleSize = 10; // We want X samples before calculating correct delta time
 
-    function CalculateDeltaTime(sentAt, result) {
-        var ServerTime = CST.GetServerTime(new Date(result).getTime()),
-            currentTime = new Date().getTime(),
+    function CalculateDeltaTime(sentAt, serverTime) {
+        var currentTime = new Date().getTime(),
             latency = that.CalculateLatencySince(sentAt);
 
-        return (currentTime - ServerTime + latency);
+        return (currentTime - serverTime + latency);
     }
 
     function PushPingResults(sentAt, result) {
@@ -23,7 +22,7 @@
 
         if (deltas.length === that.SampleSize) {
             var previous = CST.Delta;
-            CST.Delta += that.GenerateDeltaTime();
+            CST.Delta = that.GenerateDeltaTime();
             deltas = [];
         }
     }
@@ -41,7 +40,7 @@
             // Calculate delta time
             var sentAt = new Date().getTime();
             connection.ping().done(function (result) {
-                PushPingResults(sentAt, result);
+                PushPingResults(sentAt, CST.GetServerTime(new Date(result).getTime()));
 
                 if (++pingCount < that.SampleSize) {
                     GetDelta();
