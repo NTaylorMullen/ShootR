@@ -2,7 +2,7 @@
     var that = this,
         pingCount = 0,
         deltas = [],
-        CST = GAME_GLOBALS.ClientServerTime = new ClientServerTime(),
+        CST = new ClientServerTime(),
         requestedPingAt = false;
 
     that.SampleSize = 10; // We want X samples before calculating correct delta time
@@ -25,10 +25,9 @@
         }
     }
 
-    that.ServerPingBack = function (serverAcknowledgedAt) {
+    that.ServerPingBack = function () {
         if (requestedPingAt) {
             that.Latency = that.CalculateLatencySince(requestedPingAt) + " ms";
-            that.ResolveFromAcknowledgement(requestedPingAt, new Date(serverAcknowledgedAt).getTime());
             requestedPingAt = false;
         }
     }

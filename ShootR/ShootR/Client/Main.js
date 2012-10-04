@@ -33,10 +33,7 @@ $(function () {
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
         game.ShipManager.MyShip.LatencyResolver = latencyResolver;
-        latencyResolver.Resolve(LatencyResolvingComplete);
-    }
 
-    function LatencyResolvingComplete() {
         StartUpdateLoop();
         env.readyForPayloads();
     }

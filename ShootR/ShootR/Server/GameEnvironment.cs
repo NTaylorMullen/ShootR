@@ -189,7 +189,7 @@ namespace ShootR
         {
             if (pingBack)
             {
-                Caller.pingBack(DateTime.UtcNow);
+                Caller.pingBack();
             }
 
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
@@ -204,7 +204,7 @@ namespace ShootR
         {
             if (pingBack)
             {
-                Caller.pingBack(DateTime.UtcNow);
+                Caller.pingBack();
             }
 
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
