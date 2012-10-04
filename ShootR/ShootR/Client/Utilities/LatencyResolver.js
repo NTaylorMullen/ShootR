@@ -37,9 +37,7 @@
         PushPingResults(sentAt, serverAcknowledgedAt);
 
         if (deltas.length === that.SampleSize) {
-            console.log("Re-calculating latency... WAS: " + CST.Delta);
             CST.Delta = that.GenerateDeltaTime();
-            console.log("Re-calculating latency... IS NOW: " + CST.Delta);
             deltas = [];
         }
     }

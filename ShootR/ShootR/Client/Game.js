@@ -22,15 +22,15 @@ function Game(conn, latencyResolver, myShipID) {
         gameTime.Update();
         CanvasContext.clear();
 
+        map.CheckBoundaryCollisions(that.ShipManager.Ships, that.BulletManager.Bullets);
+
         // Move the ships on the client
         that.ShipManager.Update(gameTime);
 
         // Move the bullets on the client
         that.BulletManager.Update(gameTime);
 
-        GAME_GLOBALS.AnimationManager.Update(gameTime);
-
-        map.CheckBoundaryCollisions(that.ShipManager.Ships, that.BulletManager.Bullets);
+        GAME_GLOBALS.AnimationManager.Update(gameTime);        
 
         map.Draw();
         CanvasContext.Render();
