@@ -14,7 +14,7 @@ $(function () {
 
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
-        game = new Game(env, init.ShipID);
+        game = new Game(env, latencyResolver, init.ShipID);
         payloadDecompressor.LoadContracts(init.CompressionContracts);
         $("#ShipName").val(init.ShipName);
 
@@ -36,9 +36,9 @@ $(function () {
         latencyResolver.Resolve(LatencyResolvingComplete);
     }
 
-    function LatencyResolvingComplete() {        
+    function LatencyResolvingComplete() {
         StartUpdateLoop();
-        env.readyForPayloads();        
+        env.readyForPayloads();
     }
 
     function StartUpdateLoop() {
@@ -64,14 +64,9 @@ $(function () {
 
     function LoadMapInfo(info) {
         lastPayload = info;
-        gameInfoReceived = true;        
+        gameInfoReceived = true;
 
         game.ShipManager.UpdateShips(info.Ships);
-
-        if (info.MovementReceivedAt) {
-            game.ShipManager.MyShip.acknowledgeMovement(info.MovementReceivedAt, game.ShipManager.MyShip.LastUpdated.getTime());
-        }
-
         game.BulletManager.UpdateBullets(info.Bullets);
     }
 
@@ -79,6 +74,8 @@ $(function () {
     env.d = function (compressedPayload) {
         LoadMapInfo(payloadDecompressor.Decompress(compressedPayload));
     }
+
+    env.pingBack = latencyResolver.ServerPingBack;
 
     $.connection.hub.start(function () {
         env.initializeClient().done(function (value) {

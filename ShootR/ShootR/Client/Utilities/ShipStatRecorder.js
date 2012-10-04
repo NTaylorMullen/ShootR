@@ -28,7 +28,7 @@
 
     $("body").prepend(holder);
 
-    that.Update = function (payload, myShip, ships, bullets) {
+    that.Update = function (payload, gameLatency, ships, bullets) {
         var speed = Math.round(Math.sqrt(Math.pow(ship.MovementController.Velocity.X, 2) + Math.pow(ship.MovementController.Velocity.Y, 2)));
 
         // Movement Column
@@ -54,6 +54,6 @@
         bulletsInWorld.html("Bullets In World: " + payload.BulletsInWorld);
 
         // Controls Column
-        latency.html("<strong>Latency:</strong> " + myShip.Latency);
+        latency.html("<strong>Latency:</strong> " + gameLatency);
     }
 }

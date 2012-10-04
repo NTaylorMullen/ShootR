@@ -1,57 +1,54 @@
 ﻿function Ship(rotateLeft, forward, rotateRight, backward, fire, bullet_manager, conn) {
     var that = this,
         lastShot = new Date(),
-        keyMapping = [];
-
-    that.Latency = 0;
+        keyMapping = [],
+        movementCount = 0;
 
     keyMapping.push({ key: rotateLeft, dir: "RotatingLeft" });
     keyMapping.push({ key: rotateRight, dir: "RotatingRight" });
     keyMapping.push({ key: forward, dir: "Forward" });
     keyMapping.push({ key: backward, dir: "Backward" });
 
-    that.MovementSentAt = false;
+    // Instantiated by the game config
+    that.REQUEST_PING_EVERY;
 
+    // Instantiated in main.js
     that.LatencyResolver;
-
-    that.acknowledgeMovement = function (acknowledgedAt, lastUpdate) {
-        // Last Update will be modified to be the "serverTime", need to now calculate a modified
-        // "sent" time to account for the delay between updates and draws
-        if (acknowledgedAt) {
-            var sentAt = that.MovementSentAt.getTime() + (lastUpdate - acknowledgedAt);
-            that.Latency = acknowledgedAt - that.MovementSentAt.getTime();
-            that.LatencyResolver.ResolveFromAcknowledgement(sentAt, GAME_GLOBALS.ClientServerTime.ToServerTime(lastUpdate));
-        }
-        that.MovementSentAt = false;
-    }
 
     // Mapping each hot key to its corresponding movement direction
     for (k = 0; k < keyMapping.length; k++) {
         shortcut.add(keyMapping[k].key, (function (k) {
             return function () {
                 if (!that.MovementController.Moving[keyMapping[k].dir]) {
-                    if (!that.MovementSentAt) {
-                        that.MovementSentAt = new Date();
-                    }
+                    var pingBack = false;
+                    movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
-                    conn.registerMoveStart(keyMapping[k].dir);
+                    // 0 Is when the counter loops over, aka hits max;
+                    if (movementCount === 0) {
+                        pingBack = true;
+                        that.LatencyResolver.RequestedPingBack();
+                    }
+                    conn.registerMoveStart(keyMapping[k].dir, pingBack);
 
                     that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-                    that.MovementController.Moving[keyMapping[k].dir] = true;                        
+                    that.MovementController.Moving[keyMapping[k].dir] = true;                    
                 }
             };
         })(k), { 'disable_in_input': true, 'type': 'keydown' });
 
         shortcut.add(keyMapping[k].key, (function (k) {
             return function () {
-                if (!that.MovementSentAt) {
-                    that.MovementSentAt = new Date();
-                }
+                var pingBack = false;
+                movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
-                conn.registerMoveStop(keyMapping[k].dir);
+                // 0 Is when the counter loops over, aka hits max;
+                if (movementCount === 0) {
+                    pingBack = true;
+                }
+                conn.registerMoveStop(keyMapping[k].dir, pingBack);
 
                 that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-                that.MovementController.Moving[keyMapping[k].dir] = false;                    
+                that.MovementController.Moving[keyMapping[k].dir] = false;
             };
         })(k), { 'disable_in_input': true, 'type': 'keyup' });
     }

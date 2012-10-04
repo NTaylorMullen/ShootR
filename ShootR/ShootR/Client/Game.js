@@ -4,7 +4,7 @@
 /// <reference path="BulletManager.js" />
 /// <reference path="Configuration/CanvasRenderer.js" />
 
-function Game(conn, myShipID) {
+function Game(conn, latencyResolver, myShipID) {
     var that = this,
         gameTime = new GameTime(),
         map = new Map();
@@ -34,6 +34,6 @@ function Game(conn, myShipID) {
 
         map.Draw();
         CanvasContext.Render();
-        shipStats.Update(payload, myShip, that.ShipManager.Ships, that.BulletManager.Bullets);
+        shipStats.Update(payload, latencyResolver.Latency, that.ShipManager.Ships, that.BulletManager.Bullets);
     }
 }

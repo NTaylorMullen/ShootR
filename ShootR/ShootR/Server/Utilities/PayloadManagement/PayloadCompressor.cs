@@ -56,16 +56,6 @@ namespace ShootR
             object[] result = new object[5];
             result[PayloadCompressionContract.Ships] = payload.Ships;
             result[PayloadCompressionContract.Bullets] = payload.Bullets;
-
-            if (payload.MovementReceivedAt.HasValue)
-            {
-                result[PayloadCompressionContract.MovementReceivedAt] = payload.MovementReceivedAt.Value.ToUniversalTime();
-            }
-            else
-            {
-                result[PayloadCompressionContract.MovementReceivedAt] = 0;
-            }
-
             result[PayloadCompressionContract.ShipsInWorld] = payload.ShipsInWorld;
             result[PayloadCompressionContract.BulletsInWorld] = payload.BulletsInWorld;
             return result;

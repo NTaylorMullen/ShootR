@@ -17,6 +17,5 @@ namespace ShootR
         public string ConnectionID { get; set; }
         public Ship MyShip { get; set; }
         public bool ReadyForPayloads { get; set; }
-        public DateTime? MovementReceivedAt { get; set; }
     }
 }

@@ -2,7 +2,7 @@
     var that = this;
 
     // Update the prototypes from the config
-    $.extend(ShipVehicle.prototype, config.shipConfig);
+    $.extend(ShipVehicle.prototype, config.shipConfig);    
     $.extend(Bullet.prototype, config.bulletConfig);
     $.extend(Map.prototype, config.mapConfig);
 
@@ -11,6 +11,8 @@
         HEIGHT: config.gameConfig.VIEW_HEIGHT,
         SPEED: config.gameConfig.MAX_CAMERA_SPEED
     };
+
+    Ship.prototype.REQUEST_PING_EVERY = config.gameConfig.REQUEST_PING_EVERY;
 
     $.extend(that, config);
 }

@@ -73,17 +73,6 @@ namespace ShootR
             }
         }
 
-        /// <summary>
-        /// Used to indicate to the client the "movement" that.Latency, aka the time it takes for a movement command to get to the server
-        /// </summary>
-        public void FlagMovementTimestamp()
-        {
-            if (!_userList[Context.ConnectionId].MovementReceivedAt.HasValue)
-            {
-                _userList[Context.ConnectionId].MovementReceivedAt = new DateTime?(DateTime.UtcNow);
-            }
-        }
-
         #region Connection Methods
         public System.Threading.Tasks.Task Connect()
         {
@@ -196,9 +185,13 @@ namespace ShootR
         /// Registers the start of a movement on a clint.  Fires when the client presses a movement hotkey.
         /// </summary>
         /// <param name="movement">Direction to start moving</param>
-        public void registerMoveStart(string movement)
+        public void registerMoveStart(string movement, bool pingBack)
         {
-            FlagMovementTimestamp();
+            if (pingBack)
+            {
+                Caller.pingBack(DateTime.UtcNow);
+            }
+
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
             _gameHandler.ShipManager.Ships[Context.ConnectionId].StartMoving(where);
         }
@@ -207,9 +200,13 @@ namespace ShootR
         /// Registers the stop of a movement on a client.  Fires when the client presses a movement hotkey.
         /// </summary>
         /// <param name="movement">Direction to stop moving</param>
-        public void registerMoveStop(string movement)
+        public void registerMoveStop(string movement, bool pingBack)
         {
-            FlagMovementTimestamp();
+            if (pingBack)
+            {
+                Caller.pingBack(DateTime.UtcNow);
+            }
+
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
             _gameHandler.ShipManager.Ships[Context.ConnectionId].StopMoving(where);
         }

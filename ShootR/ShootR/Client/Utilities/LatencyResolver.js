@@ -2,9 +2,11 @@
     var that = this,
         pingCount = 0,
         deltas = [],
-        CST = GAME_GLOBALS.ClientServerTime = new ClientServerTime();
+        CST = GAME_GLOBALS.ClientServerTime = new ClientServerTime(),
+        requestedPingAt = false;
 
     that.SampleSize = 10; // We want X samples before calculating correct delta time
+    that.Latency = "Calculating...";
 
     function CalculateDeltaTime(sentAt, serverTime) {
         var currentTime = new Date().getTime(),
@@ -17,12 +19,27 @@
         deltas.push(CalculateDeltaTime(sentAt, result));
     }
 
-    that.ResolveFromAcknowledgement = function (sentAt, result) {
-        PushPingResults(sentAt, result);
+    that.RequestedPingBack = function () {
+        if (!requestedPingAt) {
+            requestedPingAt = new Date().getTime();
+        }
+    }
+
+    that.ServerPingBack = function (serverAcknowledgedAt) {
+        if (requestedPingAt) {
+            that.Latency = that.CalculateLatencySince(requestedPingAt);
+            that.ResolveFromAcknowledgement(requestedPingAt, new Date(serverAcknowledgedAt).getTime());
+            requestedPingAt = false;
+        }
+    }
+
+    that.ResolveFromAcknowledgement = function (sentAt, serverAcknowledgedAt) {
+        PushPingResults(sentAt, serverAcknowledgedAt);
 
         if (deltas.length === that.SampleSize) {
-            var previous = CST.Delta;
+            console.log("Re-calculating latency... WAS: " + CST.Delta);
             CST.Delta = that.GenerateDeltaTime();
+            console.log("Re-calculating latency... IS NOW: " + CST.Delta);
             deltas = [];
         }
     }
