@@ -50,7 +50,6 @@
             Backward: !!ship[ShipContract.Backward]
         };
         result.Name = ship[ShipContract.Name];
-        result.LastUpdated = GAME_GLOBALS.ClientServerTime.GetServerTime(new Date(ship[ShipContract.LastUpdated]).getTime())
 
         return result;
     }

@@ -32,7 +32,6 @@ namespace ShootR
 
             SetCollidableContractMembers(result, ship);
 
-            result[ShipCompressionContract.LastUpdated] = ship.LastUpdated.ToUniversalTime();
             result[ShipCompressionContract.RotatingLeft] = Convert.ToInt32(ship.MovementController.Moving.RotatingLeft);
             result[ShipCompressionContract.RotatingRight] = Convert.ToInt32(ship.MovementController.Moving.RotatingRight);
             result[ShipCompressionContract.Forward] = Convert.ToInt32(ship.MovementController.Moving.Forward);
