@@ -27,7 +27,7 @@
 
     that.ServerPingBack = function (serverAcknowledgedAt) {
         if (requestedPingAt) {
-            that.Latency = that.CalculateLatencySince(requestedPingAt);
+            that.Latency = that.CalculateLatencySince(requestedPingAt) + " ms";
             that.ResolveFromAcknowledgement(requestedPingAt, new Date(serverAcknowledgedAt).getTime());
             requestedPingAt = false;
         }
