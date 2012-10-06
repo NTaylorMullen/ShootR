@@ -94,25 +94,25 @@
 
             switch (event.direction) {
                 case "up":
-                    movementFunc(keyMapping[forward].dir);
+                    movementFunc("Forward");
                     break;
                 case "down":
-                    movementFunc(keyMapping[backward].dir);
+                    movementFunc("Backward");
                     break;
                 case "left":
-                    movementFunc(keyMapping[rotateLeft].dir);
+                    movementFunc("RotatingLeft");
                     break;
                 case "right":
-                    movementFunc(keyMapping[rotateRight].dir);
+                    movementFunc("RotatingRight");
                     break;
             }
         });
     }
 
     if (!Modernizr.touch) { // Touch enabled, also map the touch commands to the movement controls
-        ApplyTouchMappings();
+        
     }
-
+    ApplyTouchMappings();
     ApplyKeyboardMappings();    
 }
 
