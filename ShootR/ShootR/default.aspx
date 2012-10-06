@@ -22,7 +22,10 @@
     <form runat="server">
     </form>
 
-    <script src="Scripts/jquery-1.6.4.js" type="text/javascript"></script>
+    <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
+    <script src="Scripts/hammer.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.specialevent.hammer.js" type="text/javascript"></script>
+    <script src="Scripts/modernizr.touch.js" type="text/javascript"></script>
     <script src="Scripts/shortcut.js" type="text/javascript"></script>
     <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>
     <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
