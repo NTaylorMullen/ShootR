@@ -1,7 +1,7 @@
 ﻿function ShipStatRecorder(ship) {
     var that = this;
-    var holder = $("<div id='shipStats'></div>"),
-        MovementColumn = $("<div class='column' style='margin-left:140px;'><h3>Movement</h3></div>"),
+    var holder = $("#shipStats"),
+        MovementColumn = $("<div class='column' style='margin-left:177px;'><h3>Movement</h3></div>"),
         RenderedColumn = $("<div class='column'><h3>Rendered</h3></div>"),
         WorldColumn = $("<div class='column'><h3>World</h3></div>"),
         ControlColumn = $("<div class='column'><h3>Controls</h3></div>");
@@ -25,8 +25,6 @@
     WorldColumn.append(shipsInWorld, bulletsInWorld);
     ControlColumn.append(moveControls, shootControls, latency);
     holder.append(MovementColumn, RenderedColumn, WorldColumn, ControlColumn);
-
-    $("body").prepend(holder);
 
     that.Update = function (payload, gameLatency, ships, bullets) {
         var speed = Math.round(Math.sqrt(Math.pow(ship.MovementController.Velocity.X, 2) + Math.pow(ship.MovementController.Velocity.Y, 2)));

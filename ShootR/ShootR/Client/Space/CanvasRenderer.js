@@ -9,14 +9,16 @@
 
     var TO_RADIANS = Math.PI / 180;
 
-    that.CanvasSize = { width: $(target).width(), height: $(target).height() }
-    that.CanvasCenter = { X: .5 * that.CanvasSize.width, Y: .5 * that.CanvasSize.height }
+    that.UpdateSize = function (size) {
+        that.CanvasSize = size;
+        that.CanvasCenter = { X: .5 * that.CanvasSize.Width, Y: .5 * that.CanvasSize.Height }
 
-    canvasBuffer.width = that.CanvasSize.width;
-    canvasBuffer.height = that.CanvasSize.height;
+        canvasBuffer.width = that.CanvasSize.Width;
+        canvasBuffer.height = that.CanvasSize.Height;
+    }
 
-    that.Width = target.width();
-    that.Height = target.height();    
+    that.CanvasSize;
+    that.CanvasCenter;
 
     that.Camera = new Camera();
 
@@ -91,11 +93,11 @@
     }
 
     that.clear = function () {
-        canvasBufferContext.clearRect(0, 0, that.Width, that.Height);
+        canvasBufferContext.clearRect(0, 0, that.CanvasSize.Width, that.CanvasSize.Height);
     }
 
     that.Render = function () {
-        drawContext.clearRect(0, 0, that.Width, that.Height);
+        drawContext.clearRect(0, 0, that.CanvasSize.Width, that.CanvasSize.Height);
         drawContext.drawImage(canvasBuffer, 0, 0);
     }
 }

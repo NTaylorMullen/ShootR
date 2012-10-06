@@ -8,6 +8,7 @@
             gameConfig = new GameConfiguration();
             shipConfig = new ShipConfiguration();
             mapConfig = new MapConfiguration();
+            screenConfig = new ScreenConfiguration();
         }
 
         // Bullet Configurations
@@ -21,5 +22,8 @@
 
         // Map Configurations
         public MapConfiguration mapConfig { get; set; }
+
+        // Screen Configurations
+        public ScreenConfiguration screenConfig { get; set; }
     }
 }

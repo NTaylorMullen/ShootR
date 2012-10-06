@@ -9,6 +9,7 @@ $(function () {
         configurationManager,
         payloadDecompressor = new PayloadDecompressor(),
         latencyResolver = new LatencyResolver(env),
+        screen = new Screen($("#game"), $("#gameWrapper"), env),
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] };
 
@@ -16,6 +17,8 @@ $(function () {
         configurationManager = new ConfigurationManager(init.Configuration);
         game = new Game(env, latencyResolver, init.ShipID);
         payloadDecompressor.LoadContracts(init.CompressionContracts);
+        screen.Initialize();
+
         $("#ShipName").val(init.ShipName);
 
         $("#ShipName").keyup(function (e) {
@@ -33,7 +36,6 @@ $(function () {
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
         game.ShipManager.MyShip.LatencyResolver = latencyResolver;
-
         StartUpdateLoop();
         env.readyForPayloads();
     }
@@ -75,6 +77,7 @@ $(function () {
     env.pingBack = latencyResolver.ServerPingBack;
 
     $.connection.hub.start(function () {
+        // Send the viewport to the server initialization method
         env.initializeClient().done(function (value) {
             Initialize(value);
         });

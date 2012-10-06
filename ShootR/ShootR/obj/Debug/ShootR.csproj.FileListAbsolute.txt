@@ -18,3 +18,7 @@ C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\Microsoft.Web.Infra
 C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.dll
 C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.pdb
 C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\Microsoft.Web.Infrastructure.xml
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\SignalR.xml
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\SignalR.Hosting.AspNet.xml
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\SignalR.Hosting.Common.xml
+C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Debug\ShootR.csprojResolveAssemblyReference.cache

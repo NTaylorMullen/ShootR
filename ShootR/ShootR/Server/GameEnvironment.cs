@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Timers;
 using SignalR.Hubs;
 
@@ -169,7 +170,7 @@ namespace ShootR
                     PayloadContract = payloadManager.Compressor.PayloadCompressionContract,
                     CollidableContract = payloadManager.Compressor.CollidableCompressionContract,
                     ShipContract = payloadManager.Compressor.ShipCompressionContract,
-                    BulletContract = payloadManager.Compressor.BulletCompressionContract
+                    BulletContract = payloadManager.Compressor.BulletCompressionContract,
                 },
                 ShipID = _userList[Context.ConnectionId].MyShip.ID,
                 ShipName = _userList[Context.ConnectionId].MyShip.Name
@@ -218,6 +219,11 @@ namespace ShootR
                 newName = newName.Substring(0,25);
             }
             _gameHandler.ShipManager.Ships[Context.ConnectionId].Name = newName;
+        }
+
+        public void changeViewport(int viewportWidth, int viewportHeight)
+        {
+            _userList[Context.ConnectionId].Viewport = new Size(viewportWidth, viewportHeight);
         }
 
         #endregion

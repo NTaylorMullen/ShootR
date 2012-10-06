@@ -77,6 +77,12 @@
                 Position += Velocity * PercentOfSecond + _acceleration * PercentOfSecond * PercentOfSecond;
                 Velocity += _acceleration * PercentOfSecond;
 
+                // Stop moving if the "speed" is less than 10
+                if (Velocity.Length() < 10)
+                {
+                    Velocity = Vector2.Zero;
+                }
+
                 _acceleration = new Vector2();
                 Forces = new Vector2();
             }

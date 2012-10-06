@@ -8,8 +8,6 @@ namespace ShootR
     {
         public const int WIDTH = 50;
         public const int HEIGHT = 50;
-        public const int SCREEN_WIDTH = 1280;
-        public const int SCREEN_HEIGHT = 600;
 
         private ShipWeaponController _weaponController;
 

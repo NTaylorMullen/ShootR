@@ -17,14 +17,13 @@ namespace ShootR
         {
             _payloadCache.StartNextPayloadCache();
 
-            Dictionary<string, object[]> payloads = new Dictionary<string, object[]>();
-
-            Vector2 screenOffset = new Vector2((Ship.SCREEN_WIDTH / 2) + Ship.HEIGHT / 2, (Ship.SCREEN_HEIGHT / 2) + Ship.HEIGHT / 2);
+            Dictionary<string, object[]> payloads = new Dictionary<string, object[]>();            
 
             foreach (User user in userList.Values)
             {
                 if (user.ReadyForPayloads)
                 {
+                    Vector2 screenOffset = new Vector2((user.Viewport.Width / 2) + Ship.WIDTH / 2, (user.Viewport.Height / 2) + Ship.HEIGHT / 2);
                     string connectionID = user.ConnectionID;
 
                     _payloadCache.CreateCacheFor(connectionID);
@@ -32,7 +31,7 @@ namespace ShootR
                     var payload = GetInitializedPayload(shipCount, bulletCount);
 
                     Vector2 screenPosition = user.MyShip.MovementController.Position - screenOffset;
-                    List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), Ship.SCREEN_WIDTH + SCREEN_BUFFER_AREA, Ship.SCREEN_HEIGHT + SCREEN_BUFFER_AREA));
+                    List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), user.Viewport.Width + SCREEN_BUFFER_AREA, user.Viewport.Height + SCREEN_BUFFER_AREA));
 
                     foreach (Collidable obj in onScreen)
                     {

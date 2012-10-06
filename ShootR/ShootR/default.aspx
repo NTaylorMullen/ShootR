@@ -10,10 +10,12 @@
 </head>
 <body style="height: 100%;">
     <a href="https://github.com/NTaylorMullen/ShootR" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/Images/Page/GitHubForkMe.png" alt="Fork me on GitHub" /></a>
-    <div id="positionCheck"></div>
-    <div id="gameWrapper">
+    <div id="shipStats">
         <div id="ShipNameHolder"><em>Press X to turn off/on names </em><input type="text" id="ShipName" value="" maxlength="25"/><input type="button" id="ChangeShipName" value="Change" /></div>
-        <canvas id="game" width="1280" height="600"></canvas>
+    </div>
+
+    <div id="gameWrapper">        
+        <canvas id="game"></canvas>
     </div>
     
     <div id="banner"><em>For the latest updates, follow us on Twitter: </em> <a href="https://twitter.com/DamianEdwards" target="_blank">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl" target="_blank">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen" target="_blank">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr" target="_blank">@StephenHaltR</a>, <a href="https://twitter.com/SignalR" target="_blank">@SignalR</a></div>
@@ -27,6 +29,7 @@
     <script src="signalr/hubs" type="text/javascript"></script>
     
     <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
+    <script src="Client/Space/Screen.js" type="text/javascript"></script>
     <script src="Client/GameGlobals.js" type="text/javascript"></script>
     <script src="Client/Utilities/LatencyResolver.js" type="text/javascript"></script>
     <script src="Client/Utilities/UtilityFunctions.js" type="text/javascript"></script>

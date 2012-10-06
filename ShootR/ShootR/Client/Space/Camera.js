@@ -7,14 +7,9 @@
         Y: 0
     };
 
-    that.Size = {
-        Width: that.Width,
-        Height: that.Height
-    };
-
     // View is the area in which the server calculates how to send data down to the client
     // Is set by the prototype
-    that.View;
+    that.View = {};
 
     that.Move = function (Position) {
         // Update position
@@ -40,5 +35,6 @@
     }
 
     that.Update = function (PercentOfSecond) {
+        
     }
 }

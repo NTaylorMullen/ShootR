@@ -1,14 +1,7 @@
-﻿#positionCheck {
-    width:100px;
-    height:800px;
-    position:absolute;
-    left:0;
-    top:200px;
-}
-
-html, body {
+﻿html, body {
     width:100%;
     height:100%;
+    margin:0px;
 }
 
 a {
@@ -21,26 +14,25 @@ a {
 }
 
 #gameWrapper {
-    border:2px solid black;
-    margin: 0 auto;
     position:relative;
-    width:1280px;
-    height:600px;
+    width:100%;
+    height:100%;
     background: url('/Images/bg_stars.jpg') repeat;
 }
 
-#gameWrapper #ShipNameHolder {
+#ShipNameHolder {
     position:absolute;
-    left:400px;
-    top:-30px;
+    left:422px;
+    top:75px;
     height:23px;
+    width:440px;
 }
 
-#gameWrapper #ShipName {
+#ShipName {
     width:180px;
 }
 
-#gameWrapper #ShipName input[type="button"] {
+#ShipName input[type="button"] {
     width:100px;
     text-align:center;
 }
@@ -80,6 +72,7 @@ a {
 #shipStats {
     height:100px;
     width:1280px;
+    position: relative;
     margin:0 auto;
 }
 
@@ -100,5 +93,6 @@ h3 {
 
 #banner {
     margin-top:10px;
+    margin-bottom:5px;
     text-align:center;
 }
