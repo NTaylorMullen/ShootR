@@ -53,6 +53,8 @@
         CanvasContext.UpdateSize(that.Viewport);
 
         SendNewViewportToServer();
+
+        $(that).triggerHandler("UpdateScreen");
     }
 
     $(window).resize(function () {

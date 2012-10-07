@@ -120,9 +120,13 @@
         //touchController = new TouchController(StartMovement, StopMovement);
     }
 
-    touchController = new TouchController(StartMovement, StopMovement, StopAndStartMovement, ResetMovement);
+    touchController = new TouchController(StartMovement, StopMovement, StopAndStartMovement, ResetMovement, shoot);
 
     ApplyKeyboardMappings();
+
+    that.Initialize = function (screen) {
+        touchController.Initialize(screen);
+    }
 
     that.DrawTouchController = function () {
         touchController.Draw();

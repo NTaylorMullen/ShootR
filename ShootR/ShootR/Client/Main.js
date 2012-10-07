@@ -36,6 +36,7 @@ $(function () {
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
         game.ShipManager.MyShip.LatencyResolver = latencyResolver;
+        game.ShipManager.MyShip.Initialize(screen);
         StartUpdateLoop();
         env.readyForPayloads();
     }
