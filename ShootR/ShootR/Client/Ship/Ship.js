@@ -2,7 +2,8 @@
     var that = this,
         lastShot = new Date(),
         keyMapping = [],
-        movementCount = 0;
+        movementCount = 0,
+        touchController;
 
     keyMapping.push({ key: rotateLeft, dir: "RotatingLeft" });
     keyMapping.push({ key: rotateRight, dir: "RotatingRight" });
@@ -28,7 +29,7 @@
             conn.registerMoveStart(dir, pingBack);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-            that.MovementController.Moving[dir] = true;                    
+            that.MovementController.Moving[dir] = true;
         }
     }
 
@@ -79,41 +80,18 @@
         });
     }
 
-    function ApplyTouchMappings() {
-        $("#game").on("dragstart dragend", function (event) {
-            event.preventDefault();
-
-            var movementFunc;
-
-            if (event.type === "dragstart") {
-                movementFunc = StartMovement;
-            }
-            else if (event.type === "dragend") {
-                movementFunc = StopMovement;
-            }
-
-            switch (event.direction) {
-                case "up":
-                    movementFunc("Forward");
-                    break;
-                case "down":
-                    movementFunc("Backward");
-                    break;
-                case "left":
-                    movementFunc("RotatingLeft");
-                    break;
-                case "right":
-                    movementFunc("RotatingRight");
-                    break;
-            }
-        });
+    // Touch is enabled
+    if ('createTouch' in document) {
+        //touchController = new TouchController(StartMovement, StopMovement);
     }
 
-    if (!Modernizr.touch) { // Touch enabled, also map the touch commands to the movement controls
-        
+    touchController = new TouchController(StartMovement, StopMovement);
+
+    ApplyKeyboardMappings();
+
+    that.DrawTouchController = function () {
+        //touchController.Draw();
     }
-    ApplyTouchMappings();
-    ApplyKeyboardMappings();    
 }
 
 Ship.prototype = new ShipVehicle();
