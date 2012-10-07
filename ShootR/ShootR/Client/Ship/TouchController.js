@@ -52,7 +52,7 @@
     canvas.on('touchend', TouchEnd);
 
     that.Draw = function () {
-        if (currentTouch) {
+        if (currentTouchID) {
             CanvasContext.drawCircle(movementTouchStart.X, movementTouchStart.Y, 6, 40, "#1BFF27");
             CanvasContext.drawCircle(movementTouchStart.X, movementTouchStart.Y, 2, 60, "#1BFF27");
             CanvasContext.drawCircle(movementTouch.X, movementTouch.Y, 40, 2, "#1BFF27");
