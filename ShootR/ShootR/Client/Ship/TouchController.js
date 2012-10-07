@@ -3,15 +3,15 @@
         canvas = $("#game");
     
     function onTouchStart() {
-        alert("Touch Start!");
+        $("input[type='text']").val("Touch Start");
     }
 
     function onTouchMove() {
-        alert("Touch moved!");
+        $("input[type='text']").val("Touch Moved");
     }
 
     function onTouchEnd() {
-        alert("Touch End!");
+        $("input[type='text']").val("Touch End");
     }
 
     canvas.on('touchstart', onTouchStart);
