@@ -10,11 +10,7 @@
 
     that.Initialize = function () {
         UpdateScreen();
-    }
-
-    function HeightOffset(obj) {
-        return $(obj).height() + parseInt($(obj).css("margin-top")) + parseInt($(obj).css("margin-bottom"));
-    }
+    }    
 
     that.TopOffset = function () {
         return HeightOffset($("#shipStats"));

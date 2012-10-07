@@ -3,39 +3,32 @@
         canvas = document.getElementById("game"),
         currentTouchID = false,
         movementTouchStart,
-        movementTouch;
-    
+        movementTouch,
+        topOffset = HeightOffset($("#shipStats"));
+
     function TouchStart(e) {
         e.preventDefault();
-        if (!e.changedTouches) {
-            e.identifier = 1;
-            e.changedTouches = [e];
-        }
 
         for (var i = 0; i < e.changedTouches.length; i++) {
             var touch = e.changedTouches[i];
 
             if (!currentTouchID && touch.offsetX <= ($("#game").width() / 2)) {
                 currentTouchID = touch.identifier;
-                movementTouchStart = { X: touch.offsetX, Y: touch.offsetY };
-                movementTouch = { X: touch.offsetX, Y: touch.offsetY };
+                movementTouchStart = { X: touch.clientX, Y: touch.clientY - topOffset };
+                movementTouch = { X: touch.clientX, Y: touch.clientY - topOffset };
             }
         }
     }
 
     function TouchMove(e) {
         e.preventDefault();
-        if (!e.changedTouches) {
-            e.identifier = 1;
-            e.changedTouches = [e];
-        }
 
         for (var i = 0; i < e.changedTouches.length; i++) {
             var touch = e.changedTouches[i];
-            
+
             if (currentTouchID === touch.identifier) {
-                movementTouch.X = touch.offsetX;
-                movementTouch.Y = touch.offsetY;
+                movementTouch.X = touch.clientX;
+                movementTouch.Y = touch.clientY - topOffset;
                 break;
             }
         }
@@ -43,10 +36,6 @@
 
     function TouchEnd(e) {
         e.preventDefault();
-        if (!e.changedTouches) {
-            e.identifier = 1;
-            e.changedTouches = [e];
-        }
 
         for (var i = 0; i < e.changedTouches.length; i++) {
             var touch = e.changedTouches[i];
@@ -62,15 +51,12 @@
     canvas.addEventListener('touchmove', TouchMove, false);
     canvas.addEventListener('touchend', TouchEnd, false);
 
-    canvas.addEventListener('mousedown', TouchStart, false);
-    canvas.addEventListener('mousemove', TouchMove, false);
-    canvas.addEventListener('mouseup', TouchEnd, false);
-
     that.Draw = function () {
         if (currentTouchID) {
             CanvasContext.drawCircle(movementTouchStart.X, movementTouchStart.Y, 40, 6, "#1BFF27");
             CanvasContext.drawCircle(movementTouchStart.X, movementTouchStart.Y, 60, 2, "#1BFF27");
-            CanvasContext.drawCircle(movementTouch.X, movementTouch.Y, 40, 2, "#1BFF27");
+            CanvasContext.drawCircle(movementTouch.X, movementTouch.Y, 40, 2, "#2EBD15");
+            CanvasContext.drawLine(movementTouchStart.X, movementTouchStart.Y, movementTouch.X, movementTouch.Y, 2, "#4A993C");
         }
     }
 }

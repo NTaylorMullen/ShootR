@@ -55,15 +55,19 @@
         canvasBufferContext.lineWidth = lineWidth;
         canvasBufferContext.arc(x, y, radius, 0, Math.PI * 2, true);
         canvasBufferContext.stroke();
-        /*canvasBufferContext.beginPath();
-        canvasBufferContext.strokeStyle = "cyan";
-        canvasBufferContext.lineWidth = 2;
-        canvasBufferContext.arc(x, y, 60, 0, Math.PI * 2, true);
-        canvasBufferContext.stroke();
+    }
+
+    that.drawLine = function (fromX, fromY, toX, toY, lineWidth, color) {
+        canvasBufferContext.save();
+
         canvasBufferContext.beginPath();
-        canvasBufferContext.strokeStyle = "cyan";
-        canvasBufferContext.arc(x, y, 40, 0, Math.PI * 2, true);
-        canvasBufferContext.stroke();*/
+        canvasBufferContext.strokeStyle = color;
+        canvasBufferContext.lineWidth = lineWidth;
+        canvasBufferContext.moveTo(fromX, fromY);
+        canvasBufferContext.lineTo(toX, toY);
+        canvasBufferContext.stroke();
+
+        canvasBufferContext.restore();
     }
 
     that.drawText = function (text, x, y) {
