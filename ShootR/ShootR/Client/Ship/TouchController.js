@@ -1,6 +1,6 @@
 ﻿function TouchController(StartMovement, StopMovement) {
     var that = this,
-        canvas = $("#game"),
+        canvas = document.getElementById("game"),
         currentTouchID = false,
         movementTouchStart,
         movementTouch;
@@ -58,9 +58,13 @@
         }
     }
 
-    canvas.on('touchstart mousedown', TouchStart);
-    canvas.on('touchmove mousemove', TouchMove);
-    canvas.on('touchend mouseup', TouchEnd);
+    canvas.addEventListener('touchstart', TouchStart, false);
+    canvas.addEventListener('touchmove', TouchMove, false);
+    canvas.addEventListener('touchend', TouchEnd, false);
+
+    canvas.addEventListener('mousedown', TouchStart, false);
+    canvas.addEventListener('mousemove', TouchMove, false);
+    canvas.addEventListener('mouseup', TouchEnd, false);
 
     that.Draw = function () {
         if (currentTouchID) {
