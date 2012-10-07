@@ -183,6 +183,33 @@ namespace ShootR
         }
 
         /// <summary>
+        /// Resets all movement flags on the ship
+        /// </summary>
+        /// <param name="pingBack"></param>
+        public void resetMovement(bool pingBack)
+        {
+            if (pingBack)
+            {
+                Caller.pingBack();
+            }
+
+            _userList[Context.ConnectionId].MyShip.ResetMoving();
+        }
+
+        public void startAndStopMovement(string toStop, string toStart, bool pingBack)
+        {
+            if (pingBack)
+            {
+                Caller.pingBack();
+            }
+
+            Movement whereToStop = (Movement)Enum.Parse(typeof(Movement), toStop);
+            Movement whereToStart = (Movement)Enum.Parse(typeof(Movement), toStart);
+            _userList[Context.ConnectionId].MyShip.StopMoving(whereToStop);
+            _userList[Context.ConnectionId].MyShip.StartMoving(whereToStart);
+        }
+
+        /// <summary>
         /// Registers the start of a movement on a clint.  Fires when the client presses a movement hotkey.
         /// </summary>
         /// <param name="movement">Direction to start moving</param>
@@ -194,7 +221,7 @@ namespace ShootR
             }
 
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-            _gameHandler.ShipManager.Ships[Context.ConnectionId].StartMoving(where);
+            _userList[Context.ConnectionId].MyShip.StartMoving(where);
         }
 
         /// <summary>
@@ -209,7 +236,7 @@ namespace ShootR
             }
 
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-            _gameHandler.ShipManager.Ships[Context.ConnectionId].StopMoving(where);
+            _userList[Context.ConnectionId].MyShip.StopMoving(where);
         }
 
         public void changeName(string newName)

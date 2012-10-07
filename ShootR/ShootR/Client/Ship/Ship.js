@@ -40,11 +40,46 @@
         // 0 Is when the counter loops over, aka hits max;
         if (movementCount === 0) {
             pingBack = true;
+            that.LatencyResolver.RequestedPingBack();
         }
         conn.registerMoveStop(dir, pingBack);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
         that.MovementController.Moving[dir] = false;
+    }
+
+    function StopAndStartMovement(toStop, toStart) {
+        var pingBack = false;
+        movementCount = ++movementCount % that.REQUEST_PING_EVERY;
+
+        // 0 Is when the counter loops over, aka hits max;
+        if (movementCount === 0) {
+            pingBack = true;
+            that.LatencyResolver.RequestedPingBack();
+        }
+        conn.startAndStopMovement(toStop, toStart, pingBack);
+
+        that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+        that.MovementController.Moving[toStop] = false;
+        that.MovementController.Moving[toStart] = true;
+    }
+
+    function ResetMovement() {
+        var pingBack = false;
+        movementCount = ++movementCount % that.REQUEST_PING_EVERY;
+
+        // 0 Is when the counter loops over, aka hits max;
+        if (movementCount === 0) {
+            pingBack = true;
+        }
+        conn.resetMovement(pingBack);
+
+        that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+
+        // Reset all movement
+        for (var i = 0; i < keyMapping.length; i++) {
+            that.MovementController.Moving[keyMapping[i].dir] = false;
+        }        
     }
 
     function shoot() {
@@ -85,7 +120,7 @@
         //touchController = new TouchController(StartMovement, StopMovement);
     }
 
-    touchController = new TouchController(StartMovement, StopMovement);
+    touchController = new TouchController(StartMovement, StopMovement, StopAndStartMovement, ResetMovement);
 
     ApplyKeyboardMappings();
 

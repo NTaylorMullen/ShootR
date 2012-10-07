@@ -44,6 +44,15 @@ namespace ShootR
             MovementController.StopMoving(where);
         }
 
+        public void ResetMoving()
+        {
+            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
+            MovementController.StopMoving(Movement.Forward);
+            MovementController.StopMoving(Movement.Backward);
+            MovementController.StopMoving(Movement.RotatingLeft);
+            MovementController.StopMoving(Movement.RotatingRight);
+        }
+
         public ShipWeaponController GetWeaponController()
         {
             return _weaponController;

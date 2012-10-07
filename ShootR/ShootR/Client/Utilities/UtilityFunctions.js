@@ -48,3 +48,7 @@
  function HeightOffset(obj) {
      return $(obj).height() + parseInt($(obj).css("margin-top")) + parseInt($(obj).css("margin-bottom"));
  }
+
+ function SubtractVectors(A, B) {
+     return { X: B.X - A.X, Y: B.Y - A.Y };
+ }
