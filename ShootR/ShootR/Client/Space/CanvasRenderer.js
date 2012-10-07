@@ -49,6 +49,23 @@
         canvasBufferContext.restore();
     }
 
+    that.drawCircle = function (x, y, radius, lineWidth, color) {
+        canvasBufferContext.beginPath();
+        canvasBufferContext.strokeStyle = color;
+        canvasBufferContext.lineWidth = lineWidth;
+        canvasBufferContext.arc(x, y, radius, 0, Math.PI * 2, true);
+        canvasBufferContext.stroke();
+        /*canvasBufferContext.beginPath();
+        canvasBufferContext.strokeStyle = "cyan";
+        canvasBufferContext.lineWidth = 2;
+        canvasBufferContext.arc(x, y, 60, 0, Math.PI * 2, true);
+        canvasBufferContext.stroke();
+        canvasBufferContext.beginPath();
+        canvasBufferContext.strokeStyle = "cyan";
+        canvasBufferContext.arc(x, y, 40, 0, Math.PI * 2, true);
+        canvasBufferContext.stroke();*/
+    }
+
     that.drawText = function (text, x, y) {
         var cameraOffset = { X: -that.Camera.Position.X + that.CanvasCenter.X, Y: -that.Camera.Position.Y + that.CanvasCenter.Y };
 

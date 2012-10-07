@@ -90,7 +90,7 @@
     ApplyKeyboardMappings();
 
     that.DrawTouchController = function () {
-        //touchController.Draw();
+        touchController.Draw();
     }
 }
 
