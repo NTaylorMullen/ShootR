@@ -113,23 +113,22 @@
         shortcut.add(fire, function () {
             shoot();
         });
-    }
-
-    // Touch is enabled
-    if ('createTouch' in document) {
-        //touchController = new TouchController(StartMovement, StopMovement);
-    }
-
-    touchController = new TouchController(StartMovement, StopMovement, StopAndStartMovement, ResetMovement, shoot);
+    }       
 
     ApplyKeyboardMappings();
 
     that.Initialize = function (screen) {
-        touchController.Initialize(screen);
+        // Touch is enabled
+        if ('createTouch' in document) {
+            touchController = new TouchController(StartMovement, StopMovement, StopAndStartMovement, ResetMovement, shoot);
+            touchController.Initialize(screen);
+        }
     }
 
-    that.DrawTouchController = function () {
-        touchController.Draw();
+    that.DrawHUD = function () {
+        if (touchController) {
+            touchController.Draw();
+        }
     }
 }
 

@@ -33,7 +33,7 @@ function Game(conn, latencyResolver, myShipID) {
         GAME_GLOBALS.AnimationManager.Update(gameTime);        
 
         map.Draw();
-        that.ShipManager.MyShip.DrawTouchController();
+        that.ShipManager.MyShip.DrawHUD();
 
         CanvasContext.Render();
         shipStats.Update(payload, latencyResolver.Latency, that.ShipManager.Ships, that.BulletManager.Bullets);
