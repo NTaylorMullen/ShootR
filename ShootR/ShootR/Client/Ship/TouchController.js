@@ -24,10 +24,10 @@
         that.Active = false;
     };
 
-    var Forward = new Movement(15, 165, "Forward"),
-        Backward = new Movement(195, 345, "Backward"),
-        RotatingLeft = new Movement(105, 255, "RotatingLeft"),
-        RotatingRight = new Movement(75, 285, "RotatingRight", true),
+    var Forward = new Movement(20, 160, "Forward"),
+        Backward = new Movement(200, 340, "Backward"),
+        RotatingLeft = new Movement(135, 225, "RotatingLeft"),
+        RotatingRight = new Movement(45, 315, "RotatingRight", true),
         MovementList = [Forward, Backward, RotatingLeft, RotatingRight];
 
     function MoveShip(toStop, toStart) {
