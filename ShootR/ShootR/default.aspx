@@ -9,16 +9,28 @@
     <title>SignalR ShootR</title>
 </head>
 <body style="height: 100%;">
-    <a href="https://github.com/NTaylorMullen/ShootR" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/Images/Page/GitHubForkMe.png" alt="Fork me on GitHub" /></a>
+    <a href="https://github.com/NTaylorMullen/ShootR" target="_blank">
+        <img style="position: absolute; top: 0; left: 0; border: 0;" src="/Images/Page/GitHubForkMe.png" alt="Fork me on GitHub" />
+    </a>
     <div id="shipStats">
-        <div id="ShipNameHolder"><em>Press X to turn off/on names </em><input type="text" id="ShipName" value="" maxlength="25"/><input type="button" id="ChangeShipName" value="Change" /></div>
+        <div id="ShipNameHolder">
+            <em>Press X to turn off/on names </em>
+            <input type="text" id="ShipName" value="" maxlength="25" /><input type="button" id="ChangeShipName" value="Change" />
+        </div>
     </div>
 
-    <div id="gameWrapper">        
+    <div id="gameWrapper">
         <canvas id="game"></canvas>
+        <div id="controlRequest">
+            <div id="header">Control Request</div>
+            <div id="controlRequestButtons">
+                <div id="acceptControlRequest">Accept</div>
+                <div id="declineControlRequest">Decline</div>
+            </div>
+        </div>
     </div>
-    
-    <div id="banner"><em>For the latest updates, follow us on Twitter: </em> <a href="https://twitter.com/DamianEdwards" target="_blank">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl" target="_blank">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen" target="_blank">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr" target="_blank">@StephenHaltR</a>, <a href="https://twitter.com/SignalR" target="_blank">@SignalR</a></div>
+
+    <div id="banner"><em>For the latest updates, follow us on Twitter: </em><a href="https://twitter.com/DamianEdwards" target="_blank">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl" target="_blank">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen" target="_blank">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr" target="_blank">@StephenHaltR</a>, <a href="https://twitter.com/SignalR" target="_blank">@SignalR</a></div>
     <form runat="server">
     </form>
 
@@ -28,7 +40,7 @@
     <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
 
-    <script type="text/javascript" src="Client/Ship/TouchController.js"></script>
+    <script src="Client/Ship/TouchController.js" type="text/javascript"></script>
     <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
     <script src="Client/Space/Screen.js" type="text/javascript"></script>
     <script src="Client/GameGlobals.js" type="text/javascript"></script>

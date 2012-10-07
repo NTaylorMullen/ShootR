@@ -96,3 +96,42 @@ h3 {
     margin-bottom:5px;
     text-align:center;
 }
+
+#controlRequest {
+    width:200px;
+    position:absolute;
+    height:48px;
+    border: 1px double white;
+    background-color:#333333;
+    display:none;
+}
+
+#controlRequest div#header {
+    text-align:center;
+    height:22px;
+    line-height:22px;
+    color:white;
+    font-weight:bold;
+}
+
+#controlRequestButtons {    
+    width:200px;
+    height:24px;
+    border-top: 1px double white;
+}
+
+#controlRequestButtons div:hover {
+    cursor:pointer;
+}
+
+#controlRequestButtons div {
+    width:98px;
+    height:24px;
+    line-height:24px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    background-color:#777777;    
+    text-align:center;
+    float:left;
+    color:white;
+}

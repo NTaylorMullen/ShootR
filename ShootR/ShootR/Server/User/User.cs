@@ -11,6 +11,13 @@ namespace ShootR
         public const int MAX_SCREEN_WIDTH = 2000;
         public const int MAX_SCREEN_HEIGHT = 1000;
 
+        public User(string connectionID)
+        {
+            ConnectionID = connectionID;
+            ReadyForPayloads = false;
+            Viewport = new Size(0, 0);
+        }
+
         public User(string connectionID, Ship ship)
         {
             ConnectionID = connectionID;

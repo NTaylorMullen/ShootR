@@ -23,6 +23,7 @@ namespace ShootR
         public static GameTime gameTime = new GameTime();
 
         private static ConcurrentDictionary<string, User> _userList = new ConcurrentDictionary<string, User>();
+        private static ControlRequestManager _controlRequestManager = new ControlRequestManager();
         private static ConfigurationManager _configuration = new ConfigurationManager();        
         private static Map _space = new Map();
         private static GameHandler _gameHandler = new GameHandler(_space);
@@ -43,7 +44,7 @@ namespace ShootR
         /// <summary>
         /// Sends down batches of data to the clients in order to update their screens
         /// </summary>
-        public void Draw()
+        private void Draw()
         {
             Dictionary<string, object[]> payloads = payloadManager.GetPayloads(_userList, _gameHandler.ShipManager.Ships.Count, _gameHandler.BulletManager.Bullets.Count, _space);
 
@@ -58,7 +59,7 @@ namespace ShootR
         /// Keeps the physics and the movements of the game calculated.  This is used primarily to do server side validation.
         /// If there is an innaproprite move on the client the server will correct it.
         /// </summary>
-        public void Update(object sender, ElapsedEventArgs e)
+        private void Update(object sender, ElapsedEventArgs e)
         {
             lock (_locker)
             {
@@ -77,19 +78,7 @@ namespace ShootR
         #region Connection Methods
         public System.Threading.Tasks.Task Connect()
         {
-            lock (_locker)
-            {
-                int x = _gen.Next(Ship.WIDTH * 2, Map.WIDTH - Ship.WIDTH * 2);
-                int y = _gen.Next(Ship.HEIGHT * 2, Map.HEIGHT - Ship.HEIGHT * 2);
-
-                Ship ship = new Ship(new Vector2(x, y), _gameHandler.BulletManager);
-                _gameHandler.ShipManager.Add(ship, Context.ConnectionId);
-                ship.Name = "Ship" + ship.ID;
-
-                _userList.TryAdd(Context.ConnectionId, new User(Context.ConnectionId, ship));
-                _gameHandler.CollisionManager.Monitor(ship);
-                return null;
-            }
+            return null;
         }
 
         public System.Threading.Tasks.Task Reconnect(IEnumerable<string> groups)
@@ -121,9 +110,12 @@ namespace ShootR
         {
             lock (_locker)
             {
-                User u;
-                _userList.TryRemove(Context.ConnectionId, out u);
-                _gameHandler.ShipManager.Ships[Context.ConnectionId].Dispose();
+                if (_userList.ContainsKey(Context.ConnectionId))
+                {
+                    User u;
+                    _userList.TryRemove(Context.ConnectionId, out u);
+                    _gameHandler.ShipManager.Ships[Context.ConnectionId].Dispose();
+                }
                 return null;
             }
         }
@@ -131,6 +123,54 @@ namespace ShootR
         #endregion
 
         #region Client Accessor Methods
+
+        public bool requestControlOf(string shipName)
+        {
+            User to = null;
+            foreach (string connectionID in _userList.Keys)
+            {
+                if (connectionID != Context.ConnectionId && _userList[connectionID].MyShip.Name == shipName)
+                {
+                    to = _userList[connectionID];
+                    break;
+                }
+            }
+
+            if (to != null)
+            {
+                if (_controlRequestManager.Add(Context.ConnectionId, to.ConnectionID))
+                {
+                    Clients[to.ConnectionID].controlRequest();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void acceptControlRequest()
+        {
+            string from = _controlRequestManager.PullControlRequest(Context.ConnectionId);
+
+            _userList[from].MyShip = _userList[Context.ConnectionId].MyShip;
+
+            Clients[from].controlRequestAccepted();
+        }
+
+        public void declineControlRequest()
+        {
+            string from = _controlRequestManager.PullControlRequest(Context.ConnectionId);
+
+            _userList[from].MyShip = _userList[Context.ConnectionId].MyShip;
+
+            Clients[from].controlRequestDeclined();
+        }
 
         public DateTime ping()
         {
@@ -142,7 +182,7 @@ namespace ShootR
         /// </summary>
         public void fire()
         {
-            Bullet bullet = _gameHandler.ShipManager.Ships[Context.ConnectionId].GetWeaponController().Fire();
+            Bullet bullet = _userList[Context.ConnectionId].MyShip.GetWeaponController().Fire();
 
 
             if (bullet != null)
@@ -162,6 +202,19 @@ namespace ShootR
         /// <returns>The game's configuration</returns>
         public object initializeClient()
         {
+            lock (_locker)
+            {
+                int x = _gen.Next(Ship.WIDTH * 2, Map.WIDTH - Ship.WIDTH * 2);
+                int y = _gen.Next(Ship.HEIGHT * 2, Map.HEIGHT - Ship.HEIGHT * 2);
+
+                Ship ship = new Ship(new Vector2(x, y), _gameHandler.BulletManager);
+                _gameHandler.ShipManager.Add(ship, Context.ConnectionId);
+                ship.Name = "Ship" + ship.ID;
+
+                _userList.TryAdd(Context.ConnectionId, new User(Context.ConnectionId, ship));
+                _gameHandler.CollisionManager.Monitor(ship);
+            }
+
             return new
             {
                 Configuration = _configuration,
@@ -174,6 +227,27 @@ namespace ShootR
                 },
                 ShipID = _userList[Context.ConnectionId].MyShip.ID,
                 ShipName = _userList[Context.ConnectionId].MyShip.Name
+            };
+        }
+
+        /// <summary>
+        /// Retrieves the game's configuration
+        /// </summary>
+        /// <returns>The game's configuration</returns>
+        public object initializeController()
+        {
+            _userList.TryAdd(Context.ConnectionId, new User(Context.ConnectionId));                
+
+            return new
+            {
+                Configuration = _configuration,
+                CompressionContracts = new
+                {
+                    PayloadContract = payloadManager.Compressor.PayloadCompressionContract,
+                    CollidableContract = payloadManager.Compressor.CollidableCompressionContract,
+                    ShipContract = payloadManager.Compressor.ShipCompressionContract,
+                    BulletContract = payloadManager.Compressor.BulletCompressionContract,
+                }
             };
         }
 

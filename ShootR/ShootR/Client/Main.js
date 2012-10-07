@@ -11,7 +11,8 @@ $(function () {
         latencyResolver = new LatencyResolver(env),
         screen = new Screen($("#game"), $("#gameWrapper"), env),
         gameInfoReceived = false,
-        lastPayload = { Ships: {}, Bullets: [] };
+        lastPayload = { Ships: {}, Bullets: [] },
+        controlRequest = $("#controlRequest");
 
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
@@ -77,10 +78,24 @@ $(function () {
 
     env.pingBack = latencyResolver.ServerPingBack;
 
+    env.controlRequest = function () {
+        controlRequest.show(500);
+    }
+
     $.connection.hub.start(function () {
         // Send the viewport to the server initialization method
         env.initializeClient().done(function (value) {
             Initialize(value);
+        });
+
+        $("#acceptControlRequest").click(function () {
+            env.acceptControlRequest();
+            controlRequest.hide(500);
+        });
+
+        $("#declineControlRequest").click(function () {
+            env.declineControlRequest();
+            controlRequest.hide(500);
         });
     });
 });

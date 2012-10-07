@@ -1,0 +1,69 @@
+﻿html, body {
+    width:100%;
+    height:100%;
+    margin:0px;
+    background-color:black;
+}
+
+p {
+    margin-top:8px;
+    margin-bottom:2px;
+}
+
+#game {
+    display:block;
+    position:absolute;
+}
+
+#gameWrapper {
+    position:relative;
+    width:100%;
+    height:100%;
+}
+
+#shipStats {
+    height:0px;
+}
+
+#banner {
+    height: 0px;
+}
+
+#ControllerRequestHolder {
+    box-shadow: 5px 5px 25px #880000;
+    font-size:20px;
+    position:absolute;
+    width:200px;
+    height:100px;
+    left:45%;
+    top:35%;
+    border-radius: 8px; 
+    -moz-border-radius: 8px; 
+    -webkit-border-radius: 8px; 
+    border: 1px solid green;
+    background-color:white;
+}
+
+#ControllerRequestHolder input[type="button"] {
+    border:1px solid black;
+}
+
+#ControllerRequestHolder p {
+    text-align:center;
+}
+
+#SuccessTab span.success {
+    color:white;
+    background-color:green;
+}
+
+#SuccessTab span.denied {
+    color:white;
+    background-color:red;
+}
+
+#SuccessTab {
+    display:none;
+    height:80px;
+    line-height: 80px;
+}

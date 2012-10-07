@@ -41,7 +41,7 @@
         CanvasContext.Camera.View.HEIGHT = $(gameCanvas).height() + that.SCREEN_BUFFER_AREA;
     }
 
-    function SendNewViewportToServer() {
+    that.SendNewViewportToServer = function() {
         conn.changeViewport(that.Viewport.Width, that.Viewport.Height);
     }
 
@@ -52,7 +52,7 @@
         UpdateGameCamera();
         CanvasContext.UpdateSize(that.Viewport);
 
-        SendNewViewportToServer();
+        that.SendNewViewportToServer();
 
         $(that).triggerHandler("UpdateScreen");
     }

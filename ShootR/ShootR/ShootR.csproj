@@ -76,7 +76,9 @@
     <Content Include="Client\Bullet\Bullet.js" />
     <Content Include="Client\Bullet\BulletManager.js" />
     <Content Include="Client\Configuration\ConfigurationManager.js" />
+    <Content Include="Client\GameController\controllerMain.js" />
     <Content Include="Client\Game.js" />
+    <Content Include="Client\GameController\ShipControllerFunctions.js" />
     <Content Include="Client\GameGlobals.js" />
     <Content Include="Client\Main.js" />
     <Content Include="Client\Ship\Ship.js" />
@@ -95,6 +97,7 @@
     <Content Include="Client\Utilities\GameTime.js" />
     <Content Include="Client\Utilities\ShipStatRecorder.js" />
     <Content Include="Client\Utilities\UtilityFunctions.js" />
+    <Content Include="controller.aspx" />
     <Content Include="default.aspx" />
     <Content Include="Images\bg_stars.jpg" />
     <Content Include="Images\Laser.png" />
@@ -112,10 +115,18 @@
     <Content Include="Scripts\jquery.signalR-0.5.3.min.js" />
     <Content Include="Scripts\jquery.spritify-0.0.0.js" />
     <Content Include="Scripts\shortcut.js" />
+    <Content Include="Styles\controller.css" />
     <Content Include="Styles\game.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controller.aspx.cs">
+      <DependentUpon>controller.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="controller.aspx.designer.cs">
+      <DependentUpon>controller.aspx</DependentUpon>
+    </Compile>
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -135,6 +146,7 @@
     <Compile Include="Server\Configuration\GameConfiguration.cs" />
     <Compile Include="Server\Configuration\ShipConfiguration.cs" />
     <Compile Include="Server\GameEnvironment.cs" />
+    <Compile Include="Server\GenericManagers\ControlRequestManager.cs" />
     <Compile Include="Server\GenericManagers\GameHandler.cs" />
     <Compile Include="Server\Ship\ShipManager.cs" />
     <Compile Include="Server\User\User.cs" />
