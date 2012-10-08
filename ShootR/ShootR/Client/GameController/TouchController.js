@@ -1,63 +1,98 @@
-﻿function TouchController(StartMovement, StopMovement, StopAndStartMovement, ResetMovement, ShipFire) {
-    var that = this,
-        canvas = document.getElementById("game"),
-        movementTouchID = false,
-        controlling = false,
-        movementTouchStart,
-        movementTouch,
-        shootTouchID = false;
-        shootTouch = false,
-        topOffset = HeightOffset($("#shipStats")),
-        lengthOffset = 30;    
+﻿function Movement(from, to, dir, originCrossOver) {
+    var that = this;
 
-    var Movement = function (from, to, dir, originCrossOver) {
-        var that = this;
-
-        that.ValidMove = function (angle) {
-            if (!originCrossOver) {
-                return angle >= from && angle <= to;
-            }
-            else {
-                return (angle >= to) || (angle <= from && angle >= 0);
-            }
+    that.ValidMove = function (angle) {
+        if (!originCrossOver) {
+            return angle >= from && angle <= to;
         }
-
-        that.Direction = dir;
-        that.Active = false;
-    };
-
-    var Forward = new Movement(20, 160, "Forward"),
-        Backward = new Movement(200, 340, "Backward"),
-        RotatingLeft = new Movement(125, 235, "RotatingLeft"),
-        RotatingRight = new Movement(55, 305, "RotatingRight", true),
-        MovementList = [Forward, Backward, RotatingLeft, RotatingRight];
-
-
-
-    function MoveShip(toStop, toStart) {
-        // Need to perform a server update
-        if (toStop || toStart) {
-            // Need to do a startandstop
-            if (toStop && toStart) {
-                toStop.Active = false;
-                toStart.Active = true;
-                StopAndStartMovement(toStop.Direction, toStart.Direction);
-            }
-            else if (toStop) {
-                toStop.Active = false;
-                StopMovement(toStop.Direction);
-            }
-            else if (toStart) {
-                toStart.Active = true;
-                StartMovement(toStart.Direction);
-            }
+        else {
+            return (angle >= to) || (angle <= from && angle >= 0);
         }
     }
 
+    that.Direction = dir;
+    that.Active = false;
+};
+
+function JoyStick(ActiveJoystickDistance, MovementList, StartMovement, StopMovement, StopAndStartMovement, ResetMovement) {
+    var that = this,
+        controlling = false;
+
+    that.touchID = false;
+
+    that.PositionStart = {
+        X: 0,
+        Y: 0
+    };
+
+    that.Position = {
+        X: 0,
+        Y: 0
+    };
+
+    that.InAction = false;
+
+    that.InActionAt = false;
+
+    that.TimeSinceTouch = function () {
+        if (that.InActionAt) {
+            return new Date().getTime() - that.InActionAt;
+        }
+
+        return false;
+    }
+
+    that.TouchStart = function (touch) {
+        if (that.touchID === false) {
+            that.InActionAt = new Date().getTime();
+            that.InAction = true;
+            that.PositionStart.X = touch.clientX;
+            that.PositionStart.Y = touch.clientY - that.topOffset;
+            that.touchID = touch.identifier;
+            that.Position = $.extend({}, that.PositionStart);
+        }
+    }
+
+    that.TouchMove = function (touch) {
+        if (that.touchID === touch.identifier) {
+            that.Position.X = touch.clientX;
+            that.Position.Y = touch.clientY - that.topOffset;
+
+            var changes = GetAlteredMovements();
+
+            if (changes) {
+                if (changes.changed) {
+                    MoveShip(changes.toStop, changes.toStart);
+                }
+            }
+            else { // Need to reset movement
+                PerformReset();
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    that.TouchStop = function (touch) {
+        if (that.touchID === touch.identifier) {
+            that.InAction = false;
+            that.touchID = false;
+            that.InActionAt = false;
+
+            PerformReset();
+
+            return true;
+        }
+
+        return false;
+    }
+
     function GetAlteredMovements() {
-        if (CalculateLength(movementTouch, movementTouchStart) > lengthOffset) {
+        if (CalculateLength(that.Position, that.PositionStart) > ActiveJoystickDistance) {
             controlling = true;
-            var deltas = SubtractVectors(movementTouchStart, movementTouch),
+            var deltas = SubtractVectors(that.PositionStart, that.Position),
                 angle = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
 
             if (angle < 0) {
@@ -87,20 +122,93 @@
         }
     }
 
+    function MoveShip(toStop, toStart) {
+        // Need to perform a server update
+        if (toStop || toStart) {
+            // Need to do a startandstop
+            if (toStop && toStart) {
+                toStop.Active = false;
+                toStart.Active = true;
+                StopAndStartMovement(toStop.Direction, toStart.Direction);
+            }
+            else if (toStop) {
+                toStop.Active = false;
+                StopMovement(toStop.Direction);
+            }
+            else if (toStart) {
+                toStart.Active = true;
+                StartMovement(toStart.Direction);
+            }
+        }
+    }
+
+    function PerformReset() {
+        if (controlling) {
+            controlling = false;
+
+            for (var i = 0; i < MovementList.length; i++) {
+                MovementList[i].Active = false;
+            }
+
+            ResetMovement();
+        }
+    }
+
+    that.Draw = function () {
+        if (that.InAction) {
+            CanvasContext.drawCircle(that.PositionStart.X, that.PositionStart.Y, 40, 5, "#1BFF27");
+            CanvasContext.drawCircle(that.PositionStart.X, that.PositionStart.Y, 60, 2, "#1BFF27");
+            CanvasContext.drawCircle(that.Position.X, that.Position.Y, 40, 2, "#2EBD15");
+            CanvasContext.drawLine(that.PositionStart.X, that.PositionStart.Y, that.Position.X, that.Position.Y, 2, "#4A993C");
+        }
+    }
+}
+
+JoyStick.prototype.topOffset = HeightOffset($("#shipStats"));
+
+function TouchController(StartMovement, StopMovement, StopAndStartMovement, ResetMovement, ShipFire) {
+    var that = this,
+        canvas = document.getElementById("game"),
+        tapID = false,
+        shootPosition = false,
+        shootDrawStart = false,
+        topOffset = HeightOffset($("#shipStats")),
+        lengthOffset = 30;
+
+    var Forward = new Movement(20, 160, "Forward"),
+        Backward = new Movement(200, 340, "Backward"),
+        RotatingLeft = new Movement(125, 235, "RotatingLeft"),
+        RotatingRight = new Movement(55, 305, "RotatingRight", true);
+
+    var leftJoyStick = new JoyStick(lengthOffset, [Forward, Backward], StartMovement, StopMovement, StopAndStartMovement, ResetMovement),
+        rightJoyStick = new JoyStick(lengthOffset, [RotatingLeft, RotatingRight], StartMovement, StopMovement, StopAndStartMovement, ResetMovement);
+
     function HandleStart(touch) {
         if (that.Enabled) {
-            if (touch.clientX <= middle) {
-                if (!movementTouchID) {
-                    movementTouchID = touch.identifier;
-                    movementTouchStart = { X: touch.clientX, Y: touch.clientY - topOffset };
-                    movementTouch = { X: touch.clientX, Y: touch.clientY - topOffset };
+            if (touch.clientX <= middle) { // leftJoyStick
+                if (!leftJoyStick.InAction) {
+                    leftJoyStick.TouchStart(touch);
                 }
             }
-            else { // Right side of the screen
-                if (!shootTouchID) {
-                    shootTouchID = touch.identifier;
-                    shootTouch = { X: touch.clientX, Y: touch.clientY - topOffset };
-                    ShipFire();
+            else { // Right side of the screen, so rotate or shoot
+                if (!rightJoyStick.InAction) {
+                    tapID = touch.identifier;
+                    delay(function () {
+                        // Was tap
+                        if (tapID === true) {
+                            tapID = false;
+
+                            shootPosition = {
+                                X: touch.clientX,
+                                Y: touch.clientY - topOffset
+                            };
+                            shootDrawStart = new Date().getTime();
+                            ShipFire();
+                        }
+                        else {
+                            rightJoyStick.TouchStart(touch);
+                        }                        
+                    }, 150);                    
                 }
             }
         }
@@ -108,44 +216,19 @@
 
     function HandleMove(touch) {
         if (that.Enabled) {
-            if (movementTouchID === touch.identifier) {
-                movementTouch.X = touch.clientX;
-                movementTouch.Y = touch.clientY - topOffset;
-
-                var changes = GetAlteredMovements();
-
-                if (changes) {
-                    if (changes.changed) {
-                        MoveShip(changes.toStop, changes.toStart);
-                    }
-                }
-                else { // Need to reset movement
-                    PerformReset();
-                }
-
-                return true;
-            }
-
-            return false;
+            leftJoyStick.TouchMove(touch);
+            rightJoyStick.TouchMove(touch);
         }
     }
 
     function HandleStop(touch) {
         if (that.Enabled) {
-            if (movementTouchID === touch.identifier) {
-                movementTouchID = false;
+            leftJoyStick.TouchStop(touch);
+            rightJoyStick.TouchStop(touch);
 
-                PerformReset();
-
-                return true;
+            if (tapID !== false) {
+                tapID = true;
             }
-            else if (shootTouchID === touch.identifier) { // Shoot release
-                shootTouchID = false;
-
-                return true;
-            }
-
-            return false;
         }
     }
 
@@ -165,9 +248,7 @@
         for (var i = 0; i < e.changedTouches.length; i++) {
             var touch = e.changedTouches[i];
 
-            if (HandleMove(touch)) {
-                break;
-            }
+            HandleMove(touch);
         }
     }
 
@@ -177,21 +258,7 @@
         for (var i = 0; i < e.changedTouches.length; i++) {
             var touch = e.changedTouches[i];
 
-            if (HandleStop(touch)) {
-                break;
-            }
-        }
-    }
-
-    function PerformReset() {
-        if (controlling) {
-            controlling = false;
-
-            for (var i = 0; i < MovementList.length; i++) {
-                MovementList[i].Active = false;
-            }
-
-            ResetMovement();
+            HandleStop(touch)
         }
     }
 
@@ -244,16 +311,18 @@
     }
 
     that.Draw = function () {
-        if (movementTouchID !== false) {
-            CanvasContext.drawCircle(movementTouchStart.X, movementTouchStart.Y, 40, 5, "#1BFF27");
-            CanvasContext.drawCircle(movementTouchStart.X, movementTouchStart.Y, 60, 2, "#1BFF27");
-            CanvasContext.drawCircle(movementTouch.X, movementTouch.Y, 40, 2, "#2EBD15");
-            CanvasContext.drawLine(movementTouchStart.X, movementTouchStart.Y, movementTouch.X, movementTouch.Y, 2, "#4A993C");
-        }
+        leftJoyStick.Draw();
+        rightJoyStick.Draw();
 
-        if (shootTouchID !== false) {
-            CanvasContext.drawCircle(shootTouch.X, shootTouch.Y, 40, 6, "#FA6400");
-            CanvasContext.drawCircle(shootTouch.X, shootTouch.Y, 50, 2, "#FA6400");
+        if (shootDrawStart !== false) {
+            if (new Date().getTime() - shootDrawStart >= 100) {
+                shootDrawStart = false;
+                shootPosition = false;
+            }
+            else {
+                CanvasContext.drawCircle(shootPosition.X, shootPosition.Y, 40, 6, "#FA6400");
+                CanvasContext.drawCircle(shootPosition.X, shootPosition.Y, 50, 2, "#FA6400");
+            }
         }
     }
 }

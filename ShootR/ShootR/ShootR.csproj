@@ -79,13 +79,14 @@
     <Content Include="Client\GameController\controllerMain.js" />
     <Content Include="Client\Game.js" />
     <Content Include="Client\GameController\ShipControllerFunctions.js" />
+    <Content Include="Client\GameController\TouchController.js" />
+    <Content Include="Client\GameController\OneStickController.js" />
     <Content Include="Client\GameGlobals.js" />
     <Content Include="Client\Main.js" />
     <Content Include="Client\Ship\Ship.js" />
     <Content Include="Client\Ship\ShipManager.js" />
     <Content Include="Client\Ship\ShipVehicle.js" />
     <Content Include="Client\Managers\AnimationManager.js" />
-    <Content Include="Client\Ship\TouchController.js" />
     <Content Include="Client\Space\Camera.js" />
     <Content Include="Client\Space\CanvasRenderer.js" />
     <Content Include="Client\Space\Map.js" />

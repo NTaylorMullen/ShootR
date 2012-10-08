@@ -40,13 +40,13 @@
     <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>
     <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
-
-    <script src="Client/GameController/TouchController.js" type="text/javascript"></script>
+    
     <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
     <script src="Client/Space/Screen.js" type="text/javascript"></script>
     <script src="Client/GameGlobals.js" type="text/javascript"></script>
     <script src="Client/Utilities/LatencyResolver.js" type="text/javascript"></script>
     <script src="Client/Utilities/UtilityFunctions.js" type="text/javascript"></script>
+    <script src="Client/GameController/TouchController.js" type="text/javascript"></script>
     <script src="Client/Utilities/ClientServerTime.js" type="text/javascript"></script>
     <script src="Client/Space/Map.js" type="text/javascript"></script>
     <script src="Client/Space/Camera.js" type="text/javascript"></script>
