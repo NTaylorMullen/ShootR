@@ -145,12 +145,14 @@ function JoyStick(ActiveJoystickDistance, MovementList, StartMovement, StopMovem
     function PerformReset() {
         if (controlling) {
             controlling = false;
+            var arr = [];
 
             for (var i = 0; i < MovementList.length; i++) {
                 MovementList[i].Active = false;
-            }
+                arr.push(MovementList[i].Direction);
+            }            
 
-            ResetMovement();
+            ResetMovement(arr);
         }
     }
 

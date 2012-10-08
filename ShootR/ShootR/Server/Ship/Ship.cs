@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace ShootR
 {
     /// <summary>
@@ -45,13 +46,14 @@ namespace ShootR
             MovementController.StopMoving(where);
         }
 
-        public void ResetMoving()
+        public void ResetMoving(List<Movement> movementList)
         {
             Update(GameTime.CalculatePercentOfSecond(LastUpdated));
-            MovementController.StopMoving(Movement.Forward);
-            MovementController.StopMoving(Movement.Backward);
-            MovementController.StopMoving(Movement.RotatingLeft);
-            MovementController.StopMoving(Movement.RotatingRight);
+
+            foreach (Movement m in movementList)
+            {
+                MovementController.StopMoving(m);
+            }
         }
 
         public ShipWeaponController GetWeaponController()

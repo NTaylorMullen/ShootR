@@ -64,7 +64,7 @@
         that.MovementController.Moving[toStart] = true;
     }
 
-    function ResetMovement() {
+    function ResetMovement(MovementList) {
         var pingBack = false;
         movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
@@ -72,13 +72,13 @@
         if (movementCount === 0) {
             pingBack = true;
         }
-        conn.resetMovement(pingBack);
+        conn.resetMovement(MovementList, pingBack);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
 
         // Reset all movement
-        for (var i = 0; i < keyMapping.length; i++) {
-            that.MovementController.Moving[keyMapping[i].dir] = false;
+        for (var i = 0; i < MovementList.length; i++) {
+            that.MovementController.Moving[MovementList[i]] = false;
         }        
     }
 

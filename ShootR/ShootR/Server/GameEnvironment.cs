@@ -292,14 +292,20 @@ namespace ShootR
         /// Resets all movement flags on the ship
         /// </summary>
         /// <param name="pingBack"></param>
-        public void resetMovement(bool pingBack)
+        public void resetMovement(List<string> movementList, bool pingBack)
         {
             if (pingBack)
             {
                 Caller.pingBack();
             }
 
-            _userList[Context.ConnectionId].MyShip.ResetMoving();
+            List<Movement> result = new List<Movement>();
+            foreach (string where in movementList)
+            {
+                result.Add((Movement)Enum.Parse(typeof(Movement), where));
+            }
+
+            _userList[Context.ConnectionId].MyShip.ResetMoving(result);
         }
 
         public void startAndStopMovement(string toStop, string toStart, bool pingBack)
