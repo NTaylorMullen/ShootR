@@ -210,7 +210,7 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
                         else {
                             rightJoyStick.TouchStart(touch);
                         }                        
-                    }, 150);                    
+                    }, 200);                    
                 }
             }
         }

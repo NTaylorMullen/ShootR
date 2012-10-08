@@ -12,8 +12,8 @@
         conn.startAndStopMovement(toStop, toStart, false);
     }
 
-    that.ResetMovement = function() {
-        conn.resetMovement(false);
+    that.ResetMovement = function(MovementList) {
+        conn.resetMovement(MovementList, false);
     }
 
     that.shoot = function() {
