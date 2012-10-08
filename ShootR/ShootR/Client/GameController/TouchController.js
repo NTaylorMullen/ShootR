@@ -180,7 +180,7 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
         shootPosition = false,
         shootDrawStart = false,
         topOffset = HeightOffset($("#shipStats")),
-        lengthOffset = 30,
+        lengthOffset = 22,
         drawShotsFor = 100;
 
     var Forward = new Movement(20, 160, "Forward"),
