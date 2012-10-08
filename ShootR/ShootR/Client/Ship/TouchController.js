@@ -6,9 +6,9 @@
         movementTouchStart,
         movementTouch,
         shootTouchID = false;
-    shootTouch = false,
-    topOffset = HeightOffset($("#shipStats")),
-    lengthOffset = 30;
+        shootTouch = false,
+        topOffset = HeightOffset($("#shipStats")),
+        lengthOffset = 30;    
 
     var Movement = function (from, to, dir, originCrossOver) {
         var that = this;
@@ -88,59 +88,65 @@
     }
 
     function HandleStart(touch) {
-        if (touch.clientX <= middle) {
-            if (!movementTouchID) {
-                movementTouchID = touch.identifier;
-                movementTouchStart = { X: touch.clientX, Y: touch.clientY - topOffset };
-                movementTouch = { X: touch.clientX, Y: touch.clientY - topOffset };
+        if (that.Enabled) {
+            if (touch.clientX <= middle) {
+                if (!movementTouchID) {
+                    movementTouchID = touch.identifier;
+                    movementTouchStart = { X: touch.clientX, Y: touch.clientY - topOffset };
+                    movementTouch = { X: touch.clientX, Y: touch.clientY - topOffset };
+                }
             }
-        }
-        else { // Right side of the screen
-            if (!shootTouchID) {
-                shootTouchID = touch.identifier;
-                shootTouch = { X: touch.clientX, Y: touch.clientY - topOffset };
-                ShipFire();
+            else { // Right side of the screen
+                if (!shootTouchID) {
+                    shootTouchID = touch.identifier;
+                    shootTouch = { X: touch.clientX, Y: touch.clientY - topOffset };
+                    ShipFire();
+                }
             }
         }
     }
 
     function HandleMove(touch) {
-        if (movementTouchID === touch.identifier) {
-            movementTouch.X = touch.clientX;
-            movementTouch.Y = touch.clientY - topOffset;
+        if (that.Enabled) {
+            if (movementTouchID === touch.identifier) {
+                movementTouch.X = touch.clientX;
+                movementTouch.Y = touch.clientY - topOffset;
 
-            var changes = GetAlteredMovements();
+                var changes = GetAlteredMovements();
 
-            if (changes) {
-                if (changes.changed) {
-                    MoveShip(changes.toStop, changes.toStart);
+                if (changes) {
+                    if (changes.changed) {
+                        MoveShip(changes.toStop, changes.toStart);
+                    }
                 }
-            }
-            else { // Need to reset movement
-                PerformReset();
+                else { // Need to reset movement
+                    PerformReset();
+                }
+
+                return true;
             }
 
-            return true;
+            return false;
         }
-
-        return false;
     }
 
     function HandleStop(touch) {
-        if (movementTouchID === touch.identifier) {
-            movementTouchID = false;
+        if (that.Enabled) {
+            if (movementTouchID === touch.identifier) {
+                movementTouchID = false;
 
-            PerformReset();
+                PerformReset();
 
-            return true;
+                return true;
+            }
+            else if (shootTouchID === touch.identifier) { // Shoot release
+                shootTouchID = false;
+
+                return true;
+            }
+
+            return false;
         }
-        else if (shootTouchID === touch.identifier) { // Shoot release
-            shootTouchID = false;
-
-            return true;
-        }
-
-        return false;
     }
 
     function TouchStart(e) {
@@ -218,6 +224,8 @@
         e.identifier = currentGUID;
         HandleStop(e);
     }
+
+    that.Enabled = true;
 
     that.Initialize = function (screen) {
         canvas.addEventListener('touchstart', TouchStart, false);

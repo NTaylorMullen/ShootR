@@ -48,6 +48,10 @@ p {
     border:1px solid black;
 }
 
+#ControllerRequestHolder input[type="button"]:hover {
+    cursor:pointer;
+}
+
 #ControllerRequestHolder p {
     text-align:center;
 }
@@ -66,4 +70,22 @@ p {
     display:none;
     height:80px;
     line-height: 80px;
+}
+
+#StopControlling {
+    display:none;
+    width:145px;
+    height:24px;
+    line-height:24px;
+    text-align:center;
+    position:absolute;
+    left:45%;
+    background-color:#888888;
+    color:white;
+    border:1px double white;
+    font-weight:bold;
+}
+
+#StopControlling:hover {
+    cursor:pointer;
 }

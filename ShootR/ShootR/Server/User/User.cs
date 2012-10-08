@@ -16,6 +16,7 @@ namespace ShootR
             ConnectionID = connectionID;
             ReadyForPayloads = false;
             Viewport = new Size(0, 0);
+            RemoteControllers = new List<User>();
         }
 
         public User(string connectionID, Ship ship)
@@ -24,14 +25,17 @@ namespace ShootR
             MyShip = ship;
             ReadyForPayloads = false;
             Viewport = new Size(0, 0); // Initialize the viewport to 0 by 0
+            RemoteControllers = new List<User>();
         }
 
+
+        public List<User> RemoteControllers { get; set; }
         public string ConnectionID { get; set; }
         public Ship MyShip { get; set; }
         public bool ReadyForPayloads { get; set; }
         private Size _viewport;
-        public Size Viewport 
-        { 
+        public Size Viewport
+        {
             get
             {
                 return _viewport;

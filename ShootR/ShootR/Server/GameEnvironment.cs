@@ -85,7 +85,7 @@ namespace ShootR
         {
             lock (_locker)
             {
-                // On reconnect, re-instantiate the entire user
+                // On reconnect, force the user to refresh
                 if (_userList.ContainsKey(Context.ConnectionId))
                 {
                     User u;
@@ -96,8 +96,6 @@ namespace ShootR
                 {
                     _gameHandler.ShipManager.RemoveShipByKey(Context.ConnectionId);
                 }
-
-                Connect();
                 return null;
             }
         }
@@ -114,7 +112,11 @@ namespace ShootR
                 {
                     User u;
                     _userList.TryRemove(Context.ConnectionId, out u);
-                    _gameHandler.ShipManager.Ships[Context.ConnectionId].Dispose();
+
+                    if (_gameHandler.ShipManager.Ships.ContainsKey(Context.ConnectionId))
+                    {
+                        _gameHandler.ShipManager.Ships[Context.ConnectionId].Dispose();
+                    }
                 }
                 return null;
             }
@@ -159,6 +161,7 @@ namespace ShootR
             string from = _controlRequestManager.PullControlRequest(Context.ConnectionId);
 
             _userList[from].MyShip = _userList[Context.ConnectionId].MyShip;
+            _userList[Context.ConnectionId].RemoteControllers.Add(_userList[from]);
 
             Clients[from].controlRequestAccepted();
         }
@@ -167,9 +170,36 @@ namespace ShootR
         {
             string from = _controlRequestManager.PullControlRequest(Context.ConnectionId);
 
-            _userList[from].MyShip = _userList[Context.ConnectionId].MyShip;
-
             Clients[from].controlRequestDeclined();
+        }
+
+        public void stopControlling()
+        {
+            stopControlling(Context.ConnectionId);
+        }
+
+        private void stopControlling(string connectionID)
+        {
+            _userList[connectionID].MyShip.Host.RemoteControllers.Remove(_userList[connectionID]);
+
+            // If there's no more remote controllers
+            if (_userList[connectionID].MyShip.Host.RemoteControllers.Count == 0)
+            {
+                Clients[_userList[connectionID].MyShip.Host.ConnectionID].controllersStopped();
+            }
+
+            _userList[connectionID].MyShip = null;
+        }
+
+        public void stopRemoteControllers()
+        {
+            foreach (User u in _userList[Context.ConnectionId].RemoteControllers)
+            {
+                u.MyShip = null;
+                Clients[u.ConnectionID].stopController();
+            }
+
+            _userList[Context.ConnectionId].RemoteControllers.Clear();
         }
 
         public DateTime ping()
@@ -211,7 +241,9 @@ namespace ShootR
                 _gameHandler.ShipManager.Add(ship, Context.ConnectionId);
                 ship.Name = "Ship" + ship.ID;
 
-                _userList.TryAdd(Context.ConnectionId, new User(Context.ConnectionId, ship));
+                User u = new User(Context.ConnectionId, ship);
+                ship.Host = u;
+                _userList.TryAdd(Context.ConnectionId, u);
                 _gameHandler.CollisionManager.Monitor(ship);
             }
 
@@ -324,7 +356,10 @@ namespace ShootR
 
         public void changeViewport(int viewportWidth, int viewportHeight)
         {
-            _userList[Context.ConnectionId].Viewport = new Size(viewportWidth, viewportHeight);
+            if (_userList.ContainsKey(Context.ConnectionId))
+            {
+                _userList[Context.ConnectionId].Viewport = new Size(viewportWidth, viewportHeight);
+            }
         }
 
         #endregion

@@ -19,6 +19,7 @@ namespace ShootR
         }
 
         public string Name { get; set; }
+        public User Host { get; set; }
 
         public ShipMovementController MovementController
         {

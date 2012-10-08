@@ -2,21 +2,19 @@
 /// <reference path="Game.js" />
 /// <reference path="lib/jquery.spritify-0.0.0.js" />
 
-$(function () {
+$(window).load(function () {
     // The hub name is a single letter in order to reduce payload size
     var env = $.connection.h,
         game,
         configurationManager,
         screen = new Screen($("#game"), $("#gameWrapper"), env),
         shipControllerFn = new ShipControllerFunctions(env),
-        touchController = new TouchController(shipControllerFn.StartMovement, shipControllerFn.StopMovement, shipControllerFn.StopAndStartMovement, shipControllerFn.ResetMovement, shipControllerFn.shoot);
+        touchController;
 
     screen.SendNewViewportToServer = function () { }; // Don't send viewport updates to the server
 
     var resultSpan = $("#SuccessTab span"),
-        holder = $("#ControllerRequestHolder");
-
-    touchController.Initialize(screen);
+        holder = $("#ControllerRequestHolder");    
 
     function Initialize(init) {
         $.extend(Screen.prototype, init.Configuration.screenConfig);
@@ -28,27 +26,6 @@ $(function () {
         screen.Initialize();
 
         StartUpdateLoop();
-
-        $("#requestControl").click(function () {
-            resultSpan.attr("class", "");
-            resultSpan.html("Loading...");
-            $("#RequestTab").hide();
-            $("#SuccessTab").show(500, function () {
-                env.requestControlOf($("#shipToControl").val()).done(function (result) {
-                    if (result) {
-                        resultSpan.html("Pending......");
-                    }
-                    else {
-                        resultSpan.html("Failure!");
-
-                        $("#SuccessTab").hide(500, function () {
-                            $("#RequestTab").show();
-                        });
-
-                    }
-                });
-            });
-        });
     }
 
     function StartUpdateLoop() {
@@ -78,21 +55,72 @@ $(function () {
         CanvasContext.Render();
     }
 
+    env.stopController = function () {
+        touchController.Enabled = false;
+        $("#StopControlling").hide(500);
+        $("#RequestTab").show();
+        $("#SuccessTab").hide();
+        holder.fadeIn(500);
+    }
+
     env.controlRequestAccepted = function () {
         resultSpan.attr("class", "success");
         resultSpan.html("Success");
-        holder.fadeOut(500);        
+        holder.fadeOut(500);
+
+        if (!touchController) {
+            touchController = new TouchController(shipControllerFn.StartMovement, shipControllerFn.StopMovement, shipControllerFn.StopAndStartMovement, shipControllerFn.ResetMovement, shipControllerFn.shoot);
+            touchController.Initialize(screen);
+        }
+        else {
+            touchController.Enabled = true;
+        }
+
+        $("#StopControlling").show(500);        
     }
+
+    $("#StopControlling").click(function () {
+        env.stopControlling().done(env.stopController);
+    });
 
     env.controlRequestDeclined = function () {
         resultSpan.attr("class", "denied");
         resultSpan.html("Denied");
-        $("#SuccessTab").hide(500, function () { $("#RequestTab").show(); });        
+        $("#SuccessTab").hide(1000, function () { $("#RequestTab").show(); });
     }
+
+    $("#shipToControl").keyup(function (e) {
+        if (e.keyCode == 13) {
+            $("#requestControl").click();
+        }
+    });
 
     $.connection.hub.start(function () {
         env.initializeController().done(function (val) {
             Initialize(val);
-        });        
+        });
     });
+
+    $("#requestControl").click(function () {
+        resultSpan.attr("class", "");
+        resultSpan.html("Loading...");
+        $("#RequestTab").hide();
+        $("#SuccessTab").show(500, function () {
+            env.requestControlOf($("#shipToControl").val()).done(function (result) {
+                if (result) {
+                    resultSpan.html("Pending......");
+                }
+                else {
+                    resultSpan.html("Failure!");
+
+                    $("#SuccessTab").hide(500, function () {
+                        $("#RequestTab").show();
+                    });
+
+                }
+            });
+        });
+    });
+
+
 });

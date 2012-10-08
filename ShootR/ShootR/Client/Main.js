@@ -12,7 +12,8 @@ $(function () {
         screen = new Screen($("#game"), $("#gameWrapper"), env),
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] },
-        controlRequest = $("#controlRequest");
+        controlRequest = $("#controlRequest"),
+        stopControllers = $("#StopControlling");
 
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
@@ -82,6 +83,10 @@ $(function () {
         controlRequest.show(500);
     }
 
+    env.controllersStopped = function () {
+        stopControllers.hide(500);
+    }
+
     $.connection.hub.start(function () {
         // Send the viewport to the server initialization method
         env.initializeClient().done(function (value) {
@@ -90,12 +95,19 @@ $(function () {
 
         $("#acceptControlRequest").click(function () {
             env.acceptControlRequest();
-            controlRequest.hide(500);
+            controlRequest.hide(500, function() {
+                stopControllers.show(500);
+            });
         });
 
         $("#declineControlRequest").click(function () {
             env.declineControlRequest();
             controlRequest.hide(500);
+        });
+
+        stopControllers.click(function () {
+            env.stopRemoteControllers();
+            stopControllers.hide(500);
         });
     });
 });

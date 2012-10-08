@@ -135,3 +135,20 @@ h3 {
     float:left;
     color:white;
 }
+
+#StopControlling {
+    display:none;
+    width:200px;
+    height:24px;
+    line-height:24px;
+    text-align:center;
+    position:absolute;
+    background-color:#888888;
+    color:white;
+    border:1px double white;
+    font-weight:bold;
+}
+
+#StopControlling:hover {
+    cursor:pointer;
+}

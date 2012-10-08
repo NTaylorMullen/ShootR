@@ -14,6 +14,7 @@
 
     <div id="gameWrapper">
         <canvas id="game"></canvas>
+        <div id="StopControlling">Stop Controlling</div>
         <div id="ControllerRequestHolder">
             <div id="RequestTab">
                 <p><strong>Ship To Control:</strong><br />
