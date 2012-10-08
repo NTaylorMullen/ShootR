@@ -150,7 +150,7 @@ function JoyStick(ActiveJoystickDistance, MovementList, StartMovement, StopMovem
             for (var i = 0; i < MovementList.length; i++) {
                 MovementList[i].Active = false;
                 arr.push(MovementList[i].Direction);
-            }            
+            }
 
             ResetMovement(arr);
         }
@@ -172,6 +172,7 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
     var that = this,
         canvas = document.getElementById("game"),
         tapID = false,
+        tapTimeout = false,
         shootPosition = false,
         shootDrawStart = false,
         topOffset = HeightOffset($("#shipStats")),
@@ -185,6 +186,21 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
     var leftJoyStick = new JoyStick(lengthOffset, [Forward, Backward], StartMovement, StopMovement, StopAndStartMovement, ResetMovement),
         rightJoyStick = new JoyStick(lengthOffset, [RotatingLeft, RotatingRight], StartMovement, StopMovement, StopAndStartMovement, ResetMovement);
 
+    function TapTriggered(touch) {
+        // Was tap        
+        clearTimeout(tapTimeout);
+        tapTimeout = false;
+        tapID = false;
+
+        shootPosition = {
+            X: touch.clientX,
+            Y: touch.clientY - topOffset
+        };
+
+        shootDrawStart = new Date().getTime();
+        ShipFire();
+    }
+
     function HandleStart(touch) {
         if (that.Enabled) {
             if (touch.clientX <= middle) { // leftJoyStick
@@ -195,22 +211,15 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
             else { // Right side of the screen, so rotate or shoot
                 if (!rightJoyStick.InAction) {
                     tapID = touch.identifier;
-                    delay(function () {
-                        // Was tap
-                        if (tapID === true) {
+                    // What to execute if a tap is not detected
+                    tapTimeout = setTimeout((function (touch) {
+                        return function () {
                             tapID = false;
+                            tapTimeout = false;
 
-                            shootPosition = {
-                                X: touch.clientX,
-                                Y: touch.clientY - topOffset
-                            };
-                            shootDrawStart = new Date().getTime();
-                            ShipFire();
-                        }
-                        else {
                             rightJoyStick.TouchStart(touch);
-                        }                        
-                    }, 200);                    
+                        }
+                    })(touch), 325);
                 }
             }
         }
@@ -228,8 +237,9 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
             leftJoyStick.TouchStop(touch);
             rightJoyStick.TouchStop(touch);
 
-            if (tapID !== false) {
-                tapID = true;
+            // Tap is still available
+            if (tapID === touch.identifier) {
+                TapTriggered(touch);
             }
         }
     }
