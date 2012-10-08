@@ -42,6 +42,10 @@ function JoyStick(ActiveJoystickDistance, MovementList, StartMovement, StopMovem
         return false;
     }
 
+    that.Traveled = function () {
+        return CalculateLength(that.Position, that.PositionStart);
+    }
+
     that.TouchStart = function (touch) {
         if (that.touchID === false) {
             that.InActionAt = new Date().getTime();
@@ -90,7 +94,7 @@ function JoyStick(ActiveJoystickDistance, MovementList, StartMovement, StopMovem
     }
 
     function GetAlteredMovements() {
-        if (CalculateLength(that.Position, that.PositionStart) > ActiveJoystickDistance) {
+        if (that.Traveled() > ActiveJoystickDistance) {
             controlling = true;
             var deltas = SubtractVectors(that.PositionStart, that.Position),
                 angle = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
@@ -158,10 +162,12 @@ function JoyStick(ActiveJoystickDistance, MovementList, StartMovement, StopMovem
 
     that.Draw = function () {
         if (that.InAction) {
-            CanvasContext.drawCircle(that.PositionStart.X, that.PositionStart.Y, 40, 5, "#1BFF27");
-            CanvasContext.drawCircle(that.PositionStart.X, that.PositionStart.Y, 60, 2, "#1BFF27");
-            CanvasContext.drawCircle(that.Position.X, that.Position.Y, 40, 2, "#2EBD15");
-            CanvasContext.drawLine(that.PositionStart.X, that.PositionStart.Y, that.Position.X, that.Position.Y, 2, "#4A993C");
+            if (that.TimeSinceTouch() > 1000 || that.Traveled() >= ActiveJoystickDistance) {
+                CanvasContext.drawCircle(that.PositionStart.X, that.PositionStart.Y, 40, 5, "#1BFF27");
+                CanvasContext.drawCircle(that.PositionStart.X, that.PositionStart.Y, 60, 2, "#1BFF27");
+                CanvasContext.drawCircle(that.Position.X, that.Position.Y, 40, 2, "#2EBD15");
+                CanvasContext.drawLine(that.PositionStart.X, that.PositionStart.Y, that.Position.X, that.Position.Y, 2, "#4A993C");
+            }
         }
     }
 }
@@ -171,12 +177,10 @@ JoyStick.prototype.topOffset = HeightOffset($("#shipStats"));
 function TouchController(StartMovement, StopMovement, StopAndStartMovement, ResetMovement, ShipFire) {
     var that = this,
         canvas = document.getElementById("game"),
-        tapID = false,
-        tapTimeout = false,
         shootPosition = false,
         shootDrawStart = false,
         topOffset = HeightOffset($("#shipStats")),
-        lengthOffset = 15,
+        lengthOffset = 30,
         drawShotsFor = 100;
 
     var Forward = new Movement(20, 160, "Forward"),
@@ -187,21 +191,6 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
     var leftJoyStick = new JoyStick(lengthOffset, [Forward, Backward], StartMovement, StopMovement, StopAndStartMovement, ResetMovement),
         rightJoyStick = new JoyStick(lengthOffset, [RotatingLeft, RotatingRight], StartMovement, StopMovement, StopAndStartMovement, ResetMovement);
 
-    function TapTriggered(touch) {
-        // Was tap        
-        clearTimeout(tapTimeout);
-        tapTimeout = false;
-        tapID = false;
-
-        shootPosition = {
-            X: touch.clientX,
-            Y: touch.clientY - topOffset
-        };
-
-        shootDrawStart = new Date().getTime();
-        ShipFire();
-    }
-
     function HandleStart(touch) {
         if (that.Enabled) {
             if (touch.clientX <= middle) { // leftJoyStick
@@ -211,16 +200,7 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
             }
             else { // Right side of the screen, so rotate or shoot
                 if (!rightJoyStick.InAction) {
-                    tapID = touch.identifier;
-                    // What to execute if a tap is not detected
-                    tapTimeout = setTimeout((function (touch) {
-                        return function () {
-                            tapID = false;
-                            tapTimeout = false;
-
-                            rightJoyStick.TouchStart(touch);
-                        }
-                    })(touch), 325);
+                    rightJoyStick.TouchStart(touch);                    
                 }
             }
         }
@@ -235,13 +215,19 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
 
     function HandleStop(touch) {
         if (that.Enabled) {
+            // Check if we need to fire
+            if ((leftJoyStick.InAction && leftJoyStick.Traveled() < lengthOffset && leftJoyStick.TimeSinceTouch() <= 1000) ||
+                (rightJoyStick.InAction && rightJoyStick.Traveled() < lengthOffset && rightJoyStick.TimeSinceTouch() <= 1000)) {
+                shootPosition = {
+                    X: touch.clientX,
+                    Y: touch.clientY - topOffset
+                };
+                shootDrawStart = new Date().getTime();
+                ShipFire();
+            }
+
             leftJoyStick.TouchStop(touch);
             rightJoyStick.TouchStop(touch);
-
-            // Tap is still available
-            if (tapID === touch.identifier) {
-                TapTriggered(touch);
-            }
         }
     }
 
