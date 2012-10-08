@@ -176,7 +176,7 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
         shootPosition = false,
         shootDrawStart = false,
         topOffset = HeightOffset($("#shipStats")),
-        lengthOffset = 30;
+        lengthOffset = 15;
 
     var Forward = new Movement(20, 160, "Forward"),
         Backward = new Movement(200, 340, "Backward"),
