@@ -41,7 +41,7 @@
     <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
 
-    <script src="Client/Ship/TouchController.js" type="text/javascript"></script>
+    <script src="Client/GameController/TouchController.js" type="text/javascript"></script>
     <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
     <script src="Client/Space/Screen.js" type="text/javascript"></script>
     <script src="Client/GameGlobals.js" type="text/javascript"></script>
