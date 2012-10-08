@@ -43,7 +43,9 @@ $(window).load(function () {
         (function animloop() {
             requestAnimFrame(animloop);
 
-            Update();
+            if (touchController.Enabled) {
+                Update();
+            }
         })();
     }
 
