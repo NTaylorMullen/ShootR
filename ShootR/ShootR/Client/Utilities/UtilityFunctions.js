@@ -16,6 +16,17 @@
      return { X: Math.abs(B.X - A.X), Y: Math.abs(B.Y - A.Y) };
  }
 
+ function CalculateAngle(A, B) {
+     var deltas = SubtractVectors(B, A),
+         angle = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
+
+     if (angle < 0) {
+         angle += 360;
+     }
+
+     return angle;
+ }
+
  function StandardDeviation(arr) {
      var average = Average(arr),
          size = arr.length,

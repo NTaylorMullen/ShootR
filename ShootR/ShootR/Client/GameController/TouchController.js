@@ -176,7 +176,8 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
         shootPosition = false,
         shootDrawStart = false,
         topOffset = HeightOffset($("#shipStats")),
-        lengthOffset = 15;
+        lengthOffset = 15,
+        drawShotsFor = 100;
 
     var Forward = new Movement(20, 160, "Forward"),
         Backward = new Movement(200, 340, "Backward"),
@@ -327,7 +328,7 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
         rightJoyStick.Draw();
 
         if (shootDrawStart !== false) {
-            if (new Date().getTime() - shootDrawStart >= 100) {
+            if (new Date().getTime() - shootDrawStart >= drawShotsFor) {
                 shootDrawStart = false;
                 shootPosition = false;
             }
