@@ -46,6 +46,7 @@
     <script src="Client/GameGlobals.js" type="text/javascript"></script>
     <script src="Client/Utilities/LatencyResolver.js" type="text/javascript"></script>
     <script src="Client/Utilities/UtilityFunctions.js" type="text/javascript"></script>
+    <script src="Client/GameController/JoyStick.js" type="text/javascript"></script>
     <script src="Client/GameController/TouchController.js" type="text/javascript"></script>
     <script src="Client/Utilities/ClientServerTime.js" type="text/javascript"></script>
     <script src="Client/Space/Map.js" type="text/javascript"></script>

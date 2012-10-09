@@ -46,6 +46,7 @@
     <script src="Client/Utilities/UtilityFunctions.js" type="text/javascript"></script>
     <script src="Client/Space/Screen.js" type="text/javascript"></script>
     <script src="Client/GameController/ShipControllerFunctions.js" type="text/javascript"></script>
+    <script src="Client/GameController/JoyStick.js" type="text/javascript"></script>
     <script src="Client/GameController/TouchController.js" type="text/javascript"></script>
     <script src="Client/Space/CanvasRenderer.js" type="text/javascript"></script>
     <script src="Client/GameController/controllerMain.js" type="text/javascript"></script>

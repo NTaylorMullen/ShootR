@@ -78,9 +78,9 @@
     <Content Include="Client\Configuration\ConfigurationManager.js" />
     <Content Include="Client\GameController\controllerMain.js" />
     <Content Include="Client\Game.js" />
+    <Content Include="Client\GameController\JoyStick.js" />
     <Content Include="Client\GameController\ShipControllerFunctions.js" />
     <Content Include="Client\GameController\TouchController.js" />
-    <Content Include="Client\GameController\OneStickController.js" />
     <Content Include="Client\GameGlobals.js" />
     <Content Include="Client\Main.js" />
     <Content Include="Client\Ship\Ship.js" />
@@ -91,6 +91,7 @@
     <Content Include="Client\Space\CanvasRenderer.js" />
     <Content Include="Client\Space\Map.js" />
     <Content Include="Client\Space\Screen.js" />
+    <Content Include="Client\Space\TileMap.js" />
     <Content Include="Client\Utilities\LatencyResolver.js" />
     <Content Include="Client\Utilities\ClientServerTime.js" />
     <Content Include="Client\Utilities\Collidable.js" />
