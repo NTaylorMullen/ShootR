@@ -76,6 +76,9 @@
     <Content Include="Client\Bullet\Bullet.js" />
     <Content Include="Client\Bullet\BulletManager.js" />
     <Content Include="Client\Configuration\ConfigurationManager.js" />
+    <Content Include="Client\GameController\Adapters\IETouchAdapter.js" />
+    <Content Include="Client\GameController\Adapters\MouseAdapter.js" />
+    <Content Include="Client\GameController\Adapters\TouchAdapter.js" />
     <Content Include="Client\GameController\controllerMain.js" />
     <Content Include="Client\Game.js" />
     <Content Include="Client\GameController\JoyStick.js" />

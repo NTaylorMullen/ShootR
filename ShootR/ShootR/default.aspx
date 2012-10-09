@@ -47,6 +47,9 @@
     <script src="Client/Utilities/LatencyResolver.js" type="text/javascript"></script>
     <script src="Client/Utilities/UtilityFunctions.js" type="text/javascript"></script>
     <script src="Client/GameController/JoyStick.js" type="text/javascript"></script>
+    <script src="Client/GameController/Adapters/IETouchAdapter.js" type="text/javascript"></script>
+    <script src="Client/GameController/Adapters/MouseAdapter.js" type="text/javascript"></script>
+    <script src="Client/GameController/Adapters/TouchAdapter.js" type="text/javascript"></script>
     <script src="Client/GameController/TouchController.js" type="text/javascript"></script>
     <script src="Client/Utilities/ClientServerTime.js" type="text/javascript"></script>
     <script src="Client/Space/Map.js" type="text/javascript"></script>

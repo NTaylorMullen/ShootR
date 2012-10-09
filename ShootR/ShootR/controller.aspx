@@ -47,6 +47,9 @@
     <script src="Client/Space/Screen.js" type="text/javascript"></script>
     <script src="Client/GameController/ShipControllerFunctions.js" type="text/javascript"></script>
     <script src="Client/GameController/JoyStick.js" type="text/javascript"></script>
+    <script src="Client/GameController/Adapters/IETouchAdapter.js" type="text/javascript"></script>
+    <script src="Client/GameController/Adapters/MouseAdapter.js" type="text/javascript"></script>
+    <script src="Client/GameController/Adapters/TouchAdapter.js" type="text/javascript"></script>
     <script src="Client/GameController/TouchController.js" type="text/javascript"></script>
     <script src="Client/Space/CanvasRenderer.js" type="text/javascript"></script>
     <script src="Client/GameController/controllerMain.js" type="text/javascript"></script>

@@ -31,6 +31,8 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
     var leftJoyStick = new JoyStick(lengthOffset, [Forward, Backward], StartMovement, StopMovement, StopAndStartMovement, ResetMovement),
         rightJoyStick = new JoyStick(lengthOffset, [RotatingLeft, RotatingRight], StartMovement, StopMovement, StopAndStartMovement, ResetMovement);
 
+    that.Enabled = true;
+
     function HandleStart(touch) {
         if (that.Enabled) {
             if (touch.clientX <= middle) { // leftJoyStick
@@ -71,73 +73,9 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
         }
     }
 
-    function TouchStart(e) {
-        e.preventDefault();
-
-        $("#ShipName").val("Touch Start: " + e.pointerId);
-        /*
-        for (var i = 0; i < e.changedTouches.length; i++) {
-            var touch = e.changedTouches[i];
-
-            HandleStart(touch);
-        }*/
-    }
-
-    function TouchMove(e) {
-        e.preventDefault();
-
-        $("#ShipName").val("Touch Move: " + e.pointerId);
-        /*
-        for (var i = 0; i < e.changedTouches.length; i++) {
-            var touch = e.changedTouches[i];
-
-            HandleMove(touch);
-        }*/
-    }
-
-    function TouchEnd(e) {
-        e.preventDefault();
-
-        $("#ShipName").val("Touch Stopped: " + e.pointerId);
-        /*
-        for (var i = 0; i < e.changedTouches.length; i++) {
-            var touch = e.changedTouches[i];
-
-            HandleStop(touch)
-        }*/
-    }
-
-    var mouseGUIDS = 0,
-        currentGUID = 0;
-
-    function MouseDown(e) {
-        e.preventDefault();
-
-        var touch = e;
-
-        e.identifier = currentGUID = mouseGUIDS++;
-        HandleStart(e);
-    }
-
-    function MouseMove(e) {
-        e.preventDefault();
-
-        var touch = e;
-
-        e.identifier = currentGUID;
-        HandleMove(e);
-    }
-
-    function MouseUp(e) {
-        e.preventDefault();
-
-        var touch = e;
-
-        e.identifier = currentGUID;
-        HandleStop(e);
-    }
-
-    that.Enabled = true;
+    var mouseAdapter = new MouseAdapter(HandleStart, HandleMove, HandleStop),
+        touchAdapter = new TouchAdapter(HandleStart, HandleMove, HandleStop),
+        ieTouchAdapter = new IETouchAdapter(HandleStart, HandleMove, HandleStop);    
 
     that.Initialize = function (screen) {
         if (navigator.msPointerEnabled) {
@@ -145,24 +83,24 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
             $(canvas).css("-ms-touch-action", "none");
 
             // Initialize regular touch movements
-            canvas.addEventListener('MSPointerDown', TouchStart, false);
-            canvas.addEventListener('MSPointerMove', TouchMove, false);
-            canvas.addEventListener('MSPointerUp', TouchEnd, false);
+            canvas.addEventListener('MSPointerDown', ieTouchAdapter.Start, false);
+            canvas.addEventListener('MSPointerMove', ieTouchAdapter.Move, false);
+            canvas.addEventListener('MSPointerUp', ieTouchAdapter.Stop, false);
 
             // Initialize gesture touches
-            canvas.addEventListener("MSPointerCancel", function (e) { $("#ShipName").val("MS Pointer Cancel"); }, false);
+            canvas.addEventListener("MSPointerCancel", function (e) { e.preventDefault(); }, false);
             canvas.addEventListener("MSGestureInit", function (e) { if (e.preventManipulation) e.preventManipulation(); }, false);
             canvas.addEventListener("MSHoldVisual", function (e) { e.preventDefault(); }, false);
         }
         else if ('createTouch' in document) {
-            canvas.addEventListener('touchstart', TouchStart, false);
-            canvas.addEventListener('touchmove', TouchMove, false);
-            canvas.addEventListener('touchend', TouchEnd, false);
+            canvas.addEventListener('touchstart', touchAdapter.Start, false);
+            canvas.addEventListener('touchmove', touchAdapter.Move, false);
+            canvas.addEventListener('touchend', touchAdapter.Stop, false);
         }
         else {
-            canvas.addEventListener('mousedown', MouseDown, false);
-            canvas.addEventListener('mousemove', MouseMove, false);
-            canvas.addEventListener('mouseup', MouseUp, false);
+            canvas.addEventListener('mousedown', mouseAdapter.Start, false);
+            canvas.addEventListener('mousemove', mouseAdapter.Move, false);
+            canvas.addEventListener('mouseup', mouseAdapter.Stop, false);
         }   
 
         middle = screen.Viewport.Width / 2;
