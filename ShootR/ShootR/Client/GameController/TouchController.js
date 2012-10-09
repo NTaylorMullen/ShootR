@@ -298,6 +298,10 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
         canvas.addEventListener('touchmove', TouchMove, false);
         canvas.addEventListener('touchend', TouchEnd, false);
 
+        canvas.addEventListener('MSPointerDown', TouchStart, false);
+        canvas.addEventListener('MSPointerMove', TouchMove, false);
+        canvas.addEventListener('MSPointerUp', TouchEnd, false);
+
         canvas.addEventListener('mousedown', MouseDown, false);
         canvas.addEventListener('mousemove', MouseMove, false);
         canvas.addEventListener('mouseup', MouseUp, false);
