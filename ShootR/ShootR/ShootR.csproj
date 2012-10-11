@@ -145,12 +145,14 @@
     <Compile Include="Server\Bullet\BulletMovementController.cs" />
     <Compile Include="Server\Configuration\MapConfiguration.cs" />
     <Compile Include="Server\Configuration\ScreenConfiguration.cs" />
+    <Compile Include="Server\Game.cs" />
     <Compile Include="Server\GenericManagers\CollisionManager.cs" />
     <Compile Include="Server\Configuration\BulletConfiguration.cs" />
     <Compile Include="Server\Configuration\ConfigurationManager.cs" />
     <Compile Include="Server\Configuration\GameConfiguration.cs" />
     <Compile Include="Server\Configuration\ShipConfiguration.cs" />
-    <Compile Include="Server\GameEnvironment.cs" />
+    <Compile Include="Server\GameHub.cs" />
+    <Compile Include="Server\GenericManagers\ConnectionManager.cs" />
     <Compile Include="Server\GenericManagers\ControlRequestManager.cs" />
     <Compile Include="Server\GenericManagers\GameHandler.cs" />
     <Compile Include="Server\Ship\ShipManager.cs" />
