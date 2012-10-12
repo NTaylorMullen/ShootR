@@ -4,16 +4,16 @@ namespace ShootR
 {
     public class MapBoundary
     {
-        private Rectangle _area;
-
         public MapBoundary(int width, int height)
         {
-            _area = new Rectangle(0, 0, width, height);
+            Area = new Rectangle(0, 0, width, height);
         }
+
+        public Rectangle Area { get; private set; }
 
         public bool OnMap(Collidable obj)
         {
-            return _area.Contains(obj.GetBounds());
+            return Area.Contains(obj.GetBounds());
         }
     }
 }

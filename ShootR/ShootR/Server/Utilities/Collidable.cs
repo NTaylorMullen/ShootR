@@ -115,12 +115,24 @@ namespace ShootR
         public virtual void HandleOutOfBounds()
         {
             _altered = true;
+            Vector2 bounceMultiplier = null;
+
+            // Collided with left or right side
+            if (MovementController.Position.X <= 0 || (MovementController.Position.X + Width()) >= Map.WIDTH)
+            {
+                bounceMultiplier = new Vector2(-Map.BARRIER_DEPRECATION, Map.BARRIER_DEPRECATION);                
+            }
+            else if (MovementController.Position.Y <= 0 || (MovementController.Position.Y + Height()) >= Map.HEIGHT) // Top or bottom
+            {
+                bounceMultiplier = new Vector2(Map.BARRIER_DEPRECATION, -Map.BARRIER_DEPRECATION);
+            }
+
             // Re-position object in bounds
             MovementController.RepositionInBounds(_width, _height);
 
-            // Reverse velocity, aka bounce
-            MovementController.Forces *= -Map.BARRIER_DEPRECATION;
-            MovementController.Velocity *= -Map.BARRIER_DEPRECATION;
+            //Bounce 
+            MovementController.Forces *= bounceMultiplier;
+            MovementController.Velocity *= bounceMultiplier;
             UpdateBounds();
         }
 
