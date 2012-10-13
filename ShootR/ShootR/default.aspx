@@ -75,6 +75,7 @@
     <script src="Client/Utilities/PayloadManagement/PayloadDecompressor.js" type="text/javascript"></script>
     <script src="Client/Game.js" type="text/javascript"></script>
     <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
+    <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>
     <script src="Client/Main.js"></script>
 </body>
 </html>
