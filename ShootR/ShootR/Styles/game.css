@@ -171,9 +171,10 @@ h3 {
 
 #HealthHolder {
     margin:0 auto;
-    width:800px;
-    height:30px;
-    border:1px solid black;
+    width:60%;
+    height:20px;
+    border:1px solid white;
+    background-color:gray;
 }
 
 #Health {

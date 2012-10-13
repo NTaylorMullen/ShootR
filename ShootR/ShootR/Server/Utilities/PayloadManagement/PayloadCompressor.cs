@@ -25,7 +25,7 @@ namespace ShootR
             result[CollidableCompressionContract.ID] = obj.ID;
             result[CollidableCompressionContract.Disposed] = Convert.ToInt32(obj.Disposed);
             result[CollidableCompressionContract.Alive] = Convert.ToInt32(obj.LifeController.Alive);
-            result[CollidableCompressionContract.Alive] = Convert.ToInt32(obj.LifeController.Health);
+            result[CollidableCompressionContract.Health] = Math.Round(obj.LifeController.Health, 2);
         }
 
         public object[] Compress(Ship ship)

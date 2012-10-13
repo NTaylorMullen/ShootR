@@ -18,6 +18,8 @@ function Game(conn, latencyResolver, myShipID) {
 
     CanvasContext.Camera.Follow(myShip);
 
+    that.HUDManager = new HUDManager(myShip);
+
     // Ship Respawn
     $(that.ShipManager).on("Respawn", function () {
         var respawnText = $("#respawnText"),
@@ -63,5 +65,7 @@ function Game(conn, latencyResolver, myShipID) {
 
         CanvasContext.Render();
         shipStats.Update(payload, latencyResolver.Latency, that.ShipManager.Ships, that.BulletManager.Bullets);
+
+        that.HUDManager.Update();
     }
 }

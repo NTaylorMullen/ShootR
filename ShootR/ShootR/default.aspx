@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <link href="Styles/game.css" rel="stylesheet" />
+    <link href="Styles/jquery-ui-1.9.0.css" rel="stylesheet" />
 
     <title>SignalR ShootR</title>
 </head>
@@ -45,6 +46,7 @@
     </form>
 
     <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
+    <script src="Scripts/jquery-ui-1.9.0.min.js" type="text/javascript"></script>
     <script src="Scripts/shortcut.js" type="text/javascript"></script>
     <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>
     <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
@@ -76,6 +78,7 @@
     <script src="Client/Game.js" type="text/javascript"></script>
     <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
     <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>
+    <script src="Client/HUD/HUDManager.js" type="text/javascript"></script>
     <script src="Client/Main.js"></script>
 </body>
 </html>

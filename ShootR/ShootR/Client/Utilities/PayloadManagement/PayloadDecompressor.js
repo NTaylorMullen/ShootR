@@ -36,7 +36,8 @@
                 }
             },
             LifeController: {
-                Alive: obj[CollidableContract.Alive]
+                Alive: obj[CollidableContract.Alive],
+                Health: obj[CollidableContract.Health]
             },
             ID: obj[CollidableContract.ID],
             Disposed: !!obj[CollidableContract.Disposed]            
