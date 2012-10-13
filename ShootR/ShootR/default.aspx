@@ -50,6 +50,7 @@
     <script src="Scripts/shortcut.js" type="text/javascript"></script>
     <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>
     <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.animate-colors-min.js" type="text/javascript"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
     
     <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
@@ -79,6 +80,7 @@
     <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
     <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>
     <script src="Client/HUD/HUDManager.js" type="text/javascript"></script>
+    <script src="Client/HUD/Animation/TextAnimation.js" type="text/javascript"></script>
     <script src="Client/Main.js"></script>
 </body>
 </html>

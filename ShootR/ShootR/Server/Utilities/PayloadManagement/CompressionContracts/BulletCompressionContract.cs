@@ -2,6 +2,7 @@
 {
     public class BulletCompressionContract
     {
-        // NOTE: CollidableCompressionContrat base class takes up the first 10 integer array arguments
+        // NOTE: CollidableCompressionContrat base class takes up the first X integer array arguments
+        public short DamageDealt = 15;
     }
 }

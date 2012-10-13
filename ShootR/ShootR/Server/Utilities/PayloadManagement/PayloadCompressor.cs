@@ -45,9 +45,11 @@ namespace ShootR
 
         public object[] Compress(Bullet bullet)
         {
-            object[] result = new object[15];
+            object[] result = new object[16];
 
             SetCollidableContractMembers(result, bullet);
+
+            result[BulletCompressionContract.DamageDealt] = bullet.DamageDealt;
 
             return result;
         }

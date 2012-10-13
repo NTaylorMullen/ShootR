@@ -21,6 +21,8 @@ namespace ShootR
             _lastSeen = DateTime.UtcNow;
         }
 
+        public int DamageDealt { get; private set; }
+
         public void Seen()
         {
             _lastSeen = DateTime.UtcNow;
@@ -56,13 +58,15 @@ namespace ShootR
         public override void HandleCollisionWith(Collidable c, Map space)
         {
             base.HandleCollisionWith(c, space);
-            c.LifeController.Hurt(DAMAGE);
+            DamageDealt = DAMAGE;
+            c.LifeController.Hurt(DamageDealt);            
             Dispose(); // Destroy bullet when collision
         }
 
         public override void HandleOutOfBounds()
         {
             MovementController.RepositionInBounds(_width, _height);
+            DamageDealt = 0;
             UpdateBounds();
             base.HandleCollision();
             Dispose(); // Destroy bullet when out of bounds

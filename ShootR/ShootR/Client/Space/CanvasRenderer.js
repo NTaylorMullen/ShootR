@@ -5,7 +5,7 @@
         canvasBufferContext = canvasBuffer.getContext("2d"),
         drawBoundary = 707, // Will not draw objects more then X pixels away from the camera    
         textFont = "15px verdana",
-        textColor = "white";
+        textColor = "rgba(255, 255, 255, 1)";
 
     var TO_RADIANS = Math.PI / 180;
 
@@ -70,15 +70,23 @@
         canvasBufferContext.restore();
     }
 
-    that.drawText = function (text, x, y) {
+    that.drawText = function (text, x, y, customColor, customFont) {
         var cameraOffset = { X: -that.Camera.Position.X + that.CanvasCenter.X, Y: -that.Camera.Position.Y + that.CanvasCenter.Y };
+
+        if (!customColor) {
+            customColor = textColor;
+        }
+
+        if (!customFont) {
+            customFont = textFont;
+        }
 
         canvasBufferContext.save();
 
         canvasBufferContext.translate(cameraOffset.X + x, y + cameraOffset.Y);
         canvasBufferContext.textAlign = "center";
-        canvasBufferContext.font = textFont;
-        canvasBufferContext.strokeStyle = textColor;
+        canvasBufferContext.font = customFont;
+        canvasBufferContext.strokeStyle = customColor;
 
         canvasBufferContext.strokeText(text, 0, 0);
 

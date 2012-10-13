@@ -23,6 +23,11 @@
                 },
                 Rotation: that.MovementController.Rotation
             }));
+
+            // Need to draw text
+            if (that.DamageDealt > 0) {
+                GAME_GLOBALS.AnimationManager.Add(new TextAnimation("-" + that.DamageDealt, that.CollidedAt.X, that.CollidedAt.Y, { duration: 750 }));
+            }
         }
 
         that.Visible = false;

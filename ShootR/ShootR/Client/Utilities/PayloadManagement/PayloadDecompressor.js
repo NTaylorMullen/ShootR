@@ -61,6 +61,8 @@
     function DecompressBullet(bullet) {
         var result = DecompressCollidable(bullet);
 
+        result.DamageDealt = bullet[BulletContract.DamageDealt];
+
         return result;
     }
 
