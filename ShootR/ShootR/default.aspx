@@ -35,7 +35,7 @@
         <div id="StopControlling">Stop Remote Controllers</div>
     </div>
 
-    <div id="banner"><em>For the latest updates, follow us on Twitter: </em><a href="https://twitter.com/DamianEdwards" target="_blank">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl" target="_blank">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen" target="_blank">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr" target="_blank">@StephenHaltR</a>, <a href="https://twitter.com/SignalR" target="_blank">@SignalR</a></div>
+    <div id="banner"><em>Created by: </em><a href="http://www.ntaylormullen.com" target="_blank" style="margin-right:10px;">NTaylorMullen.</a>  <em>Follow us on Twitter: </em><a href="https://twitter.com/DamianEdwards" target="_blank">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl" target="_blank">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen" target="_blank">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr" target="_blank">@StephenHaltR</a>, <a href="https://twitter.com/SignalR" target="_blank">@SignalR</a></div>
     <form runat="server">
     </form>
 
