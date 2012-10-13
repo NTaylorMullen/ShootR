@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SignalR;
 namespace ShootR
 {
     /// <summary>
@@ -9,18 +10,21 @@ namespace ShootR
     {
         public const int WIDTH = 50;
         public const int HEIGHT = 50;
+        public const int LIFE = 100;
 
         private ShipWeaponController _weaponController;
 
         public Ship(Vector2 position, BulletManager bm)
-            : base(WIDTH, HEIGHT)
+            : base(WIDTH, HEIGHT, new ShipMovementController(position), new LifeController(LIFE))
         {
-            MovementController = new ShipMovementController(position);
             _weaponController = new ShipWeaponController(this, bm);
+            LifeController.OnDeath += new EventHandler(Die);
+            LifeController.Host = this;
         }
 
         public string Name { get; set; }
         public User Host { get; set; }
+        public bool RespawnEnabled { get; set; }
 
         public ShipMovementController MovementController
         {
@@ -32,6 +36,11 @@ namespace ShootR
             {
                 base.MovementController = value;
             }
+        }
+
+        public void Die(object sender, EventArgs e)
+        {
+            this.Dispose();
         }
 
         public void StartMoving(Movement where)

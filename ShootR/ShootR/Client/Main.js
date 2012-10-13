@@ -77,6 +77,10 @@ $(function () {
         LoadMapInfo(payloadDecompressor.Decompress(compressedPayload));
     }
 
+    env.notify = function (msg) {
+        alert(msg);
+    }
+
     env.pingBack = latencyResolver.ServerPingBack;
 
     env.controlRequest = function () {
@@ -95,7 +99,7 @@ $(function () {
 
         $("#acceptControlRequest").click(function () {
             env.acceptControlRequest();
-            controlRequest.hide(500, function() {
+            controlRequest.hide(500, function () {
                 stopControllers.show(500);
             });
         });

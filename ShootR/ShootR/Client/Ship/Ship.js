@@ -79,7 +79,7 @@
         // Reset all movement
         for (var i = 0; i < MovementList.length; i++) {
             that.MovementController.Moving[MovementList[i]] = false;
-        }        
+        }
     }
 
     function shoot() {
@@ -113,7 +113,7 @@
         shortcut.add(fire, function () {
             shoot();
         });
-    }       
+    }
 
     ApplyKeyboardMappings();
 

@@ -23,7 +23,8 @@ namespace ShootR
             result[CollidableCompressionContract.VelocityX] = Math.Round(obj.MovementController.Velocity.X, 2);
             result[CollidableCompressionContract.VelocityY] = Math.Round(obj.MovementController.Velocity.Y, 2);
             result[CollidableCompressionContract.ID] = obj.ID;
-            result[CollidableCompressionContract.Disposed] = Convert.ToInt32(obj.Disposed);            
+            result[CollidableCompressionContract.Disposed] = Convert.ToInt32(obj.Disposed);
+            result[CollidableCompressionContract.Alive] = Convert.ToInt32(obj.LifeController.Alive);   
         }
 
         public object[] Compress(Ship ship)

@@ -87,7 +87,7 @@
 
     that.drawRotatedImage = function (image, angle, sx, sy, swidth, sheight, x, y, width, height) {
 
-        if (that !== this && this.GUID === that.Camera.Following) // Check to see if this function has been applied, if so we need to check if camera is following it
+        if (that !== this && this.ID === that.Camera.Following) // Check to see if this function has been applied, if so we need to check if camera is following it
         {
             that.Camera.Move({ X: this.MovementController.Position.X + this.WIDTH * .5, Y: this.MovementController.Position.Y + this.HEIGHT * .5 });
         }
@@ -130,10 +130,12 @@ CanvasContext.IMAGE_ASSETS = {
         this.Ship.src = "/Images/Ship.png";
         this.Explosion.src = "Images/SpriteSheets/explosion_1.png";
         this.Laser.src = "/Images/Laser.png";
+        this.BigExplosion.src = "/Images/SpriteSheets/explosion_2.png";        
     },
     Ship: new Image(),
     Explosion: new Image(),
-    Laser: new Image()
+    Laser: new Image(),
+    BigExplosion: new Image()
 };
 
 CanvasContext.IMAGE_ASSETS.INIT();

@@ -28,7 +28,6 @@ namespace ShootR
             RemoteControllers = new List<User>();
         }
 
-
         public List<User> RemoteControllers { get; set; }
         public string ConnectionID { get; set; }
         public Ship MyShip { get; set; }

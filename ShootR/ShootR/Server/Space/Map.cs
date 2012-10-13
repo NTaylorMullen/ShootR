@@ -39,6 +39,11 @@ namespace ShootR
             return _space.Query(queryArea);
         }
 
+        public bool Contains(Collidable obj)
+        {
+            return _allObjects.Contains(obj);
+        }
+
         public void Remove(Collidable obj)
         {
             _allObjects.Remove(obj);

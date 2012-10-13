@@ -2,12 +2,30 @@
     Collidable.call(this);
     var that = this;
 
-    that.GUID = ShipVehicle.prototype.GUID++;
-
     that.Vehicle = CanvasContext.IMAGE_ASSETS.Ship;
 
     that.Destroy = function () {
-        that.Destroyed = true;
+        // Ship has died
+        if (!that.LifeController.Alive) {
+            // We want to explode
+            GAME_GLOBALS.AnimationManager.Add(new spritify({
+                image: CanvasContext.IMAGE_ASSETS.BigExplosion,
+                centerOn: { X: that.MovementController.Position.X + that.WIDTH * .5, Y: that.MovementController.Position.Y + that.HEIGHT * .5 },
+                frameCount: 30,
+                fps: 25,
+                spriteSheetSize: {
+                    width: 768,
+                    height: 640
+                },
+                frameSize: {
+                    width: 128,
+                    height: 128,
+                },
+                Rotation: that.MovementController.Rotation
+            }));            
+        }
+
+        that.Visible = false;
     }   
    
     that.Update = function (gameTime) {        
@@ -59,7 +77,9 @@
     }
 
     that.DrawName = function () {
-        CanvasContext.drawText(that.Name, that.MovementController.Position.X + that.WIDTH * .5, that.MovementController.Position.Y + that.HEIGHT + 20);
+        if (that.LifeController.Alive) {
+            CanvasContext.drawText(that.Name, that.MovementController.Position.X + that.WIDTH * .5, that.MovementController.Position.Y + that.HEIGHT + 20);
+        }
     }
 
     that.DrawBoundary = function () {
@@ -70,4 +90,3 @@
 }
 
 ShipVehicle.prototype = new Collidable();
-ShipVehicle.prototype.GUID = 0;

@@ -26,19 +26,19 @@ namespace ShootR
         #region Connection Methods
         public Task Connect()
         {
-            _game.ConnectionManager.OnConnect(Context.ConnectionId);            
+            _game.ConnectionManager.OnConnected(Context.ConnectionId);
             return null;
         }
 
         public Task Reconnect(IEnumerable<string> groups)
         {
-            _game.ConnectionManager.OnReconnect(Context.ConnectionId);
+            _game.ConnectionManager.OnReconnected(Context.ConnectionId);
             return null;
         }
 
         public Task Disconnect()
         {
-            _game.ConnectionManager.OnDisconnect(Context.ConnectionId);
+            _game.ConnectionManager.OnDisconnected(Context.ConnectionId);
             return null;
         }
 
@@ -46,14 +46,16 @@ namespace ShootR
 
         #region Client Accessor Methods
 
+        #region Control requests
+
         public bool requestControlOf(string shipName)
         {
             User to = null;
-            foreach (string connectionID in _game.UserList.Keys)
+            foreach (string connectionID in _game.UserHandler.GetUserConnectionIds())
             {
-                if (connectionID != Context.ConnectionId && _game.UserList[connectionID].MyShip.Name == shipName)
+                if (connectionID != Context.ConnectionId && _game.UserHandler.GetUserShip(connectionID).Name == shipName)
                 {
-                    to = _game.UserList[connectionID];
+                    to = _game.UserHandler.GetUser(connectionID);
                     break;
                 }
             }
@@ -80,8 +82,8 @@ namespace ShootR
         {
             string from = _controlRequestManager.PullControlRequest(Context.ConnectionId);
 
-            _game.UserList[from].MyShip = _game.UserList[Context.ConnectionId].MyShip;
-            _game.UserList[Context.ConnectionId].RemoteControllers.Add(_game.UserList[from]);
+            _game.UserHandler.GetUser(from).MyShip = _game.UserHandler.GetUserShip(Context.ConnectionId);
+            _game.UserHandler.GetUser(Context.ConnectionId).RemoteControllers.Add(_game.UserHandler.GetUser(from));
 
             Clients[from].controlRequestAccepted();
         }
@@ -100,27 +102,29 @@ namespace ShootR
 
         private void stopControlling(string connectionID)
         {
-            _game.UserList[connectionID].MyShip.Host.RemoteControllers.Remove(_game.UserList[connectionID]);
+            _game.UserHandler.GetUserShip(connectionID).Host.RemoteControllers.Remove(_game.UserHandler.GetUser(connectionID));
 
             // If there's no more remote controllers
-            if (_game.UserList[connectionID].MyShip.Host.RemoteControllers.Count == 0)
+            if (_game.UserHandler.GetUserShip(connectionID).Host.RemoteControllers.Count == 0)
             {
-                Clients[_game.UserList[connectionID].MyShip.Host.ConnectionID].controllersStopped();
+                Clients[_game.UserHandler.GetUserShip(connectionID).Host.ConnectionID].controllersStopped();
             }
 
-            _game.UserList[connectionID].MyShip = null;
+            _game.UserHandler.GetUser(connectionID).MyShip = null;
         }
 
         public void stopRemoteControllers()
         {
-            foreach (User u in _game.UserList[Context.ConnectionId].RemoteControllers)
+            foreach (User u in _game.UserHandler.GetUser(Context.ConnectionId).RemoteControllers)
             {
                 u.MyShip = null;
                 Clients[u.ConnectionID].stopController();
             }
 
-            _game.UserList[Context.ConnectionId].RemoteControllers.Clear();
+            _game.UserHandler.GetUser(Context.ConnectionId).RemoteControllers.Clear();
         }
+
+        #endregion
 
         public DateTime ping()
         {
@@ -132,12 +136,16 @@ namespace ShootR
         /// </summary>
         public void fire()
         {
-            Bullet bullet = _game.UserList[Context.ConnectionId].MyShip.GetWeaponController().Fire();
+            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
-
-            if (bullet != null)
+            if (ship.LifeController.Alive)
             {
-                _game.HandleBullet(bullet);
+                Bullet bullet = ship.GetWeaponController().Fire();
+
+                if (bullet != null)
+                {
+                    _game.HandleBullet(bullet);
+                }
             }
         }
 
@@ -161,7 +169,7 @@ namespace ShootR
 
         public void readyForPayloads()
         {
-            _game.UserList[Context.ConnectionId].ReadyForPayloads = true;
+            _game.UserHandler.GetUser(Context.ConnectionId).ReadyForPayloads = true;
         }
 
         /// <summary>
@@ -181,7 +189,12 @@ namespace ShootR
                 result.Add((Movement)Enum.Parse(typeof(Movement), where));
             }
 
-            _game.UserList[Context.ConnectionId].MyShip.ResetMoving(result);
+            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+            if (ship.LifeController.Alive)
+            {
+                ship.ResetMoving(result);
+            }
         }
 
         public void startAndStopMovement(string toStop, string toStart, bool pingBack)
@@ -191,10 +204,15 @@ namespace ShootR
                 Caller.pingBack();
             }
 
-            Movement whereToStop = (Movement)Enum.Parse(typeof(Movement), toStop);
-            Movement whereToStart = (Movement)Enum.Parse(typeof(Movement), toStart);
-            _game.UserList[Context.ConnectionId].MyShip.StopMoving(whereToStop);
-            _game.UserList[Context.ConnectionId].MyShip.StartMoving(whereToStart);
+            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+            if (ship.LifeController.Alive)
+            {
+                Movement whereToStop = (Movement)Enum.Parse(typeof(Movement), toStop);
+                Movement whereToStart = (Movement)Enum.Parse(typeof(Movement), toStart);
+                ship.StopMoving(whereToStop);
+                ship.StartMoving(whereToStart);
+            }
         }
 
         /// <summary>
@@ -208,8 +226,13 @@ namespace ShootR
                 Caller.pingBack();
             }
 
-            Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-            _game.UserList[Context.ConnectionId].MyShip.StartMoving(where);
+            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+            if (ship.LifeController.Alive)
+            {
+                Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
+                ship.StartMoving(where);
+            }
         }
 
         /// <summary>
@@ -224,7 +247,13 @@ namespace ShootR
             }
 
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-            _game.UserList[Context.ConnectionId].MyShip.StopMoving(where);
+
+            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+            if (ship.LifeController.Alive)
+            {
+                ship.StopMoving(where);
+            }
         }
 
         public void changeName(string newName)
@@ -233,14 +262,15 @@ namespace ShootR
             {
                 newName = newName.Substring(0, 25);
             }
-            _game.UserList[Context.ConnectionId].MyShip.Name = newName;
+
+            _game.UserHandler.GetUserShip(Context.ConnectionId).Name = newName;
         }
 
         public void changeViewport(int viewportWidth, int viewportHeight)
         {
-            if (_game.UserList.ContainsKey(Context.ConnectionId))
+            if (_game.UserHandler.UserExists(Context.ConnectionId))
             {
-                _game.UserList[Context.ConnectionId].Viewport = new Size(viewportWidth, viewportHeight);
+                _game.UserHandler.GetUser(Context.ConnectionId).Viewport = new Size(viewportWidth, viewportHeight);
             }
         }
 

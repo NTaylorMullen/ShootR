@@ -19,7 +19,7 @@
     };
 
     that.Follow = function (obj) {
-        that.Following = obj.GUID;
+        that.Following = obj.ID;
     }
 
     that.InView = function (obj) {

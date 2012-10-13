@@ -6,6 +6,7 @@
     $.extend(Bullet.prototype, config.bulletConfig);
     $.extend(Map.prototype, config.mapConfig);
     $.extend(Screen.prototype, config.screenConfig);
+    $.extend(Game.prototype, config.gameConfig);
 
     Camera.prototype.View = {
         SPEED: config.gameConfig.MAX_CAMERA_SPEED        

@@ -1,7 +1,6 @@
 ﻿var Collidable = function () {
     var that = this;
-
-    that.Destroyed = false;
+    
     that.Visible = true;
     that.PropertiesToCopy = ["MovementController"];
     that.LastUpdated = new Date();
@@ -22,7 +21,7 @@
     }
 
     that.Draw = function () {
-        if (!that.Destroyed && that.Visible) {
+        if (that.LifeController.Alive && that.Visible) {
             CanvasContext.drawRotatedImage.apply(that, [that.Vehicle, that.MovementController.Rotation, that.MovementController.Position.X, that.MovementController.Position.Y]);
         }
     }

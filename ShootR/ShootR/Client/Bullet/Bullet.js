@@ -25,7 +25,7 @@
             }));
         }
 
-        that.Destroyed = true;
+        that.Visible = false;
     }
 
     that.Update = function (gameTime) {

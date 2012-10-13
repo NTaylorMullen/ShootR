@@ -17,7 +17,19 @@ a {
     position:relative;
     width:100%;
     height:100%;
+    background-color:black;
     background: url('/Images/bg_stars.jpg') repeat;
+}
+
+#respawnText {
+    position:absolute;
+    background-color:black;
+    display:none;
+    z-index: 10000;
+    font-size:48px;
+    color:white;
+    font-family:'Times New Roman';
+    text-align:center;
 }
 
 #ShipNameHolder {

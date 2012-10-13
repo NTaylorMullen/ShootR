@@ -6,7 +6,7 @@
         {
             BulletManager = new BulletManager();
             CollisionManager = new CollisionManager(map);
-            ShipManager = new ShipManager();
+            ShipManager = new ShipManager(CollisionManager);
         }
 
         public ShipManager ShipManager { get; set; }
@@ -18,7 +18,7 @@
             BulletManager.Update(gameTime);
             ShipManager.Update(gameTime);
             
-            CollisionManager.Update(gameTime);
+            CollisionManager.Update(gameTime);            
         }
     }
 }

@@ -13,13 +13,13 @@ namespace ShootR
 
         private PayloadCache _payloadCache = new PayloadCache();
 
-        public Dictionary<string, object[]> GetPayloads(ConcurrentDictionary<string, User> userList, int shipCount, int bulletCount, Map space)
+        public Dictionary<string, object[]> GetPayloads(ICollection<User> userList, int shipCount, int bulletCount, Map space)
         {
             _payloadCache.StartNextPayloadCache();
 
             Dictionary<string, object[]> payloads = new Dictionary<string, object[]>();            
 
-            foreach (User user in userList.Values)
+            foreach (User user in userList)
             {
                 if (user.ReadyForPayloads)
                 {
@@ -52,7 +52,7 @@ namespace ShootR
                             payload.Ships.Add(Compressor.Compress(((Ship)obj)));
                         }
                     }
-                    payloads[connectionID] = Compressor.Compress(payload);
+                    payloads[connectionID] = Compressor.Compress(payload);                                      
                 }
             }
 

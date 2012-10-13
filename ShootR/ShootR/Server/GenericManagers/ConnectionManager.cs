@@ -6,29 +6,28 @@ namespace ShootR
     public class ConnectionManager
     {
         private GameHandler _gameHandler;
-        private ConcurrentDictionary<string, User> _userList;
+        private UserHandler _userHandler;
         private object _locker;
 
-        public ConnectionManager(GameHandler gameHandler, ConcurrentDictionary<string, User> userList, object locker)
+        public ConnectionManager(GameHandler gameHandler, UserHandler userHandler, object locker)
         {
             _gameHandler = gameHandler;
-            _userList = userList;
+            _userHandler = userHandler;
             _locker = locker;
         }
 
-        public void OnConnect(string connectionId)
+        public void OnConnected(string connectionId)
         {
         }
 
-        public void OnReconnect(string connectionId)
+        public void OnReconnected(string connectionId)
         {
             lock (_locker)
             {
                 // On reconnect, force the user to refresh
-                if (_userList.ContainsKey(connectionId))
+                if (_userHandler.UserExists(connectionId))
                 {
-                    User u;
-                    _userList.TryRemove(connectionId, out u);
+                    _userHandler.RemoveUser(connectionId);
                 }
 
                 if (_gameHandler.ShipManager.Ships.ContainsKey(connectionId))
@@ -42,14 +41,13 @@ namespace ShootR
         /// On disconnect we need to remove the ship from our list of ships within the gameHandler.
         /// This also means we need to notify clients that the ship has been removed.
         /// </summary>
-        public void OnDisconnect(string connectionId)
+        public void OnDisconnected(string connectionId)
         {
             lock (_locker)
             {
-                if (_userList.ContainsKey(connectionId))
+                if (_userHandler.UserExists(connectionId))
                 {
-                    User u;
-                    _userList.TryRemove(connectionId, out u);
+                    _userHandler.RemoveUser(connectionId);
 
                     if (_gameHandler.ShipManager.Ships.ContainsKey(connectionId))
                     {

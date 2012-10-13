@@ -35,6 +35,9 @@
                     Y: obj[CollidableContract.VelocityY]
                 }
             },
+            LifeController: {
+                Alive: obj[CollidableContract.Alive]
+            },
             ID: obj[CollidableContract.ID],
             Disposed: !!obj[CollidableContract.Disposed]            
         };

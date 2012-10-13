@@ -10,44 +10,26 @@ namespace ShootR
     {
         protected Rectangle _bounds;
         private QuadTreeNode _mapLocation;
-        private int _serverID;
+        private int _serverID = 0;
         private static int _itemCount = 0;
 
         protected static bool _altered = true;
 
-        public Collidable(MovementController mc)
+        public Collidable(int w, int h, MovementController mc, LifeController lc)
         {
-            MovementController = mc;
-            CollidedAt = new Vector2();
-            _width = 0;
-            _height = 0;
-            _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), _width, _height);
-
-            _serverID = _itemCount++;
-        }
-
-        public Collidable(int w, int h)
-        {
+            ID = -1;
             _width = w;
             _height = h;
-            CollidedAt = new Vector2();
-            _bounds = new Rectangle(0, 0, _width, _height);
-
-            _serverID = _itemCount++;
-        }
-
-        public Collidable(int w, int h, MovementController mc)
-        {
-            _width = w;
-            _height = h;
-            CollidedAt = new Vector2();
-            MovementController = mc;
+            CollidedAt = new Vector2();            
             _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), _width, _height);
+            MovementController = mc;
+            LifeController = lc;
 
             _serverID = _itemCount++;
         }
 
         public MovementController MovementController { get; set; }
+        public LifeController LifeController { get; set; }
         public bool Disposed { get; set; }
         public int ID { get; set; }
         public bool Collided { get; set; }

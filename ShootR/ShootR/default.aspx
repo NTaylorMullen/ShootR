@@ -19,6 +19,10 @@
         </div>
     </div>
 
+    <div id="respawnText">
+        <p id="respawnHeader"><strong>You have died!</strong><br />Respawning in:</p>
+        <p id="timeLeft"></p>
+    </div>
     <div id="gameWrapper">
         <canvas id="game"></canvas>
         <div id="controlRequest">

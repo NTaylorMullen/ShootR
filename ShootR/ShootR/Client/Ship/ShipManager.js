@@ -26,12 +26,21 @@
             if (!that.Ships[id]) {
                 that.Ships[id] = new ShipVehicle({ x: currentShip.MovementController.Position.X, y: currentShip.MovementController.Position.Y });
             }
-
+            currentShip.Visible = true;
             that.Ships[id].UpdateProperties(currentShip);
 
             // Check if the ship still exists
             if (that.Ships[id].Disposed) {
-                that.RemoveShip(id);
+                that.Ships[id].Destroy();
+
+                if (id !== that.MyShip.ID) {
+                    that.RemoveShip(id);
+                }
+                else {
+                    if (!that.Ships[id].LifeController.Alive) {
+                        $(that).triggerHandler("Respawn");
+                    }
+                }
             }
             else {
                 that.Ships[id].Update();

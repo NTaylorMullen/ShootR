@@ -16,8 +16,7 @@ namespace ShootR
         private GameTime _gameTime;
         private Map _space;
         private GameHandler _gameHandler;
-        private PayloadManager _payloadManager;        
-        private Random _gen;
+        private PayloadManager _payloadManager;
 
         private int DRAW_AFTER;
         private int _updateCount = 0;
@@ -32,14 +31,13 @@ namespace ShootR
             _gameTime = new GameTime();
             _space = new Map();
             _gameHandler = new GameHandler(_space);
-            _payloadManager = new PayloadManager();            
-            _gen = new Random();
+            _payloadManager = new PayloadManager();
 
-            UserList = new ConcurrentDictionary<string, User>();
-            ConnectionManager = new ConnectionManager(_gameHandler, UserList, _locker);
+            UserHandler = new UserHandler();
+            ConnectionManager = new ConnectionManager(_gameHandler, UserHandler, _locker);
         }
 
-        public ConcurrentDictionary<string, User> UserList { get; private set; }
+        public UserHandler UserHandler { get; private set; }
         public ConnectionManager ConnectionManager { get; private set; }
 
         private void Update(object state)
@@ -63,7 +61,7 @@ namespace ShootR
         /// </summary>
         private void Draw()
         {
-            Dictionary<string, object[]> payloads = _payloadManager.GetPayloads(UserList, _gameHandler.ShipManager.Ships.Count, _gameHandler.BulletManager.Bullets.Count, _space);
+            Dictionary<string, object[]> payloads = _payloadManager.GetPayloads(UserHandler.GetUsers(), _gameHandler.ShipManager.Ships.Count, _gameHandler.BulletManager.Bullets.Count, _space);
             dynamic Clients = GetClients();
 
             foreach (string connectionID in payloads.Keys)
@@ -84,17 +82,14 @@ namespace ShootR
         public object initializeClient(string connectionId)
         {
             lock (_locker)
-            {
-                int x = _gen.Next(Ship.WIDTH * 2, Map.WIDTH - Ship.WIDTH * 2);
-                int y = _gen.Next(Ship.HEIGHT * 2, Map.HEIGHT - Ship.HEIGHT * 2);
-
-                Ship ship = new Ship(new Vector2(x, y), _gameHandler.BulletManager);
+            {                
+                Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), _gameHandler.BulletManager);
                 _gameHandler.ShipManager.Add(ship, connectionId);
                 ship.Name = "Ship" + ship.ID;
 
-                User u = new User(connectionId, ship);
-                ship.Host = u;
-                UserList.TryAdd(connectionId, u);
+                User user = new User(connectionId, ship);
+                ship.Host = user;
+                UserHandler.AddUser(user);
                 _gameHandler.CollisionManager.Monitor(ship);
             }
 
@@ -108,8 +103,8 @@ namespace ShootR
                     ShipContract = _payloadManager.Compressor.ShipCompressionContract,
                     BulletContract = _payloadManager.Compressor.BulletCompressionContract,
                 },
-                ShipID = UserList[connectionId].MyShip.ID,
-                ShipName = UserList[connectionId].MyShip.Name
+                ShipID = UserHandler.GetUserShip(connectionId).ID,
+                ShipName = UserHandler.GetUserShip(connectionId).Name
             };
         }
 
@@ -119,7 +114,7 @@ namespace ShootR
         /// <returns>The game's configuration</returns>
         public object initializeController(string connectionId)
         {
-            UserList.TryAdd(connectionId, new User(connectionId));
+            UserHandler.AddUser(new User(connectionId));
 
             return new
             {

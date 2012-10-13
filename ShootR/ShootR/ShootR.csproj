@@ -112,6 +112,7 @@
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
     </None>
+    <Content Include="Images\SpriteSheets\explosion_2.png" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
@@ -143,6 +144,7 @@
     <Compile Include="Server\Bullet\Bullet.cs" />
     <Compile Include="Server\Bullet\BulletManager.cs" />
     <Compile Include="Server\Bullet\BulletMovementController.cs" />
+    <Compile Include="Server\Collidable\LifeController.cs" />
     <Compile Include="Server\Configuration\MapConfiguration.cs" />
     <Compile Include="Server\Configuration\ScreenConfiguration.cs" />
     <Compile Include="Server\Game.cs" />
@@ -156,7 +158,9 @@
     <Compile Include="Server\GenericManagers\ControlRequestManager.cs" />
     <Compile Include="Server\GenericManagers\GameHandler.cs" />
     <Compile Include="Server\Ship\ShipManager.cs" />
+    <Compile Include="Server\User\RespawnManager.cs" />
     <Compile Include="Server\User\User.cs" />
+    <Compile Include="Server\User\UserHandler.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\BulletCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\CollidableCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\PayloadCompressionContract.cs" />
@@ -171,10 +175,10 @@
     <Compile Include="Server\Space\MapBoundary.cs" />
     <Compile Include="Server\Space\QuadTree.cs" />
     <Compile Include="Server\Space\QuadTreeNode.cs" />
-    <Compile Include="Server\Utilities\Collidable.cs" />
+    <Compile Include="Server\Collidable\Collidable.cs" />
     <Compile Include="Server\Utilities\GameTime.cs" />
     <Compile Include="Server\Utilities\Movement.cs" />
-    <Compile Include="Server\Utilities\MovementController.cs" />
+    <Compile Include="Server\Collidable\MovementController.cs" />
     <Compile Include="Server\Utilities\MovementFlags.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\Payload.cs" />
     <Compile Include="Server\Utilities\Vector2.cs" />
