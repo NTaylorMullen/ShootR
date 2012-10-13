@@ -24,12 +24,13 @@ namespace ShootR
             result[CollidableCompressionContract.VelocityY] = Math.Round(obj.MovementController.Velocity.Y, 2);
             result[CollidableCompressionContract.ID] = obj.ID;
             result[CollidableCompressionContract.Disposed] = Convert.ToInt32(obj.Disposed);
-            result[CollidableCompressionContract.Alive] = Convert.ToInt32(obj.LifeController.Alive);   
+            result[CollidableCompressionContract.Alive] = Convert.ToInt32(obj.LifeController.Alive);
+            result[CollidableCompressionContract.Alive] = Convert.ToInt32(obj.LifeController.Health);
         }
 
         public object[] Compress(Ship ship)
         {
-            object[] result = new object[19];
+            object[] result = new object[20];
 
             SetCollidableContractMembers(result, ship);
 
@@ -44,7 +45,7 @@ namespace ShootR
 
         public object[] Compress(Bullet bullet)
         {
-            object[] result = new object[14];
+            object[] result = new object[15];
 
             SetCollidableContractMembers(result, bullet);
 

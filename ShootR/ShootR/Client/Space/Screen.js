@@ -1,4 +1,4 @@
-﻿function Screen(gameCanvas, gameWrapper, conn) {
+﻿function Screen(gameCanvas, gameWrapper, gameHUD, conn) {
     var that = this;
 
     // Set by configuration
@@ -30,10 +30,12 @@
     that.Viewport = that.UpdateViewport();
 
     function UpdateGameCanvas() {
-        $(gameCanvas).attr("width", that.Viewport.Width);
-        $(gameCanvas).attr("height", that.Viewport.Height);
-        $(gameWrapper).css("width", that.Viewport.Width);
-        $(gameWrapper).css("height", that.Viewport.Height);
+        gameCanvas.attr("width", that.Viewport.Width);
+        gameCanvas.attr("height", that.Viewport.Height);
+        gameWrapper.css("width", that.Viewport.Width);
+        gameWrapper.css("height", that.Viewport.Height);
+        gameHUD.css("width", that.Viewport.Width);
+        gameHUD.css("height", that.Viewport.Height);
     }
 
     function UpdateGameCamera() {

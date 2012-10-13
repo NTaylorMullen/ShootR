@@ -9,7 +9,7 @@ $(function () {
         configurationManager,
         payloadDecompressor = new PayloadDecompressor(),
         latencyResolver = new LatencyResolver(env),
-        screen = new Screen($("#game"), $("#gameWrapper"), env),
+        screen = new Screen($("#game"), $("#gameWrapper"), $("#gameHUD"), env),
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] },
         controlRequest = $("#controlRequest"),

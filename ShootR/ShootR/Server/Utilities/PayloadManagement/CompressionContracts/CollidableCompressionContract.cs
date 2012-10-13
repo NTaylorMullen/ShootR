@@ -17,5 +17,6 @@
         public short ID = 11;
         public short Disposed = 12;
         public short Alive = 13;
+        public short Health = 14;
     }
 }

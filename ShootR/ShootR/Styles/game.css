@@ -164,3 +164,20 @@ h3 {
 #StopControlling:hover {
     cursor:pointer;
 }
+
+#gameHUD {
+    position:absolute;
+}
+
+#HealthHolder {
+    margin:0 auto;
+    width:800px;
+    height:30px;
+    border:1px solid black;
+}
+
+#Health {
+    background-color:#E01B1B;
+    width:100%;
+    height:100%;
+}

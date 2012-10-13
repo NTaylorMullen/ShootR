@@ -25,6 +25,11 @@
     </div>
     <div id="gameWrapper">
         <canvas id="game"></canvas>
+        <div id="gameHUD">
+            <div id="HealthHolder">
+                <div id="Health"></div>
+            </div>
+        </div>
         <div id="controlRequest">
             <div id="header">Control Request</div>
             <div id="controlRequestButtons">
