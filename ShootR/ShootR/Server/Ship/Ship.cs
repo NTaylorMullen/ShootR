@@ -17,14 +17,18 @@ namespace ShootR
         public Ship(Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT, new ShipMovementController(position), new LifeController(LIFE))
         {
+            StatRecorder = new ShipStatRecorder();
             _weaponController = new ShipWeaponController(this, bm);
-            LifeController.OnDeath += new EventHandler(Die);
+            LifeController.OnDeath += new DeathEventHandler(Die);
+            LifeController.OnDeath += new DeathEventHandler(StatRecorder.ShipDeath);
             LifeController.Host = this;
         }
 
         public string Name { get; set; }
         public User Host { get; set; }
         public bool RespawnEnabled { get; set; }
+
+        public ShipStatRecorder StatRecorder { get; set; }
 
         public ShipMovementController MovementController
         {
@@ -38,7 +42,7 @@ namespace ShootR
             }
         }
 
-        public void Die(object sender, EventArgs e)
+        public void Die(object sender, DeathEventArgs e)
         {
             this.Dispose();
         }

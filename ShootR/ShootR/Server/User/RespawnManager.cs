@@ -42,7 +42,7 @@ namespace ShootR
             }
         }
 
-        public void StartRespawnCountdown(object sender, EventArgs e)
+        public void StartRespawnCountdown(object sender, DeathEventArgs e)
         {
             _respawningShips.Add(new KeyValuePair<Ship, DateTime>(sender as Ship, DateTime.UtcNow));
         }

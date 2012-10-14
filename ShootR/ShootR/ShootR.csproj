@@ -176,12 +176,17 @@
     <Compile Include="Server\GenericManagers\ConnectionManager.cs" />
     <Compile Include="Server\GenericManagers\ControlRequestManager.cs" />
     <Compile Include="Server\GenericManagers\GameHandler.cs" />
+    <Compile Include="Server\Leaderboard\Leaderboard.cs" />
+    <Compile Include="Server\Leaderboard\LeaderboardEntry.cs" />
     <Compile Include="Server\Ship\ShipManager.cs" />
+    <Compile Include="Server\Ship\ShipStatRecorder.cs" />
     <Compile Include="Server\User\RespawnManager.cs" />
     <Compile Include="Server\User\User.cs" />
     <Compile Include="Server\User\UserHandler.cs" />
+    <Compile Include="Server\Utilities\DeathEventHandler.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\BulletCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\CollidableCompressionContract.cs" />
+    <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\LeaderboardEntryCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\PayloadCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\ShipCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\PayloadCache.cs" />

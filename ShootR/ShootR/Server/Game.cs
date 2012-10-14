@@ -11,7 +11,7 @@ namespace ShootR
     public class Game
     {
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
-        private Timer _timer;
+        private Timer _gameLoop, _leaderboardLoop;
         private ConfigurationManager _configuration;
         private GameTime _gameTime;
         private Map _space;
@@ -26,7 +26,8 @@ namespace ShootR
         {          
             _configuration = new ConfigurationManager();
             DRAW_AFTER = _configuration.gameConfig.DRAW_INTERVAL / _configuration.gameConfig.UPDATE_INTERVAL;
-            _timer = new Timer(Update, null, _configuration.gameConfig.UPDATE_INTERVAL, _configuration.gameConfig.UPDATE_INTERVAL);
+            _gameLoop = new Timer(Update, null, _configuration.gameConfig.UPDATE_INTERVAL, _configuration.gameConfig.UPDATE_INTERVAL);
+            _leaderboardLoop = new Timer(UpdateLeaderboard, null, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
 
             _gameTime = new GameTime();
             _space = new Map();
@@ -34,11 +35,13 @@ namespace ShootR
             _payloadManager = new PayloadManager();
 
             UserHandler = new UserHandler();
+            Leaderboard = new Leaderboard(UserHandler);
             ConnectionManager = new ConnectionManager(_gameHandler, UserHandler, _locker);
         }
 
         public UserHandler UserHandler { get; private set; }
         public ConnectionManager ConnectionManager { get; private set; }
+        public Leaderboard Leaderboard { get; private set; }
 
         private void Update(object state)
         {
@@ -61,7 +64,7 @@ namespace ShootR
         /// </summary>
         private void Draw()
         {
-            Dictionary<string, object[]> payloads = _payloadManager.GetPayloads(UserHandler.GetUsers(), _gameHandler.ShipManager.Ships.Count, _gameHandler.BulletManager.Bullets.Count, _space);
+            Dictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), _gameHandler.ShipManager.Ships.Count, _gameHandler.BulletManager.Bullets.Count, _space);
             dynamic Clients = GetClients();
 
             foreach (string connectionID in payloads.Keys)
@@ -70,9 +73,25 @@ namespace ShootR
             }
         }
 
-        private static dynamic GetClients()
+        private void UpdateLeaderboard(object state)
         {
+            List<object> leaderboardEntries = _payloadManager.GetLeaderboardPayloads(Leaderboard.GetAndUpdateLeaderboard());
+            PushLeaderboard(leaderboardEntries);
+        }
+
+        private void PushLeaderboard(List<object> leaderboard)
+        {
+            GetClients()[Leaderboard.LEADERBOARD_REQUESTEE_GROUP].l(leaderboard);
+        }
+
+        public static dynamic GetClients()
+        {            
             return GlobalHost.ConnectionManager.GetHubContext<GameHub>().Clients;
+        }
+
+        public static dynamic GetGroups()
+        {
+            return GlobalHost.ConnectionManager.GetHubContext<GameHub>().Groups;
         }
 
         /// <summary>
@@ -87,7 +106,7 @@ namespace ShootR
                 _gameHandler.ShipManager.Add(ship, connectionId);
                 ship.Name = "Ship" + ship.ID;
 
-                User user = new User(connectionId, ship);
+                User user = new User(connectionId, ship) { Controller = false };
                 ship.Host = user;
                 UserHandler.AddUser(user);
                 _gameHandler.CollisionManager.Monitor(ship);
@@ -102,6 +121,7 @@ namespace ShootR
                     CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
                     ShipContract = _payloadManager.Compressor.ShipCompressionContract,
                     BulletContract = _payloadManager.Compressor.BulletCompressionContract,
+                    LeaderboardEntryContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
                 },
                 ShipID = UserHandler.GetUserShip(connectionId).ID,
                 ShipName = UserHandler.GetUserShip(connectionId).Name
@@ -114,7 +134,7 @@ namespace ShootR
         /// <returns>The game's configuration</returns>
         public object initializeController(string connectionId)
         {
-            UserHandler.AddUser(new User(connectionId));
+            UserHandler.AddUser(new User(connectionId) { Controller = true });
 
             return new
             {
@@ -125,6 +145,7 @@ namespace ShootR
                     CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
                     ShipContract = _payloadManager.Compressor.ShipCompressionContract,
                     BulletContract = _payloadManager.Compressor.BulletCompressionContract,
+                    LeaderboardEntryCompressionContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
                 }
             };
         }

@@ -9,7 +9,7 @@ $(function () {
         configurationManager,
         payloadDecompressor = new PayloadDecompressor(),
         latencyResolver = new LatencyResolver(env),
-        screen = new Screen($("#game"), $("#gameWrapper"), $("#gameHUD"), env),
+        screen = new Screen($("#game"), $("#gameWrapper"), $("#gameHUD"), $("#popUpHolder"), env),
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] },
         controlRequest = $("#controlRequest"),
@@ -35,6 +35,19 @@ $(function () {
 
         shortcut.add("X", function () {
             game.ShipManager.DrawDetails = !game.ShipManager.DrawDetails;
+        }, { 'disable_in_input': true, 'type': 'keyup' });
+
+        shortcut.add("Tab", function () {
+            $("#popUpHolder").css("display", "block");
+            $("#leaderboardHolder").show(350);
+            env.readyForLeaderboardPayloads();
+        }, { 'disable_in_input': true, 'type': 'keydown' });
+
+        shortcut.add("Tab", function () {
+            $("#leaderboardHolder").hide(200, function () {
+                $("#popUpHolder").css("display", "none");
+            });
+            env.stopLeaderboardPayloads()
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
         game.ShipManager.MyShip.LatencyResolver = latencyResolver;
@@ -72,9 +85,17 @@ $(function () {
         game.BulletManager.UpdateBullets(info.Bullets);
     }
 
+    function LoadLeaderboard(info) {
+    }
+
     // Small name in order to minimize payload
     env.d = function (compressedPayload) {
         LoadMapInfo(payloadDecompressor.Decompress(compressedPayload));
+    }
+
+    // Leaderboard request endpoint
+    env.l = function (compressedLeaderboard) {
+        LoadLeaderboard(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard));
     }
 
     env.notify = function (msg) {

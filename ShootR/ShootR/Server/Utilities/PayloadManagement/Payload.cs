@@ -12,6 +12,7 @@ namespace ShootR
         }
 
         public List<object> Ships { get; set; }
+        public int LeaderboardPosition { get; set; }
         public List<object> Bullets { get; set; }
         public int ShipsInWorld { get; set; }
         public int BulletsInWorld { get; set; }

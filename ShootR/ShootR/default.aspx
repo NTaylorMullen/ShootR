@@ -31,6 +31,17 @@
                 <div id="Health"></div>
             </div>
         </div>
+
+        <div id="popUpHolder">
+            <div id="leaderboardHolder">
+                <div id="leaderboardBG"></div>
+                <div id="leaderboard">
+                    <h1>Leaderboard</h1>
+
+                </div>
+            </div>
+        </div>
+
         <div id="controlRequest">
             <div id="header">Control Request</div>
             <div id="controlRequestButtons">

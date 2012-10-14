@@ -171,7 +171,7 @@ h3 {
 
 #HealthHolder {
     margin:0 auto;
-    width:60%;
+    width:50%;
     height:20px;
     border:1px solid white;
     background-color:gray;
@@ -184,4 +184,40 @@ h3 {
     color:white;
     font-family:Impact;
     text-align:center;
+}
+
+#popUpHolder {
+    position:absolute;
+    display:none;
+}
+
+#leaderboardHolder {
+    display:none;
+    position:relative;
+    margin: 0 auto;
+    width:700px;
+    margin-top:30px;
+    min-height:50px;
+}
+
+#leaderboardBG {    
+    position:absolute;
+    background-color:white;
+    opacity: .7;
+    border:1px double gray;
+    border-radius:10px;
+    width:100%;
+    height:100%;
+}
+
+#leaderboard {
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
+#leaderboard h1 {
+    margin-top:5px;
+    text-align:center;
+    text-decoration:underline;
 }

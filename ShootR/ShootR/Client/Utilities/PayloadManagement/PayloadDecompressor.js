@@ -10,6 +10,7 @@
         CollidableContract = contracts.CollidableContract;
         ShipContract = contracts.ShipContract;
         BulletContract = contracts.BulletContract;
+        LeaderboardEntryContract = contracts.LeaderboardEntryContract;
     }
 
     function DecompressCollidable(obj) {
@@ -70,9 +71,23 @@
     function DecompressPayload(data) {
         return {
             Ships: data[PayloadContract.Ships],
+            LeaderboardPosition: data[PayloadContract.LeaderboardPosition],
             Bullets: data[PayloadContract.Bullets],
             ShipsInWorld: data[PayloadContract.ShipsInWorld],
             BulletsInWorld: data[PayloadContract.BulletsInWorld]
+        };
+    }
+
+    function DecompressLeaderboardEntry(data) {
+        return {
+            Name: data[LeaderboardEntryContract.Name],
+            Kills: data[LeaderboardEntryContract.Kills],
+            Deaths: data[LeaderboardEntryContract.Deaths],
+            HitsDealt: data[LeaderboardEntryContract.HitsDealt],
+            HitsTaken: data[LeaderboardEntryContract.HitsTaken],
+            DamageDealt: data[LeaderboardEntryContract.DamageDealt],
+            DamageTaken: data[LeaderboardEntryContract.DamageTaken],
+            KillDeathRatio: data[LeaderboardEntryContract.KillDeathRatio]
         };
     }
 
@@ -88,6 +103,17 @@
 
         for (i = 0; i < bulletCount; i++) {
             payload.Bullets[i] = DecompressBullet(payload.Bullets[i]);
+        }
+
+        return payload;
+    }
+
+    that.DecompressLeaderboard = function (data) {
+        var payload = [],
+            leaderboardEntryCount = data.length;
+
+        for (i = 0; i < leaderboardEntryCount; i++) {
+            payload.push(DecompressLeaderboardEntry(data[i]));
         }
 
         return payload;

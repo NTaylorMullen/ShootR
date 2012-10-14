@@ -34,7 +34,7 @@ namespace ShootR
                 var bulletOffset = new Vector2(Bullet.WIDTH / 2, Bullet.HEIGHT / 2);
                 var startPosition = new Vector2((shipCenter + (BULLET_LEAD * shipDirection)) + bulletOffset);
 
-                Bullet spawnedBullet = new Bullet(startPosition, shipDirection, _ship.MovementController.Velocity);
+                Bullet spawnedBullet = new Bullet(startPosition, shipDirection, _ship.MovementController.Velocity, _ship);
                 _bulletManager.Add(spawnedBullet);
 
                 _lastFired = DateTime.UtcNow;

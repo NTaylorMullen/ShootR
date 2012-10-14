@@ -7,7 +7,7 @@ namespace ShootR
 {
     public class LifeController
     {
-        public event EventHandler OnDeath;
+        public event DeathEventHandler OnDeath;
 
         public LifeController(double life)
         {
@@ -19,7 +19,7 @@ namespace ShootR
         public double Health { get; private set; }
         public bool Alive { get; private set; }
 
-        public void Hurt(double life)
+        public void Hurt(double life, Collidable hurtBy = null)
         {
             Health -= life;
 
@@ -31,7 +31,7 @@ namespace ShootR
 
                 if (OnDeath != null)
                 {
-                    OnDeath(Host, new EventArgs());
+                    OnDeath(Host, new DeathEventArgs(hurtBy));
                 }
             }
         }

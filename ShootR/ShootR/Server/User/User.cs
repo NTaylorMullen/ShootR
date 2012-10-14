@@ -31,7 +31,9 @@ namespace ShootR
         public List<User> RemoteControllers { get; set; }
         public string ConnectionID { get; set; }
         public Ship MyShip { get; set; }
+        public bool Controller { get; set; }
         public bool ReadyForPayloads { get; set; }
+        public int CurrentLeaderboardPosition { get; set; }
         private Size _viewport;
         public Size Viewport
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using SignalR;
 
 namespace ShootR
 {
@@ -25,15 +26,7 @@ namespace ShootR
             lock (_locker)
             {
                 // On reconnect, force the user to refresh
-                if (_userHandler.UserExists(connectionId))
-                {
-                    _userHandler.RemoveUser(connectionId);
-                }
-
-                if (_gameHandler.ShipManager.Ships.ContainsKey(connectionId))
-                {
-                    _gameHandler.ShipManager.RemoveShipByKey(connectionId);
-                }
+                OnDisconnected(connectionId);
             }
         }
 
@@ -53,6 +46,8 @@ namespace ShootR
                     {
                         _gameHandler.ShipManager.Ships[connectionId].Dispose();
                     }
+
+                    GlobalHost.ConnectionManager.GetHubContext<GameHub>().Clients[Leaderboard.LEADERBOARD_REQUESTEE_GROUP].leave(connectionId);
                 }
             }
         }

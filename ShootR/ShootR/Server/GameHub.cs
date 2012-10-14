@@ -274,6 +274,16 @@ namespace ShootR
             }
         }
 
+        public void readyForLeaderboardPayloads()
+        {
+            _game.Leaderboard.RequestLeaderboard(Context.ConnectionId);
+        }
+
+        public void stopLeaderboardPayloads()
+        {
+            _game.Leaderboard.StopRequestingLeaderboard(Context.ConnectionId);
+        }
+
         #endregion
     }
 }

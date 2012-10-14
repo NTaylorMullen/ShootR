@@ -15,13 +15,15 @@ namespace ShootR
 
         private DateTime _lastSeen;
 
-        public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity)
+        public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity, Ship firedBy)
             : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, initialVelocity), new LifeController(LIFE))
         {
             _lastSeen = DateTime.UtcNow;
+            FiredBy = firedBy;
         }
 
         public int DamageDealt { get; private set; }
+        public Ship FiredBy { get; private set; }
 
         public void Seen()
         {
@@ -59,7 +61,13 @@ namespace ShootR
         {
             base.HandleCollisionWith(c, space);
             DamageDealt = DAMAGE;
-            c.LifeController.Hurt(DamageDealt);            
+            c.LifeController.Hurt(DamageDealt, this);
+
+            if(c.GetType() == typeof(Ship))
+            {
+                (c as Ship).StatRecorder.BulletCollision(this);
+            }
+
             Dispose(); // Destroy bullet when collision
         }
 

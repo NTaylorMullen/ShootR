@@ -1,4 +1,4 @@
-﻿function Screen(gameCanvas, gameWrapper, gameHUD, conn) {
+﻿function Screen(gameCanvas, gameWrapper, gameHUD, popUpHolder, conn) {
     var that = this;
 
     // Set by configuration
@@ -37,6 +37,11 @@
         if (gameHUD) {
             gameHUD.css("width", that.Viewport.Width);
             gameHUD.css("height", that.Viewport.Height);
+        }
+
+        if (popUpHolder) {
+            popUpHolder.css("width", that.Viewport.Width);
+            popUpHolder.css("height", that.Viewport.Height);
         }
     }
 

@@ -13,7 +13,7 @@ namespace ShootR
 
         private PayloadCache _payloadCache = new PayloadCache();
 
-        public Dictionary<string, object[]> GetPayloads(ICollection<User> userList, int shipCount, int bulletCount, Map space)
+        public Dictionary<string, object[]> GetGamePayloads(ICollection<User> userList, int shipCount, int bulletCount, Map space)
         {
             _payloadCache.StartNextPayloadCache();
 
@@ -28,7 +28,7 @@ namespace ShootR
 
                     _payloadCache.CreateCacheFor(connectionID);
 
-                    var payload = GetInitializedPayload(shipCount, bulletCount);
+                    var payload = GetInitializedPayload(user.CurrentLeaderboardPosition, shipCount, bulletCount);
 
                     Vector2 screenPosition = user.MyShip.MovementController.Position - screenOffset;
                     List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), user.Viewport.Width + SCREEN_BUFFER_AREA, user.Viewport.Height + SCREEN_BUFFER_AREA));
@@ -62,10 +62,23 @@ namespace ShootR
             return payloads;
         }
 
-        public Payload GetInitializedPayload(int shipCount, int bulletCount)
+        public List<object> GetLeaderboardPayloads(IEnumerable<LeaderboardEntry> leaderboard)
+        {
+            List<object> result = new List<object>();
+
+            foreach (LeaderboardEntry entry in leaderboard)
+            {
+                result.Add(Compressor.Compress(entry));
+            }
+
+            return result;
+        }
+
+        public Payload GetInitializedPayload(int leaderboardPosition, int shipCount, int bulletCount)
         {
             return new Payload()
             {
+                LeaderboardPosition = leaderboardPosition,
                 ShipsInWorld = shipCount,
                 BulletsInWorld = bulletCount
             };

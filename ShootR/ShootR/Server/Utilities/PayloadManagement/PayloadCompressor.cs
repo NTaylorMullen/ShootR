@@ -8,6 +8,7 @@ namespace ShootR
         public CollidableCompressionContract CollidableCompressionContract = new CollidableCompressionContract();
         public ShipCompressionContract ShipCompressionContract = new ShipCompressionContract();
         public BulletCompressionContract BulletCompressionContract = new BulletCompressionContract();
+        public LeaderboardEntryCompressionContract LeaderboardEntryCompressionContract = new LeaderboardEntryCompressionContract();
 
         private void SetCollidableContractMembers(object[] result, Collidable obj)
         {
@@ -59,9 +60,26 @@ namespace ShootR
         {
             object[] result = new object[5];
             result[PayloadCompressionContract.Ships] = payload.Ships;
+            result[PayloadCompressionContract.LeaderboardPosition] = payload.LeaderboardPosition;
             result[PayloadCompressionContract.Bullets] = payload.Bullets;
             result[PayloadCompressionContract.ShipsInWorld] = payload.ShipsInWorld;
             result[PayloadCompressionContract.BulletsInWorld] = payload.BulletsInWorld;
+            return result;
+        }
+
+        public object[] Compress(LeaderboardEntry leaderboardEntry)
+        {
+            object[] result = new object[8];
+
+            result[LeaderboardEntryCompressionContract.Name] = leaderboardEntry.Name;
+            result[LeaderboardEntryCompressionContract.Kills] = leaderboardEntry.Kills;
+            result[LeaderboardEntryCompressionContract.Deaths] = leaderboardEntry.Deaths;
+            result[LeaderboardEntryCompressionContract.HitsDealt] = leaderboardEntry.HitsDealt;
+            result[LeaderboardEntryCompressionContract.HitsTaken] = leaderboardEntry.HitsTaken;
+            result[LeaderboardEntryCompressionContract.DamageDealt] = leaderboardEntry.DamageDealt;
+            result[LeaderboardEntryCompressionContract.DamageTaken] = leaderboardEntry.DamageTaken;
+            result[LeaderboardEntryCompressionContract.KillDeathRatio] = leaderboardEntry.KillDeathRatio;
+
             return result;
         }
     }

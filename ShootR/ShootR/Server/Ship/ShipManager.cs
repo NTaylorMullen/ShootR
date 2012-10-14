@@ -32,7 +32,7 @@ namespace ShootR
             if (!s.RespawnEnabled)
             {
                 s.RespawnEnabled = true;
-                s.LifeController.OnDeath += new EventHandler(_respawnManager.StartRespawnCountdown);                
+                s.LifeController.OnDeath += new DeathEventHandler(_respawnManager.StartRespawnCountdown);                
             }
             Ships.TryAdd(key, s);
         }
