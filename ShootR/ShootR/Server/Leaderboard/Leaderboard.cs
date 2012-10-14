@@ -21,15 +21,15 @@ namespace ShootR
 
         public void RequestLeaderboard(string connectionId)
         {
-            IHubContext Context = Game.GetContext();
+            /*IHubContext Context = Game.GetContext();
             
-            Context.Groups.Add(connectionId, LEADERBOARD_REQUESTEE_GROUP);
+            Context.Groups.Add(connectionId, LEADERBOARD_REQUESTEE_GROUP);*/
         }
 
         public void StopRequestingLeaderboard(string connectionId)
         {
-            IHubContext Context = Game.GetContext();
-            Context.Groups.Remove(connectionId, LEADERBOARD_REQUESTEE_GROUP);
+            /*IHubContext Context = Game.GetContext();
+            Context.Groups.Remove(connectionId, LEADERBOARD_REQUESTEE_GROUP);*/
         }
 
         public IEnumerable<LeaderboardEntry> GetAndUpdateLeaderboard()
