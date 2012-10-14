@@ -8,7 +8,7 @@ namespace ShootR
     /// </summary>
     public class Ship : Collidable
     {
-        public const int WIDTH = 50;
+        public const int WIDTH = 73;
         public const int HEIGHT = 50;
         public const int LIFE = 100;
 
