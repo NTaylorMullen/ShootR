@@ -1,6 +1,0 @@
-C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\ShootR.dll
-C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\ShootR.pdb
-C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\Microsoft.Web.Infrastructure.dll
-C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\bin\Microsoft.Web.Infrastructure.xml
-C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Release\ShootR.dll
-C:\Users\taylo_000\Documents\GitHub\ShootR\ShootR\ShootR\obj\Release\ShootR.pdb
