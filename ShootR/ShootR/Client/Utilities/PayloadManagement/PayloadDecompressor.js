@@ -83,8 +83,6 @@
             Name: data[LeaderboardEntryContract.Name],
             Kills: data[LeaderboardEntryContract.Kills],
             Deaths: data[LeaderboardEntryContract.Deaths],
-            HitsDealt: data[LeaderboardEntryContract.HitsDealt],
-            HitsTaken: data[LeaderboardEntryContract.HitsTaken],
             DamageDealt: data[LeaderboardEntryContract.DamageDealt],
             DamageTaken: data[LeaderboardEntryContract.DamageTaken],
             KillDeathRatio: data[LeaderboardEntryContract.KillDeathRatio]
@@ -108,12 +106,22 @@
         return payload;
     }
 
-    that.DecompressLeaderboard = function (data) {
+    that.DecompressLeaderboard = function (data, myShipName) {
         var payload = [],
             leaderboardEntryCount = data.length;
 
         for (i = 0; i < leaderboardEntryCount; i++) {
-            payload.push(DecompressLeaderboardEntry(data[i]));
+            var item = DecompressLeaderboardEntry(data[i]);
+            item.Position = i + 1;
+
+            if (item.Name === myShipName) {
+                item.customClass = "highlight";
+            }
+            else {
+                item.customClass = "";
+            }
+
+            payload.push(item);
         }
 
         return payload;

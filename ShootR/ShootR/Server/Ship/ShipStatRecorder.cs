@@ -7,6 +7,13 @@ namespace ShootR
 {
     public class ShipStatRecorder
     {
+        private Ship _me;
+
+        public ShipStatRecorder(Ship me)
+        {
+            _me = me;
+        }
+
         public int HitsDealt { get; set; }
         public int HitsTaken { get; set; }
         public int DamageDealt { get; set; }
@@ -19,14 +26,23 @@ namespace ShootR
             HitsTaken++;
             DamageTaken += bullet.DamageDealt;
 
-            bullet.FiredBy.StatRecorder.HitsDealt++;
-            bullet.FiredBy.StatRecorder.DamageDealt += bullet.DamageDealt;
+            // Only increment dealt statistics if it's not by me
+            if (bullet.FiredBy != _me)
+            {                
+                bullet.FiredBy.StatRecorder.HitsDealt++;
+                bullet.FiredBy.StatRecorder.DamageDealt += bullet.DamageDealt;
+            }
+            
         }
 
         public void ShipDeath(object sender, DeathEventArgs e)
         {
             Deaths++;
-            (e.KilledBy as Bullet).FiredBy.StatRecorder.Kills++;
+            // Do not increment kills if we killed ourself
+            if ((e.KilledBy as Bullet).FiredBy != _me)
+            {
+                (e.KilledBy as Bullet).FiredBy.StatRecorder.Kills++;
+            }
         }
     }
 }

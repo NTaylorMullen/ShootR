@@ -37,7 +37,30 @@
                 <div id="leaderboardBG"></div>
                 <div id="leaderboard">
                     <h1>Leaderboard</h1>
-
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="positionColumn">Position</th>
+                                <th class="nameColumn">Name</th>
+                                <th class="killsColumn">Kills</th>
+                                <th class="deathsColumn">Deaths</th>
+                                <th class="ddColumn">Damage Dealt</th>
+                                <th class="dtColumn">Damage Taken</th>
+                                <th class="kdratioColumn">KD Ratio</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: leaderboard">
+                            <tr data-bind="attr: { class: customClass }">
+                                <td class="positionColumn">#<span data-bind="text: Position"></span></td>
+                                <td class="nameColumn" data-bind="text: Name"></td>
+                                <td class="killsColumn" data-bind="text: Kills"></td>
+                                <td class="deathsColumn" data-bind="text: Deaths"></td>
+                                <td class="ddColumn" data-bind="text: DamageDealt"></td>
+                                <td class="dtColumn" data-bind="text: DamageTaken"></td>
+                                <td class="kdratioColumn"><span data-bind="text: KillDeathRatio"></span>%</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -57,6 +80,7 @@
     </form>
 
     <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
+    <script src="Scripts/knockout-2.1.0.js" type="text/javascript"></script>
     <script src="Scripts/jquery-ui-1.9.0.min.js" type="text/javascript"></script>
     <script src="Scripts/shortcut.js" type="text/javascript"></script>
     <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>

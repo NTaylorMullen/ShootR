@@ -22,8 +22,8 @@
 
     that.UpdateViewport = function () {
         return {
-            Width: Math.min($(window).width(), that.MAX_SCREEN_WIDTH),
-            Height: Math.min($(window).height(), that.MAX_SCREEN_HEIGHT) - that.TopOffset() - that.BottomOffset()
+            Width: Math.max(Math.min($(window).width(), that.MAX_SCREEN_WIDTH),1),
+            Height: Math.max(Math.min($(window).height(), that.MAX_SCREEN_HEIGHT) - that.TopOffset() - that.BottomOffset(), 1)
         };
     }
 

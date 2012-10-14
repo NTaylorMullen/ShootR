@@ -15,6 +15,12 @@ $(function () {
         controlRequest = $("#controlRequest"),
         stopControllers = $("#StopControlling");
 
+    var leaderboardViewModel = {
+        leaderboard: ko.observable()
+    };
+
+    ko.applyBindings(leaderboardViewModel, $("#leaderboard table")[0]);
+
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
         game = new Game(env, latencyResolver, init.ShipID);
@@ -39,15 +45,15 @@ $(function () {
 
         shortcut.add("Tab", function () {
             $("#popUpHolder").css("display", "block");
-            $("#leaderboardHolder").show(350);
+            $("#leaderboardHolder").fadeIn(350);
             env.readyForLeaderboardPayloads();
         }, { 'disable_in_input': true, 'type': 'keydown' });
 
         shortcut.add("Tab", function () {
-            $("#leaderboardHolder").hide(200, function () {
+            $("#leaderboardHolder").fadeOut(200, function () {
                 $("#popUpHolder").css("display", "none");
             });
-            env.stopLeaderboardPayloads()
+            env.stopLeaderboardPayloads();
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
         game.ShipManager.MyShip.LatencyResolver = latencyResolver;
@@ -86,6 +92,9 @@ $(function () {
     }
 
     function LoadLeaderboard(info) {
+        $("#leaderboardHolder").css("height", (info.length + 2) * 37 + 25);
+
+        leaderboardViewModel.leaderboard(info);
     }
 
     // Small name in order to minimize payload
@@ -95,7 +104,7 @@ $(function () {
 
     // Leaderboard request endpoint
     env.l = function (compressedLeaderboard) {
-        LoadLeaderboard(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard));
+        LoadLeaderboard(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard, game.ShipManager.MyShip.Name));
     }
 
     env.notify = function (msg) {

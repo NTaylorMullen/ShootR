@@ -17,7 +17,7 @@ namespace ShootR
         public Ship(Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT, new ShipMovementController(position), new LifeController(LIFE))
         {
-            StatRecorder = new ShipStatRecorder();
+            StatRecorder = new ShipStatRecorder(this);
             _weaponController = new ShipWeaponController(this, bm);
             LifeController.OnDeath += new DeathEventHandler(Die);
             LifeController.OnDeath += new DeathEventHandler(StatRecorder.ShipDeath);

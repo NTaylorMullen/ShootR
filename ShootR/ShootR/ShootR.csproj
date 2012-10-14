@@ -127,6 +127,7 @@
     <Content Include="Scripts\jquery.signalR-0.5.3.js" />
     <Content Include="Scripts\jquery.signalR-0.5.3.min.js" />
     <Content Include="Scripts\jquery.spritify-0.0.0.js" />
+    <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\shortcut.js" />
     <Content Include="Styles\controller.css" />
     <Content Include="Styles\game.css" />

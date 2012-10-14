@@ -43,7 +43,7 @@ namespace ShootR
                         HitsTaken = ship.StatRecorder.HitsTaken,
                         DamageDealt = ship.StatRecorder.DamageDealt,
                         DamageTaken = ship.StatRecorder.DamageTaken,
-                        KillDeathRatio = ship.StatRecorder.Kills / Math.Max((ship.StatRecorder.Kills + ship.StatRecorder.Deaths), 1),
+                        KillDeathRatio = (Convert.ToDouble(ship.StatRecorder.Kills) / Math.Max((ship.StatRecorder.Kills + ship.StatRecorder.Deaths), 1))*100,
                         ConnectionID = ship.Host.ConnectionID
                     }).OrderByDescending(entry => entry.Kills).ThenByDescending(entry => entry.KillDeathRatio).ThenByDescending(entry => entry.DamageDealt);
 

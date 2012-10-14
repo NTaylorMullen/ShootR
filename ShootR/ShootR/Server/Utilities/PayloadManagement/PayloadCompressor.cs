@@ -74,11 +74,9 @@ namespace ShootR
             result[LeaderboardEntryCompressionContract.Name] = leaderboardEntry.Name;
             result[LeaderboardEntryCompressionContract.Kills] = leaderboardEntry.Kills;
             result[LeaderboardEntryCompressionContract.Deaths] = leaderboardEntry.Deaths;
-            result[LeaderboardEntryCompressionContract.HitsDealt] = leaderboardEntry.HitsDealt;
-            result[LeaderboardEntryCompressionContract.HitsTaken] = leaderboardEntry.HitsTaken;
             result[LeaderboardEntryCompressionContract.DamageDealt] = leaderboardEntry.DamageDealt;
             result[LeaderboardEntryCompressionContract.DamageTaken] = leaderboardEntry.DamageTaken;
-            result[LeaderboardEntryCompressionContract.KillDeathRatio] = leaderboardEntry.KillDeathRatio;
+            result[LeaderboardEntryCompressionContract.KillDeathRatio] = Math.Round(leaderboardEntry.KillDeathRatio,2);
 
             return result;
         }

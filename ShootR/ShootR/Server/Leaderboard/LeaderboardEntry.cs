@@ -14,7 +14,7 @@ namespace ShootR
         public int HitsTaken { get; set; }
         public int DamageDealt { get; set; }
         public int DamageTaken { get; set; }
-        public int KillDeathRatio { get; set; }
+        public double KillDeathRatio { get; set; }
 
         public string ConnectionID { get; set; }
     }
