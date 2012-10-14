@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SignalR;
+using Microsoft.AspNet.SignalR;
 namespace ShootR
 {
     /// <summary>

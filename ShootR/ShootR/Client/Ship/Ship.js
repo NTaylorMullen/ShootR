@@ -1,4 +1,4 @@
-﻿function Ship(rotateLeft, forward, rotateRight, backward, fire, bullet_manager, conn) {
+﻿function Ship(rotateLeft, forward, rotateRight, backward, fire, bullet_manager, connection) {
     var that = this,
         lastShot = new Date(),
         keyMapping = [],
@@ -26,7 +26,7 @@
                 pingBack = true;
                 that.LatencyResolver.RequestedPingBack();
             }
-            conn.registerMoveStart(dir, pingBack);
+            connection.server.registerMoveStart(dir, pingBack);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
             that.MovementController.Moving[dir] = true;
@@ -42,7 +42,7 @@
             pingBack = true;
             that.LatencyResolver.RequestedPingBack();
         }
-        conn.registerMoveStop(dir, pingBack);
+        connection.server.registerMoveStop(dir, pingBack);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
         that.MovementController.Moving[dir] = false;
@@ -57,7 +57,7 @@
             pingBack = true;
             that.LatencyResolver.RequestedPingBack();
         }
-        conn.startAndStopMovement(toStop, toStart, pingBack);
+        connection.server.startAndStopMovement(toStop, toStart, pingBack);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
         that.MovementController.Moving[toStop] = false;
@@ -72,7 +72,7 @@
         if (movementCount === 0) {
             pingBack = true;
         }
-        conn.resetMovement(MovementList, pingBack);
+        connection.server.resetMovement(MovementList, pingBack);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
 
@@ -89,7 +89,7 @@
         if (diff.getTime() > that.FIRE_RATE) {
             lastShot = new Date();
 
-            conn.fire();
+            connection.server.fire();
         }
     }
 

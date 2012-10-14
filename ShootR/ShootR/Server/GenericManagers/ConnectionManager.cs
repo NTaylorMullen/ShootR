@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using SignalR;
+using Microsoft.AspNet.SignalR;
 
 namespace ShootR
 {

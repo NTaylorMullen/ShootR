@@ -5,12 +5,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
-using SignalR.Hubs;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ShootR
 {
     [HubName("h")]
-    public class GameHub : Hub, IConnected, IDisconnect
+    public class GameHub : Hub
     {
         private static ControlRequestManager _controlRequestManager = new ControlRequestManager();
 
@@ -24,22 +24,22 @@ namespace ShootR
         }
 
         #region Connection Methods
-        public Task Connect()
+        public override Task OnConnected()
         {
             _game.ConnectionManager.OnConnected(Context.ConnectionId);
-            return null;
+            return base.OnConnected();
         }
 
-        public Task Reconnect(IEnumerable<string> groups)
+        public override Task OnReconnected()
         {
             _game.ConnectionManager.OnReconnected(Context.ConnectionId);
-            return null;
+            return base.OnReconnected();
         }
 
-        public Task Disconnect()
+        public override Task OnDisconnected()
         {
             _game.ConnectionManager.OnDisconnected(Context.ConnectionId);
-            return null;
+            return base.OnDisconnected();
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace ShootR
             {
                 if (_controlRequestManager.Add(Context.ConnectionId, to.ConnectionID))
                 {
-                    Clients[to.ConnectionID].controlRequest();
+                    Clients.Client(to.ConnectionID).controlRequest();
                     return true;
                 }
                 else
@@ -85,14 +85,14 @@ namespace ShootR
             _game.UserHandler.GetUser(from).MyShip = _game.UserHandler.GetUserShip(Context.ConnectionId);
             _game.UserHandler.GetUser(Context.ConnectionId).RemoteControllers.Add(_game.UserHandler.GetUser(from));
 
-            Clients[from].controlRequestAccepted();
+            Clients.Client(from).controlRequestAccepted();
         }
 
         public void declineControlRequest()
         {
             string from = _controlRequestManager.PullControlRequest(Context.ConnectionId);
 
-            Clients[from].controlRequestDeclined();
+            Clients.Client(from).controlRequestDeclined();
         }
 
         public void stopControlling()
@@ -107,7 +107,7 @@ namespace ShootR
             // If there's no more remote controllers
             if (_game.UserHandler.GetUserShip(connectionID).Host.RemoteControllers.Count == 0)
             {
-                Clients[_game.UserHandler.GetUserShip(connectionID).Host.ConnectionID].controllersStopped();
+                Clients.Client(_game.UserHandler.GetUserShip(connectionID).Host.ConnectionID).controllersStopped();
             }
 
             _game.UserHandler.GetUser(connectionID).MyShip = null;
@@ -118,7 +118,7 @@ namespace ShootR
             foreach (User u in _game.UserHandler.GetUser(Context.ConnectionId).RemoteControllers)
             {
                 u.MyShip = null;
-                Clients[u.ConnectionID].stopController();
+                Clients.Client(u.ConnectionID).stopController();
             }
 
             _game.UserHandler.GetUser(Context.ConnectionId).RemoteControllers.Clear();
@@ -180,7 +180,7 @@ namespace ShootR
         {
             if (pingBack)
             {
-                Caller.pingBack();
+                Clients.Caller.pingBack();
             }
 
             List<Movement> result = new List<Movement>();
@@ -201,7 +201,7 @@ namespace ShootR
         {
             if (pingBack)
             {
-                Caller.pingBack();
+                Clients.Caller.pingBack();
             }
 
             Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
@@ -223,7 +223,7 @@ namespace ShootR
         {
             if (pingBack)
             {
-                Caller.pingBack();
+                Clients.Caller.pingBack();
             }
 
             Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
@@ -243,7 +243,7 @@ namespace ShootR
         {
             if (pingBack)
             {
-                Caller.pingBack();
+                Clients.Caller.pingBack();
             }
 
             Movement where = (Movement)Enum.Parse(typeof(Movement), movement);

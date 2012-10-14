@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using SignalR;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ShootR
 {
@@ -20,14 +21,15 @@ namespace ShootR
 
         public void RequestLeaderboard(string connectionId)
         {
-            dynamic Groups = Game.GetGroups();
-            Groups.Add(connectionId, LEADERBOARD_REQUESTEE_GROUP);
+            IHubContext Context = Game.GetContext();
+            
+            Context.Groups.Add(connectionId, LEADERBOARD_REQUESTEE_GROUP);
         }
 
         public void StopRequestingLeaderboard(string connectionId)
         {
-            dynamic Groups = Game.GetGroups();
-            Groups.Remove(connectionId, LEADERBOARD_REQUESTEE_GROUP);
+            IHubContext Context = Game.GetContext();
+            Context.Groups.Remove(connectionId, LEADERBOARD_REQUESTEE_GROUP);
         }
 
         public IEnumerable<LeaderboardEntry> GetAndUpdateLeaderboard()

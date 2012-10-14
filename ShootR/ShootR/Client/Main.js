@@ -25,12 +25,12 @@ $(function () {
 
         $("#ShipName").keyup(function (e) {
             if (e.keyCode == 13) {
-                env.changeName($("#ShipName").val());
+                env.server.changeName($("#ShipName").val());
             }
         });
 
         $("#ChangeShipName").click(function () {
-            env.changeName($("#ShipName").val());
+            env.server.changeName($("#ShipName").val());
         });
 
         shortcut.add("X", function () {
@@ -40,20 +40,20 @@ $(function () {
         shortcut.add("Tab", function () {
             $("#popUpHolder").css("display", "block");
             $("#leaderboardHolder").show(350);
-            env.readyForLeaderboardPayloads();
+            env.server.readyForLeaderboardPayloads();
         }, { 'disable_in_input': true, 'type': 'keydown' });
 
         shortcut.add("Tab", function () {
             $("#leaderboardHolder").hide(200, function () {
                 $("#popUpHolder").css("display", "none");
             });
-            env.stopLeaderboardPayloads()
+            env.server.stopLeaderboardPayloads()
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
         game.ShipManager.MyShip.LatencyResolver = latencyResolver;
         game.ShipManager.MyShip.Initialize(screen);
         StartUpdateLoop();
-        env.readyForPayloads();
+        env.server.readyForPayloads();
     }
 
     function StartUpdateLoop() {
@@ -86,52 +86,53 @@ $(function () {
     }
 
     function LoadLeaderboard(info) {
+        console.log("Loading Leaderboard Info!");
     }
 
     // Small name in order to minimize payload
-    env.d = function (compressedPayload) {
+    env.client.d = function (compressedPayload) {
         LoadMapInfo(payloadDecompressor.Decompress(compressedPayload));
     }
 
     // Leaderboard request endpoint
-    env.l = function (compressedLeaderboard) {
+    env.client.l = function (compressedLeaderboard) {
         LoadLeaderboard(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard));
     }
 
-    env.notify = function (msg) {
+    env.client.notify = function (msg) {
         alert(msg);
     }
 
-    env.pingBack = latencyResolver.ServerPingBack;
+    env.client.pingBack = latencyResolver.ServerPingBack;
 
-    env.controlRequest = function () {
+    env.client.controlRequest = function () {
         controlRequest.show(500);
     }
 
-    env.controllersStopped = function () {
+    env.client.controllersStopped = function () {
         stopControllers.hide(500);
     }
 
     $.connection.hub.start(function () {
         // Send the viewport to the server initialization method
-        env.initializeClient().done(function (value) {
+        env.server.initializeClient().done(function (value) {
             Initialize(value);
         });
 
         $("#acceptControlRequest").click(function () {
-            env.acceptControlRequest();
+            env.server.acceptControlRequest();
             controlRequest.hide(500, function () {
                 stopControllers.show(500);
             });
         });
 
         $("#declineControlRequest").click(function () {
-            env.declineControlRequest();
+            env.server.declineControlRequest();
             controlRequest.hide(500);
         });
 
         stopControllers.click(function () {
-            env.stopRemoteControllers();
+            env.server.stopRemoteControllers();
             stopControllers.hide(500);
         });
     });

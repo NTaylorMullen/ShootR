@@ -4,14 +4,14 @@
 /// <reference path="BulletManager.js" />
 /// <reference path="Configuration/CanvasRenderer.js" />
 
-function Game(conn, latencyResolver, myShipID) {
+function Game(connection, latencyResolver, myShipID) {
     var that = this,
         gameTime = new GameTime(),
         map = new Map();
 
-    that.BulletManager = new BulletManager(conn);
+    that.BulletManager = new BulletManager();
     that.ShipManager = new ShipManager(myShipID, gameTime);
-    that.ShipManager.InitializeMyShip(that.BulletManager, conn);
+    that.ShipManager.InitializeMyShip(that.BulletManager, connection);
 
     var shipStats = new ShipStatRecorder(that.ShipManager.MyShip),
         myShip = that.ShipManager.MyShip;

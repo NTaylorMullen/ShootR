@@ -59,7 +59,7 @@
     <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
     <script src="Scripts/jquery-ui-1.9.0.min.js" type="text/javascript"></script>
     <script src="Scripts/shortcut.js" type="text/javascript"></script>
-    <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.signalR-1.0.0-alpha1-121013.js" type="text/javascript"></script>
     <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
     <script src="Scripts/jquery.animate-colors-min.js" type="text/javascript"></script>
     <script src="signalr/hubs" type="text/javascript"></script>

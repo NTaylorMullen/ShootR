@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
-using SignalR;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ShootR
 {
@@ -65,11 +66,11 @@ namespace ShootR
         private void Draw()
         {
             Dictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), _gameHandler.ShipManager.Ships.Count, _gameHandler.BulletManager.Bullets.Count, _space);
-            dynamic Clients = GetClients();
+            IHubContext Context = GetContext();
 
             foreach (string connectionID in payloads.Keys)
             {
-                Clients[connectionID].d(payloads[connectionID]);
+                Context.Client(connectionID).d(payloads[connectionID]);
             }
         }
 
@@ -81,17 +82,12 @@ namespace ShootR
 
         private void PushLeaderboard(List<object> leaderboard)
         {
-            GetClients()[Leaderboard.LEADERBOARD_REQUESTEE_GROUP].l(leaderboard);
+            GetContext().Client(Leaderboard.LEADERBOARD_REQUESTEE_GROUP).l(leaderboard);
         }
 
-        public static dynamic GetClients()
+        public static IHubContext GetContext()
         {            
-            return GlobalHost.ConnectionManager.GetHubContext<GameHub>().Clients;
-        }
-
-        public static dynamic GetGroups()
-        {
-            return GlobalHost.ConnectionManager.GetHubContext<GameHub>().Groups;
+            return GlobalHost.ConnectionManager.GetHubContext<GameHub>();
         }
 
         /// <summary>
