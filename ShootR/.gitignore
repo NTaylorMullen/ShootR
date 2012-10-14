@@ -24,6 +24,4 @@ PublishProfiles/
 *DS_Store
 *.ncrunchsolution
 *.log
-tests/Microsoft.AspNet.SignalR.Client.JS.Tests/temp/*
-tests/Microsoft.AspNet.SignalR.Client.JS.Tests/CommandLineBridge.js
 *.vspx
