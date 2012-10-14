@@ -9,5 +9,6 @@
         public short Forward = 17;
         public short Backward = 18;
         public short Name = 19;
+        public short MaxLife = 20;
     }
 }

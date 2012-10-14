@@ -34,7 +34,7 @@ $(function () {
         });
 
         shortcut.add("X", function () {
-            game.ShipManager.DrawName = !game.ShipManager.DrawName;
+            game.ShipManager.DrawDetails = !game.ShipManager.DrawDetails;
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
         game.ShipManager.MyShip.LatencyResolver = latencyResolver;

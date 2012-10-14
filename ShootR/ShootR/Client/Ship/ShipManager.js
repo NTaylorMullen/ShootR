@@ -1,7 +1,7 @@
 ﻿function ShipManager(myShipID) {
     var that = this;
 
-    that.DrawName = true;
+    that.DrawDetails = true;
     that.Ships = {};
     that.MyShip;
 
@@ -56,8 +56,10 @@
                 that.Ships[key].Update(gameTime);
 
                 that.Ships[key].Draw();
-                if (that.DrawName) {
+
+                if (that.Ships[key].LifeController.Alive && that.DrawDetails) {
                     that.Ships[key].DrawName();
+                    that.Ships[key].DrawHealthBar();
                 }
             }
             else { // Ship is not in view, so remove it from our ship list

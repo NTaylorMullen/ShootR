@@ -36,7 +36,7 @@
 
     }
 
-    that.drawSquare = function (x, y, width, height) {
+    that.strokeSquare = function (x, y, width, height) {
         var cameraOffset = { X: x - that.Camera.Position.X + that.CanvasCenter.X, Y: y - that.Camera.Position.Y + that.CanvasCenter.Y };
 
         canvasBufferContext.save();
@@ -45,6 +45,18 @@
         canvasBufferContext.lineWidth = "1";
         canvasBufferContext.strokeStyle = "#f00";
         canvasBufferContext.strokeRect(0, 0, width, height);
+
+        canvasBufferContext.restore();
+    }
+
+    that.drawRectangle = function (x, y, width, height, color) {
+        var cameraOffset = { X: x - that.Camera.Position.X + that.CanvasCenter.X, Y: y - that.Camera.Position.Y + that.CanvasCenter.Y };
+
+        canvasBufferContext.save();
+
+        canvasBufferContext.translate(cameraOffset.X, cameraOffset.Y);
+        canvasBufferContext.fillStyle = color;
+        canvasBufferContext.fillRect(0, 0, width, height);
 
         canvasBufferContext.restore();
     }

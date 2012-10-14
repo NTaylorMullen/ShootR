@@ -30,7 +30,7 @@ namespace ShootR
 
         public object[] Compress(Ship ship)
         {
-            object[] result = new object[20];
+            object[] result = new object[21];
 
             SetCollidableContractMembers(result, ship);
 
@@ -39,6 +39,7 @@ namespace ShootR
             result[ShipCompressionContract.Forward] = Convert.ToInt32(ship.MovementController.Moving.Forward);
             result[ShipCompressionContract.Backward] = Convert.ToInt32(ship.MovementController.Moving.Backward);
             result[ShipCompressionContract.Name] = ship.Name;
+            result[ShipCompressionContract.MaxLife] = Ship.LIFE;
 
             return result;
         }

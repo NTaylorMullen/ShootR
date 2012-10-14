@@ -10,7 +10,7 @@
             // We want to explode
             GAME_GLOBALS.AnimationManager.Add(new spritify({
                 image: CanvasContext.IMAGE_ASSETS.BigExplosion,
-                centerOn: { X: that.MovementController.Position.X + that.WIDTH * .5, Y: that.MovementController.Position.Y + that.HEIGHT * .5 },
+                centerOn: { X: that.MovementController.Position.X + that.HALF_WIDTH, Y: that.MovementController.Position.Y + that.HALF_HEIGHT },
                 frameCount: 30,
                 fps: 25,
                 spriteSheetSize: {
@@ -76,14 +76,21 @@
         that.LastUpdated = new Date();
     }
 
-    that.DrawName = function () {
-        if (that.LifeController.Alive) {
-            CanvasContext.drawText(that.Name, that.MovementController.Position.X + that.WIDTH * .5, that.MovementController.Position.Y + that.HEIGHT + 20);
-        }
+    that.DrawHealthBar = function () {
+        var maxWidth = that.WIDTH * .8,
+            xOffset = (that.WIDTH - maxWidth) * .5,
+            currentHealth = maxWidth * that.LifeController.Health / that.MaxLife;
+
+        CanvasContext.drawRectangle(that.MovementController.Position.X + xOffset, that.MovementController.Position.Y + that.HEIGHT + 15, maxWidth, 5, "#808080");
+        CanvasContext.drawRectangle(that.MovementController.Position.X + xOffset, that.MovementController.Position.Y + that.HEIGHT + 15, currentHealth, 5, "#E01B1B");
+    }
+
+    that.DrawName = function () {        
+        CanvasContext.drawText(that.Name, that.MovementController.Position.X + that.HALF_WIDTH, that.MovementController.Position.Y + that.HEIGHT + 40);
     }
 
     that.DrawBoundary = function () {
-        CanvasContext.drawSquare(that.MovementController.Position.X, that.MovementController.Position.Y, that.WIDTH, that.HEIGHT);
+        CanvasContext.strokeSquare(that.MovementController.Position.X, that.MovementController.Position.Y, that.WIDTH, that.HEIGHT);
     }
 
     that.UpdateProperties({ MovementController: { Position: { X: 0, Y: 0 }, Forces: { X: 0, Y: 0 }, Velocity: { X: 0, Y: 0 }, Moving: { RotatingLeft: false, RotatingRight: false, Forward: false, Backward: false }, Rotation: 0 } });

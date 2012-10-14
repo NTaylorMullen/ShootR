@@ -2,7 +2,10 @@
     var that = this;
 
     // Update the prototypes from the config
-    $.extend(ShipVehicle.prototype, config.shipConfig);    
+    $.extend(ShipVehicle.prototype, config.shipConfig);
+    ShipVehicle.prototype.HALF_WIDTH = ShipVehicle.prototype.WIDTH * .5;
+    ShipVehicle.prototype.HALF_HEIGHT = ShipVehicle.prototype.HEIGHT * .5;
+
     $.extend(Bullet.prototype, config.bulletConfig);
     $.extend(Map.prototype, config.mapConfig);
     $.extend(Screen.prototype, config.screenConfig);

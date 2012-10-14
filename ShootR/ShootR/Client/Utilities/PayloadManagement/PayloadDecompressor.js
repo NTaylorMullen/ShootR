@@ -54,6 +54,7 @@
             Backward: !!ship[ShipContract.Backward]
         };
         result.Name = ship[ShipContract.Name];
+        result.MaxLife = ship[ShipContract.MaxLife];
 
         return result;
     }
