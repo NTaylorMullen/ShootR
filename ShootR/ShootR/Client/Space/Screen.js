@@ -34,8 +34,10 @@
         gameCanvas.attr("height", that.Viewport.Height);
         gameWrapper.css("width", that.Viewport.Width);
         gameWrapper.css("height", that.Viewport.Height);
-        gameHUD.css("width", that.Viewport.Width);
-        gameHUD.css("height", that.Viewport.Height);
+        if (gameHUD) {
+            gameHUD.css("width", that.Viewport.Width);
+            gameHUD.css("height", that.Viewport.Height);
+        }
     }
 
     function UpdateGameCamera() {

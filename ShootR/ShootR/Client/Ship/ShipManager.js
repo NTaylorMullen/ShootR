@@ -58,8 +58,14 @@
                 that.Ships[key].Draw();
 
                 if (that.Ships[key].LifeController.Alive && that.DrawDetails) {
-                    that.Ships[key].DrawName();
-                    that.Ships[key].DrawHealthBar();
+                    if (that.Ships[key].ID !== that.MyShip.ID) {
+                        that.Ships[key].DrawHealthBar();
+                        that.Ships[key].DrawName(10);
+                    }
+                    else {
+                        that.Ships[key].DrawName(0);
+                    }
+                    
                 }
             }
             else { // Ship is not in view, so remove it from our ship list

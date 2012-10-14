@@ -7,7 +7,7 @@ $(window).load(function () {
     var env = $.connection.h,
         game,
         configurationManager,
-        screen = new Screen($("#game"), $("#gameWrapper"), env),
+        screen = new Screen($("#game"), $("#gameWrapper"), false, env),
         shipControllerFn = new ShipControllerFunctions(env),
         touchController;
 

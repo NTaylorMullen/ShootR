@@ -119,7 +119,7 @@
 
     that.Initialize = function (screen) {
         // Touch is enabled
-        if ('createTouch' in document || navigator.msPointerEnabled) {
+        if ('createTouch' in document || navigator.msMaxTouchPoints) {
             touchController = new TouchController(StartMovement, StopMovement, StopAndStartMovement, ResetMovement, shoot);
             touchController.Initialize(screen);
         }

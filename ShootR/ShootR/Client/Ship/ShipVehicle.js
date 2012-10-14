@@ -22,13 +22,13 @@
                     height: 128,
                 },
                 Rotation: that.MovementController.Rotation
-            }));            
+            }));
         }
 
         that.Visible = false;
-    }   
-   
-    that.Update = function (gameTime) {        
+    }
+
+    that.Update = function (gameTime) {
         var PercentOfSecond = CalculatePOS(that.LastUpdated);
         that.UpdateFromSecond(PercentOfSecond);
     }
@@ -85,8 +85,8 @@
         CanvasContext.drawRectangle(that.MovementController.Position.X + xOffset, that.MovementController.Position.Y + that.HEIGHT + 15, currentHealth, 5, "#E01B1B");
     }
 
-    that.DrawName = function () {        
-        CanvasContext.drawText(that.Name, that.MovementController.Position.X + that.HALF_WIDTH, that.MovementController.Position.Y + that.HEIGHT + 40);
+    that.DrawName = function (healthOffset) {
+        CanvasContext.drawText(that.Name, that.MovementController.Position.X + that.HALF_WIDTH, that.MovementController.Position.Y + that.HEIGHT + 30 + healthOffset);
     }
 
     that.DrawBoundary = function () {
