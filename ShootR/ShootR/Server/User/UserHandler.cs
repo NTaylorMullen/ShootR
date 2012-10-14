@@ -23,8 +23,11 @@ namespace ShootR
         {
             User u;
             _userList.TryRemove(connectionId, out u);
-            u.MyShip.Dispose();
-            u.MyShip.Host = null; // Remove linking from the ship
+            if (u.MyShip != null)
+            {
+                u.MyShip.Dispose();
+                u.MyShip.Host = null; // Remove linking from the ship
+            }
         }
 
         public void AddUser(User user)

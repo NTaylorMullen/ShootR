@@ -11,17 +11,15 @@ $(function () {
         latencyResolver = new LatencyResolver(env),
         screen = new Screen($("#game"), $("#gameWrapper"), $("#gameHUD"), $("#popUpHolder"), env),
         gameInfoReceived = false,
-        lastPayload = { Ships: {}, Bullets: [] },
-        controlRequest = $("#controlRequest"),
-        stopControllers = $("#StopControlling");    
-
+        lastPayload = { Ships: {}, Bullets: [] };
+        
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
         game = new Game(env, latencyResolver, init.ShipID);
         GAME_GLOBALS.Game = game;
         payloadDecompressor.LoadContracts(init.CompressionContracts);
         screen.Initialize();
-        game.HUDManager.Initialize(init);        
+        game.HUDManager.Initialize(init);
 
         game.ShipManager.MyShip.LatencyResolver = latencyResolver;
         game.ShipManager.MyShip.Initialize(screen);
@@ -65,7 +63,7 @@ $(function () {
 
     // Leaderboard request endpoint
     env.l = function (compressedLeaderboard) {
-        game.HUDManager.LoadLeaderboard(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard, game.ShipManager.MyShip.Name));
+        game.HUDManager.Leaderboard.Load(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard, game.ShipManager.MyShip.Name));
     }
 
     env.notify = function (msg) {
@@ -75,34 +73,17 @@ $(function () {
     env.pingBack = latencyResolver.ServerPingBack;
 
     env.controlRequest = function () {
-        controlRequest.show(500);
+        game.HUDManager.ControllerRequestManager.ControlRequest();        
     }
 
     env.controllersStopped = function () {
-        stopControllers.hide(500);
+        game.HUDManager.ControllerRequestManager.ControllersStopped();        
     }
 
     $.connection.hub.start(function () {
         // Send the viewport to the server initialization method
         env.initializeClient().done(function (value) {
             Initialize(value);
-        });
-
-        $("#acceptControlRequest").click(function () {
-            env.acceptControlRequest();
-            controlRequest.hide(500, function () {
-                stopControllers.show(500);
-            });
-        });
-
-        $("#declineControlRequest").click(function () {
-            env.declineControlRequest();
-            controlRequest.hide(500);
-        });
-
-        stopControllers.click(function () {
-            env.stopRemoteControllers();
-            stopControllers.hide(500);
         });
     });
 });

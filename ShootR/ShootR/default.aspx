@@ -120,6 +120,7 @@
     <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>
     <script src="Client/HUD/Leaderboard.js" type="text/javascript"></script>
     <script src="Client/HUD/GameDetailManager.js" type="text/javascript"></script>
+    <script src="Client/HUD/ControlRequestManager.js" type="text/javascript"></script>
     <script src="Client/HUD/HUDManager.js" type="text/javascript"></script>
     <script src="Client/HUD/Animation/TextAnimation.js" type="text/javascript"></script>
     <script src="Client/Main.js"></script>
