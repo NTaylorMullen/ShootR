@@ -13,48 +13,15 @@ $(function () {
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] },
         controlRequest = $("#controlRequest"),
-        stopControllers = $("#StopControlling");
-
-    var leaderboardViewModel = {
-        leaderboard: ko.observable()
-    };
-
-    ko.applyBindings(leaderboardViewModel, $("#leaderboard table")[0]);
+        stopControllers = $("#StopControlling");    
 
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
         game = new Game(env, latencyResolver, init.ShipID);
+        GAME_GLOBALS.Game = game;
         payloadDecompressor.LoadContracts(init.CompressionContracts);
         screen.Initialize();
-
-        $("#ShipName").val(init.ShipName);
-
-        $("#ShipName").keyup(function (e) {
-            if (e.keyCode == 13) {
-                env.changeName($("#ShipName").val());
-            }
-        });
-
-        $("#ChangeShipName").click(function () {
-            env.changeName($("#ShipName").val());
-        });
-
-        shortcut.add("X", function () {
-            game.ShipManager.DrawDetails = !game.ShipManager.DrawDetails;
-        }, { 'disable_in_input': true, 'type': 'keyup' });
-
-        shortcut.add("Tab", function () {
-            $("#popUpHolder").css("display", "block");
-            $("#leaderboardHolder").fadeIn(350);
-            env.readyForLeaderboardPayloads();
-        }, { 'disable_in_input': true, 'type': 'keydown' });
-
-        shortcut.add("Tab", function () {
-            $("#leaderboardHolder").fadeOut(200, function () {
-                $("#popUpHolder").css("display", "none");
-            });
-            env.stopLeaderboardPayloads();
-        }, { 'disable_in_input': true, 'type': 'keyup' });
+        game.HUDManager.Initialize(init);        
 
         game.ShipManager.MyShip.LatencyResolver = latencyResolver;
         game.ShipManager.MyShip.Initialize(screen);
@@ -91,12 +58,6 @@ $(function () {
         game.BulletManager.UpdateBullets(info.Bullets);
     }
 
-    function LoadLeaderboard(info) {
-        $("#leaderboardHolder").css("height", (info.length + 2) * 37 + 25);
-
-        leaderboardViewModel.leaderboard(info);
-    }
-
     // Small name in order to minimize payload
     env.d = function (compressedPayload) {
         LoadMapInfo(payloadDecompressor.Decompress(compressedPayload));
@@ -104,7 +65,7 @@ $(function () {
 
     // Leaderboard request endpoint
     env.l = function (compressedLeaderboard) {
-        LoadLeaderboard(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard, game.ShipManager.MyShip.Name));
+        game.HUDManager.LoadLeaderboard(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard, game.ShipManager.MyShip.Name));
     }
 
     env.notify = function (msg) {

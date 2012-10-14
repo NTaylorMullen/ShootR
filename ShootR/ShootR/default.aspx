@@ -30,6 +30,9 @@
             <div id="HealthHolder">
                 <div id="Health"></div>
             </div>
+            <div id="leaderboardPosition">
+
+            </div>
         </div>
 
         <div id="popUpHolder">
@@ -79,6 +82,7 @@
     <form runat="server">
     </form>
 
+    <!-- NOTE: These are not minified so people can see how the game works.  On a larger release I will minify everything -->
     <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
     <script src="Scripts/knockout-2.1.0.js" type="text/javascript"></script>
     <script src="Scripts/jquery-ui-1.9.0.min.js" type="text/javascript"></script>
@@ -114,6 +118,8 @@
     <script src="Client/Game.js" type="text/javascript"></script>
     <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
     <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>
+    <script src="Client/HUD/Leaderboard.js" type="text/javascript"></script>
+    <script src="Client/HUD/GameDetailManager.js" type="text/javascript"></script>
     <script src="Client/HUD/HUDManager.js" type="text/javascript"></script>
     <script src="Client/HUD/Animation/TextAnimation.js" type="text/javascript"></script>
     <script src="Client/Main.js"></script>

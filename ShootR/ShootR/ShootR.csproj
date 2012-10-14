@@ -88,8 +88,10 @@
     <Content Include="Client\GameController\TouchController.js" />
     <Content Include="Client\GameGlobals.js" />
     <Content Include="Client\HUD\Animation\TextAnimation.js" />
+    <Content Include="Client\HUD\GameDetailManager.js" />
     <Content Include="Client\HUD\HealthMonitor.js" />
     <Content Include="Client\HUD\HUDManager.js" />
+    <Content Include="Client\HUD\Leaderboard.js" />
     <Content Include="Client\Main.js" />
     <Content Include="Client\Ship\Ship.js" />
     <Content Include="Client\Ship\ShipManager.js" />
@@ -212,7 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Styles\images\Thumbs.db" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

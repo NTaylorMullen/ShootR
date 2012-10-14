@@ -261,3 +261,17 @@ h3 {
     border-top:1px solid;
     border-bottom:1px solid;
 }
+
+#leaderboardPosition {
+    position:absolute;
+    width:50px;
+    height:50px;
+    font-size:24px;
+    font-weight:bold;
+    line-height:50px;
+    text-align:center;
+    font-family:Comic Sans MS;
+    border:2px double #FAFAFA;
+    background-color:lightGray;
+    display:none;
+}
