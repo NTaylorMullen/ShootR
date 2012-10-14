@@ -26,6 +26,11 @@
             if (!that.Ships[id]) {
                 that.Ships[id] = new ShipVehicle({ x: currentShip.MovementController.Position.X, y: currentShip.MovementController.Position.Y });
             }
+
+            var dist = CalculateDistance(currentShip.MovementController.Position, that.Ships[id].MovementController.Position);
+            var str = "( " + Math.round(dist.X) + " , " + Math.round(dist.Y) + " )";
+            console.log(str);
+            $("#shipSpeed").html(str);
             currentShip.Visible = true;
             that.Ships[id].UpdateProperties(currentShip);
 

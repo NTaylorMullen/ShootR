@@ -31,7 +31,7 @@
 
         // Movement Column
         shipPosition.html("Position: ( " + Math.round(ship.MovementController.Position.X) + " , " + Math.round(ship.MovementController.Position.Y) + " )");
-        shipSpeed.html("Speed: " + speed);
+        //shipSpeed.html("Speed: " + speed);
         shipVelocity.html("Velocity: ( " + Math.round(ship.MovementController.Velocity.X) + " , " + Math.round(ship.MovementController.Velocity.Y) + " )");
 
         var shipCount = 0,
