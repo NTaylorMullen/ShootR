@@ -73,11 +73,11 @@ $(function () {
     env.pingBack = latencyResolver.ServerPingBack;
 
     env.controlRequest = function () {
-        game.HUDManager.ControllerRequestManager.ControlRequest();        
+        game.HUDManager.ControlRequestManager.ControlRequest();        
     }
 
     env.controllersStopped = function () {
-        game.HUDManager.ControllerRequestManager.ControllersStopped();        
+        game.HUDManager.ControlRequestManager.ControllersStopped();        
     }
 
     $.connection.hub.start(function () {
