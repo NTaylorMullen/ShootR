@@ -47,7 +47,7 @@ namespace ShootR
                         _gameHandler.ShipManager.Ships[connectionId].Dispose();
                     }
 
-                    GlobalHost.ConnectionManager.GetHubContext<GameHub>().Clients[Leaderboard.LEADERBOARD_REQUESTEE_GROUP].leave(connectionId);
+                    // GlobalHost.ConnectionManager.GetHubContext<GameHub>().Groups.Remove(connectionId, Leaderboard.LEADERBOARD_REQUESTEE_GROUP);
                 }
             }
         }
