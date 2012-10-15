@@ -29,7 +29,7 @@ namespace ShootR
             // We also check the ships host to ensure that we did not remove the user
             if ((DateTime.UtcNow - startedAt).TotalSeconds >= RESPAWN_TIMER && ship.Host != null)
             {
-                ship.LifeController.Heal(Ship.LIFE);
+                ship.LifeController.HealFull();
                 ship.MovementController.Position = GetRandomStartPosition();
                 ship.Disposed = false;
                 _shipManager.Add(ship, ship.Host.ConnectionID);

@@ -9,14 +9,14 @@ namespace ShootR
     {
         public const int MAX_EXPERIENCE_PER_LEVEL = 10000;
         public const double LEVEL_DIFFERENCE_MULTIPLIER = .25;
-        public const int BASE_EXPERIENCE_GAIN = 25; // X experience per kill at level 1
+        public const int BASE_EXPERIENCE_GAIN = 400; // X experience per kill at level 1
         public const int MIN_EXPERIENCE = 5; // Cannot gain less than 5 experience per kill
 
         public int CalculateKillExperience(Ship Killer, Ship Killed)
         {
-            var levelDiff = Killer.LevelManager.Level - Killed.LevelManager.Level;
+            var levelDiff = Killed.LevelManager.Level - Killer.LevelManager.Level;
 
-            return Convert.ToInt32(Math.Max(Math.Round(BASE_EXPERIENCE_GAIN + levelDiff * LEVEL_DIFFERENCE_MULTIPLIER), MIN_EXPERIENCE));
+            return Convert.ToInt32(Math.Max(Math.Round(BASE_EXPERIENCE_GAIN + BASE_EXPERIENCE_GAIN * levelDiff * LEVEL_DIFFERENCE_MULTIPLIER), MIN_EXPERIENCE));
         }
 
         public double NextLevelExperience(double level)

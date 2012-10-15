@@ -50,8 +50,13 @@ $(function () {
     }
 
     function LoadMapInfo(info) {
+        var myShip = game.ShipManager.MyShip;
         lastPayload = info;
         gameInfoReceived = true;
+
+        myShip.Level = info.Level;
+        myShip.Experience = info.Experience;
+        myShip.ExperienceToNextLevel = info.ExperienceToNextLevel;
 
         game.HUDManager.Leaderboard.LoadPosition(info.LeaderboardPosition);
         game.ShipManager.UpdateShips(info.Ships);

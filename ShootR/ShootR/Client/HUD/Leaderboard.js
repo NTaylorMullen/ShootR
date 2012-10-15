@@ -6,22 +6,41 @@
         leaderboardViewModel = {
             leaderboard: ko.observable()
         },
-        lastViewport;
+        lastViewport,
+        leaderboardUp = false;
 
     // Create shortcuts
     function ApplyKeyboardShortcuts() {
         shortcut.add("Tab", function () {
-            $("#popUpHolder").css("display", "block");
-            $("#leaderboardHolder").fadeIn(350);
-            connection.readyForLeaderboardPayloads();
-        }, { 'disable_in_input': true, 'type': 'keydown' });
+            ToggleLeaderboard();
+        }, { 'disable_in_input': true });
 
-        shortcut.add("Tab", function () {
-            $("#leaderboardHolder").fadeOut(200, function () {
-                $("#popUpHolder").css("display", "none");
-            });
-            connection.stopLeaderboardPayloads();
-        }, { 'disable_in_input': true, 'type': 'keyup' });
+        leaderboardPosition.click(function () {
+            ToggleLeaderboard();
+        });
+    }
+    function ToggleLeaderboard() {
+        if (!leaderboardUp) {
+            ShowLeaderboard();
+        }
+        else {
+            HideLeaderboard();
+        }
+    }
+
+    function ShowLeaderboard() {
+        leaderboardUp = true;
+        $("#popUpHolder").css("display", "block");
+        $("#leaderboardHolder").fadeIn(350);
+        connection.readyForLeaderboardPayloads();
+    }
+
+    function HideLeaderboard() {
+        leaderboardUp = false;
+        $("#leaderboardHolder").fadeOut(200, function () {
+            $("#popUpHolder").css("display", "none");
+        });
+        connection.stopLeaderboardPayloads();
     }
 
     function MoveToBottomRight() {

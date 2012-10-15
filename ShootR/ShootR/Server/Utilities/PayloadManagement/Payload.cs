@@ -16,5 +16,9 @@ namespace ShootR
         public List<object> Bullets { get; set; }
         public int ShipsInWorld { get; set; }
         public int BulletsInWorld { get; set; }
+
+        public int Experience { get; set; }
+        public int ExperienceToNextLevel { get; set; }
+        public int Level { get; set; }
     }
 }

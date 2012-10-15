@@ -7,5 +7,8 @@
         public short Bullets = 2;
         public short ShipsInWorld = 3;
         public short BulletsInWorld = 4;
+        public short Experience = 5;
+        public short ExperienceToNextLevel = 6;
+        public short Level = 7;
     }
 }

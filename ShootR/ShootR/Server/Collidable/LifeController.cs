@@ -7,17 +7,21 @@ namespace ShootR
 {
     public class LifeController
     {
+        public const double LEVEL_UP_LIFE_INCREASE = 1.25;
+
         public event DeathEventHandler OnDeath;
 
         public LifeController(double life)
         {
-            Health = life;
+            MaxLife = life;
+            Health = MaxLife;
             Alive = true;
         }
 
         public Collidable Host { get; set; }
-        public double Health { get; private set; }
-        public bool Alive { get; private set; }
+        public double Health { get; protected set; }
+        public double MaxLife { get; protected set; }
+        public bool Alive { get; protected set; }
 
         public void Hurt(double life, Collidable hurtBy = null)
         {
@@ -41,5 +45,11 @@ namespace ShootR
             Alive = true;
             Health += life;
         }
+
+        public void HealFull()
+        {
+            Alive = true;
+            Health = MaxLife;
+        }        
     }
 }

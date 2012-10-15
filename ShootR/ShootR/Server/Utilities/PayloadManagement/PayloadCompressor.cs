@@ -40,7 +40,7 @@ namespace ShootR
             result[ShipCompressionContract.Forward] = Convert.ToInt32(ship.MovementController.Moving.Forward);
             result[ShipCompressionContract.Backward] = Convert.ToInt32(ship.MovementController.Moving.Backward);
             result[ShipCompressionContract.Name] = ship.Name;
-            result[ShipCompressionContract.MaxLife] = Ship.LIFE;
+            result[ShipCompressionContract.MaxLife] = ship.LifeController.MaxLife;
 
             return result;
         }
@@ -58,12 +58,15 @@ namespace ShootR
 
         public object[] Compress(Payload payload)
         {
-            object[] result = new object[5];
+            object[] result = new object[8];
             result[PayloadCompressionContract.Ships] = payload.Ships;
             result[PayloadCompressionContract.LeaderboardPosition] = payload.LeaderboardPosition;
             result[PayloadCompressionContract.Bullets] = payload.Bullets;
             result[PayloadCompressionContract.ShipsInWorld] = payload.ShipsInWorld;
             result[PayloadCompressionContract.BulletsInWorld] = payload.BulletsInWorld;
+            result[PayloadCompressionContract.Experience] = payload.Experience;
+            result[PayloadCompressionContract.ExperienceToNextLevel] = payload.ExperienceToNextLevel;
+            result[PayloadCompressionContract.Level] = payload.Level;
             return result;
         }
 

@@ -19,7 +19,10 @@ namespace ShootR
         {
             _bulletManager = bm;
             _ship = s;
+            DamageModifier = 1;
         }
+
+        public double DamageModifier { get; set; }
 
         /// <summary>
         /// Create's a bullet in the direction of the ship
@@ -34,7 +37,7 @@ namespace ShootR
                 var bulletOffset = new Vector2(Bullet.WIDTH / 2, Bullet.HEIGHT / 2);
                 var startPosition = new Vector2((shipCenter + (BULLET_LEAD * shipDirection)) + bulletOffset);
 
-                Bullet spawnedBullet = new Bullet(startPosition, shipDirection, _ship.MovementController.Velocity, _ship);
+                Bullet spawnedBullet = new Bullet(startPosition, shipDirection, _ship.MovementController.Velocity, _ship, DamageModifier);
                 _bulletManager.Add(spawnedBullet);
 
                 _lastFired = DateTime.UtcNow;
@@ -42,6 +45,14 @@ namespace ShootR
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Triggered on level
+        /// </summary>
+        public void LeveledUp(object sender, LevelUpEventArgs e)
+        {
+            DamageModifier += .1;
         }
     }
 }

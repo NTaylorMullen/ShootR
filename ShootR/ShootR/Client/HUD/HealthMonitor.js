@@ -1,6 +1,6 @@
 ﻿function HealthMonitor(MyShip) {
     var that = this,
-        maxHealth = MyShip.LIFE,
+        maxHealth = MyShip.START_LIFE,
         lastHealth = MyShip.Health,
         currentHealthBar = $("#Health"),
         healthHolder = $("#HealthHolder"),
@@ -9,6 +9,7 @@
 
     that.Update = function () {
         if (MyShip.LifeController.Health !== lastHealth) {
+            maxHealth = MyShip.MaxLife;
             // If we're taking damage
             if (MyShip.LifeController.Health < lastHealth) {
                 gameWrapper.effect("shake", { distance: 3, direction: "up" }, 100);

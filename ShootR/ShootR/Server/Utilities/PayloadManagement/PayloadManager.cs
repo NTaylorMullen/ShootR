@@ -28,7 +28,7 @@ namespace ShootR
 
                     _payloadCache.CreateCacheFor(connectionID);
 
-                    var payload = GetInitializedPayload(user.CurrentLeaderboardPosition, shipCount, bulletCount);
+                    var payload = GetInitializedPayload(user.CurrentLeaderboardPosition, shipCount, bulletCount, user.MyShip);
 
                     Vector2 screenPosition = user.MyShip.MovementController.Position - screenOffset;
                     List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), user.Viewport.Width + SCREEN_BUFFER_AREA, user.Viewport.Height + SCREEN_BUFFER_AREA));
@@ -74,13 +74,16 @@ namespace ShootR
             return result;
         }
 
-        public Payload GetInitializedPayload(int leaderboardPosition, int shipCount, int bulletCount)
+        public Payload GetInitializedPayload(int leaderboardPosition, int shipCount, int bulletCount, Ship myShip)
         {
             return new Payload()
             {
                 LeaderboardPosition = leaderboardPosition,
                 ShipsInWorld = shipCount,
-                BulletsInWorld = bulletCount
+                BulletsInWorld = bulletCount,
+                Experience = myShip.LevelManager.Experience,
+                ExperienceToNextLevel = myShip.LevelManager.ExperienceToNextLevel,
+                Level = myShip.LevelManager.Level
             };
         }
     }

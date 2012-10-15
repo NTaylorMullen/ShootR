@@ -11,15 +11,17 @@ namespace ShootR
         public const int WIDTH = 4;
         public const int DISPOSE_AFTER = 5; // Disposes bullet after X seconds of not being seen.
         public const int LIFE = 1;
-        public const int DAMAGE = 10;
+        public const int BASE_DAMAGE = 10;
 
         private DateTime _lastSeen;
+        private int _damage;
 
-        public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity, Ship firedBy)
+        public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity, Ship firedBy, double damageModifier)
             : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, initialVelocity), new LifeController(LIFE))
         {
             _lastSeen = DateTime.UtcNow;
             FiredBy = firedBy;
+            _damage = Convert.ToInt32(BASE_DAMAGE * damageModifier);
         }
 
         public int DamageDealt { get; private set; }
@@ -60,7 +62,7 @@ namespace ShootR
         public override void HandleCollisionWith(Collidable c, Map space)
         {
             base.HandleCollisionWith(c, space);
-            DamageDealt = DAMAGE;
+            DamageDealt = _damage;
             c.LifeController.Hurt(DamageDealt, this);
 
             if(c.GetType() == typeof(Ship))

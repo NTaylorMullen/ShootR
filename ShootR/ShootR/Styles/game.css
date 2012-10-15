@@ -170,9 +170,11 @@ h3 {
 }
 
 #HealthHolder {
+    position:relative;
     margin:0 auto;
     width:50%;
     height:20px;
+    line-height:20px;
     border:1px solid white;
     background-color:gray;
 }
@@ -184,6 +186,48 @@ h3 {
     color:white;
     font-family:Impact;
     text-align:center;
+}
+
+#ExperienceHUD {
+    position:absolute;
+    width:40%;
+    height:35px;
+    display:none;
+}
+
+#ExperienceHolder {
+    position:absolute;
+    width:100%;
+    height:15px;
+    line-height:15px;
+    font-size:13px;
+    border:1px solid white;
+    background-color:lightGray;
+}
+
+#Experience {
+    background-color:#CF34E3;
+    width:100%;
+    height:100%;
+    color:white;
+    font-family:Impact;
+    text-align:center;
+}
+
+#LevelIndicator {
+    background-color:#8B4491;
+    border-top-right-radius:10px;
+    border-top-left-radius:10px;
+    border:2px solid gray;
+    border-bottom:0;
+    width:85px;
+    height:20px;
+    line-height:20px;
+    margin:0 auto;
+    text-align:center;
+    color:white;
+    font-weight:bold;
+    font-size:17px;
 }
 
 #popUpHolder {
@@ -272,6 +316,10 @@ h3 {
     display:none;
 }
 
+#leaderboardPosition:hover {
+    cursor:pointer;
+}
+
 #leaderboardPosition.topten {
     border-color:#1cc209;
 }
@@ -279,4 +327,16 @@ h3 {
 #leaderboardPosition span {
     font-size:19px;
     font-style:normal;
+}
+
+#levelNotification {
+    position:absolute;
+    color:white;
+    top:20%;
+    left:44%;
+    font-size:50px;
+    font-family:'Comic Sans MS';    
+    z-index:10000;
+    font-weight:bolder;
+    display:none;
 }

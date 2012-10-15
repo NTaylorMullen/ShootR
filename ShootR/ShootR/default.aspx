@@ -30,12 +30,19 @@
             <div id="HealthHolder">
                 <div id="Health"></div>
             </div>
+            <div id="ExperienceHUD">
+                <div id="LevelIndicator">Level <span id="CurrentLevel"></span></div>
+                <div id="ExperienceHolder">                    
+                    <div id="Experience"></div>
+                </div>
+            </div>
             <div id="leaderboardPosition">
                 <span>#</span><strong id="positionNumber"></strong>
             </div>
         </div>
 
         <div id="popUpHolder">
+            <div id="levelNotification">Level <span id="CurrentLevel_Notification"></span>!</div>
             <div id="leaderboardHolder">
                 <div id="leaderboardBG"></div>
                 <div id="leaderboard">
@@ -118,6 +125,7 @@
     <script src="Client/Game.js" type="text/javascript"></script>
     <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
     <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>
+    <script src="Client/HUD/ExperienceMonitor.js" type="text/javascript"></script>
     <script src="Client/HUD/Leaderboard.js" type="text/javascript"></script>
     <script src="Client/HUD/GameDetailManager.js" type="text/javascript"></script>
     <script src="Client/HUD/ControlRequestManager.js" type="text/javascript"></script>

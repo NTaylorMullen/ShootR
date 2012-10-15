@@ -11,7 +11,7 @@
             HEIGHT = Ship.HEIGHT;
             ROTATE_SPEED = ShipMovementController.ROTATE_SPEED;
             WIDTH = Ship.WIDTH;
-            LIFE = Ship.LIFE;
+            START_LIFE = Ship.START_LIFE;
         }
 
         public double DRAG_AREA { get; set; }
@@ -21,6 +21,6 @@
         public int HEIGHT { get; set; }
         public double ROTATE_SPEED { get; set; }
         public int WIDTH { get; set; }
-        public int LIFE { get; set; }
+        public int START_LIFE { get; set; }
     }
 }

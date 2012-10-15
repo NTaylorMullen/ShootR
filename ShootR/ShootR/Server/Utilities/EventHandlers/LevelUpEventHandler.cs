@@ -5,19 +5,15 @@ using System.Web;
 
 namespace ShootR
 {
-    public class LevelUpEventHandler
-    {
-    }
-
     public delegate void LevelUpEventHandler(object sender, LevelUpEventArgs e);
 
     public class LevelUpEventArgs : EventArgs
     {
-        public LevelUpEventArgs(Collidable killedBy)
+        public LevelUpEventArgs(int newLevel)
         {
-            KilledBy = killedBy;
+            NewLevel = newLevel;
         }
 
-        public Collidable KilledBy { get; private set; }
+        public int NewLevel { get; private set; }
     }
 }

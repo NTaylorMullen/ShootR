@@ -74,7 +74,10 @@
             LeaderboardPosition: data[PayloadContract.LeaderboardPosition],
             Bullets: data[PayloadContract.Bullets],
             ShipsInWorld: data[PayloadContract.ShipsInWorld],
-            BulletsInWorld: data[PayloadContract.BulletsInWorld]
+            BulletsInWorld: data[PayloadContract.BulletsInWorld],
+            Experience: data[PayloadContract.Experience],
+            ExperienceToNextLevel: data[PayloadContract.ExperienceToNextLevel],
+            Level: data[PayloadContract.Level]
         };
     }
 

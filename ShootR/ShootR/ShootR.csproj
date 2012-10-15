@@ -89,6 +89,7 @@
     <Content Include="Client\GameGlobals.js" />
     <Content Include="Client\HUD\Animation\TextAnimation.js" />
     <Content Include="Client\HUD\ControlRequestManager.js" />
+    <Content Include="Client\HUD\ExperienceMonitor.js" />
     <Content Include="Client\HUD\GameDetailManager.js" />
     <Content Include="Client\HUD\HealthMonitor.js" />
     <Content Include="Client\HUD\HUDManager.js" />
@@ -187,13 +188,15 @@
     <Compile Include="Server\Leaderboard\LeaderboardEntry.cs" />
     <Compile Include="Server\Ship\Levels\LevelCalculator.cs" />
     <Compile Include="Server\Ship\Levels\ShipLevelManager.cs" />
+    <Compile Include="Server\Ship\ShipLifeController.cs" />
     <Compile Include="Server\Ship\ShipManager.cs" />
     <Compile Include="Server\Ship\ShipStatRecorder.cs" />
     <Compile Include="Server\User\RespawnManager.cs" />
     <Compile Include="Server\User\User.cs" />
     <Compile Include="Server\User\UserHandler.cs" />
-    <Compile Include="Server\Utilities\DeathEventHandler.cs" />
-    <Compile Include="Server\Utilities\KillEventHandler.cs" />
+    <Compile Include="Server\Utilities\EventHandlers\DeathEventHandler.cs" />
+    <Compile Include="Server\Utilities\EventHandlers\KillEventHandler.cs" />
+    <Compile Include="Server\Utilities\EventHandlers\LevelUpEventHandler.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\BulletCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\CollidableCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\LeaderboardEntryCompressionContract.cs" />

@@ -16,8 +16,8 @@
     var shipsInWorld = $("<div id='shipsInWorld'></div>"),
         bulletsInWorld = $("<div id='bulletsInWorld'></div>");
 
-    var moveControls = $("<div id='moveControls'><strong>Movement: </strong>w, a, s, d</div>"),
-        shootControls = $("<div id='shootControls'><strong>Shoot: </strong>space</div>"),
+    var moveControls = $("<div id='moveControls'><strong>Movement/Shoot: </strong>w, a, s, d, space</div>"),
+        shootControls = $("<div id='shootControls'><strong>Extra: </strong>Tab, x</div>"),
         latency = $("<div id='latencyIndicator'></div>");
 
     MovementColumn.append(shipPosition, shipSpeed, shipVelocity);
