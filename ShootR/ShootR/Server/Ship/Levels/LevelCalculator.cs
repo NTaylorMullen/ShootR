@@ -9,7 +9,7 @@ namespace ShootR
     {
         public const int MAX_EXPERIENCE_PER_LEVEL = 10000;
         public const double LEVEL_DIFFERENCE_MULTIPLIER = .25;
-        public const int BASE_EXPERIENCE_GAIN = 400; // X experience per kill at level 1
+        public const int BASE_EXPERIENCE_GAIN = 30; // X experience per kill at level 1
         public const int MIN_EXPERIENCE = 5; // Cannot gain less than 5 experience per kill
 
         public int CalculateKillExperience(Ship Killer, Ship Killed)

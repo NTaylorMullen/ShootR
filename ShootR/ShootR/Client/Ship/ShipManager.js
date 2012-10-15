@@ -26,7 +26,16 @@
             if (!that.Ships[id]) {
                 that.Ships[id] = new ShipVehicle({ x: currentShip.MovementController.Position.X, y: currentShip.MovementController.Position.Y });
             }
+
             currentShip.Visible = true;
+
+            var shipImage = currentShip.Level;
+            if (shipImage >= 8) {
+                shipImage = "Final"
+            }
+
+            currentShip.Vehicle = CanvasContext.IMAGE_ASSETS["Ship" + shipImage];
+
             that.Ships[id].UpdateProperties(currentShip);
 
             // Check if the ship still exists
@@ -65,7 +74,7 @@
                     else {
                         that.Ships[key].DrawName(0);
                     }
-                    
+
                 }
             }
             else { // Ship is not in view, so remove it from our ship list

@@ -8,6 +8,7 @@ namespace ShootR
     public class LeaderboardEntry
     {
         public string Name { get; set; }
+        public int Level { get; set; }
         public int Kills { get; set; }
         public int Deaths { get; set; }
         public int HitsDealt { get; set; }

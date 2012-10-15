@@ -146,16 +146,30 @@
 var CanvasContext = new CanvasRenderer($("#game"));
 
 CanvasContext.IMAGE_ASSETS = {
-    INIT: function () {
-        this.Ship.src = "/Images/Ship.png";
+    INIT: function () {        
         this.Explosion.src = "Images/SpriteSheets/explosion_1.png";
         this.Laser.src = "/Images/Laser.png";
-        this.BigExplosion.src = "/Images/SpriteSheets/explosion_2.png";        
-    },
-    Ship: new Image(),
+        this.BigExplosion.src = "/Images/SpriteSheets/explosion_2.png";
+        this.Ship1.src = "/Images/Ship1.png";
+        this.Ship2.src = "/Images/Ship2.png";
+        this.Ship3.src = "/Images/Ship3.png";
+        this.Ship4.src = "/Images/Ship4.png";
+        this.Ship5.src = "/Images/Ship5.png";
+        this.Ship6.src = "/Images/Ship6.png";
+        this.Ship7.src = "/Images/Ship7.png";
+        this.ShipFinal.src = "/Images/ShipFinal.png";
+    },    
     Explosion: new Image(),
     Laser: new Image(),
-    BigExplosion: new Image()
+    BigExplosion: new Image(),
+    Ship1: new Image(),
+    Ship2: new Image(),
+    Ship3: new Image(),
+    Ship4: new Image(),
+    Ship5: new Image(),
+    Ship6: new Image(),
+    Ship7: new Image(),
+    ShipFinal: new Image()
 };
 
 CanvasContext.IMAGE_ASSETS.INIT();

@@ -239,7 +239,7 @@ h3 {
     display:none;
     position:relative;
     margin: 0 auto;
-    width:650px;
+    width:700px;
     margin-top:30px;
     min-height:140px;
 }
@@ -290,6 +290,10 @@ h3 {
     width:50px;
     font-weight:bold;
     font-style:italic;
+}
+
+#leaderboard .levelColumn {  
+    width:50px;
 }
 
 #leaderboard .nameColumn {

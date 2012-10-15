@@ -37,13 +37,14 @@ namespace ShootR
                                                                 select user.MyShip).Select(ship => new LeaderboardEntry()
                     {
                         Name = ship.Name,
+                        Level = ship.LevelManager.Level,
                         Kills = ship.StatRecorder.Kills,
                         Deaths = ship.StatRecorder.Deaths,
                         DamageDealt = ship.StatRecorder.DamageDealt,
                         DamageTaken = ship.StatRecorder.DamageTaken,
                         KillDeathRatio = (Convert.ToDouble(ship.StatRecorder.Kills) / Math.Max((ship.StatRecorder.Kills + ship.StatRecorder.Deaths), 1))*100,
                         ConnectionID = ship.Host.ConnectionID
-                    }).OrderByDescending(entry => entry.Kills).ThenByDescending(entry => entry.KillDeathRatio).ThenByDescending(entry => entry.DamageDealt);
+                    }).OrderByDescending(entry => entry.Level).ThenByDescending(entry => entry.KillDeathRatio).ThenByDescending(entry => entry.Kills);
 
             int i = 1;
 

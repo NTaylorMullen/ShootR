@@ -56,6 +56,7 @@
         };
         result.Name = ship[ShipContract.Name];
         result.MaxLife = ship[ShipContract.MaxLife];
+        result.Level = ship[ShipContract.Level];
 
         return result;
     }
@@ -76,14 +77,14 @@
             ShipsInWorld: data[PayloadContract.ShipsInWorld],
             BulletsInWorld: data[PayloadContract.BulletsInWorld],
             Experience: data[PayloadContract.Experience],
-            ExperienceToNextLevel: data[PayloadContract.ExperienceToNextLevel],
-            Level: data[PayloadContract.Level]
+            ExperienceToNextLevel: data[PayloadContract.ExperienceToNextLevel]
         };
     }
 
     function DecompressLeaderboardEntry(data) {
         return {
             Name: data[LeaderboardEntryContract.Name],
+            Level: data[LeaderboardEntryContract.Level],
             Kills: data[LeaderboardEntryContract.Kills],
             Deaths: data[LeaderboardEntryContract.Deaths],
             DamageDealt: data[LeaderboardEntryContract.DamageDealt],

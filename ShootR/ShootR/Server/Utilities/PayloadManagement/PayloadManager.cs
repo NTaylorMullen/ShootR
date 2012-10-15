@@ -82,8 +82,7 @@ namespace ShootR
                 ShipsInWorld = shipCount,
                 BulletsInWorld = bulletCount,
                 Experience = myShip.LevelManager.Experience,
-                ExperienceToNextLevel = myShip.LevelManager.ExperienceToNextLevel,
-                Level = myShip.LevelManager.Level
+                ExperienceToNextLevel = myShip.LevelManager.ExperienceToNextLevel
             };
         }
     }

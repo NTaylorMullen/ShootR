@@ -54,7 +54,6 @@ $(function () {
         lastPayload = info;
         gameInfoReceived = true;
 
-        myShip.Level = info.Level;
         myShip.Experience = info.Experience;
         myShip.ExperienceToNextLevel = info.ExperienceToNextLevel;
 

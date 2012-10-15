@@ -31,7 +31,7 @@ namespace ShootR
 
         public object[] Compress(Ship ship)
         {
-            object[] result = new object[21];
+            object[] result = new object[22];
 
             SetCollidableContractMembers(result, ship);
 
@@ -41,6 +41,7 @@ namespace ShootR
             result[ShipCompressionContract.Backward] = Convert.ToInt32(ship.MovementController.Moving.Backward);
             result[ShipCompressionContract.Name] = ship.Name;
             result[ShipCompressionContract.MaxLife] = ship.LifeController.MaxLife;
+            result[ShipCompressionContract.Level] = ship.LevelManager.Level;
 
             return result;
         }
@@ -58,7 +59,7 @@ namespace ShootR
 
         public object[] Compress(Payload payload)
         {
-            object[] result = new object[8];
+            object[] result = new object[7];
             result[PayloadCompressionContract.Ships] = payload.Ships;
             result[PayloadCompressionContract.LeaderboardPosition] = payload.LeaderboardPosition;
             result[PayloadCompressionContract.Bullets] = payload.Bullets;
@@ -66,15 +67,15 @@ namespace ShootR
             result[PayloadCompressionContract.BulletsInWorld] = payload.BulletsInWorld;
             result[PayloadCompressionContract.Experience] = payload.Experience;
             result[PayloadCompressionContract.ExperienceToNextLevel] = payload.ExperienceToNextLevel;
-            result[PayloadCompressionContract.Level] = payload.Level;
             return result;
         }
 
         public object[] Compress(LeaderboardEntry leaderboardEntry)
         {
-            object[] result = new object[8];
+            object[] result = new object[7];
 
             result[LeaderboardEntryCompressionContract.Name] = leaderboardEntry.Name;
+            result[LeaderboardEntryCompressionContract.Level] = leaderboardEntry.Level;
             result[LeaderboardEntryCompressionContract.Kills] = leaderboardEntry.Kills;
             result[LeaderboardEntryCompressionContract.Deaths] = leaderboardEntry.Deaths;
             result[LeaderboardEntryCompressionContract.DamageDealt] = leaderboardEntry.DamageDealt;

@@ -51,6 +51,7 @@
                         <thead>
                             <tr>
                                 <th class="positionColumn">Position</th>
+                                <th class="levelColumn">Level</th>
                                 <th class="nameColumn">Name</th>
                                 <th class="killsColumn">Kills</th>
                                 <th class="deathsColumn">Deaths</th>
@@ -62,6 +63,7 @@
                         <tbody data-bind="foreach: leaderboard">
                             <tr data-bind="attr: { class: customClass }">
                                 <td class="positionColumn">#<span data-bind="text: Position"></span></td>
+                                <td class="levelColumn" data-bind="text: Level"></td>
                                 <td class="nameColumn" data-bind="text: Name"></td>
                                 <td class="killsColumn" data-bind="text: Kills"></td>
                                 <td class="deathsColumn" data-bind="text: Deaths"></td>

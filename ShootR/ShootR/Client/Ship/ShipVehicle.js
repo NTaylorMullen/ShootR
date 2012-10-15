@@ -2,7 +2,7 @@
     Collidable.call(this);
     var that = this;
 
-    that.Vehicle = CanvasContext.IMAGE_ASSETS.Ship;
+    that.Vehicle = CanvasContext.IMAGE_ASSETS.Ship1;
 
     that.Destroy = function () {
         // Ship has died
