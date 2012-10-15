@@ -12,6 +12,9 @@ namespace ShootR
         public const int HEIGHT = 50;
         public const int LIFE = 100;
 
+        public event KillEventHandler OnKill;
+        public event DeathEventHandler OnDeath;
+
         private ShipWeaponController _weaponController;
 
         public Ship(Vector2 position, BulletManager bm)
@@ -20,7 +23,7 @@ namespace ShootR
             StatRecorder = new ShipStatRecorder(this);
             _weaponController = new ShipWeaponController(this, bm);
             LifeController.OnDeath += new DeathEventHandler(Die);
-            LifeController.OnDeath += new DeathEventHandler(StatRecorder.ShipDeath);
+            OnDeath += new DeathEventHandler(StatRecorder.ShipDeath);
             LifeController.Host = this;
         }
 
@@ -28,7 +31,8 @@ namespace ShootR
         public User Host { get; set; }
         public bool RespawnEnabled { get; set; }
 
-        public ShipStatRecorder StatRecorder { get; set; }
+        public ShipStatRecorder StatRecorder { get; private set; }
+        public ShipLevelManager LevelManager { get; private set; }
 
         public ShipMovementController MovementController
         {
@@ -44,7 +48,21 @@ namespace ShootR
 
         public void Die(object sender, DeathEventArgs e)
         {
+            if (OnDeath != null)
+            {
+                // Propogate death event
+                OnDeath(this, e);
+            }
+
             this.Dispose();
+        }
+
+        public void Killed(Collidable who)
+        {
+            if (OnKill != null)
+            {
+                OnKill(this, new KillEventArgs(who));
+            }
         }
 
         public void StartMoving(Movement where)

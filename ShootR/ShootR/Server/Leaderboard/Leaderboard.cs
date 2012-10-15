@@ -39,8 +39,6 @@ namespace ShootR
                         Name = ship.Name,
                         Kills = ship.StatRecorder.Kills,
                         Deaths = ship.StatRecorder.Deaths,
-                        HitsDealt = ship.StatRecorder.HitsDealt,
-                        HitsTaken = ship.StatRecorder.HitsTaken,
                         DamageDealt = ship.StatRecorder.DamageDealt,
                         DamageTaken = ship.StatRecorder.DamageTaken,
                         KillDeathRatio = (Convert.ToDouble(ship.StatRecorder.Kills) / Math.Max((ship.StatRecorder.Kills + ship.StatRecorder.Deaths), 1))*100,
