@@ -116,7 +116,14 @@
     <Content Include="Images\bg_stars.jpg" />
     <Content Include="Images\Laser.png" />
     <Content Include="Images\Page\GitHubForkMe.png" />
-    <Content Include="Images\Ship.png" />
+    <Content Include="Images\Ship1.png" />
+    <Content Include="Images\Ship2.png" />
+    <Content Include="Images\Ship3.png" />
+    <Content Include="Images\Ship4.png" />
+    <Content Include="Images\Ship5.png" />
+    <Content Include="Images\Ship6.png" />
+    <Content Include="Images\Ship7.png" />
+    <Content Include="Images\ShipFinal.png" />
     <Content Include="Images\SpriteSheets\explosion_1.png" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
