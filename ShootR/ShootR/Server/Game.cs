@@ -39,11 +39,6 @@ namespace ShootR
             UserHandler = new UserHandler();
             Leaderboard = new Leaderboard(UserHandler);
             ConnectionManager = new ConnectionManager(_gameHandler, UserHandler, _locker);
-
-            for (double i = 1; i < 10; i++)
-            {
-                Debug.WriteLine("To Level from: " + i + " = " + LevelCalculator.NextLevelExperience(i));
-            }
         }
 
         public UserHandler UserHandler { get; private set; }

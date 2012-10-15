@@ -48,6 +48,8 @@ namespace ShootR
 
         public void Die(object sender, DeathEventArgs e)
         {
+            MovementController.StopMovement();
+
             if (OnDeath != null)
             {
                 // Propogate death event

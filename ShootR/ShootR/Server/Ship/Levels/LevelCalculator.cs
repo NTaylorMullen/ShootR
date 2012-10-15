@@ -19,12 +19,12 @@ namespace ShootR
             return Convert.ToInt32(Math.Max(Math.Round(BASE_EXPERIENCE_GAIN + levelDiff * LEVEL_DIFFERENCE_MULTIPLIER), MIN_EXPERIENCE));
         }
 
-        public static double NextLevelExperience(double level)
+        public double NextLevelExperience(double level)
         {
-            return Math.Round(Bias(0.55, (level + 1) / 100) * MAX_EXPERIENCE_PER_LEVEL);
+            return Math.Round(Bias(0.53, (level + 1) / 100) * MAX_EXPERIENCE_PER_LEVEL);
         }
 
-        private static double Bias(double x, double y)
+        private double Bias(double x, double y)
         {
             return y / ((1 / x - 2) * (1 - y) + 1);
         }

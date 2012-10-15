@@ -50,6 +50,14 @@
             ApplyForce(dragForce);
         }
 
+        public void StopMovement()
+        {
+            FlagMovement(Movement.Forward, false);
+            FlagMovement(Movement.Backward, false);
+            FlagMovement(Movement.RotatingLeft, false);
+            FlagMovement(Movement.RotatingRight, false);
+        }
+
         /// <summary>
         /// Used to register a start or a stop of a movement in a given direction.
         /// </summary>
