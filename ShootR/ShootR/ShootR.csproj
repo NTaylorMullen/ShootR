@@ -198,6 +198,8 @@
     <Compile Include="Server\Ship\ShipLifeController.cs" />
     <Compile Include="Server\Ship\ShipManager.cs" />
     <Compile Include="Server\Ship\ShipStatRecorder.cs" />
+    <Compile Include="Server\User\IdleManager.cs" />
+    <Compile Include="Server\User\NotificationManager.cs" />
     <Compile Include="Server\User\RespawnManager.cs" />
     <Compile Include="Server\User\User.cs" />
     <Compile Include="Server\User\UserHandler.cs" />

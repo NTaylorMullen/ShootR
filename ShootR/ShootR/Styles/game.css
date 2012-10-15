@@ -344,3 +344,13 @@ h3 {
     font-weight:bolder;
     display:none;
 }
+
+#Notification {
+    border: 1px double white;
+    color:white;
+    background-color:gray;
+    position:absolute;
+    overflow:auto;
+    padding:10px; 
+    display:none;   
+}

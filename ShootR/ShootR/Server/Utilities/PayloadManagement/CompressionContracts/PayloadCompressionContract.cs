@@ -9,6 +9,6 @@
         public short BulletsInWorld = 4;
         public short Experience = 5;
         public short ExperienceToNextLevel = 6;
-        public short Level = 7;
+        public short Notification = 7;        
     }
 }

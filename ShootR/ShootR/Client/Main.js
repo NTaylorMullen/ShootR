@@ -54,6 +54,12 @@ $(function () {
         lastPayload = info;
         gameInfoReceived = true;
 
+        if (info.Notification) {
+            $("#Notification").html(info.Notification);
+            $('#Notification').css({ top: '50%', left: '50%', margin: '-' + ($('#Notification').height() / 2) + 'px 0 0 -' + ($('#Notification').width() / 2) + 'px' });
+            $("#Notification").fadeIn(1000).fadeOut(4000);            
+        }
+
         myShip.Experience = info.Experience;
         myShip.ExperienceToNextLevel = info.ExperienceToNextLevel;
 

@@ -28,28 +28,34 @@ namespace ShootR
 
                     _payloadCache.CreateCacheFor(connectionID);
 
-                    var payload = GetInitializedPayload(user.CurrentLeaderboardPosition, shipCount, bulletCount, user.MyShip);
+                    var payload = GetInitializedPayload(shipCount, bulletCount, user);
 
-                    Vector2 screenPosition = user.MyShip.MovementController.Position - screenOffset;
-                    List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), user.Viewport.Width + SCREEN_BUFFER_AREA, user.Viewport.Height + SCREEN_BUFFER_AREA));
-
-                    foreach (Collidable obj in onScreen)
+                    if (!user.IdleManager.CheckIdle())
                     {
-                        if (obj.GetType() == typeof(Bullet))
+                        Vector2 screenPosition = user.MyShip.MovementController.Position - screenOffset;
+                        List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), user.Viewport.Width + SCREEN_BUFFER_AREA, user.Viewport.Height + SCREEN_BUFFER_AREA));
+
+                        foreach (Collidable obj in onScreen)
                         {
-                            _payloadCache.Cache(connectionID, obj);
-
-                            // This bullet has been seen so tag the bullet as seen                                
-                            ((Bullet)obj).Seen();
-
-                            if (obj.Altered() || !_payloadCache.ExistedLastPayload(connectionID, obj))
+                            if (obj.GetType() == typeof(Bullet))
                             {
-                                payload.Bullets.Add(Compressor.Compress((Bullet)obj));
+                                _payloadCache.Cache(connectionID, obj);
+
+                                // This bullet has been seen so tag the bullet as seen                                
+                                ((Bullet)obj).Seen();
+
+                                if (obj.Altered() || !_payloadCache.ExistedLastPayload(connectionID, obj))
+                                {
+                                    payload.Bullets.Add(Compressor.Compress((Bullet)obj));
+                                }
                             }
-                        }
-                        else if (obj.GetType() == typeof(Ship))
-                        {
-                            payload.Ships.Add(Compressor.Compress(((Ship)obj)));
+                            else if (obj.GetType() == typeof(Ship))
+                            {
+                                if (!(obj as Ship).Host.IdleManager.Idle)
+                                {
+                                    payload.Ships.Add(Compressor.Compress(((Ship)obj)));
+                                }
+                            }
                         }
                     }
                     payloads[connectionID] = Compressor.Compress(payload);                                      
@@ -74,15 +80,16 @@ namespace ShootR
             return result;
         }
 
-        public Payload GetInitializedPayload(int leaderboardPosition, int shipCount, int bulletCount, Ship myShip)
+        public Payload GetInitializedPayload(int shipCount, int bulletCount, User user)
         {
             return new Payload()
             {
-                LeaderboardPosition = leaderboardPosition,
+                LeaderboardPosition = user.CurrentLeaderboardPosition,
                 ShipsInWorld = shipCount,
                 BulletsInWorld = bulletCount,
-                Experience = myShip.LevelManager.Experience,
-                ExperienceToNextLevel = myShip.LevelManager.ExperienceToNextLevel
+                Experience = user.MyShip.LevelManager.Experience,
+                ExperienceToNextLevel = user.MyShip.LevelManager.ExperienceToNextLevel,
+                Notification = user.NotificationManager.PullNotification()
             };
         }
     }

@@ -30,6 +30,10 @@
             <div id="HealthHolder">
                 <div id="Health"></div>
             </div>
+
+            <div id="Notification">
+            </div>
+
             <div id="ExperienceHUD">
                 <div id="LevelIndicator">Level <span id="CurrentLevel"></span></div>
                 <div id="ExperienceHolder">                    

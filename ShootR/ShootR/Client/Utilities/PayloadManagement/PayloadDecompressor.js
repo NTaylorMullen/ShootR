@@ -77,7 +77,8 @@
             ShipsInWorld: data[PayloadContract.ShipsInWorld],
             BulletsInWorld: data[PayloadContract.BulletsInWorld],
             Experience: data[PayloadContract.Experience],
-            ExperienceToNextLevel: data[PayloadContract.ExperienceToNextLevel]
+            ExperienceToNextLevel: data[PayloadContract.ExperienceToNextLevel],
+            Notification: data[PayloadContract.Notification]
         };
     }
 

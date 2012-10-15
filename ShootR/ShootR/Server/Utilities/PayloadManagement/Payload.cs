@@ -18,6 +18,8 @@ namespace ShootR
         public int BulletsInWorld { get; set; }
 
         public int Experience { get; set; }
-        public int ExperienceToNextLevel { get; set; }        
+        public int ExperienceToNextLevel { get; set; }
+
+        public string Notification { get; set; }
     }
 }

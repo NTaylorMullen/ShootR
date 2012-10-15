@@ -7,6 +7,7 @@ namespace ShootR
 {
     public class ShipLevelManager
     {
+        public const double EXP_REDUCTION_MODIFIER = .5;
         private Ship _me;
         private LevelCalculator _levelCalculator;
 
@@ -33,6 +34,7 @@ namespace ShootR
 
         public void Killed(object sender, KillEventArgs e)
         {
+            // Do not gain experience from killing yourself
             if (_me != e.Killed as Ship)
             {
                 int exp = _levelCalculator.CalculateKillExperience(_me, e.Killed as Ship);
@@ -55,7 +57,7 @@ namespace ShootR
 
         public void Died(object sender, DeathEventArgs e)
         {
-            int exp = Convert.ToInt32(_levelCalculator.CalculateKillExperience((e.KilledBy as Bullet).FiredBy, _me) * .5);
+            int exp = Convert.ToInt32(_levelCalculator.CalculateKillExperience((e.KilledBy as Bullet).FiredBy, _me) * EXP_REDUCTION_MODIFIER);
             Experience = Math.Max(Experience - exp, 0);
         }
     }

@@ -1,4 +1,5 @@
-﻿namespace ShootR
+﻿using System;
+namespace ShootR
 {
     /// <summary>
     /// Ship's Movement Controller.  Handles all of the movement.

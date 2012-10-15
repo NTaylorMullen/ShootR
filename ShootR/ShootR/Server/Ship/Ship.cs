@@ -86,12 +86,14 @@ namespace ShootR
         public void StartMoving(Movement where)
         {
             Update(GameTime.CalculatePercentOfSecond(LastUpdated));
+            Host.IdleManager.RecordActivity();
             MovementController.StartMoving(where);            
         }
 
         public void StopMoving(Movement where)
         {
             Update(GameTime.CalculatePercentOfSecond(LastUpdated));
+            Host.IdleManager.RecordActivity();
             MovementController.StopMoving(where);
         }
 
