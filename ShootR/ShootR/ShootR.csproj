@@ -170,6 +170,7 @@
     <Compile Include="Server\Bullet\BulletManager.cs" />
     <Compile Include="Server\Bullet\BulletMovementController.cs" />
     <Compile Include="Server\Collidable\LifeController.cs" />
+    <Compile Include="Server\Configuration\LeaderboardConfiguration.cs" />
     <Compile Include="Server\Configuration\MapConfiguration.cs" />
     <Compile Include="Server\Configuration\ScreenConfiguration.cs" />
     <Compile Include="Server\Game.cs" />

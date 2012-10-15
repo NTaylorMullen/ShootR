@@ -31,7 +31,7 @@
                 <div id="Health"></div>
             </div>
             <div id="leaderboardPosition">
-
+                <span>#</span><strong id="positionNumber"></strong>
             </div>
         </div>
 

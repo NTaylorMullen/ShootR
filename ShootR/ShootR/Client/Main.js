@@ -9,7 +9,7 @@ $(function () {
         configurationManager,
         payloadDecompressor = new PayloadDecompressor(),
         latencyResolver = new LatencyResolver(env),
-        screen = new Screen($("#game"), $("#gameWrapper"), $("#gameHUD"), $("#popUpHolder"), env),
+        screen = new Screen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env),
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] };
         
@@ -17,12 +17,13 @@ $(function () {
         configurationManager = new ConfigurationManager(init.Configuration);
         game = new Game(env, latencyResolver, init.ShipID);
         GAME_GLOBALS.Game = game;
-        payloadDecompressor.LoadContracts(init.CompressionContracts);
-        screen.Initialize();
+        payloadDecompressor.LoadContracts(init.CompressionContracts);        
         game.HUDManager.Initialize(init);
+        screen.Initialize(game.HUDManager);
 
         game.ShipManager.MyShip.LatencyResolver = latencyResolver;
         game.ShipManager.MyShip.Initialize(screen);
+
         StartUpdateLoop();
         env.readyForPayloads();
     }
@@ -52,6 +53,7 @@ $(function () {
         lastPayload = info;
         gameInfoReceived = true;
 
+        game.HUDManager.Leaderboard.LoadPosition(info.LeaderboardPosition);
         game.ShipManager.UpdateShips(info.Ships);
         game.BulletManager.UpdateBullets(info.Bullets);
     }

@@ -223,7 +223,7 @@ h3 {
 }
 
 #leaderboard tr.highlight {
-    background-color:#1cc209;
+    background-color:#99e491;
 }
 
 #leaderboard table {
@@ -248,10 +248,6 @@ h3 {
     font-style:italic;
 }
 
-.nameColumn, .positionColumn, .killsColumn, .deathsColumn, .ddColumn, .dtColumn {
-    border-right:1px solid black;
-}
-
 #leaderboard .nameColumn {
     width:100px;
 }
@@ -264,13 +260,23 @@ h3 {
 
 #leaderboardPosition {
     position:absolute;
-    width:50px;
+    min-width:50px;
     height:50px;
     font-size:24px;
-    font-weight:bold;
     line-height:50px;
     text-align:center;
     font-family:Comic Sans MS;
     border:2px double #FAFAFA;
-    background-color:lightGray;
+    background-color:#4f4f4f;
+    color:white;
+    display:none;
+}
+
+#leaderboardPosition.topten {
+    border-color:#1cc209;
+}
+
+#leaderboardPosition span {
+    font-size:19px;
+    font-style:normal;
 }

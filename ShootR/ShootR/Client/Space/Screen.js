@@ -1,5 +1,6 @@
-﻿function Screen(gameCanvas, gameWrapper, gameHUD, popUpHolder, conn) {
-    var that = this;
+﻿function Screen(gameCanvas, gameWrapper, popUpHolder, conn) {
+    var that = this,
+        gameHUD;
 
     // Set by configuration
     that.SCREEN_BUFFER_AREA;
@@ -8,7 +9,8 @@
     Screen.prototype.MAX_SCREEN_WIDTH = 10000;
     Screen.prototype.MAX_SCREEN_HEIGHT = 10000;
 
-    that.Initialize = function () {
+    that.Initialize = function (gamehud) {
+        gameHUD = gamehud;
         UpdateScreen();
     }    
 
@@ -34,15 +36,11 @@
         gameCanvas.attr("height", that.Viewport.Height);
         gameWrapper.css("width", that.Viewport.Width);
         gameWrapper.css("height", that.Viewport.Height);
-        if (gameHUD) {
-            gameHUD.css("width", that.Viewport.Width);
-            gameHUD.css("height", that.Viewport.Height);
-        }
 
         if (popUpHolder) {
             popUpHolder.css("width", that.Viewport.Width);
             popUpHolder.css("height", that.Viewport.Height);
-        }
+        }        
     }
 
     function UpdateGameCamera() {
@@ -63,13 +61,15 @@
 
         that.SendNewViewportToServer();
 
+        gameHUD.OnScreenResize(that.Viewport);
+
         $(that).triggerHandler("UpdateScreen");
     }
 
     $(window).resize(function () {
         // Wait till window has officially finished resizing (wait a quarter second).
         delay(function () {
-            UpdateScreen();
+            UpdateScreen();            
         }, 250);
     });
 }

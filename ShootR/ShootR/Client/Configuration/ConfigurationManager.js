@@ -6,6 +6,7 @@
     ShipVehicle.prototype.HALF_WIDTH = ShipVehicle.prototype.WIDTH * .5;
     ShipVehicle.prototype.HALF_HEIGHT = ShipVehicle.prototype.HEIGHT * .5;
 
+    $.extend(Leaderboard.prototype, config.leaderboardConfig);
     $.extend(Bullet.prototype, config.bulletConfig);
     $.extend(Map.prototype, config.mapConfig);
     $.extend(Screen.prototype, config.screenConfig);

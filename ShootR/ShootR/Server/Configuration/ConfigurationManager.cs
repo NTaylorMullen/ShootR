@@ -9,6 +9,7 @@
             shipConfig = new ShipConfiguration();
             mapConfig = new MapConfiguration();
             screenConfig = new ScreenConfiguration();
+            leaderboardConfig = new LeaderboardConfiguration();
         }
 
         // Bullet Configurations
@@ -25,5 +26,8 @@
 
         // Screen Configurations
         public ScreenConfiguration screenConfig { get; set; }
+
+        // Leaderboard Configurations
+        public LeaderboardConfiguration leaderboardConfig { get; set; }
     }
 }
