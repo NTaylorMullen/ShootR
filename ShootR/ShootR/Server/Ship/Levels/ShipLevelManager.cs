@@ -33,19 +33,22 @@ namespace ShootR
 
         public void Killed(object sender, KillEventArgs e)
         {
-            int exp = _levelCalculator.CalculateKillExperience(_me, e.Killed as Ship);
-
-            Experience += exp;
-            // Need to level
-            if (Experience >= ExperienceToNextLevel)
+            if (_me != e.Killed as Ship)
             {
-                Level++;
-                Experience = Experience - ExperienceToNextLevel;
-                ExperienceToNextLevel = Convert.ToInt32(_levelCalculator.NextLevelExperience(Level));
+                int exp = _levelCalculator.CalculateKillExperience(_me, e.Killed as Ship);
 
-                if (OnLevel != null)
+                Experience += exp;
+                // Need to level
+                if (Experience >= ExperienceToNextLevel)
                 {
-                    OnLevel(_me, new LevelUpEventArgs(Level));
+                    Level++;
+                    Experience = Experience - ExperienceToNextLevel;
+                    ExperienceToNextLevel = Convert.ToInt32(_levelCalculator.NextLevelExperience(Level));
+
+                    if (OnLevel != null)
+                    {
+                        OnLevel(_me, new LevelUpEventArgs(Level));
+                    }
                 }
             }
         }

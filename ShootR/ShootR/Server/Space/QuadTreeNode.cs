@@ -71,6 +71,11 @@ namespace ShootR
                 {
                     this.Parent.ReverseInsert(obj);
                 }
+                else
+                {
+                    obj.SetMapArea(this);
+                    this.Contents.Add(obj);
+                }
             }
             else
             {

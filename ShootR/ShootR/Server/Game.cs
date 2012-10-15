@@ -49,14 +49,24 @@ namespace ShootR
         {
             lock (_locker)
             {
-                _gameTime.Update();
-                _gameHandler.Update(_gameTime);
-                _space.Update();
-
-                if (++_updateCount % DRAW_AFTER == 0)
+                try
                 {
-                    _updateCount = 0; // Reset update count to 0
-                    Draw();
+                    _gameTime.Update();
+                    _gameHandler.Update(_gameTime);
+                    _space.Update();
+
+                    if (++_updateCount % DRAW_AFTER == 0)
+                    {
+                        _updateCount = 0; // Reset update count to 0
+                        Draw();
+                    }                    
+                }
+                catch (Exception e)
+                {
+                    EventLog elog = new EventLog();
+                    string sSource = ".NET Runtime";
+
+                    EventLog.WriteEntry(sSource, e.ToString());
                 }
             }
         }
