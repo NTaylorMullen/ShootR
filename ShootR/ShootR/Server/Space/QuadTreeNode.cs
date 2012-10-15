@@ -67,7 +67,10 @@ namespace ShootR
                 // NOTE: If you get an error here chances are an object is out of bounds. aka off the quad tree map.
                 // In order to avoid an additional check we assume that the obj is smaller than
                 // the root node.
-                this.Parent.ReverseInsert(obj);
+                if (this.Parent != null)
+                {
+                    this.Parent.ReverseInsert(obj);
+                }
             }
             else
             {
