@@ -52,7 +52,7 @@ namespace ShootR
 
         public void Died(object sender, DeathEventArgs e)
         {
-            int exp = _levelCalculator.CalculateKillExperience((e.KilledBy as Bullet).FiredBy, _me);
+            int exp = Convert.ToInt32(_levelCalculator.CalculateKillExperience((e.KilledBy as Bullet).FiredBy, _me) * .5);
             Experience = Math.Max(Experience - exp, 0);
         }
     }
