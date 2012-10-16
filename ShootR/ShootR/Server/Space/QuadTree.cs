@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace ShootR
@@ -63,9 +64,17 @@ namespace ShootR
         public void Update()
         {
             List<Collidable> objects = _root.GetSubTreeContents();
+                            
             foreach (Collidable obj in objects)
             {
-                obj.GetMapArea().UpdateObjects();
+                try
+                {
+                    obj.GetMapArea().UpdateObjects();
+                }
+                catch (Exception e)
+                {
+                    ErrorLog.Instance.Log(e, " Object Count: " + objects.Count + " Game Objects, Ship Count: " + Game.Instance.GameHandler.ShipCount() + " Bullet Count: " + Game.Instance.GameHandler.BulletManager.Bullets.Count + ".    |||| Object Data: (Type) = " + obj.GetType() + " Position: ( " + obj.MovementController.Position.X + ", " + obj.MovementController.Position.Y + " )  Alive: " + obj.LifeController.Alive );
+                }
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using SignalR;
 using SignalR.Hubs;
 
@@ -13,8 +14,7 @@ namespace ShootR
         private Timer _gameLoop, _leaderboardLoop;
         private ConfigurationManager _configuration;
         private GameTime _gameTime;
-        private Map _space;
-        private GameHandler _gameHandler;
+        private Map _space;        
         private PayloadManager _payloadManager;
 
         private int DRAW_AFTER;
@@ -30,10 +30,10 @@ namespace ShootR
 
             _gameTime = new GameTime();
             _space = new Map();
-            _gameHandler = new GameHandler(_space);
+            GameHandler = new GameHandler(_space);
             _payloadManager = new PayloadManager();
 
-            UserHandler = new UserHandler(_gameHandler);
+            UserHandler = new UserHandler(GameHandler);
             Leaderboard = new Leaderboard(UserHandler);
             ConnectionManager = new ConnectionManager(UserHandler, _locker);
         }
@@ -41,6 +41,7 @@ namespace ShootR
         public UserHandler UserHandler { get; private set; }
         public ConnectionManager ConnectionManager { get; private set; }
         public Leaderboard Leaderboard { get; private set; }
+        public GameHandler GameHandler { get; set; }
 
         private void Update(object state)
         {
@@ -49,7 +50,7 @@ namespace ShootR
                 try
                 {
                     _gameTime.Update();
-                    _gameHandler.Update(_gameTime);
+                    GameHandler.Update(_gameTime);
                     _space.Update();
 
                     if (++_updateCount % DRAW_AFTER == 0)
@@ -60,10 +61,7 @@ namespace ShootR
                 }
                 catch (Exception e)
                 {
-                    EventLog elog = new EventLog();
-                    string sSource = ".NET Runtime";
-
-                    EventLog.WriteEntry(sSource, e.ToString());
+                    ErrorLog.Instance.Log(e);                    
                 }
             }
         }
@@ -73,7 +71,7 @@ namespace ShootR
         /// </summary>
         private void Draw()
         {
-            Dictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), _gameHandler.ShipCount(), _gameHandler.BulletManager.Bullets.Count, _space);
+            Dictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), GameHandler.ShipCount(), GameHandler.BulletManager.Bullets.Count, _space);
             dynamic Clients = GetContext().Clients;
 
             foreach (string connectionID in payloads.Keys)
@@ -106,12 +104,12 @@ namespace ShootR
         {
             lock (_locker)
             {
-                Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), _gameHandler.BulletManager);
+                Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
 
                 User user = new User(connectionId, ship) { Controller = false };
                 ship.Host = user;
                 UserHandler.AddUser(user);
-                _gameHandler.AddShipToGame(ship);
+                GameHandler.AddShipToGame(ship);
                 ship.Name = "Ship" + ship.ID;
             }
 
@@ -160,7 +158,7 @@ namespace ShootR
                 bullet.HandleOutOfBounds();
             }
 
-            _gameHandler.AddBulletToGame(bullet);
+            GameHandler.AddBulletToGame(bullet);
         }
 
         public static Game Instance

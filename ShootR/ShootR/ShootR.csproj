@@ -206,6 +206,7 @@
     <Compile Include="Server\Utilities\EventHandlers\DeathEventHandler.cs" />
     <Compile Include="Server\Utilities\EventHandlers\KillEventHandler.cs" />
     <Compile Include="Server\Utilities\EventHandlers\LevelUpEventHandler.cs" />
+    <Compile Include="Server\Utilities\ErrorLog.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\BulletCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\CollidableCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\LeaderboardEntryCompressionContract.cs" />
