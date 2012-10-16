@@ -13,16 +13,17 @@ namespace ShootR
 
         private BulletManager _bulletManager;
         private Ship _ship;
-        private DateTime _lastFired = DateTime.UtcNow;
 
         public ShipWeaponController(Ship s, BulletManager bm)
         {
             _bulletManager = bm;
             _ship = s;
             DamageModifier = 1;
+            LastFired = DateTime.UtcNow;
         }
 
         public double DamageModifier { get; set; }
+        public DateTime LastFired { get; set; }
 
         /// <summary>
         /// Create's a bullet in the direction of the ship
@@ -30,7 +31,7 @@ namespace ShootR
         /// <returns>Newly created bullet</returns>
         public Bullet Fire()
         {
-            if ((DateTime.UtcNow - _lastFired).TotalMilliseconds >= FIRE_RATE)
+            if ((DateTime.UtcNow - LastFired).TotalMilliseconds >= FIRE_RATE)
             {
                 var shipCenter = new Vector2(_ship.MovementController.Position.X + .5 * _ship.Width(), _ship.MovementController.Position.Y + .5 * _ship.Height());
                 var shipDirection = new Vector2(_ship.MovementController.Rotation);
@@ -40,7 +41,7 @@ namespace ShootR
                 Bullet spawnedBullet = new Bullet(startPosition, shipDirection, _ship.MovementController.Velocity, _ship, DamageModifier);
                 _bulletManager.Add(spawnedBullet);
 
-                _lastFired = DateTime.UtcNow;
+                LastFired = DateTime.UtcNow;
                 return spawnedBullet;
             }
 

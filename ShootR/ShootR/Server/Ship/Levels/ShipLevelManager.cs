@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ShootR
 {
@@ -16,7 +13,7 @@ namespace ShootR
         public ShipLevelManager(Ship me)
         {
             Level = 1;
-            Experience = 0;            
+            Experience = 0;
             _me = me;
             _levelCalculator = new LevelCalculator();
             ExperienceToNextLevel = Convert.ToInt32(_levelCalculator.NextLevelExperience(Level));

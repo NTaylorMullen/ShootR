@@ -6,13 +6,11 @@ namespace ShootR
 {
     public class ConnectionManager
     {
-        private GameHandler _gameHandler;
         private UserHandler _userHandler;
         private object _locker;
 
-        public ConnectionManager(GameHandler gameHandler, UserHandler userHandler, object locker)
+        public ConnectionManager(UserHandler userHandler, object locker)
         {
-            _gameHandler = gameHandler;
             _userHandler = userHandler;
             _locker = locker;
         }
@@ -40,14 +38,18 @@ namespace ShootR
             {
                 if (_userHandler.UserExists(connectionId))
                 {
-                    _userHandler.RemoveUser(connectionId);
-
-                    if (_gameHandler.ShipManager.Ships.ContainsKey(connectionId))
+                    User user = _userHandler.GetUser(connectionId);
+                    
+                    //It's possible for a controller to disconnect without a ship
+                    if (user.MyShip != null)
                     {
-                        _gameHandler.ShipManager.Ships[connectionId].Dispose();
+                        user.MyShip.Dispose();
                     }
 
-                    GlobalHost.ConnectionManager.GetHubContext<GameHub>().Clients[Leaderboard.LEADERBOARD_REQUESTEE_GROUP].leave(connectionId);
+                    _userHandler.RemoveUser(connectionId);                    
+
+                    // Leave the leaderboard group just in case user was in it
+                    GlobalHost.ConnectionManager.GetHubContext<GameHub>().Groups.Remove(connectionId, Leaderboard.LEADERBOARD_REQUESTEE_GROUP);
                 }
             }
         }

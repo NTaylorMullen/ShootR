@@ -9,10 +9,10 @@ namespace ShootR
         private static int _shipGUID = 0;
         private RespawnManager _respawnManager;
 
-        public ShipManager(CollisionManager collisionManager)
+        public ShipManager(GameHandler gameHandler)
         {
             Ships = new ConcurrentDictionary<string, Ship>();
-            _respawnManager = new RespawnManager(collisionManager, this);
+            _respawnManager = new RespawnManager(gameHandler);
         }
 
         public ConcurrentDictionary<string, Ship> Ships { get; set; }
@@ -21,8 +21,7 @@ namespace ShootR
         /// Adds a ship and returns the added ship.  Used to chain methods together.
         /// </summary>
         /// <param name="s">The ship to add</param>
-        /// <param name="key">The connection ID for a key</param>
-        public void Add(Ship s, string key)
+        public void Add(Ship s)
         {
             if (s.ID == -1)
             {
@@ -34,7 +33,7 @@ namespace ShootR
                 s.RespawnEnabled = true;
                 s.OnDeath += new DeathEventHandler(_respawnManager.StartRespawnCountdown);                
             }
-            Ships.TryAdd(key, s);
+            Ships.TryAdd(s.Host.ConnectionID, s);
         }
 
         /// <summary>
@@ -45,11 +44,6 @@ namespace ShootR
         {
             Ship removedShip;
             Ships.TryRemove(key, out removedShip);
-
-            if (removedShip != null && !removedShip.Disposed)
-            {
-                removedShip.Dispose();
-            }
 
             return removedShip;
         }

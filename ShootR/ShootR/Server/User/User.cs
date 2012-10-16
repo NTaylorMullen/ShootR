@@ -11,26 +11,20 @@ namespace ShootR
         public const int MAX_SCREEN_WIDTH = 2000;
         public const int MAX_SCREEN_HEIGHT = 1000;
 
-        public User()
+        public User(string connectionID)
+            : this(connectionID, null)
         {
+        }
+
+        public User(string connectionID, Ship ship)
+        {
+            ConnectionID = connectionID;
+            MyShip = ship;
             ReadyForPayloads = false;
             Viewport = new Size(0, 0); // Initialize the viewport to 0 by 0
             RemoteControllers = new List<User>();
             NotificationManager = new NotificationManager();
-            IdleManager = new IdleManager(NotificationManager);                     
-        }
-
-        public User(string connectionID)
-            : this()
-        {
-            ConnectionID = connectionID;
-        }
-
-        public User(string connectionID, Ship ship)
-            : this()
-        {
-            ConnectionID = connectionID;
-            MyShip = ship;
+            IdleManager = new IdleManager(ship, NotificationManager);
         }
 
         public List<User> RemoteControllers { get; set; }

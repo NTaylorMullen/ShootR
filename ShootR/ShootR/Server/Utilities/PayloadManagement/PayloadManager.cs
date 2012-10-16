@@ -51,13 +51,15 @@ namespace ShootR
                             }
                             else if (obj.GetType() == typeof(Ship))
                             {
-                                if (!(obj as Ship).Host.IdleManager.Idle)
-                                {
-                                    payload.Ships.Add(Compressor.Compress(((Ship)obj)));
-                                }
+                                payload.Ships.Add(Compressor.Compress(((Ship)obj)));
                             }
                         }
                     }
+                    else // User is Idle, push down "MyShip"
+                    {
+                        payload.Ships.Add(Compressor.Compress(user.MyShip));
+                    }
+
                     payloads[connectionID] = Compressor.Compress(payload);                                      
                 }
             }

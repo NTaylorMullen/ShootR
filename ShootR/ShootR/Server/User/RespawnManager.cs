@@ -11,16 +11,14 @@ namespace ShootR
         public const int RESPAWN_TIMER = 7;
         
         private List<KeyValuePair<Ship, DateTime>> _respawningShips;
-        private CollisionManager _collisionManager;
-        private ShipManager _shipManager;
+        private GameHandler _gameHandler;
         private static Random _gen;
 
-        public RespawnManager(CollisionManager collisionManager, ShipManager shipManager)
+        public RespawnManager(GameHandler gameHandler)
         {
             _respawningShips = new List<KeyValuePair<Ship, DateTime>>();
-            _collisionManager = collisionManager;
-            _shipManager = shipManager;
-            _gen = new Random();
+            _gameHandler = gameHandler;
+             _gen = new Random();
         }
 
         public bool TryRespawn(Ship ship, DateTime startedAt)
@@ -32,8 +30,7 @@ namespace ShootR
                 ship.LifeController.HealFull();
                 ship.MovementController.Position = GetRandomStartPosition();
                 ship.Disposed = false;
-                _shipManager.Add(ship, ship.Host.ConnectionID);
-                _collisionManager.Monitor(ship);
+                _gameHandler.AddShipToGame(ship);
                 return true;
             }
             else

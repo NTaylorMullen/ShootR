@@ -9,9 +9,12 @@ namespace ShootR
     public class UserHandler
     {
         private ConcurrentDictionary<string, User> _userList;
-        public UserHandler()
+        private GameHandler _gameHandler;
+
+        public UserHandler(GameHandler gameHandler)
         {
             _userList = new ConcurrentDictionary<string, User>();
+            _gameHandler = gameHandler;
         }
 
         public bool UserExists(string connectionId)
@@ -33,6 +36,8 @@ namespace ShootR
         public void AddUser(User user)
         {
             _userList.TryAdd(user.ConnectionID, user);
+            user.IdleManager.OnIdle += _gameHandler.RemoveShipFromGame;
+            user.IdleManager.OnComeBack += _gameHandler.AddShipToGame;
         }
 
         public User GetUser(string connectionId)

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
-using System.Web;
 using SignalR;
 using SignalR.Hubs;
 
@@ -25,7 +22,7 @@ namespace ShootR
         private object _locker = new object();
 
         private Game()
-        {          
+        {
             _configuration = new ConfigurationManager();
             DRAW_AFTER = _configuration.gameConfig.DRAW_INTERVAL / _configuration.gameConfig.UPDATE_INTERVAL;
             _gameLoop = new Timer(Update, null, _configuration.gameConfig.UPDATE_INTERVAL, _configuration.gameConfig.UPDATE_INTERVAL);
@@ -36,9 +33,9 @@ namespace ShootR
             _gameHandler = new GameHandler(_space);
             _payloadManager = new PayloadManager();
 
-            UserHandler = new UserHandler();
+            UserHandler = new UserHandler(_gameHandler);
             Leaderboard = new Leaderboard(UserHandler);
-            ConnectionManager = new ConnectionManager(_gameHandler, UserHandler, _locker);
+            ConnectionManager = new ConnectionManager(UserHandler, _locker);
         }
 
         public UserHandler UserHandler { get; private set; }
@@ -59,7 +56,7 @@ namespace ShootR
                     {
                         _updateCount = 0; // Reset update count to 0
                         Draw();
-                    }                    
+                    }
                 }
                 catch (Exception e)
                 {
@@ -76,7 +73,7 @@ namespace ShootR
         /// </summary>
         private void Draw()
         {
-            Dictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), _gameHandler.ShipManager.Ships.Count, _gameHandler.BulletManager.Bullets.Count, _space);
+            Dictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), _gameHandler.ShipCount(), _gameHandler.BulletManager.Bullets.Count, _space);
             dynamic Clients = GetContext().Clients;
 
             foreach (string connectionID in payloads.Keys)
@@ -97,7 +94,7 @@ namespace ShootR
         }
 
         public static IHubContext GetContext()
-        {            
+        {
             return GlobalHost.ConnectionManager.GetHubContext<GameHub>();
         }
 
@@ -108,15 +105,14 @@ namespace ShootR
         public object initializeClient(string connectionId)
         {
             lock (_locker)
-            {                
+            {
                 Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), _gameHandler.BulletManager);
-                _gameHandler.ShipManager.Add(ship, connectionId);
-                ship.Name = "Ship" + ship.ID;
 
                 User user = new User(connectionId, ship) { Controller = false };
                 ship.Host = user;
                 UserHandler.AddUser(user);
-                _gameHandler.CollisionManager.Monitor(ship);
+                _gameHandler.AddShipToGame(ship);
+                ship.Name = "Ship" + ship.ID;
             }
 
             return new
@@ -164,7 +160,7 @@ namespace ShootR
                 bullet.HandleOutOfBounds();
             }
 
-            _gameHandler.CollisionManager.Monitor(bullet);
+            _gameHandler.AddBulletToGame(bullet);
         }
 
         public static Game Instance

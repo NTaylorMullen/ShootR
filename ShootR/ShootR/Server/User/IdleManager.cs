@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -7,21 +8,23 @@ namespace ShootR
 {
     public class IdleManager
     {
-        public const int IDLE_AFTER = 10; // Go idle after X seconds with no communication to the server
+        public const int IDLE_AFTER = 120; // Go idle after X seconds with no communication to the server
 
-        public event Action OnIdle;
-        public event Action OnComeBack;
+        public event Action<Ship> OnIdle;
+        public event Action<Ship> OnComeBack;
 
         private DateTime _lastActive;
         private NotificationManager _notificationManager;
+        private Ship _me;
 
-        public IdleManager(NotificationManager notificationManager)
+        public IdleManager(Ship me, NotificationManager notificationManager)
         {
             _lastActive = DateTime.UtcNow;
             _notificationManager = notificationManager;
+            _me = me;
             Idle = false;
         }
-        
+
         public bool Idle { get; set; }
 
         public void RecordActivity()
@@ -35,11 +38,12 @@ namespace ShootR
             {
                 Idle = true;
 
-                _notificationManager.Notify("You are now Away!");
+                _me.Name = "(Away) " + _me.Name;
+                _notificationManager.Notify("You are now Away!  You will not see any new ships on screen.");
 
                 if (OnIdle != null)
                 {
-                    OnIdle();
+                    OnIdle(_me);
                 }
             }
         }
@@ -50,19 +54,30 @@ namespace ShootR
             {
                 Idle = false;
 
+                _me.Name = _me.Name.Replace("(Away) ", "");
                 _notificationManager.Notify("You are Back!");
-                
+
                 if (OnComeBack != null)
                 {
-                    OnComeBack();
+                    OnComeBack(_me);
                 }
             }
         }
 
         public bool CheckIdle()
         {
-            if ((DateTime.UtcNow - _lastActive).TotalSeconds >= IDLE_AFTER) // Idle
+            var now = DateTime.UtcNow;
+            if ((now - _lastActive).TotalSeconds >= IDLE_AFTER && _me.LifeController.Alive) // Idle
             {
+                // This is here for performance
+                // Check if we've fired to prevent idle
+                if ((now - _me.GetWeaponController().LastFired).TotalSeconds < IDLE_AFTER)
+                {
+                    _lastActive = _me.GetWeaponController().LastFired;
+                    ComeBack();
+                    return false;
+                }
+
                 GoIdle();
                 return true;
             }

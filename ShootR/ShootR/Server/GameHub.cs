@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Threading;
 using System.Threading.Tasks;
 using SignalR.Hubs;
 
@@ -276,11 +273,13 @@ namespace ShootR
 
         public void readyForLeaderboardPayloads()
         {
+            _game.UserHandler.GetUser(Context.ConnectionId).IdleManager.RecordActivity();
             _game.Leaderboard.RequestLeaderboard(Context.ConnectionId);
         }
 
         public void stopLeaderboardPayloads()
         {
+            _game.UserHandler.GetUser(Context.ConnectionId).IdleManager.RecordActivity();
             _game.Leaderboard.StopRequestingLeaderboard(Context.ConnectionId);
         }
 
