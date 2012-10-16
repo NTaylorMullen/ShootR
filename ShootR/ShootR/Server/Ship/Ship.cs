@@ -17,9 +17,12 @@ namespace ShootR
 
         private ShipWeaponController _weaponController;
 
+        private static int _shipGUID = 0;
+
         public Ship(Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT, new ShipMovementController(position), new ShipLifeController(START_LIFE))
         {
+            ID = _shipGUID++;
             StatRecorder = new ShipStatRecorder(this);
             _weaponController = new ShipWeaponController(this, bm);
             LifeController.OnDeath += new DeathEventHandler(Die);

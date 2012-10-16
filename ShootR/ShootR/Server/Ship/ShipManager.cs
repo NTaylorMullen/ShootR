@@ -4,9 +4,7 @@ using System.Collections.Concurrent;
 namespace ShootR
 {
     public class ShipManager
-    {
-        // Having an int GUID to reduce payload size
-        private static int _shipGUID = 0;
+    {        
         private RespawnManager _respawnManager;
 
         public ShipManager(GameHandler gameHandler)
@@ -23,10 +21,6 @@ namespace ShootR
         /// <param name="s">The ship to add</param>
         public void Add(Ship s)
         {
-            if (s.ID == -1)
-            {
-                s.ID = _shipGUID++;
-            }
             // Only enable respawn if it hasn't been enabled yet
             if (!s.RespawnEnabled)
             {

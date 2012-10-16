@@ -16,9 +16,12 @@ namespace ShootR
         private DateTime _lastSeen;
         private int _damage;
 
+        private static int _bulletGUID = -1;
+
         public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity, Ship firedBy, double damageModifier)
             : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, initialVelocity), new LifeController(LIFE))
         {
+            ID = _bulletGUID--; // Reverse bullet GUID's to go below 0
             _lastSeen = DateTime.UtcNow;
             FiredBy = firedBy;
             _damage = Convert.ToInt32(BASE_DAMAGE * damageModifier);

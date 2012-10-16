@@ -6,18 +6,14 @@ namespace ShootR
     /// Used to monitor all bullets on the game field.
     /// </summary>
     public class BulletManager
-    {
-        // Having an int GUID to reduce payload size
-        private static int _bulletGUID = -1;
-
+    {      
         public BulletManager()
         {
             Bullets = new List<Bullet>();
         }
 
         public void Add(Bullet bullet)
-        {
-            bullet.ID = _bulletGUID--; // Reverse bullet GUID's to go below 0
+        {            
             Bullets.Add(bullet);
         }
 
