@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Threading;
 
 namespace ShootR
 {
@@ -8,6 +10,7 @@ namespace ShootR
     {
         QuadTreeNode _root;
         private int _width, _height, _minWidth, _minHeight;
+        private long _currentUpdateInterval = 0;
 
         public QuadTree(int width, int height, int minWidth, int minHeight)
         {
@@ -50,7 +53,6 @@ namespace ShootR
             if (node != null)
             {
                 obj.GetMapArea().Contents.Remove(obj);
-                obj.ClearMapArea();
             }
         }
 
@@ -64,16 +66,31 @@ namespace ShootR
         public void Update()
         {
             List<Collidable> objects = _root.GetSubTreeContents();
-                            
+            _currentUpdateInterval++;
+
             foreach (Collidable obj in objects)
             {
                 try
                 {
-                    obj.GetMapArea().UpdateObjects();
+                    if (!obj.Disposed)
+                    {
+                        if (!Map.OnMap(obj))
+                        {
+                            obj.HandleOutOfBounds();
+                        }
+
+                        QuadTreeNode area = obj.GetMapArea();
+
+                        if (area.UpdatedAtInterval != _currentUpdateInterval)
+                        {
+                            area.UpdatedAtInterval = _currentUpdateInterval;
+                            area.UpdateObjects();
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
-                    ErrorLog.Instance.Log(e, " Object Count: " + objects.Count + " Game Objects, Ship Count: " + Game.Instance.GameHandler.ShipCount() + " Bullet Count: " + Game.Instance.GameHandler.BulletManager.Bullets.Count + ".    |||| Object Data: (Type) = " + obj.GetType() + " Position: ( " + obj.MovementController.Position.X + ", " + obj.MovementController.Position.Y + " )  Alive: " + obj.LifeController.Alive );
+                    ErrorLog.Instance.Log(e, " Object Count: " + objects.Count + " Game Objects, Ship Count: " + Game.Instance.GameHandler.ShipCount() + " Bullet Count: " + Game.Instance.GameHandler.BulletManager.Bullets.Count + ".    |||| Object Data: (Type) = " + obj.GetType() + " Position: ( " + obj.MovementController.Position.X + ", " + obj.MovementController.Position.Y + " )  Alive: " + obj.LifeController.Alive);
                 }
             }
         }

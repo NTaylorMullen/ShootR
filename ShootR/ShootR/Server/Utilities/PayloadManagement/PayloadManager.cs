@@ -37,19 +37,16 @@ namespace ShootR
 
                         foreach (Collidable obj in onScreen)
                         {
-                            if (obj.GetType() == typeof(Bullet))
+                            if (obj is Bullet)
                             {
                                 _payloadCache.Cache(connectionID, obj);
-
-                                // This bullet has been seen so tag the bullet as seen                                
-                                ((Bullet)obj).Seen();
 
                                 if (obj.Altered() || !_payloadCache.ExistedLastPayload(connectionID, obj))
                                 {
                                     payload.Bullets.Add(Compressor.Compress((Bullet)obj));
                                 }
                             }
-                            else if (obj.GetType() == typeof(Ship))
+                            else if (obj is Ship)
                             {
                                 payload.Ships.Add(Compressor.Compress(((Ship)obj)));
                             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using SignalR;
 namespace ShootR
 {
@@ -14,6 +15,7 @@ namespace ShootR
 
         public event KillEventHandler OnKill;
         public event DeathEventHandler OnDeath;
+        public event Action<Bullet> OnFire;
 
         private ShipWeaponController _weaponController;
 
@@ -86,16 +88,18 @@ namespace ShootR
             }
         }
 
-        public void StartMoving(Movement where)
+        public virtual void StartMoving(Movement where)
         {
             Update(GameTime.CalculatePercentOfSecond(LastUpdated));
+
             Host.IdleManager.RecordActivity();
             MovementController.StartMoving(where);            
         }
 
-        public void StopMoving(Movement where)
+        public virtual void StopMoving(Movement where)
         {
             Update(GameTime.CalculatePercentOfSecond(LastUpdated));
+
             Host.IdleManager.RecordActivity();
             MovementController.StopMoving(where);
         }
@@ -120,10 +124,18 @@ namespace ShootR
             Update(GameTime.CalculatePercentOfSecond(LastUpdated));
         }
 
-        public void Update(double PercentOfSecond)
+        public virtual void Update(double PercentOfSecond)
         {
             MovementController.Update(PercentOfSecond);
             base.Update();
+        }
+
+        public void Fired(Bullet bullet)
+        {
+            if (OnFire != null)
+            {
+                OnFire(bullet);
+            }
         }
 
         public override void HandleCollisionWith(Collidable c, Map space)

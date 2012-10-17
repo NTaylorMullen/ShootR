@@ -174,6 +174,8 @@
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\AI\AIState.cs" />
+    <Compile Include="Server\AI\UserAI.cs" />
     <Compile Include="Server\Bullet\Bullet.cs" />
     <Compile Include="Server\Bullet\BulletManager.cs" />
     <Compile Include="Server\Bullet\BulletMovementController.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Server\GenericManagers\GameHandler.cs" />
     <Compile Include="Server\Leaderboard\Leaderboard.cs" />
     <Compile Include="Server\Leaderboard\LeaderboardEntry.cs" />
+    <Compile Include="Server\AI\ShipAI.cs" />
     <Compile Include="Server\Ship\Levels\LevelCalculator.cs" />
     <Compile Include="Server\Ship\Levels\ShipLevelManager.cs" />
     <Compile Include="Server\Ship\ShipLifeController.cs" />
@@ -214,6 +217,7 @@
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\ShipCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\PayloadCache.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\PayloadCompressor.cs" />
+    <Compile Include="Server\AI\AIPayloadDecompressor.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\PayloadManager.cs" />
     <Compile Include="Server\Ship\Ship.cs" />
     <Compile Include="Server\Ship\ShipMovementController.cs" />

@@ -22,7 +22,11 @@ namespace ShootR
             Contents = new List<Collidable>();
             Children = new List<QuadTreeNode>(4);
             Parent = parent;
+            UpdatedAtInterval = -1;
         }
+
+        // Used in conjunction with the QuadTree object to ensure that no QuadTreeNode is updated more than once per Interval
+        public long UpdatedAtInterval { get; set; }
 
         public Rectangle Bounds { get; set; }
         public List<Collidable> Contents { get; set; }
@@ -231,8 +235,8 @@ namespace ShootR
             obj.ClearMapArea();
             this.Contents.Remove(obj);
 
-            // Check if object has left the bounds of this node
-            if (!this.Bounds.Contains(obj.GetBounds()))
+            // Check if object has left the bounds of this node and is not root
+            if (!this.Bounds.Contains(obj.GetBounds()) && this.Parent != null)
             {
                 // We now belong to a parent
                 this.Parent.ReverseInsert(obj);

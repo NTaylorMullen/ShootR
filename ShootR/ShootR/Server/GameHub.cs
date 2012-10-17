@@ -137,12 +137,7 @@ namespace ShootR
 
             if (ship.LifeController.Alive)
             {
-                Bullet bullet = ship.GetWeaponController().Fire();
-
-                if (bullet != null)
-                {
-                    _game.HandleBullet(bullet);
-                }
+                ship.GetWeaponController().Fire();              
             }
         }
 

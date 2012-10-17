@@ -4,7 +4,7 @@ namespace ShootR
 {
     public class BulletMovementController : MovementController
     {
-        public const double MAX_SPEED = 300;
+        public const double MAX_SPEED = 500;
         public const double MASS = 800;
 
         public BulletMovementController(Vector2 position, Vector2 direction, Vector2 initialVelocity)

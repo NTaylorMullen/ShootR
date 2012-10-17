@@ -50,7 +50,9 @@ namespace ShootR
                 try
                 {
                     _gameTime.Update();
+                    
                     GameHandler.Update(_gameTime);
+                    
                     _space.Update();
 
                     if (++_updateCount % DRAW_AFTER == 0)
@@ -61,6 +63,7 @@ namespace ShootR
                 }
                 catch (Exception e)
                 {
+                    throw new Exception(e.ToString());
                     ErrorLog.Instance.Log(e);                    
                 }
             }
@@ -76,14 +79,23 @@ namespace ShootR
 
             foreach (string connectionID in payloads.Keys)
             {
-                Clients[connectionID].d(payloads[connectionID]);
+                UserHandler.GetUser(connectionID).PushToClient(payloads[connectionID], Clients);
             }
         }
 
         private void UpdateLeaderboard(object state)
         {
-            List<object> leaderboardEntries = _payloadManager.GetLeaderboardPayloads(Leaderboard.GetAndUpdateLeaderboard());
-            PushLeaderboard(leaderboardEntries);
+            // This will in-frequently throw an error due to race conditions.  Instead of locking I'd rather it fail in means of maintaining speed.
+            try
+            {
+                List<object> leaderboardEntries = _payloadManager.GetLeaderboardPayloads(Leaderboard.GetAndUpdateLeaderboard());
+                PushLeaderboard(leaderboardEntries);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+                ErrorLog.Instance.Log(e);
+            }
         }
 
         private void PushLeaderboard(List<object> leaderboard)
@@ -105,12 +117,20 @@ namespace ShootR
             lock (_locker)
             {
                 Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
-
                 User user = new User(connectionId, ship) { Controller = false };
-                ship.Host = user;
                 UserHandler.AddUser(user);
                 GameHandler.AddShipToGame(ship);
                 ship.Name = "Ship" + ship.ID;
+
+                for (int i = 0; i < 100; i++)
+                {
+                    string connectionidAI = Guid.NewGuid().ToString();
+                    ShipAI shipAI = new ShipAI(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
+                    UserAI userAI = new UserAI(connectionidAI, shipAI) { Controller = false };
+                    UserHandler.AddUser(userAI);
+                    GameHandler.AddShipToGame(shipAI);
+                    shipAI.Name = "ShipAI" + shipAI.ID;
+                }
             }
 
             return new
@@ -149,16 +169,6 @@ namespace ShootR
                     LeaderboardEntryCompressionContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
                 }
             };
-        }
-
-        public void HandleBullet(Bullet bullet)
-        {
-            if (!_space.OnMap(bullet))
-            {
-                bullet.HandleOutOfBounds();
-            }
-
-            GameHandler.AddBulletToGame(bullet);
         }
 
         public static Game Instance

@@ -1,4 +1,5 @@
-﻿namespace ShootR
+﻿using System;
+namespace ShootR
 {
     public class MovementController
     {
@@ -74,6 +75,7 @@
             if (_moving)
             {
                 _acceleration += Forces / Mass;
+                
                 Position += Velocity * PercentOfSecond + _acceleration * PercentOfSecond * PercentOfSecond;
                 Velocity += _acceleration * PercentOfSecond;
 
@@ -81,6 +83,12 @@
                 if (Velocity.Length() < 10)
                 {
                     Velocity = Vector2.Zero;
+                }
+
+                // Hackk
+                if (Velocity.Length() > 600)
+                {
+                    Velocity = new Vector2(Rotation) * 600;
                 }
 
                 _acceleration = new Vector2();

@@ -33,12 +33,7 @@ namespace ShootR
         public void Update(GameTime gameTime)
         {
             for (int i = 0; i < _objects.Count; i++)
-            {
-                if (!_space.OnMap(_objects[i]) && !_objects[i].Collided)
-                {
-                    _objects[i].HandleOutOfBounds();
-                }
-
+            {               
                 if (_objects[i].Disposed)
                 {
                     _objects.Remove(_objects[i--]);

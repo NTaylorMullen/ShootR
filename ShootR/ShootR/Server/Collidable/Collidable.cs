@@ -76,6 +76,13 @@ namespace ShootR
             return Math.Sqrt(Math.Pow(myCenter.X - theirCenter.X, 2) + Math.Pow(myCenter.Y - theirCenter.Y, 2));
         }
 
+        public double DistanceFrom(int x, int y)
+        {
+            Vector2 myCenter = this.Center();
+
+            return Math.Sqrt(Math.Pow(myCenter.X - x, 2) + Math.Pow(myCenter.Y - y, 2));
+        }
+
         /// <summary>
         /// Called when there is a collision with another object "<paramref name="c"/>."
         /// </summary>

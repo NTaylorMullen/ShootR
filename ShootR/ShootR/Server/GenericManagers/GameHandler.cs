@@ -5,12 +5,15 @@ namespace ShootR
     {
         private ShipManager _shipManager;
         private CollisionManager _collisionManager;
+        private Map _space;
 
-        public GameHandler(Map map)
+        public GameHandler(Map space)
         {
             BulletManager = new BulletManager();
-            _collisionManager = new CollisionManager(map);
+            _collisionManager = new CollisionManager(space);
             _shipManager = new ShipManager(this);
+
+            _space = space;
         }
 
         public BulletManager BulletManager { get; set; }
@@ -35,7 +38,14 @@ namespace ShootR
 
         public void AddBulletToGame(Bullet bullet)
         {
-            _collisionManager.Monitor(bullet);
+            if (!Map.OnMap(bullet))
+            {
+                bullet.HandleOutOfBounds();
+            }
+            else
+            {
+                _collisionManager.Monitor(bullet);
+            }
         }
 
         public int ShipCount()

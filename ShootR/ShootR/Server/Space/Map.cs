@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace ShootR
 {
     public class Map
     {
-        public const int WIDTH = 5000;
-        public const int HEIGHT = 5000;
+        public const int WIDTH = 10000;
+        public const int HEIGHT = 10000;
         public const int MIN_PARTITION_WIDTH = 156;
         public const int MIN_PARTITION_HEIGHT = 156;
         public const double BARRIER_DEPRECATION = .75;
 
         private QuadTree _space;
-        private MapBoundary _boundary;
+        private static MapBoundary _boundary;
         private List<Collidable> _allObjects;
 
         public Map()
@@ -75,7 +76,7 @@ namespace ShootR
             _space.Update();
         }
 
-        public bool OnMap(Collidable obj)
+        public static bool OnMap(Collidable obj)
         {
             return _boundary.OnMap(obj);
         }

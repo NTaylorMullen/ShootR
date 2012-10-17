@@ -12,8 +12,9 @@ namespace ShootR
         public const int DISPOSE_AFTER = 5; // Disposes bullet after X seconds of not being seen.
         public const int LIFE = 1;
         public const int BASE_DAMAGE = 10;
+        public const int DIE_AFTER = 3000; // Die after X milliseconds
 
-        private DateTime _lastSeen;
+        private DateTime _spawnedAt;
         private int _damage;
 
         private static int _bulletGUID = -1;
@@ -22,7 +23,7 @@ namespace ShootR
             : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, initialVelocity), new LifeController(LIFE))
         {
             ID = _bulletGUID--; // Reverse bullet GUID's to go below 0
-            _lastSeen = DateTime.UtcNow;
+            _spawnedAt = DateTime.UtcNow;
             FiredBy = firedBy;
             _damage = Convert.ToInt32(BASE_DAMAGE * damageModifier);
         }
@@ -30,20 +31,10 @@ namespace ShootR
         public int DamageDealt { get; private set; }
         public Ship FiredBy { get; private set; }
 
-        public void Seen()
-        {
-            _lastSeen = DateTime.UtcNow;
-        }
-
         public bool ShouldDispose()
         {
             // Check if bullet should die
-            if ((DateTime.UtcNow - _lastSeen).TotalSeconds >= DISPOSE_AFTER)
-            {
-                return true;
-            }
-
-            return false;
+            return ((DateTime.UtcNow - _spawnedAt).TotalMilliseconds >= DIE_AFTER);
         }
 
         public BulletMovementController MovementController
@@ -68,7 +59,7 @@ namespace ShootR
             DamageDealt = _damage;
             c.LifeController.Hurt(DamageDealt, this);
 
-            if(c.GetType() == typeof(Ship))
+            if(c is Ship)
             {
                 (c as Ship).StatRecorder.BulletCollision(this);
             }

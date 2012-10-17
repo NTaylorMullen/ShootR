@@ -25,6 +25,11 @@ namespace ShootR
             RemoteControllers = new List<User>();
             NotificationManager = new NotificationManager();
             IdleManager = new IdleManager(ship, NotificationManager);
+
+            if (ship != null)
+            {
+                ship.Host = this;
+            }
         }
 
         public List<User> RemoteControllers { get; set; }
@@ -35,6 +40,12 @@ namespace ShootR
         public bool Controller { get; set; }
         public bool ReadyForPayloads { get; set; }
         public int CurrentLeaderboardPosition { get; set; }
+
+        public virtual void PushToClient(object[] payload, dynamic Clients)
+        {
+            Clients[ConnectionID].d(payload);
+        }
+
         private Size _viewport;
         public Size Viewport
         {

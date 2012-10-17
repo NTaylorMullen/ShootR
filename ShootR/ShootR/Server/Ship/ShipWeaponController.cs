@@ -9,15 +9,15 @@ namespace ShootR
         // Fire once per X milliseconds
         public const int FIRE_RATE = 190;
         // Lead the weapon by X pixels
-        public const double BULLET_LEAD = 50;
+        public const double BULLET_LEAD = 70;
 
         private BulletManager _bulletManager;
-        private Ship _ship;
+        private Ship _me;
 
-        public ShipWeaponController(Ship s, BulletManager bm)
+        public ShipWeaponController(Ship ship, BulletManager bm)
         {
             _bulletManager = bm;
-            _ship = s;
+            _me = ship;
             DamageModifier = 1;
             LastFired = DateTime.UtcNow;
         }
@@ -29,23 +29,23 @@ namespace ShootR
         /// Create's a bullet in the direction of the ship
         /// </summary>
         /// <returns>Newly created bullet</returns>
-        public Bullet Fire()
+        public void Fire()
         {
             if ((DateTime.UtcNow - LastFired).TotalMilliseconds >= FIRE_RATE)
             {
-                var shipCenter = new Vector2(_ship.MovementController.Position.X + .5 * _ship.Width(), _ship.MovementController.Position.Y + .5 * _ship.Height());
-                var shipDirection = new Vector2(_ship.MovementController.Rotation);
+                var shipCenter = new Vector2(_me.MovementController.Position.X + .5 * _me.Width(), _me.MovementController.Position.Y + .5 * _me.Height());
+                var shipDirection = new Vector2(_me.MovementController.Rotation);
                 var bulletOffset = new Vector2(Bullet.WIDTH / 2, Bullet.HEIGHT / 2);
                 var startPosition = new Vector2((shipCenter + (BULLET_LEAD * shipDirection)) + bulletOffset);
 
-                Bullet spawnedBullet = new Bullet(startPosition, shipDirection, _ship.MovementController.Velocity, _ship, DamageModifier);
+                Bullet spawnedBullet = new Bullet(startPosition, shipDirection, _me.MovementController.Velocity, _me, DamageModifier);
                 _bulletManager.Add(spawnedBullet);
 
                 LastFired = DateTime.UtcNow;
-                return spawnedBullet;
-            }
 
-            return null;
+                _me.Fired(spawnedBullet);
+
+            }
         }
 
         /// <summary>
