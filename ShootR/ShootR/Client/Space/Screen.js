@@ -61,7 +61,9 @@
 
         that.SendNewViewportToServer();
 
-        gameHUD.OnScreenResize(that.Viewport);
+        if (gameHUD) {
+            gameHUD.OnScreenResize(that.Viewport);
+        }
 
         $(that).triggerHandler("UpdateScreen");
     }
