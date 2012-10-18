@@ -9,10 +9,10 @@ namespace ShootR
     {
         public const int HEIGHT = 10;
         public const int WIDTH = 4;
-        public const int DISPOSE_AFTER = 5; // Disposes bullet after X seconds of not being seen.
+        public const int DISPOSE_AFTER = 2; // Disposes bullet after X seconds of not being seen.
         public const int LIFE = 1;
         public const int BASE_DAMAGE = 10;
-        public const int DIE_AFTER = 3000; // Die after X milliseconds
+        public const int DIE_AFTER = 2000; // Die after X milliseconds
 
         private DateTime _spawnedAt;
         private int _damage;

@@ -6,8 +6,8 @@ namespace ShootR
 {
     public class Map
     {
-        public const int WIDTH = 10000;
-        public const int HEIGHT = 10000;
+        public static int WIDTH = 5000;
+        public static int HEIGHT = 5000;
         public const int MIN_PARTITION_WIDTH = 156;
         public const int MIN_PARTITION_HEIGHT = 156;
         public const double BARRIER_DEPRECATION = .75;
@@ -43,6 +43,11 @@ namespace ShootR
         public bool Contains(Collidable obj)
         {
             return _allObjects.Contains(obj);
+        }
+
+        public void IncreaseSize()
+        {
+
         }
 
         public void Remove(Collidable obj)

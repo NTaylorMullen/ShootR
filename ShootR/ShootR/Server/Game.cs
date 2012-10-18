@@ -10,6 +10,8 @@ namespace ShootR
 {
     public class Game
     {
+        public const int AIShipsToSpawn = 5;
+
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
         private Timer _gameLoop, _leaderboardLoop;
         private ConfigurationManager _configuration;
@@ -36,6 +38,8 @@ namespace ShootR
             UserHandler = new UserHandler(GameHandler);
             Leaderboard = new Leaderboard(UserHandler);
             ConnectionManager = new ConnectionManager(UserHandler, _locker);
+
+            SpawnAIShips();
         }
 
         public UserHandler UserHandler { get; private set; }
@@ -43,29 +47,47 @@ namespace ShootR
         public Leaderboard Leaderboard { get; private set; }
         public GameHandler GameHandler { get; set; }
 
+        private int _threadsWaiting = 0;
         private void Update(object state)
         {
-            lock (_locker)
+            if (Interlocked.Increment(ref _threadsWaiting) <= 2)
             {
-                try
+                lock (_locker)
                 {
-                    _gameTime.Update();
-                    
-                    GameHandler.Update(_gameTime);
-                    
-                    _space.Update();
-
-                    if (++_updateCount % DRAW_AFTER == 0)
+                    try
                     {
-                        _updateCount = 0; // Reset update count to 0
-                        Draw();
+                        _gameTime.Update();
+
+                        GameHandler.Update(_gameTime);
+
+                        _space.Update();
+
+                        if (++_updateCount % DRAW_AFTER == 0)
+                        {
+                            _updateCount = 0; // Reset update count to 0
+                            Draw();
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new Exception(e.ToString());
-                    ErrorLog.Instance.Log(e);                    
-                }
+                    catch (Exception e)
+                    {
+                        throw new Exception(e.ToString());
+                        ErrorLog.Instance.Log(e);
+                    }
+                }                
+            }
+            _threadsWaiting--;
+        }
+
+        public void SpawnAIShips()
+        {
+            for (int i = 0; i < AIShipsToSpawn; i++)
+            {
+                string connectionidAI = Guid.NewGuid().ToString();
+                ShipAI shipAI = new ShipAI(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
+                UserAI userAI = new UserAI(connectionidAI, shipAI) { Controller = false };
+                UserHandler.AddUser(userAI);
+                GameHandler.AddShipToGame(shipAI);
+                shipAI.Name = "Ship0" + shipAI.ID;
             }
         }
 
@@ -120,17 +142,7 @@ namespace ShootR
                 User user = new User(connectionId, ship) { Controller = false };
                 UserHandler.AddUser(user);
                 GameHandler.AddShipToGame(ship);
-                ship.Name = "Ship" + ship.ID;
-
-                for (int i = 0; i < 100; i++)
-                {
-                    string connectionidAI = Guid.NewGuid().ToString();
-                    ShipAI shipAI = new ShipAI(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
-                    UserAI userAI = new UserAI(connectionidAI, shipAI) { Controller = false };
-                    UserHandler.AddUser(userAI);
-                    GameHandler.AddShipToGame(shipAI);
-                    shipAI.Name = "ShipAI" + shipAI.ID;
-                }
+                ship.Name = "Ship" + ship.ID;                
             }
 
             return new

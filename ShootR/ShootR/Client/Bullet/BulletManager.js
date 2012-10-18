@@ -33,7 +33,7 @@
     that.Update = function (gameTime) {
         for (var key in that.Bullets) {
             // Ensure that the Ship is in view
-            if (CanvasContext.Camera.InView(that.Bullets[key]) && !that.Bullets[key].Disposed) {
+            if (CanvasContext.Camera.InView(that.Bullets[key]) && !that.Bullets[key].Disposed && !that.Bullets[key].ShouldDispose()) {
                 that.Bullets[key].Update(gameTime);
                 that.Bullets[key].Draw();
             }

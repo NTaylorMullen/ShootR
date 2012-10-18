@@ -6,6 +6,8 @@
     ShipVehicle.prototype.HALF_WIDTH = ShipVehicle.prototype.WIDTH * .5;
     ShipVehicle.prototype.HALF_HEIGHT = ShipVehicle.prototype.HEIGHT * .5;
 
+    Bullet.prototype.BULLET_DIE_AFTER = config.gameConfig.BULLET_DIE_AFTER;
+
     $.extend(Leaderboard.prototype, config.leaderboardConfig);
     $.extend(Bullet.prototype, config.bulletConfig);
     $.extend(Map.prototype, config.mapConfig);

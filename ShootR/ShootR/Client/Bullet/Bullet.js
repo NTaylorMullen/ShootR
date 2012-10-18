@@ -1,9 +1,13 @@
 ﻿var Bullet = function (properties) {
     Collidable.call(this);
-    var that = this;
+    var that = this,
+        spawnedAt = new Date().getTime();
 
     that.Visible = true;
     that.Vehicle = CanvasContext.IMAGE_ASSETS.Laser;
+    that.ShouldDispose = function () {
+        return ((new Date().getTime()) - spawnedAt) >= that.BULLET_DIE_AFTER;
+    }
 
     that.Destroy = function () {
         // Bullet collided into another object

@@ -32,6 +32,7 @@ namespace ShootR
         public List<Collidable> Contents { get; set; }
         public List<QuadTreeNode> Children { get; set; }
         public QuadTreeNode Parent { get; set; }
+
         public List<Collidable> GetSubTreeContents()
         {
             List<Collidable> results = new List<Collidable>();

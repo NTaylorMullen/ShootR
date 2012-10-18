@@ -52,7 +52,7 @@ namespace ShootR
                 for (int j = 0; j < potentials.Count; j++)
                 {
                     // If the potential object is our outer object then move on
-                    if (potentials[j].Collided || potentials[j] == _objects[i])
+                    if (potentials[j].Collided || potentials[j].ID == _objects[i].ID)
                     {
                         continue;
                     }

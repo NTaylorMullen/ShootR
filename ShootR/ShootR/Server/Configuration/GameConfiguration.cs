@@ -15,6 +15,8 @@
             REQUEST_PING_EVERY = 5;
 
             RESPAWN_TIMER = RespawnManager.RESPAWN_TIMER;
+
+            BULLET_DIE_AFTER = Bullet.DIE_AFTER;
         }
 
         public int DRAW_INTERVAL { get; set; }
@@ -23,5 +25,6 @@
         public int MAX_CAMERA_SPEED { get; set; }
         public int REQUEST_PING_EVERY { get; set; }
         public int RESPAWN_TIMER { get; set; }
+        public int BULLET_DIE_AFTER { get; set; }
     }
 }

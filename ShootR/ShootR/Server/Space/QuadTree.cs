@@ -63,6 +63,12 @@ namespace ShootR
             _root = new QuadTreeNode(MapBoundary, _minWidth, _minHeight, null);
         }
 
+        // Expands by a multiple of 4
+        public void Expand()
+        {
+            
+        }
+
         public void Update()
         {
             List<Collidable> objects = _root.GetSubTreeContents();
