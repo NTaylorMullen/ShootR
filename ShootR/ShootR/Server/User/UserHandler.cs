@@ -38,7 +38,10 @@ namespace ShootR
             _userList.TryAdd(user.ConnectionID, user);
             user.IdleManager.OnIdle += _gameHandler.RemoveShipFromGame;
             user.IdleManager.OnComeBack += _gameHandler.AddShipToGame;
-            user.MyShip.OnFire += _gameHandler.AddBulletToGame;
+            if (!user.Controller)
+            {
+                user.MyShip.OnFire += _gameHandler.AddBulletToGame;
+            }
         }
 
         public User GetUser(string connectionId)

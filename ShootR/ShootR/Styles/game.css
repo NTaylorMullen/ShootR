@@ -11,6 +11,7 @@ a {
 #game {        
     display:block;
     position:absolute;
+    z-index:100000;
 }
 
 #gameWrapper {
@@ -110,6 +111,7 @@ h3 {
 }
 
 #controlRequest {
+    z-index:100001;
     width:200px;
     position:absolute;
     height:48px;
@@ -149,6 +151,7 @@ h3 {
 }
 
 #StopControlling {
+    z-index:100001;
     display:none;
     width:200px;
     height:24px;
@@ -170,6 +173,7 @@ h3 {
 }
 
 #HealthHolder {
+    z-index:100001;
     position:relative;
     margin:0 auto;
     width:50%;
@@ -189,6 +193,7 @@ h3 {
 }
 
 #ExperienceHUD {
+    z-index:100001;
     position:absolute;
     width:40%;
     height:35px;
@@ -215,6 +220,7 @@ h3 {
 }
 
 #LevelIndicator {
+    z-index:100001;
     background-color:#8B4491;
     border-top-right-radius:10px;
     border-top-left-radius:10px;
@@ -236,6 +242,7 @@ h3 {
 }
 
 #leaderboardHolder {
+    z-index:100001;
     display:none;
     position:relative;
     margin: 0 auto;
@@ -307,6 +314,7 @@ h3 {
 }
 
 #leaderboardPosition {
+    z-index:100001;
     position:absolute;
     min-width:50px;
     height:50px;
@@ -346,6 +354,7 @@ h3 {
 }
 
 #Notification {
+    z-index:100001;
     border: 1px double white;
     color:white;
     background-color:gray;
