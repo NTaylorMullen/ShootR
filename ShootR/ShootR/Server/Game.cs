@@ -70,7 +70,6 @@ namespace ShootR
                     }
                     catch (Exception e)
                     {
-                        throw new Exception(e.ToString());
                         ErrorLog.Instance.Log(e);
                     }
                 }                
@@ -115,7 +114,6 @@ namespace ShootR
             }
             catch (Exception e)
             {
-                throw new Exception(e.ToString());
                 ErrorLog.Instance.Log(e);
             }
         }
