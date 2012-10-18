@@ -10,7 +10,6 @@ namespace ShootR
                           TOP_RIGHT = 1,
                           BOTTOM_LEFT = 2,
                           BOTTOM_RIGHT = 3;
-        private bool _partitioned = false;
         private int _minWidth,
                     _minHeight;
 
@@ -23,11 +22,15 @@ namespace ShootR
             Children = new List<QuadTreeNode>(4);
             Parent = parent;
             UpdatedAtInterval = -1;
+            Leaf = false;
+            // Will build out the tree
+            Partition();
         }
 
         // Used in conjunction with the QuadTree object to ensure that no QuadTreeNode is updated more than once per Interval
         public long UpdatedAtInterval { get; set; }
 
+        public bool Leaf { get; set; }
         public Rectangle Bounds { get; set; }
         public List<Collidable> Contents { get; set; }
         public List<QuadTreeNode> Children { get; set; }
@@ -54,6 +57,7 @@ namespace ShootR
             // If the partioned width or height is smaller than the minimum then do not partition
             if (partitionedWidth < _minWidth || partitionedHeight < _minHeight)
             {
+                Leaf = true;
                 return;
             }
 
@@ -61,7 +65,48 @@ namespace ShootR
             Children.Add(new QuadTreeNode(new Rectangle(Bounds.X + partitionedWidth, Bounds.Y, partitionedWidth, partitionedHeight), _minWidth, _minHeight, this));
             Children.Add(new QuadTreeNode(new Rectangle(Bounds.X, Bounds.Y + partitionedHeight, partitionedWidth, partitionedHeight), _minWidth, _minHeight, this));
             Children.Add(new QuadTreeNode(new Rectangle(Bounds.X + partitionedWidth, Bounds.Y + partitionedHeight, partitionedWidth, partitionedHeight), _minWidth, _minHeight, this));
-            _partitioned = true;
+        }
+
+        /// <summary>
+        /// Takes all the leaf nodes and removes them, adding their contents to their parents and making their parents the new leaf.
+        /// </summary>
+        public void LiftLeafNodes(int newMinWidth, int newMinHeight)
+        {
+            _minWidth = newMinWidth;
+            _minHeight = newMinHeight;
+
+            // If top left is a leaf, the rest are leafs too, meaning I am the new leaf
+            if (Children[TOP_LEFT].Leaf)
+            {
+                List<Collidable> leafContents = new List<Collidable>();
+                // Pull leaf node contents
+                foreach (QuadTreeNode node in Children)
+                {
+                    leafContents.AddRange(node.Contents);
+                }
+
+                // Update leaf contents map referrences
+                foreach (Collidable obj in leafContents)
+                {
+                    obj.SetMapArea(this);
+                }
+
+                // Remove Children
+                Children.Clear();
+
+                // Add my old children's contents to me
+                Contents.AddRange(leafContents);
+
+                // We are now a leaf
+                Leaf = true;
+            }
+            else
+            {
+                Children[TOP_LEFT].LiftLeafNodes(_minWidth, _minHeight);
+                Children[TOP_RIGHT].LiftLeafNodes(_minWidth, _minHeight);
+                Children[BOTTOM_LEFT].LiftLeafNodes(_minWidth, _minHeight);
+                Children[BOTTOM_RIGHT].LiftLeafNodes(_minWidth, _minHeight);
+            }
         }
 
         public void ReverseInsert(Collidable obj)
@@ -91,11 +136,6 @@ namespace ShootR
 
         public void Insert(Collidable obj)
         {
-            if (!_partitioned)
-            {
-                Partition();
-            }
-
             foreach (QuadTreeNode node in Children)
             {
                 if (node.Bounds.Contains(obj.GetBounds()))

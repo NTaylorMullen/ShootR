@@ -78,6 +78,11 @@ $(function () {
         game.HUDManager.Leaderboard.Load(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard, game.ShipManager.MyShip.Name));
     }
 
+    env.mapSizeIncreased = function (size) {
+        Map.prototype.WIDTH = size.Width;
+        Map.prototype.HEIGHT = size.Height;
+    }
+
     env.notify = function (msg) {
         alert(msg);
     }

@@ -16,7 +16,7 @@ namespace ShootR
         private Timer _gameLoop, _leaderboardLoop;
         private ConfigurationManager _configuration;
         private GameTime _gameTime;
-        private Map _space;        
+        private Map _space;
         private PayloadManager _payloadManager;
 
         private int DRAW_AFTER;
@@ -39,7 +39,7 @@ namespace ShootR
             Leaderboard = new Leaderboard(UserHandler);
             ConnectionManager = new ConnectionManager(UserHandler, _locker);
 
-            SpawnAIShips();
+            SpawnAIShips(AIShipsToSpawn);
         }
 
         public UserHandler UserHandler { get; private set; }
@@ -47,39 +47,34 @@ namespace ShootR
         public Leaderboard Leaderboard { get; private set; }
         public GameHandler GameHandler { get; set; }
 
-        private int _threadsWaiting = 0;
         private void Update(object state)
         {
-            if (Interlocked.Increment(ref _threadsWaiting) <= 2)
+            lock (_locker)
             {
-                lock (_locker)
+                try
                 {
-                    try
+                    _gameTime.Update();
+
+                    GameHandler.Update(_gameTime);
+
+                    _space.Update();
+
+                    if (++_updateCount % DRAW_AFTER == 0)
                     {
-                        _gameTime.Update();
-
-                        GameHandler.Update(_gameTime);
-
-                        _space.Update();
-
-                        if (++_updateCount % DRAW_AFTER == 0)
-                        {
-                            _updateCount = 0; // Reset update count to 0
-                            Draw();
-                        }
+                        _updateCount = 0; // Reset update count to 0
+                        Draw();
                     }
-                    catch (Exception e)
-                    {
-                        ErrorLog.Instance.Log(e);
-                    }
-                }                
+                }
+                catch (Exception e)
+                {
+                    ErrorLog.Instance.Log(e);
+                }
             }
-            _threadsWaiting--;
         }
 
-        public void SpawnAIShips()
+        public void SpawnAIShips(int number)
         {
-            for (int i = 0; i < AIShipsToSpawn; i++)
+            for (int i = 0; i < number; i++)
             {
                 string connectionidAI = Guid.NewGuid().ToString();
                 ShipAI shipAI = new ShipAI(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
@@ -95,7 +90,10 @@ namespace ShootR
         /// </summary>
         private void Draw()
         {
-            Dictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), GameHandler.ShipCount(), GameHandler.BulletManager.Bullets.Count, _space);
+            int shipCount = GameHandler.ShipCount();
+            _space.CheckIncreaseMapSize(shipCount);
+
+            Dictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), shipCount, GameHandler.BulletManager.Bullets.Count, _space);
             dynamic Clients = GetContext().Clients;
 
             foreach (string connectionID in payloads.Keys)
@@ -140,7 +138,7 @@ namespace ShootR
                 User user = new User(connectionId, ship) { Controller = false };
                 UserHandler.AddUser(user);
                 GameHandler.AddShipToGame(ship);
-                ship.Name = "Ship" + ship.ID;                
+                ship.Name = "Ship" + ship.ID;
             }
 
             return new

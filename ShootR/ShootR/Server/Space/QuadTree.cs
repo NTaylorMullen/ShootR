@@ -64,9 +64,20 @@ namespace ShootR
         }
 
         // Expands by a multiple of 4
-        public void Expand()
+        public void ExpandTo(int newWidth, int newHeight, int newMinWidth, int newMinHeight)
         {
-            
+            // We will be larger, so we want to have larger min-width's
+            _root.LiftLeafNodes(newMinWidth, newMinHeight);
+
+            MapBoundary = new Rectangle(0,0,newWidth,newHeight);
+            // Create larger quad tree map
+            QuadTreeNode newRoot = new QuadTreeNode(MapBoundary,newMinWidth,newMinHeight,null);
+            // Maybe fix in the future, newRoot generates a topLeft that will be replaced
+            newRoot.TopLeft = _root;
+            // Make old root a child
+            _root.Parent = newRoot;
+            // Assign a new root
+            _root = newRoot;
         }
 
         public void Update()

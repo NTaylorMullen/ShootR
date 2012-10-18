@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using System.Drawing;
+using SignalR;
 
 namespace ShootR
 {
@@ -8,8 +9,9 @@ namespace ShootR
     {
         public static int WIDTH = 5000;
         public static int HEIGHT = 5000;
-        public const int MIN_PARTITION_WIDTH = 156;
-        public const int MIN_PARTITION_HEIGHT = 156;
+        public static int MAX_SHIPS = 40;
+        public static int MIN_PARTITION_WIDTH = 156;
+        public static int MIN_PARTITION_HEIGHT = 156;
         public const double BARRIER_DEPRECATION = .75;
 
         private QuadTree _space;
@@ -45,9 +47,26 @@ namespace ShootR
             return _allObjects.Contains(obj);
         }
 
+        public void CheckIncreaseMapSize(int shipCount)
+        {
+            if (shipCount >= MAX_SHIPS)
+            {
+                IncreaseSize();
+                GlobalHost.ConnectionManager.GetHubContext<GameHub>().Clients.mapSizeIncreased(new { Width = WIDTH, Height = HEIGHT });
+            }
+        }
+
         public void IncreaseSize()
         {
+            WIDTH *= 2;
+            HEIGHT *= 2;
+            MAX_SHIPS *= 4;
+            MIN_PARTITION_WIDTH *= 2;
+            MIN_PARTITION_HEIGHT *= 2;
 
+            _boundary = new MapBoundary(WIDTH, HEIGHT);
+
+            _space.ExpandTo(WIDTH, HEIGHT, MIN_PARTITION_WIDTH, MIN_PARTITION_HEIGHT);
         }
 
         public void Remove(Collidable obj)
