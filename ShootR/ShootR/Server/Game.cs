@@ -51,9 +51,11 @@ namespace ShootR
         {
             lock (_locker)
             {
+                DateTime utcNow = DateTime.UtcNow;
+
                 try
                 {
-                    _gameTime.Update();
+                    _gameTime.Update(utcNow);
 
                     GameHandler.Update(_gameTime);
 
@@ -132,29 +134,34 @@ namespace ShootR
         /// <returns>The game's configuration</returns>
         public object initializeClient(string connectionId)
         {
-            lock (_locker)
+            if (!UserHandler.UserExists(connectionId))
             {
-                Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
-                User user = new User(connectionId, ship) { Controller = false };
-                UserHandler.AddUser(user);
-                GameHandler.AddShipToGame(ship);
-                ship.Name = "Ship" + ship.ID;
+                lock (_locker)
+                {
+                    Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
+                    User user = new User(connectionId, ship) { Controller = false };
+                    UserHandler.AddUser(user);
+                    GameHandler.AddShipToGame(ship);
+                    ship.Name = "Ship" + ship.ID;
+                }
+
+                return new
+                {
+                    Configuration = _configuration,
+                    CompressionContracts = new
+                    {
+                        PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
+                        CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
+                        ShipContract = _payloadManager.Compressor.ShipCompressionContract,
+                        BulletContract = _payloadManager.Compressor.BulletCompressionContract,
+                        LeaderboardEntryContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
+                    },
+                    ShipID = UserHandler.GetUserShip(connectionId).ID,
+                    ShipName = UserHandler.GetUserShip(connectionId).Name
+                };
             }
 
-            return new
-            {
-                Configuration = _configuration,
-                CompressionContracts = new
-                {
-                    PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
-                    CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
-                    ShipContract = _payloadManager.Compressor.ShipCompressionContract,
-                    BulletContract = _payloadManager.Compressor.BulletCompressionContract,
-                    LeaderboardEntryContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
-                },
-                ShipID = UserHandler.GetUserShip(connectionId).ID,
-                ShipName = UserHandler.GetUserShip(connectionId).Name
-            };
+            return null;
         }
 
         /// <summary>
