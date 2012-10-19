@@ -11,11 +11,11 @@ namespace ShootR
 
         public ShipManager(GameHandler gameHandler)
         {
-            Ships = new Dictionary<string, Ship>();
+            Ships = new ConcurrentDictionary<string, Ship>();
             _respawnManager = new RespawnManager(gameHandler);
         }
 
-        public Dictionary<string, Ship> Ships { get; set; }
+        public ConcurrentDictionary<string, Ship> Ships { get; set; }
 
         /// <summary>
         /// Adds a ship and returns the added ship.  Used to chain methods together.
@@ -29,7 +29,7 @@ namespace ShootR
                 s.RespawnEnabled = true;
                 s.OnDeath += new DeathEventHandler(_respawnManager.StartRespawnCountdown);                
             }
-            Ships.Add(s.Host.ConnectionID, s);
+            Ships.TryAdd(s.Host.ConnectionID, s);
         }
 
         /// <summary>
@@ -38,14 +38,15 @@ namespace ShootR
         /// <param name="key"></param>
         public void Remove(string key)
         {
-            Ships.Remove(key);
+            Ship s;
+            Ships.TryRemove(key, out s);
         }
 
         public void Update(GameTime gameTime)
         {
             _respawnManager.Update();
-
-            List<string> keysToRemove = new List<string>();
+            
+            List<string> keysToRemove = new List<string>(Ships.Count);
             Parallel.ForEach(Ships, currentShip =>
             {
                 if (!currentShip.Value.Disposed)

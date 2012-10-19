@@ -7,15 +7,20 @@ namespace ShootR
     /// Used to monitor all bullets on the game field.
     /// </summary>
     public class BulletManager
-    {      
+    {
+        private object _locker = new object();
+
         public BulletManager()
         {
             Bullets = new List<Bullet>();
         }
 
         public void Add(Bullet bullet)
-        {            
-            Bullets.Add(bullet);
+        {
+            lock (_locker)
+            {
+                Bullets.Add(bullet);
+            }
         }
 
         public List<Bullet> Bullets { get; set; }
@@ -41,12 +46,15 @@ namespace ShootR
                 }
             });
 
-            for (int i = bulletsToKeepAround.Length - 1; i >= 0; i--)
+            lock (_locker)
             {
-                if (!bulletsToKeepAround[i])
+                for (int i = bulletsToKeepAround.Length - 1; i >= 0; i--)
                 {
-                    Bullets[i] = Bullets[Bullets.Count - 1];
-                    Bullets.RemoveAt(Bullets.Count - 1);
+                    if (!bulletsToKeepAround[i])
+                    {
+                        Bullets[i] = Bullets[Bullets.Count - 1];
+                        Bullets.RemoveAt(Bullets.Count - 1);
+                    }
                 }
             }
         }
