@@ -11,6 +11,7 @@ namespace ShootR
         }
 
         public static DateTime LastUpdated { get; set; }
+        public static DateTime Now { get; set; }
         /// <summary>
         /// This is updated on Update to show what percent of a second has passed since the last Update loop.
         /// </summary>
@@ -21,10 +22,11 @@ namespace ShootR
             return (DateTime.UtcNow.Subtract(from.ToUniversalTime()).Milliseconds / 1000.0);
         }
 
-        public void Update()
+        public void Update(DateTime utcNow)
         {
             PercentOfSecond = CalculatePercentOfSecond(LastUpdated);
-            LastUpdated = DateTime.UtcNow;
+            LastUpdated = utcNow;
+            Now = LastUpdated;
         }
     }
 }
