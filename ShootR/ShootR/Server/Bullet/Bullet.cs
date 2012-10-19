@@ -12,7 +12,7 @@ namespace ShootR
         public const int DISPOSE_AFTER = 2; // Disposes bullet after X seconds of not being seen.
         public const int LIFE = 1;
         public const int BASE_DAMAGE = 10;
-        public const int DIE_AFTER = 2000; // Die after X milliseconds
+        public static readonly TimeSpan DIE_AFTER = TimeSpan.FromSeconds(2);
 
         private DateTime _spawnedAt;
         private int _damage;
@@ -31,10 +31,10 @@ namespace ShootR
         public int DamageDealt { get; private set; }
         public Ship FiredBy { get; private set; }
 
-        public bool ShouldDispose()
+        public bool ShouldDispose(DateTime utcNow)
         {
             // Check if bullet should die
-            return ((DateTime.UtcNow - _spawnedAt).TotalMilliseconds >= DIE_AFTER);
+            return (utcNow - _spawnedAt) >= DIE_AFTER;
         }
 
         public BulletMovementController MovementController

@@ -1,4 +1,5 @@
-﻿namespace ShootR
+﻿using System;
+namespace ShootR
 {
     public class GameConfiguration
     {
@@ -16,7 +17,7 @@
 
             RESPAWN_TIMER = RespawnManager.RESPAWN_TIMER;
 
-            BULLET_DIE_AFTER = Bullet.DIE_AFTER;
+            BULLET_DIE_AFTER = Convert.ToInt32(Bullet.DIE_AFTER.TotalMilliseconds);
         }
 
         public int DRAW_INTERVAL { get; set; }
