@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace ShootR
 {
@@ -22,10 +23,11 @@ namespace ShootR
         public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity, Ship firedBy, double damageModifier)
             : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, initialVelocity), new LifeController(LIFE))
         {
-            ID = _bulletGUID--; // Reverse bullet GUID's to go below 0
+            ID = Interlocked.Decrement(ref _bulletGUID);// Reverse bullet GUID's to go below 0
             _spawnedAt = DateTime.UtcNow;
             FiredBy = firedBy;
             _damage = Convert.ToInt32(BASE_DAMAGE * damageModifier);
+            
         }
 
         public int DamageDealt { get; private set; }

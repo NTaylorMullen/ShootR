@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 
 namespace ShootR
 {
@@ -25,7 +26,7 @@ namespace ShootR
             MovementController = mc;
             LifeController = lc;
 
-            _serverID = _itemCount++;
+            _serverID = Interlocked.Increment(ref _itemCount);
         }
 
         public MovementController MovementController { get; set; }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShootR
 {
@@ -9,11 +11,11 @@ namespace ShootR
 
         public ShipManager(GameHandler gameHandler)
         {
-            Ships = new ConcurrentDictionary<string, Ship>();
+            Ships = new Dictionary<string, Ship>();
             _respawnManager = new RespawnManager(gameHandler);
         }
 
-        public ConcurrentDictionary<string, Ship> Ships { get; set; }
+        public Dictionary<string, Ship> Ships { get; set; }
 
         /// <summary>
         /// Adds a ship and returns the added ship.  Used to chain methods together.
@@ -27,35 +29,39 @@ namespace ShootR
                 s.RespawnEnabled = true;
                 s.OnDeath += new DeathEventHandler(_respawnManager.StartRespawnCountdown);                
             }
-            Ships.TryAdd(s.Host.ConnectionID, s);
+            Ships.Add(s.Host.ConnectionID, s);
         }
 
         /// <summary>
         /// Removes ship from the game handler.  This is used when a ship is destroyed and no longer needs to be monitored.
         /// </summary>
         /// <param name="key"></param>
-        public Ship RemoveShipByKey(string key)
+        public void Remove(string key)
         {
-            Ship removedShip;
-            Ships.TryRemove(key, out removedShip);
-
-            return removedShip;
+            Ships.Remove(key);
         }
 
         public void Update(GameTime gameTime)
         {
             _respawnManager.Update();
 
-            foreach (string key in Ships.Keys)
+            List<string> keysToRemove = new List<string>();
+            Parallel.ForEach(Ships, currentShip =>
             {
-                if (!Ships[key].Disposed)
+                if (!currentShip.Value.Disposed)
                 {
-                    Ships[key].Update(gameTime);
+                    currentShip.Value.Update(gameTime);
                 }
                 else
                 {
-                    RemoveShipByKey(key);
+                    keysToRemove.Add(currentShip.Key);
                 }
+                
+            });
+
+            for (int i = keysToRemove.Count - 1; i >= 0; i--)
+            {
+                Remove(keysToRemove[i]);
             }
         }
     }

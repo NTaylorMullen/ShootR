@@ -18,6 +18,8 @@ namespace ShootR
         private static MapBoundary _boundary;
         private List<Collidable> _allObjects;
 
+        private object _insertLock = new object();
+
         public Map()
         {
             // Double collidable for fast removes/inserts
@@ -28,8 +30,11 @@ namespace ShootR
 
         public void Insert(Collidable obj)
         {
-            _allObjects.Add(obj);
-            _space.Insert(obj);
+            lock (_insertLock)
+            {
+                _allObjects.Add(obj);
+                _space.Insert(obj);
+            }
         }
 
         public List<Collidable> GetPartialCollisionCheckList(Collidable obj)

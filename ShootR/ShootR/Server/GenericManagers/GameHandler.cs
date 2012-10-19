@@ -22,7 +22,7 @@ namespace ShootR
         {
             if (ship != null)
             {
-                _shipManager.RemoveShipByKey(ship.Host.ConnectionID);
+                _shipManager.Remove(ship.Host.ConnectionID);
                 _collisionManager.UnMonitor(ship);
             }
         }

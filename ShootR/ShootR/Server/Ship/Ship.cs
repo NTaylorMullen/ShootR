@@ -24,7 +24,7 @@ namespace ShootR
         public Ship(Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT, new ShipMovementController(position), new ShipLifeController(START_LIFE))
         {
-            ID = _shipGUID++;
+            ID = Interlocked.Increment(ref _shipGUID);
             StatRecorder = new ShipStatRecorder(this);
             _weaponController = new ShipWeaponController(this, bm);
             LifeController.OnDeath += new DeathEventHandler(Die);
