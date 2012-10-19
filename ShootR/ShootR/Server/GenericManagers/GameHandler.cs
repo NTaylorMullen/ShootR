@@ -44,7 +44,7 @@ namespace ShootR
             }
             else
             {
-                _collisionManager.Monitor(bullet);
+                _space.Insert(bullet);
             }
         }
 

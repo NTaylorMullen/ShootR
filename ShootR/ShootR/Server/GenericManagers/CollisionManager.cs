@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShootR
 {
@@ -32,42 +33,52 @@ namespace ShootR
 
         public void Update(GameTime gameTime)
         {
-            for (int i = 0; i < _objects.Count; i++)
-            {               
-                if (_objects[i].Disposed)
-                {
-                    _objects.Remove(_objects[i--]);
-                    continue;
-                }
+            bool[] objectsToKeepAround = new bool[_objects.Count];
 
-                // If this bullet has already collided
-                if (_objects[i].Collided)
+            Parallel.For(0, _objects.Count, i =>
+            {
+                Collidable thisObject = _objects[i];
+                if (thisObject.Disposed)
                 {
-                    continue;
+                    objectsToKeepAround[i] = false;
+                    return;
                 }
 
                 // Retrieve objects that it could be colliding with
-                List<Collidable> potentials = _objects[i].GetMapArea().GetSubTreeContents();
+                List<Collidable> potentials = thisObject.GetMapArea().GetSubTreeContents();
 
                 for (int j = 0; j < potentials.Count; j++)
                 {
+                    Collidable thisPotential = potentials[j];
+
                     // If the potential object is our outer object then move on
-                    if (potentials[j].Collided || potentials[j].ID == _objects[i].ID)
+                    if (thisPotential.Collided || thisPotential.ID == thisObject.ID)
                     {
                         continue;
                     }
 
-                    if (_objects[i].IsCollidingWith(potentials[j]))
+                    if (thisObject.IsCollidingWith(thisPotential))
                     {
-                        _objects[i].HandleCollisionWith(potentials[j], _space);
-                        potentials[j].HandleCollisionWith(_objects[i], _space);
+                        thisObject.HandleCollisionWith(thisPotential, _space);
+                        thisPotential.HandleCollisionWith(thisObject, _space);
 
-                        if (_objects[i].Disposed)
+                        if (thisObject.Disposed)
                         {
-                            _objects.Remove(_objects[i--]);
-                            break;
+                            objectsToKeepAround[i] = false;
+                            return;
                         }
                     }
+                }
+
+                objectsToKeepAround[i] = true;
+            });
+
+            for (int i = objectsToKeepAround.Length - 1; i >= 0; i--)
+            {
+                if (!objectsToKeepAround[i])
+                {
+                    _objects[i] = _objects[_objects.Count - 1];
+                    _objects.RemoveAt(_objects.Count - 1);
                 }
             }
         }
