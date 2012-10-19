@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShootR
 {
@@ -21,20 +22,31 @@ namespace ShootR
 
         public void Update(GameTime gameTime)
         {
-            for (int i = 0; i < Bullets.Count; i++)
+            bool[] bulletsToKeepAround = new bool[Bullets.Count];
+            Parallel.For(0, Bullets.Count, i =>
             {
-                if (Bullets[i].ShouldDispose())
+                Bullet currentBullet = Bullets[i];
+                if (currentBullet.ShouldDispose(GameTime.Now))
                 {
-                    Bullets[i].Dispose();
-                    Bullets.Remove(Bullets[i--]);
+                    currentBullet.Dispose();
                 }
-                else if (Bullets[i].Disposed)
+                if (currentBullet.Disposed)
                 {
-                    Bullets.Remove(Bullets[i--]);
+                    bulletsToKeepAround[i] = false; // don't keep me around
                 }
                 else
                 {
-                    Bullets[i].Update(gameTime);
+                    currentBullet.Update(gameTime);
+                    bulletsToKeepAround[i] = true; // keep me around
+                }
+            });
+
+            for (int i = bulletsToKeepAround.Length - 1; i >= 0; i--)
+            {
+                if (!bulletsToKeepAround[i])
+                {
+                    Bullets[i] = Bullets[Bullets.Count - 1];
+                    Bullets.RemoveAt(Bullets.Count - 1);
                 }
             }
         }
