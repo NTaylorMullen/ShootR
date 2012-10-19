@@ -170,20 +170,27 @@ namespace ShootR
         /// <returns>The game's configuration</returns>
         public object initializeController(string connectionId)
         {
-            UserHandler.AddUser(new User(connectionId) { Controller = true });
-
-            return new
+            if (!UserHandler.UserExists(connectionId))
             {
-                Configuration = _configuration,
-                CompressionContracts = new
+                UserHandler.AddUser(new User(connectionId) { Controller = true });
+
+                return new
                 {
-                    PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
-                    CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
-                    ShipContract = _payloadManager.Compressor.ShipCompressionContract,
-                    BulletContract = _payloadManager.Compressor.BulletCompressionContract,
-                    LeaderboardEntryCompressionContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
-                }
-            };
+                    Configuration = _configuration,
+                    CompressionContracts = new
+                    {
+                        PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
+                        CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
+                        ShipContract = _payloadManager.Compressor.ShipCompressionContract,
+                        BulletContract = _payloadManager.Compressor.BulletCompressionContract,
+                        LeaderboardEntryCompressionContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
+                    }
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static Game Instance
