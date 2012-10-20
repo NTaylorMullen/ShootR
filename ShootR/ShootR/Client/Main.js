@@ -64,6 +64,9 @@ $(function () {
         myShip.ExperienceToNextLevel = info.ExperienceToNextLevel;
 
         game.HUDManager.Leaderboard.LoadPosition(info.LeaderboardPosition);
+
+        game.ShipManager.MyShip.PayloadReceived(info);
+
         game.ShipManager.UpdateShips(info.Ships);
 
         game.ShipManager.MyShip.ReplayCommands(info.LastCommandProcessed);

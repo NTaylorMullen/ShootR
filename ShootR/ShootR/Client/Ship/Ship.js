@@ -2,10 +2,12 @@
     var that = this,
         lastShot = new Date(),
         keyMapping = [],
-        movementCount = 0,
+        movementCount = that.REQUEST_PING_EVERY,
         touchController,
         movementList = [],
-        currentCommand = 0;
+        currentCommand = 0,
+        lastPayloadReceivedAt,
+        payloadsEvery;
 
     keyMapping.push({ key: rotateLeft, dir: "RotatingLeft" });
     keyMapping.push({ key: rotateRight, dir: "RotatingRight" });
@@ -15,8 +17,77 @@
     // Instantiated by the game config
     that.REQUEST_PING_EVERY;
 
+    // Interpolate if we're more than 5 pixels away from the server
+    that.INTERPOLATE_THRESHOLD = 5; 
+
     // Instantiated in main.js
     that.LatencyResolver;
+
+    Ship.prototype.SmoothingX = false;
+    Ship.prototype.SmoothingY = false;
+
+    Ship.prototype.StartedSmoothingXAt;
+    Ship.prototype.StartedSmoothingYAt;
+
+    Ship.prototype.TargetX;
+    Ship.prototype.TargetY;
+
+    Ship.prototype.InterpolateOver;
+
+    that.TryInterpolate = false;
+
+    shortcut.add("p", function () {
+        that.TryInterpolate = !that.TryInterpolate;
+        console.log("INTERPOLATING: " + that.TryInterpolate);
+    });
+
+    function RegisterPayload() {
+        // Calculate how often we receive payloads so we can interpolate between them
+        var now = new Date().getTime();
+        if (lastPayloadReceivedAt) {
+            payloadsEvery = now - lastPayloadReceivedAt
+        }
+
+        lastPayloadReceivedAt = now;
+
+        $("#ShipName").val(payloadsEvery);
+    }
+
+    function DetermineInterpolation(serverShip) {
+        if (payloadsEvery && that.TryInterpolate) {
+            var distance = CalculateDistance(that.MovementController.Position, serverShip.MovementController.Position);
+
+            if (distance.X > that.INTERPOLATE_THRESHOLD) {
+                console.log("X");
+                Ship.prototype.InterpolateOver = payloadsEvery;
+                Ship.prototype.SmoothingX = true;
+                Ship.prototype.TargetX = serverShip.MovementController.Position.X;
+                serverShip.MovementController.Position.X = that.MovementController.Position.X;
+                Ship.prototype.StartedSmoothingXAt = new Date().getTime();
+            }
+            if (distance.Y > that.INTERPOLATE_THRESHOLD) {
+                console.log("Y");
+                Ship.prototype.InterpolateOver = payloadsEvery;
+                Ship.prototype.SmoothingY = true;
+                Ship.prototype.TargetY = serverShip.MovementController.Position.Y;
+                serverShip.MovementController.Position.Y = that.MovementController.Position.Y;
+                Ship.prototype.StartedSmoothingYAt = new Date().getTime();
+            }
+        }
+    }
+
+    that.PayloadReceived = function (info) {
+        RegisterPayload();
+        
+        // Find my ship in the payload
+        for (var i = 0; i < info.Ships.length; i++) {
+            // Found my ship
+            if (that.ID === info.Ships[i].ID) {
+                DetermineInterpolation(info.Ships[i]);
+                break;
+            }
+        }
+    }
 
     function StartMovement(dir) {
         if (!that.MovementController.Moving[dir]) {
@@ -28,7 +99,7 @@
                 pingBack = true;
                 that.LatencyResolver.RequestedPingBack();
             }
-            movementList.push([++currentCommand,dir,true]);
+            movementList.push([++currentCommand, dir, true]);
             conn.registerMoveStart(dir, pingBack, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
@@ -45,7 +116,7 @@
             pingBack = true;
             that.LatencyResolver.RequestedPingBack();
         }
-        movementList.push([++currentCommand,dir,false]);
+        movementList.push([++currentCommand, dir, false]);
         conn.registerMoveStop(dir, pingBack, currentCommand);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));

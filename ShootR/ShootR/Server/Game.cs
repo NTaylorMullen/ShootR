@@ -10,7 +10,7 @@ namespace ShootR
 {
     public class Game
     {
-        public const int AIShipsToSpawn = 5;
+        public const int AIShipsToSpawn = 500;
 
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
         private Timer _gameLoop, _leaderboardLoop;
@@ -39,7 +39,7 @@ namespace ShootR
             Leaderboard = new Leaderboard(UserHandler);
             ConnectionManager = new ConnectionManager(UserHandler, _locker);
 
-            SpawnAIShips(AIShipsToSpawn);
+            //SpawnAIShips(AIShipsToSpawn);
         }
 
         public UserHandler UserHandler { get; private set; }
@@ -136,6 +136,7 @@ namespace ShootR
         {
             if (!UserHandler.UserExists(connectionId))
             {
+                SpawnAIShips(AIShipsToSpawn);
                 lock (_locker)
                 {
                     Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);

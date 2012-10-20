@@ -34,12 +34,53 @@
     }
 
     that.UpdateFromSecond = function (PercentOfSecond) {
+        var ClientPositionPrediction = {
+            X: 0,
+            Y: 0,
+        },
+        InterpolationPercent;
+
+        if (that.InterpolateOver) {
+            InterpolationPercent = CalculatePO(that.LastUpdated, that.InterpolateOver);
+        }
+
         Acceleration = { X: 0, Y: 0 }
 
         Acceleration.X += that.MovementController.Forces.X / that.MovementController.Mass;
         Acceleration.Y += that.MovementController.Forces.Y / that.MovementController.Mass;
-        that.MovementController.Position.X += that.MovementController.Velocity.X * PercentOfSecond + Acceleration.X * PercentOfSecond * PercentOfSecond;
-        that.MovementController.Position.Y += that.MovementController.Velocity.Y * PercentOfSecond + Acceleration.Y * PercentOfSecond * PercentOfSecond;
+
+        ClientPositionPrediction.X = that.MovementController.Velocity.X * PercentOfSecond + Acceleration.X * PercentOfSecond * PercentOfSecond;
+        ClientPositionPrediction.Y = that.MovementController.Velocity.Y * PercentOfSecond + Acceleration.Y * PercentOfSecond * PercentOfSecond;
+
+        that.MovementController.Position.X += ClientPositionPrediction.X
+        that.MovementController.Position.Y += ClientPositionPrediction.Y
+
+        if (that.SmoothingX) {            
+            that.TargetX += ClientPositionPrediction.X;
+
+            var posDiffX = that.TargetX - that.MovementController.Position.X;
+            
+            that.MovementController.Position.X += (posDiffX * InterpolationPercent);
+
+            if (that.LastUpdated.getTime() - that.StartedSmoothingXAt >= that.InterpolateOver) {
+                that.SmoothingX = false;
+                console.log("!X");
+            }
+        }
+
+        if (that.SmoothingY) {
+            that.TargetY += ClientPositionPrediction.Y;
+
+            var posDiffY = that.TargetY - that.MovementController.Position.Y;
+
+            that.MovementController.Position.Y += (posDiffY * InterpolationPercent);
+
+            if (that.LastUpdated.getTime() - that.StartedSmoothingYAt >= that.InterpolateOver) {
+                that.SmoothingY = false;
+                console.log("!Y");
+            }
+        }
+
         that.MovementController.Velocity.X += Acceleration.X * PercentOfSecond;
         that.MovementController.Velocity.Y += Acceleration.Y * PercentOfSecond;
 
