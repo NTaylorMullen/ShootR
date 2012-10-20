@@ -42,19 +42,7 @@ namespace ShootR
         public bool ReadyForPayloads { get; set; }
         public int CurrentLeaderboardPosition { get; set; }
 
-        private long _lastCommandID = 0;
-        public long LastCommandID 
-        { 
-            get
-            {
-                return _lastCommandID;
-            }
-            set
-            {
-                Debug.WriteLine("Registering command: " + value + " on server.");
-                _lastCommandID = value;
-            }
-        }
+        public long LastCommandID { get; set; }
 
         public virtual void PushToClient(object[] payload, dynamic Clients)
         {
