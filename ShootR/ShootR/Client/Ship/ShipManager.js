@@ -47,6 +47,8 @@
                 }
                 else {
                     if (!that.Ships[id].LifeController.Alive) {
+                        that.SmoothX = false;
+                        that.SmoothY = false;
                         $(that).triggerHandler("Respawn");
                     }
                 }
