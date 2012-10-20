@@ -13,7 +13,8 @@ $(function () {
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] },
         initializedMyShip = false,
-        resync = false;
+        resync = false,
+        currentPayloadID;
         
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
@@ -57,6 +58,18 @@ $(function () {
         gameInfoReceived = true;
 
         $("#ShipName").val(info.ID);
+
+        if (!currentPayloadID) {
+            currentPayloadID = info.ID;
+        }
+        else {
+            currentPayloadID++;
+        }
+
+        if (info.ID !== currentPayloadID) {
+            console.log("Missed payload " + currentPayloadID + " actually got payload: " + info.ID);
+            currentPayloadID = info.ID;
+        }
 
         if (info.Notification) {
             $("#Notification").html(info.Notification);
