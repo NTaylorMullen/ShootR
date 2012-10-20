@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace ShootR
 {
@@ -12,6 +13,8 @@ namespace ShootR
                           BOTTOM_RIGHT = 3;
         private int _minWidth,
                     _minHeight;
+
+        private object _locker = new object();
 
         public QuadTreeNode(Rectangle bound, int minWidth, int minHeight, QuadTreeNode parent)
         {
@@ -124,13 +127,19 @@ namespace ShootR
                 else
                 {
                     obj.SetMapArea(this);
-                    this.Contents.Add(obj);
+                    lock (_locker)
+                    {
+                        this.Contents.Add(obj);
+                    }
                 }
             }
             else
             {
                 obj.SetMapArea(this);
-                this.Contents.Add(obj);
+                lock (_locker)
+                {
+                    this.Contents.Add(obj);
+                }
             }
         }
 
@@ -147,7 +156,10 @@ namespace ShootR
 
             // When we get here we're then "this" is currently the largest node to fit our object OR
             // We're at a leaf node caused by the smallest possible partition width/height.
-            Contents.Add(obj);
+            lock (_locker)
+            {
+                Contents.Add(obj);
+            }
             obj.SetMapArea(this);
         }
 
@@ -254,16 +266,16 @@ namespace ShootR
 
         public void UpdateObjects()
         {
-            for (int i = 0; i < Contents.Count; i++)
+            Collidable[] contentCopy = Contents.ToArray();
+
+            Parallel.For(0, contentCopy.Length, i =>
             {
-                if (!Contents[i].Disposed)
+                Collidable currentCollidable = contentCopy[i];
+                if (!currentCollidable.Disposed)
                 {
-                    if (UpdateObject(Contents[i])) // If the object moved nodes then we need to adjust i
-                    {
-                        i--;
-                    }
+                    UpdateObject(currentCollidable);
                 }
-            }
+            });
         }
 
         /// <summary>
@@ -274,7 +286,10 @@ namespace ShootR
         private bool UpdateObject(Collidable obj)
         {
             obj.ClearMapArea();
-            this.Contents.Remove(obj);
+            lock (_locker)
+            {
+                this.Contents.Remove(obj);
+            }
 
             // Check if object has left the bounds of this node and is not root
             if (!this.Bounds.Contains(obj.GetBounds()) && this.Parent != null)
