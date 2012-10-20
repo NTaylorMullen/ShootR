@@ -89,7 +89,7 @@ namespace ShootR
                 Experience = user.MyShip.LevelManager.Experience,
                 ExperienceToNextLevel = user.MyShip.LevelManager.ExperienceToNextLevel,
                 Notification = user.NotificationManager.PullNotification(),
-                LastCommandProcessed = user.MyShip.LastCommandID
+                LastCommandProcessed = user.LastCommandID
             };
         }
     }

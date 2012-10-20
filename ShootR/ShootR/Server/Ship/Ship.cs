@@ -36,8 +36,7 @@ namespace ShootR
 
         public string Name { get; set; }
         public User Host { get; set; }
-        public bool RespawnEnabled { get; set; }
-        public long LastCommandID { get; set; }
+        public bool RespawnEnabled { get; set; }        
 
         public ShipStatRecorder StatRecorder { get; private set; }
         public ShipLevelManager LevelManager { get; private set; }
@@ -95,7 +94,7 @@ namespace ShootR
 
             Host.IdleManager.RecordActivity();
             MovementController.StartMoving(where);
-            LastCommandID = commandID;
+            Host.LastCommandID = commandID;
         }
 
         public virtual void StopMoving(Movement where, long commandID)
@@ -104,7 +103,7 @@ namespace ShootR
 
             Host.IdleManager.RecordActivity();
             MovementController.StopMoving(where);
-            LastCommandID = commandID;
+            Host.LastCommandID = commandID;
         }
 
         public void ResetMoving(List<Movement> movementList, long commandID)
@@ -116,7 +115,7 @@ namespace ShootR
                 MovementController.StopMoving(m);
             }
 
-            LastCommandID = commandID;
+            Host.LastCommandID = commandID;
         }
 
         public ShipWeaponController GetWeaponController()

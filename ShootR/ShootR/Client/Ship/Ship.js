@@ -28,7 +28,7 @@
                 pingBack = true;
                 that.LatencyResolver.RequestedPingBack();
             }
-            movementList.push([currentCommand++,dir,true]);
+            movementList.push([++currentCommand,dir,true]);
             conn.registerMoveStart(dir, pingBack, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
@@ -45,7 +45,7 @@
             pingBack = true;
             that.LatencyResolver.RequestedPingBack();
         }
-        movementList.push([currentCommand++,dir,false]);
+        movementList.push([++currentCommand,dir,false]);
         conn.registerMoveStop(dir, pingBack, currentCommand);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
@@ -61,8 +61,8 @@
             pingBack = true;
             that.LatencyResolver.RequestedPingBack();
         }
-        movementList.push([currentCommand++, toStop, false]);
-        movementList.push([currentCommand++, toStart, true]);
+        movementList.push([++currentCommand, toStop, false]);
+        movementList.push([++currentCommand, toStart, true]);
 
         conn.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
 
@@ -85,7 +85,7 @@
         // Reset all movement
         for (var i = 0; i < MovementList.length; i++) {
             that.MovementController.Moving[MovementList[i]] = false;
-            movementList.push([currentCommand++, MovementList[i], false]);
+            movementList.push([++currentCommand, MovementList[i], false]);
         }
 
         conn.resetMovement(MovementList, pingBack, currentCommand);
@@ -128,16 +128,13 @@
 
     that.ReplayCommands = function (serverCommand) {
         if (movementList.length >= 1) {
-            var frontCommandID = movementList[0][0],
-                index = serverCommand - frontCommandID;
+            var serverCommandIndex = movementList.length - (currentCommand - serverCommand);
 
-            for (var i = index + 1; i < movementList.length; i++) {
+            for (var i = serverCommandIndex; i < movementList.length; i++) {
                 that.MovementController.Moving[movementList[i][1]] = movementList[i][2];
             }
 
-            movementList.splice(0, index + 1);
-
-            $("#ShipName").val(currentCommand + " : " + serverCommand);
+            movementList.splice(0, serverCommandIndex);
         }
     }
 
