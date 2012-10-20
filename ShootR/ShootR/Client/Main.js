@@ -11,11 +11,13 @@ $(function () {
         latencyResolver = new LatencyResolver(env),
         screen = new Screen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env),
         gameInfoReceived = false,
-        lastPayload = { Ships: {}, Bullets: [] };
+        lastPayload = { Ships: {}, Bullets: [] },
+        initializedMyShip = false,
+        resync = false;
         
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
-        game = new Game(env, latencyResolver, init.ShipID);
+        game = new Game(env, latencyResolver, init.ShipID-1);
         GAME_GLOBALS.Game = game;
         payloadDecompressor.LoadContracts(init.CompressionContracts);        
         game.HUDManager.Initialize(init);
@@ -67,12 +69,38 @@ $(function () {
 
         game.ShipManager.MyShip.PayloadReceived(info);
 
+        if (!initializedMyShip) {
+            initializedMyShip = true;
+            var temp = info.Ships[info.Ships.length] = info.Ships[0];
+            temp.ID = game.ShipManager.MyShip.ID;
+            temp.Ghost = true;
+        }
+
+        if (resync) {
+            resync = false;
+            var copy;
+
+            for (var i = 0; i < info.Ships.length; i++) {
+                if (info.Ships[i].ID === game.ShipManager.MyShip.ID + 1) {
+                    copy = $.extend({}, info.Ships[i]);
+                    copy.ID = game.ShipManager.MyShip.ID;
+                    break;
+                }
+            }
+
+            info.Ships[game.ShipManager.MyShip.ID] = copy;
+        }
+
         game.ShipManager.UpdateShips(info.Ships);
 
         game.ShipManager.MyShip.ReplayCommands(info.LastCommandProcessed);
 
         game.BulletManager.UpdateBullets(info.Bullets);
     }
+
+    shortcut.add("f", function () {
+        resync = true;
+    });
 
     // Small name in order to minimize payload
     env.client.d = function (compressedPayload) {

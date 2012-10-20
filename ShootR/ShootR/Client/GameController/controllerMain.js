@@ -14,7 +14,7 @@ $(window).load(function () {
     screen.SendNewViewportToServer = function () { }; // Don't send viewport updates to the server
 
     var resultSpan = $("#SuccessTab span"),
-        holder = $("#ControllerRequestHolder");    
+        holder = $("#ControllerRequestHolder");
 
     function Initialize(init) {
         $.extend(Screen.prototype, init.Configuration.screenConfig);
@@ -78,7 +78,7 @@ $(window).load(function () {
             touchController.Enabled = true;
         }
 
-        $("#StopControlling").show(500);        
+        $("#StopControlling").show(500);
     }
 
     $("#StopControlling").click(function () {
@@ -118,7 +118,6 @@ $(window).load(function () {
                     $("#SuccessTab").hide(500, function () {
                         $("#RequestTab").show();
                     });
-
                 }
             });
         });

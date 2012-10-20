@@ -134,7 +134,19 @@
         CanvasContext.strokeSquare(that.MovementController.Position.X, that.MovementController.Position.Y, that.WIDTH, that.HEIGHT);
     }
 
-    that.UpdateProperties({ MovementController: { Position: { X: 0, Y: 0 }, Forces: { X: 0, Y: 0 }, Velocity: { X: 0, Y: 0 }, Moving: { RotatingLeft: false, RotatingRight: false, Forward: false, Backward: false }, Rotation: 0 } });
+    that.UpdateProperties({
+        MovementController: {
+            Position: { X: 0, Y: 0 },
+            Forces: { X: 0, Y: 0 },
+            Velocity: { X: 0, Y: 0 },
+            Moving: { RotatingLeft: false, RotatingRight: false, Forward: false, Backward: false },
+            Rotation: 0,
+            LifeController: {
+                Alive: true,
+                Health: 100
+            }
+        }
+    });
 }
 
 ShipVehicle.prototype = new Collidable();

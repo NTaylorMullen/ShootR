@@ -114,10 +114,14 @@
 
         canvasBufferContext.save();
 
+        if (swidth && !sheight) {
+            canvasBufferContext.globalAlpha = swidth;
+        }
+
         var halfSize,
             cameraOffset = { X: -that.Camera.Position.X + that.CanvasCenter.X, Y: -that.Camera.Position.Y + that.CanvasCenter.Y };
 
-        if (!swidth) {
+        if (!sheight) {
             halfSize = { width: image.width * .5, height: image.height * .5 };
             canvasBufferContext.translate(sx + halfSize.width + cameraOffset.X, sy + halfSize.height - that.Camera.Position.Y + that.CanvasCenter.Y);
             canvasBufferContext.rotate(angle * TO_RADIANS);
