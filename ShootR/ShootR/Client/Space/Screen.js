@@ -1,4 +1,4 @@
-﻿function Screen(gameCanvas, gameWrapper, popUpHolder, conn) {
+﻿function Screen(gameCanvas, gameWrapper, popUpHolder, connection) {
     var that = this,
         gameHUD;
 
@@ -49,7 +49,7 @@
     }
 
     that.SendNewViewportToServer = function() {
-        conn.changeViewport(that.Viewport.Width, that.Viewport.Height);
+        connection.server.changeViewport(that.Viewport.Width, that.Viewport.Height);
     }
 
     function UpdateScreen() {

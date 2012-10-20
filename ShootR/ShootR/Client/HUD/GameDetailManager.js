@@ -7,7 +7,7 @@
     function ApplyKeyboardShortcuts() {
         shipName.keyup(function (e) {
             if (e.keyCode == 13) {
-                connection.changeName(shipName.val());
+                connection.server.changeName(shipName.val());
             }
         });
 
@@ -19,6 +19,6 @@
     ApplyKeyboardShortcuts();
 
     $("#ChangeShipName").click(function () {
-        connection.changeName(shipName.val());
+        connection.server.changeName(shipName.val());
     });
 }

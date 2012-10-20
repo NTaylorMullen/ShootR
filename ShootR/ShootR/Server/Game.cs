@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using SignalR;
-using SignalR.Hubs;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ShootR
 {
     public class Game
     {
-        public const int AIShipsToSpawn = 500;
+        public const int AIShipsToSpawn = 5;
 
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
         private Timer _gameLoop, _leaderboardLoop;
@@ -39,7 +39,7 @@ namespace ShootR
             Leaderboard = new Leaderboard(UserHandler);
             ConnectionManager = new ConnectionManager(UserHandler, _locker);
 
-            //SpawnAIShips(AIShipsToSpawn);
+            SpawnAIShips(AIShipsToSpawn);
         }
 
         public UserHandler UserHandler { get; private set; }
@@ -96,11 +96,11 @@ namespace ShootR
             _space.CheckIncreaseMapSize(shipCount);
 
             Dictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), shipCount, GameHandler.BulletManager.Bullets.Count, _space);
-            dynamic Clients = GetContext().Clients;
+            dynamic Context = GetContext();
 
             foreach (string connectionID in payloads.Keys)
             {
-                UserHandler.GetUser(connectionID).PushToClient(payloads[connectionID], Clients);
+                UserHandler.GetUser(connectionID).PushToClient(payloads[connectionID], Context);
             }
         }
 
@@ -120,7 +120,7 @@ namespace ShootR
 
         private void PushLeaderboard(List<object> leaderboard)
         {
-            GetContext().Clients[Leaderboard.LEADERBOARD_REQUESTEE_GROUP].l(leaderboard);
+            GetContext().Client(Leaderboard.LEADERBOARD_REQUESTEE_GROUP).l(leaderboard);
         }
 
         public static IHubContext GetContext()
@@ -136,7 +136,6 @@ namespace ShootR
         {
             if (!UserHandler.UserExists(connectionId))
             {
-                SpawnAIShips(AIShipsToSpawn);
                 lock (_locker)
                 {
                     Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);

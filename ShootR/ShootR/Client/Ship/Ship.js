@@ -100,7 +100,7 @@
                 that.LatencyResolver.RequestedPingBack();
             }
             movementList.push([++currentCommand, dir, true]);
-            conn.registerMoveStart(dir, pingBack, currentCommand);
+            conn.server.registerMoveStart(dir, pingBack, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
             that.MovementController.Moving[dir] = true;
@@ -117,7 +117,7 @@
             that.LatencyResolver.RequestedPingBack();
         }
         movementList.push([++currentCommand, dir, false]);
-        conn.registerMoveStop(dir, pingBack, currentCommand);
+        conn.server.registerMoveStop(dir, pingBack, currentCommand);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
         that.MovementController.Moving[dir] = false;
@@ -135,7 +135,7 @@
         movementList.push([++currentCommand, toStop, false]);
         movementList.push([++currentCommand, toStart, true]);
 
-        conn.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
+        conn.server.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
         that.MovementController.Moving[toStop] = false;
@@ -150,6 +150,7 @@
         if (movementCount === 0) {
             pingBack = true;
         }
+        conn.resetMovement(MovementList, pingBack);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
 
@@ -159,7 +160,7 @@
             movementList.push([++currentCommand, MovementList[i], false]);
         }
 
-        conn.resetMovement(MovementList, pingBack, currentCommand);
+        conn.server.resetMovement(MovementList, pingBack, currentCommand);
     }
 
     function shoot() {
@@ -169,7 +170,7 @@
         if (diff.getTime() > that.FIRE_RATE) {
             lastShot = new Date();
 
-            conn.fire();
+            conn.server.fire();
         }
     }
 

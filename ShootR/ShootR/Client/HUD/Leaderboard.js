@@ -32,7 +32,7 @@
         leaderboardUp = true;
         $("#popUpHolder").css("display", "block");
         $("#leaderboardHolder").fadeIn(350);
-        connection.readyForLeaderboardPayloads();
+        connection.server.readyForLeaderboardPayloads();
     }
 
     function HideLeaderboard() {
@@ -40,7 +40,7 @@
         $("#leaderboardHolder").fadeOut(200, function () {
             $("#popUpHolder").css("display", "none");
         });
-        connection.stopLeaderboardPayloads();
+        connection.server.stopLeaderboardPayloads();
     }
 
     function MoveToBottomRight() {

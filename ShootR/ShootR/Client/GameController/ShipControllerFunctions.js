@@ -1,22 +1,22 @@
-﻿function ShipControllerFunctions(conn) {
+﻿function ShipControllerFunctions(connection) {
     var that = this;
     that.StartMovement = function(dir) {
-        conn.registerMoveStart(dir, false);
+        connection.server.registerMoveStart(dir, false);
     }
 
     that.StopMovement = function(dir) {
-        conn.registerMoveStop(dir, false);
+        connection.server.registerMoveStop(dir, false);
     }
 
     that.StopAndStartMovement = function(toStop, toStart) {
-        conn.startAndStopMovement(toStop, toStart, false);
+        connection.server.startAndStopMovement(toStop, toStart, false);
     }
 
     that.ResetMovement = function(MovementList) {
-        conn.resetMovement(MovementList, false);
+        connection.server.resetMovement(MovementList, false);
     }
 
     that.shoot = function() {
-        conn.fire();
+        connection.server.fire();
     }
 }

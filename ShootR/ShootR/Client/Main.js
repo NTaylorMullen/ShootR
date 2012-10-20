@@ -25,7 +25,7 @@ $(function () {
         game.ShipManager.MyShip.Initialize(screen);
 
         StartUpdateLoop();
-        env.readyForPayloads();
+        env.server.readyForPayloads();
     }
 
     function StartUpdateLoop() {
@@ -75,37 +75,37 @@ $(function () {
     }
 
     // Small name in order to minimize payload
-    env.d = function (compressedPayload) {
+    env.client.d = function (compressedPayload) {
         LoadMapInfo(payloadDecompressor.Decompress(compressedPayload));
     }
 
     // Leaderboard request endpoint
-    env.l = function (compressedLeaderboard) {
+    env.client.l = function (compressedLeaderboard) {
         game.HUDManager.Leaderboard.Load(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard, game.ShipManager.MyShip.Name));
     }
 
-    env.mapSizeIncreased = function (size) {
+    env.client.mapSizeIncreased = function (size) {
         Map.prototype.WIDTH = size.Width;
         Map.prototype.HEIGHT = size.Height;
     }
 
-    env.notify = function (msg) {
+    env.client.notify = function (msg) {
         alert(msg);
     }
 
-    env.pingBack = latencyResolver.ServerPingBack;
+    env.client.pingBack = latencyResolver.ServerPingBack;
 
-    env.controlRequest = function () {
+    env.client.controlRequest = function () {
         game.HUDManager.ControlRequestManager.ControlRequest();        
     }
 
-    env.controllersStopped = function () {
+    env.client.controllersStopped = function () {
         game.HUDManager.ControlRequestManager.ControllersStopped();        
     }
 
     $.connection.hub.start(function () {
         // Send the viewport to the server initialization method
-        env.initializeClient().done(function (value) {
+        env.server.initializeClient().done(function (value) {
             Initialize(value);
         });
     });
