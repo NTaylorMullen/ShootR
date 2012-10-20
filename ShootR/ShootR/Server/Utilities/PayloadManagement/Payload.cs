@@ -21,5 +21,7 @@ namespace ShootR
         public int ExperienceToNextLevel { get; set; }
 
         public string Notification { get; set; }
+
+        public long ID { get; set; }
     }
 }

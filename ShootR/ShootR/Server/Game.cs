@@ -10,7 +10,7 @@ namespace ShootR
 {
     public class Game
     {
-        public const int AIShipsToSpawn = 5;
+        public const int AIShipsToSpawn = 0;
 
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
         private Timer _gameLoop, _leaderboardLoop;

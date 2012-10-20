@@ -78,7 +78,8 @@
             BulletsInWorld: data[PayloadContract.BulletsInWorld],
             Experience: data[PayloadContract.Experience],
             ExperienceToNextLevel: data[PayloadContract.ExperienceToNextLevel],
-            Notification: data[PayloadContract.Notification]
+            Notification: data[PayloadContract.Notification],
+            ID: data[PayloadContract.ID]
         };
     }
 

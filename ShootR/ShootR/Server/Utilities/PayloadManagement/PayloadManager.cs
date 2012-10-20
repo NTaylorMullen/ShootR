@@ -8,7 +8,7 @@ namespace ShootR
     public class PayloadManager
     {
         public const int SCREEN_BUFFER_AREA = 100; // Send X extra pixels down to the client to allow for latency between client and server
-
+        public static int PayloadID = 0;
         public PayloadCompressor Compressor = new PayloadCompressor();
 
         private PayloadCache _payloadCache = new PayloadCache();
@@ -64,6 +64,8 @@ namespace ShootR
             // Remove all disposed objects from the map
             space.Clean();
 
+            PayloadID++;
+
             return payloads;
         }
 
@@ -88,7 +90,8 @@ namespace ShootR
                 BulletsInWorld = bulletCount,
                 Experience = user.MyShip.LevelManager.Experience,
                 ExperienceToNextLevel = user.MyShip.LevelManager.ExperienceToNextLevel,
-                Notification = user.NotificationManager.PullNotification()
+                Notification = user.NotificationManager.PullNotification(),
+                ID = PayloadID
             };
         }
     }
