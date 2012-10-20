@@ -137,7 +137,7 @@ namespace ShootR
 
             if (ship.LifeController.Alive)
             {
-                ship.GetWeaponController().Fire();              
+                ship.GetWeaponController().Fire();
             }
         }
 
@@ -211,7 +211,7 @@ namespace ShootR
         /// Registers the start of a movement on a clint.  Fires when the client presses a movement hotkey.
         /// </summary>
         /// <param name="movement">Direction to start moving</param>
-        public void registerMoveStart(string movement, bool pingBack)
+        public void registerMoveStart(string movement, bool pingBack, long commandID)
         {
             if (pingBack)
             {
@@ -223,7 +223,7 @@ namespace ShootR
             if (ship.LifeController.Alive)
             {
                 Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-                ship.StartMoving(where);
+                ship.StartMoving(where, commandID);
             }
         }
 

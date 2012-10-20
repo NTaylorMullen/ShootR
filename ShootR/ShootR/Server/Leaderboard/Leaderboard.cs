@@ -31,7 +31,7 @@ namespace ShootR
         public IEnumerable<LeaderboardEntry> GetAndUpdateLeaderboard()
         {
             IEnumerable<LeaderboardEntry> currentLeaderboard = (from user in _userHandler.GetUsers()
-                                                                where !user.Controller
+                                                                where !user.Controller && user.MyShip != null
                                                                 select user.MyShip).Select(ship => new LeaderboardEntry()
                     {
                         Name = ship.Name,

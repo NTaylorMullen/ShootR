@@ -126,6 +126,21 @@
 
     ApplyKeyboardMappings();
 
+    that.ReplayCommands = function (serverCommand) {
+        if (movementList.length >= 1) {
+            var frontCommandID = movementList[0][0],
+                index = serverCommand - frontCommandID;
+
+            for (var i = index + 1; i < movementList.length; i++) {
+                that.MovementController.Moving[movementList[i][1]] = movementList[i][2];
+            }
+
+            movementList.splice(0, index + 1);
+
+            $("#ShipName").val(currentCommand + " : " + serverCommand);
+        }
+    }
+
     that.Initialize = function (screen) {
         // Touch is enabled
         if ('createTouch' in document || navigator.msMaxTouchPoints) {

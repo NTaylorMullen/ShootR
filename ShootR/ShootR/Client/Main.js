@@ -65,6 +65,9 @@ $(function () {
 
         game.HUDManager.Leaderboard.LoadPosition(info.LeaderboardPosition);
         game.ShipManager.UpdateShips(info.Ships);
+
+        game.ShipManager.MyShip.ReplayCommands(info.LastCommandProcessed);
+
         game.BulletManager.UpdateBullets(info.Bullets);
     }
 

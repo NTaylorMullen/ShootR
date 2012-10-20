@@ -88,7 +88,8 @@ namespace ShootR
                 BulletsInWorld = bulletCount,
                 Experience = user.MyShip.LevelManager.Experience,
                 ExperienceToNextLevel = user.MyShip.LevelManager.ExperienceToNextLevel,
-                Notification = user.NotificationManager.PullNotification()
+                Notification = user.NotificationManager.PullNotification(),
+                LastCommandProcessed = user.MyShip.LastCommandID
             };
         }
     }
