@@ -22,7 +22,12 @@
 
     that.Draw = function () {
         if (that.LifeController.Alive && that.Visible) {
-            CanvasContext.drawRotatedImage.apply(that, [that.Vehicle, that.MovementController.Rotation, that.MovementController.Position.X, that.MovementController.Position.Y]);
+            if (!that.Ghost) {
+                CanvasContext.drawRotatedImage.apply(that, [that.Vehicle, that.MovementController.Rotation, that.MovementController.Position.X, that.MovementController.Position.Y]);
+            }
+            else {
+                CanvasContext.drawRotatedImage.apply(that, [that.Vehicle, that.MovementController.Rotation, that.MovementController.Position.X, that.MovementController.Position.Y, .4]);
+            }
         }
     }
 }
