@@ -29,13 +29,13 @@ namespace ShootR
             MovementController.Rotation = _gen.Next(0, 360);
         }
 
-        public override void StartMoving(Movement where)
+        public override void StartMoving(Movement where, long commandID)
         {
             Host.IdleManager.RecordActivity();
             MovementController.StartMoving(where);
         }
 
-        public override void StopMoving(Movement where)
+        public override void StopMoving(Movement where, long commandID)
         {
             Host.IdleManager.RecordActivity();
             MovementController.StopMoving(where);

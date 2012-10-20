@@ -38,14 +38,7 @@ namespace ShootR
 
         public void AddBulletToGame(Bullet bullet)
         {
-            if (!Map.OnMap(bullet))
-            {
-                bullet.HandleOutOfBounds();
-            }
-            else
-            {
-                _space.Insert(bullet);
-            }
+            _space.Insert(bullet);
         }
 
         public int ShipCount()
@@ -54,9 +47,9 @@ namespace ShootR
         }
 
         public void Update(GameTime gameTime)
-        {
-            BulletManager.Update(gameTime);
+        {            
             _shipManager.Update(gameTime);
+            BulletManager.Update(gameTime);
 
             _collisionManager.Update(gameTime);
         }

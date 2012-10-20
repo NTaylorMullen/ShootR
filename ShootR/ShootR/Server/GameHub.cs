@@ -168,7 +168,7 @@ namespace ShootR
         /// Resets all movement flags on the ship
         /// </summary>
         /// <param name="pingBack"></param>
-        public void resetMovement(List<string> movementList, bool pingBack)
+        public void resetMovement(List<string> movementList, bool pingBack, long commandID)
         {
             if (pingBack)
             {
@@ -185,11 +185,11 @@ namespace ShootR
 
             if (ship.LifeController.Alive)
             {
-                ship.ResetMoving(result);
+                ship.ResetMoving(result, commandID);
             }
         }
 
-        public void startAndStopMovement(string toStop, string toStart, bool pingBack)
+        public void startAndStopMovement(string toStop, string toStart, bool pingBack, long commandID)
         {
             if (pingBack)
             {
@@ -202,8 +202,8 @@ namespace ShootR
             {
                 Movement whereToStop = (Movement)Enum.Parse(typeof(Movement), toStop);
                 Movement whereToStart = (Movement)Enum.Parse(typeof(Movement), toStart);
-                ship.StopMoving(whereToStop);
-                ship.StartMoving(whereToStart);
+                ship.StopMoving(whereToStop, commandID);
+                ship.StartMoving(whereToStart, commandID);
             }
         }
 
@@ -231,7 +231,7 @@ namespace ShootR
         /// Registers the stop of a movement on a client.  Fires when the client presses a movement hotkey.
         /// </summary>
         /// <param name="movement">Direction to stop moving</param>
-        public void registerMoveStop(string movement, bool pingBack)
+        public void registerMoveStop(string movement, bool pingBack, long commandID)
         {
             if (pingBack)
             {
@@ -244,7 +244,7 @@ namespace ShootR
 
             if (ship.LifeController.Alive)
             {
-                ship.StopMoving(where);
+                ship.StopMoving(where, commandID);
             }
         }
 

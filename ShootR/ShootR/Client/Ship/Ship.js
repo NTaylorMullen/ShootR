@@ -3,7 +3,9 @@
         lastShot = new Date(),
         keyMapping = [],
         movementCount = 0,
-        touchController;
+        touchController,
+        movementList = [],
+        currentCommand = 0;
 
     keyMapping.push({ key: rotateLeft, dir: "RotatingLeft" });
     keyMapping.push({ key: rotateRight, dir: "RotatingRight" });
@@ -26,7 +28,8 @@
                 pingBack = true;
                 that.LatencyResolver.RequestedPingBack();
             }
-            conn.registerMoveStart(dir, pingBack);
+            movementList.push([currentCommand++,dir,true]);
+            conn.registerMoveStart(dir, pingBack, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
             that.MovementController.Moving[dir] = true;
@@ -42,7 +45,8 @@
             pingBack = true;
             that.LatencyResolver.RequestedPingBack();
         }
-        conn.registerMoveStop(dir, pingBack);
+        movementList.push([currentCommand++,dir,false]);
+        conn.registerMoveStop(dir, pingBack, currentCommand);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
         that.MovementController.Moving[dir] = false;
@@ -57,7 +61,10 @@
             pingBack = true;
             that.LatencyResolver.RequestedPingBack();
         }
-        conn.startAndStopMovement(toStop, toStart, pingBack);
+        movementList.push([currentCommand++, toStop, false]);
+        movementList.push([currentCommand++, toStart, true]);
+
+        conn.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
         that.MovementController.Moving[toStop] = false;
@@ -72,14 +79,16 @@
         if (movementCount === 0) {
             pingBack = true;
         }
-        conn.resetMovement(MovementList, pingBack);
 
         that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
 
         // Reset all movement
         for (var i = 0; i < MovementList.length; i++) {
             that.MovementController.Moving[MovementList[i]] = false;
+            movementList.push([currentCommand++, MovementList[i], false]);
         }
+
+        conn.resetMovement(MovementList, pingBack, currentCommand);
     }
 
     function shoot() {

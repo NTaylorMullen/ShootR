@@ -21,5 +21,6 @@ namespace ShootR
         public int ExperienceToNextLevel { get; set; }
 
         public string Notification { get; set; }
+        public long LastCommandProcessed { get; set; }
     }
 }
