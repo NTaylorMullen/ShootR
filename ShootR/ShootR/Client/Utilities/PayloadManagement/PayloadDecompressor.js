@@ -79,7 +79,8 @@
             Experience: data[PayloadContract.Experience],
             ExperienceToNextLevel: data[PayloadContract.ExperienceToNextLevel],
             Notification: data[PayloadContract.Notification],
-            LastCommandProcessed: data[PayloadContract.LastCommandProcessed]
+            LastCommandProcessed: data[PayloadContract.LastCommandProcessed],
+            ID: data[PayloadContract.ID]
         };
     }
 

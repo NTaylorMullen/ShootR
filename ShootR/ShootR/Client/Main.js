@@ -56,6 +56,8 @@ $(function () {
         lastPayload = info;
         gameInfoReceived = true;
 
+        $("#ShipName").val(info.ID);
+
         if (info.Notification) {
             $("#Notification").html(info.Notification);
             $('#Notification').css({ top: '50%', left: '50%', margin: '-' + ($('#Notification').height() / 2) + 'px 0 0 -' + ($('#Notification').width() / 2) + 'px' });
@@ -88,7 +90,7 @@ $(function () {
                 }
             }
 
-            info.Ships[game.ShipManager.MyShip.ID] = copy;
+            info.Ships.push(copy);
         }
 
         game.ShipManager.UpdateShips(info.Ships);

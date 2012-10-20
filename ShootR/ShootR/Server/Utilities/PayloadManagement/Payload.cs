@@ -22,5 +22,6 @@ namespace ShootR
 
         public string Notification { get; set; }
         public long LastCommandProcessed { get; set; }
+        public long ID { get; set; }
     }
 }

@@ -11,5 +11,6 @@
         public short ExperienceToNextLevel = 6;
         public short Notification = 7;
         public short LastCommandProcessed = 8;
+        public short ID = 8=9;
     }
 }
