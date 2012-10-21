@@ -10,7 +10,10 @@ namespace ShootR
 {
     public class Game
     {
-        public const int AIShipsToSpawn = 500;
+        public const int AIShipsToSpawn = 5;
+        public const int SpawnsPerInterval = 40;
+        private int _spawned = 0;
+        private DateTime _lastSpawn = DateTime.UtcNow;
 
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
         private Timer _gameLoop, _leaderboardLoop;
@@ -55,6 +58,13 @@ namespace ShootR
 
                 try
                 {
+                    if ((utcNow - _lastSpawn).TotalSeconds >= 1 && _spawned < AIShipsToSpawn)
+                    {
+                        _spawned += SpawnsPerInterval;
+                        SpawnAIShips(SpawnsPerInterval);
+                        _lastSpawn = utcNow;
+                    }
+
                     _gameTime.Update(utcNow);
 
                     GameHandler.Update(_gameTime);
@@ -135,8 +145,7 @@ namespace ShootR
         public object initializeClient(string connectionId)
         {
             if (!UserHandler.UserExists(connectionId))
-            {
-                SpawnAIShips(AIShipsToSpawn);
+            {                
                 lock (_locker)
                 {
                     Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);

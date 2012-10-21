@@ -12,7 +12,7 @@
             maxHealth = MyShip.MaxLife;
             // If we're taking damage
             if (MyShip.LifeController.Health < lastHealth) {
-                // gameWrapper.effect("shake", { distance: 3, direction: "up" }, 100);
+                gameWrapper.effect("shake", { distance: 3, direction: "up" }, 100);
             }
 
             lastHealth = MyShip.LifeController.Health;

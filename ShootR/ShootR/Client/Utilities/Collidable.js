@@ -7,13 +7,6 @@
     that.Vehicle;
     that.FollowID;
 
-    function RotateVehicle(rotation) {
-        $(that.Vehicle).css("-webkit-transform", "rotate(" + rotation + "deg)");
-        $(that.Vehicle).css("-moz-transform", "rotate(" + rotation + "deg)");
-        $(that.Vehicle).css("-ms-transform", "rotate(" + rotation + "deg)");
-        $(that.Vehicle).css("transform", "rotate(" + rotation + "deg)");
-    }
-
     that.UpdateProperties = function (properties) {
         for (var key in properties) {
             that[key] = properties[key];

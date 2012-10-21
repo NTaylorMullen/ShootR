@@ -33,35 +33,46 @@
         that.UpdateFromSecond(PercentOfSecond);
     }
 
+    function Interpolate(axis, ClientPositionPrediction) {
+        if (that.Smoothing[axis]) {
+            var InterpolationPercent = CalculatePO(that.LastUpdated, that.InterpolateOver[axis]);
+
+            that.Target[axis] += ClientPositionPrediction[axis];
+
+            var posDiff = that.Target[axis] - that.MovementController.Position[axis];
+            that.MovementController.Position[axis] += (posDiff * InterpolationPercent);
+
+            if (Math.abs(posDiff) <= that.INTERPOLATE_POSITION_THRESHOLD) {
+                that.Smoothing[axis] = false;
+            }
+        }
+    }
+
+    function InterpolateRotation(RotationIncrementor) {
+        if (that.SmoothingRotation) {
+            var InterpolationPercent = CalculatePO(that.LastUpdated, that.InterpolateRotationOver);
+
+            that.TargetRotation += RotationIncrementor;
+
+            var rotDiff = that.TargetRotation - that.MovementController.Rotation;
+            that.MovementController.Rotation += (rotDiff * InterpolationPercent);
+
+            if (Math.abs(rotDiff) <= that.INTERPOLATE_ROTATION_THRESHOLD) {
+                that.SmoothingRotation = false;
+            }
+        }
+    }
+
     function TryInterpolation(ClientPositionPrediction) {
         if (that.InterpolateOver) {
-            var InterpolationPercent = CalculatePO(that.LastUpdated, that.InterpolateOver);
+            Interpolate("X", ClientPositionPrediction);
+            Interpolate("Y", ClientPositionPrediction);
+        }
+    }
 
-            if (that.SmoothingX) {
-                that.TargetX += ClientPositionPrediction.X;
-
-                var posDiffX = that.TargetX - that.MovementController.Position.X;
-                console.log("x: " + posDiffX);
-                that.MovementController.Position.X += (posDiffX * InterpolationPercent);
-
-                if (Math.abs(posDiffX) <= that.INTERPOLATE_THRESHOLD) {
-                    that.SmoothingX = false;
-                    console.log("!X");
-                }
-            }
-
-            if (that.SmoothingY) {
-                that.TargetY += ClientPositionPrediction.Y;
-
-                var posDiffY = that.TargetY - that.MovementController.Position.Y;
-                console.log("y: " + posDiffY);
-                that.MovementController.Position.Y += (posDiffY * InterpolationPercent);
-
-                if (Math.abs(posDiffY) <= that.INTERPOLATE_THRESHOLD) {
-                    that.SmoothingY = false;
-                    console.log("!Y");
-                }
-            }
+    function TryInterpolationRotation(RotationIncrementor) {
+        if (that.InterpolateRotationOver) {
+            InterpolateRotation(RotationIncrementor);
         }
     }
 
@@ -99,11 +110,14 @@
                 Y: .5 * that.MovementController.Velocity.Y * Math.abs(that.MovementController.Velocity.Y) * that.DRAG_COEFFICIENT * that.DRAG_AREA * -1
             };
 
+        
         if (that.MovementController.Moving.RotatingLeft) {
             that.MovementController.Rotation -= rotationIncrementor;
+            TryInterpolationRotation(-1*rotationIncrementor);
         }
         if (that.MovementController.Moving.RotatingRight) {
             that.MovementController.Rotation += rotationIncrementor;
+            TryInterpolationRotation(rotationIncrementor);
         }
         if (that.MovementController.Moving.Forward) {
             that.MovementController.Forces.X += direction.X * that.ENGINE_POWER;

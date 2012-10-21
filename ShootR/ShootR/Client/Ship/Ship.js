@@ -19,28 +19,33 @@
     that.REQUEST_PING_EVERY;
 
     // Interpolate if we're more than 5 pixels away from the server
-    Ship.prototype.INTERPOLATE_THRESHOLD = 5; 
+    Ship.prototype.INTERPOLATE_POSITION_THRESHOLD = 7;
+    Ship.prototype.INTERPOLATE_ROTATION_THRESHOLD = 15;
 
     // Instantiated in main.js
     that.LatencyResolver;
 
-    Ship.prototype.SmoothingX = false;
-    Ship.prototype.SmoothingY = false;
+    Ship.prototype.Smoothing = {
+        X: false,
+        Y: false
+    }
 
-    Ship.prototype.StartedSmoothingXAt;
-    Ship.prototype.StartedSmoothingYAt;
+    Ship.prototype.Target = {
+        X: 0,
+        Y: 0
+    };
 
-    Ship.prototype.TargetX;
-    Ship.prototype.TargetY;
+    Ship.prototype.InterpolateOver = {
+        X: 0,
+        Y: 0
+    }
 
-    Ship.prototype.InterpolateOver;
+    Ship.prototype.InterpolateRotationOver;
+    Ship.prototype.SmoothingRotation = false;
+    Ship.prototype.TargetRotation;
 
-    that.TryInterpolate = false;
-
-    shortcut.add("p", function () {
-        that.TryInterpolate = !that.TryInterpolate;
-        console.log("INTERPOLATING: " + that.TryInterpolate);
-    });
+    that.TryInterpolate = true;
+    that.TryInterpolateRotation = true;
 
     function RegisterPayload() {
         // Calculate how often we receive payloads so we can interpolate between them
@@ -48,50 +53,62 @@
         if (lastPayloadReceivedAt) {
             payloadsEvery = now - lastPayloadReceivedAt
         }
-
+        $("#ShipName").val(that.MovementController.Rotation);
         lastPayloadReceivedAt = now;
-
-        $("#ShipName").val(payloadsEvery);
     }
 
-    function DetermineInterpolation(serverShip) {               
-        if (payloadsEvery && that.TryInterpolate) {
+    function CheckInterpolation(serverShip, axis, distance) {
+        if (distance[axis] > that.INTERPOLATE_POSITION_THRESHOLD) {
+            Ship.prototype.InterpolateOver[axis] = Math.max(payloadsEvery, 50);
+            Ship.prototype.Smoothing[axis] = true;
+            Ship.prototype.Target[axis] = serverShip.MovementController.Position[axis];
+            serverShip.MovementController.Position[axis] = that.MovementController.Position[axis];
+        }
+    }
+
+    function CheckRotationInterpolation(serverShip) {
+        var distance = Math.abs(that.MovementController.Rotation - serverShip.MovementController.Rotation);
+
+        if (distance > that.INTERPOLATE_ROTATION_THRESHOLD) {
+            Ship.prototype.InterpolateRotationOver = Math.max(payloadsEvery, 35);
+            Ship.prototype.SmoothingRotation = true;
+            Ship.prototype.TargetRotation = serverShip.MovementController.Rotation;
+            serverShip.MovementController.Rotation = that.MovementController.Rotation;
+        }
+    }
+
+    function DetermineInterpolation(serverShip) {
+        if (payloadsEvery) {
 
             if (!that.LifeController.Alive) {
+                that.Smoothing.X = false;
+                that.Smoothing.Y = false;
                 wasDead = true;
             }
 
             if (!wasDead) {
-                var distance = CalculateDistance(that.MovementController.Position, serverShip.MovementController.Position);
+                if (that.TryInterpolate) {
+                    that.Update();
+                    var distance = CalculateDistance(that.MovementController.Position, serverShip.MovementController.Position);
 
-                if (distance.X > that.INTERPOLATE_THRESHOLD) {
-
-                    Ship.prototype.InterpolateOver = payloadsEvery / 2;
-                    Ship.prototype.SmoothingX = true;
-                    Ship.prototype.TargetX = serverShip.MovementController.Position.X;
-                    serverShip.MovementController.Position.X = that.MovementController.Position.X;
-                    Ship.prototype.StartedSmoothingXAt = new Date().getTime();
-                    console.log("X TO " + that.TargetX + " FROM " + serverShip.MovementController.Position.X);
+                    CheckInterpolation(serverShip, "X", distance);
+                    CheckInterpolation(serverShip, "Y", distance);
                 }
-                if (distance.Y > that.INTERPOLATE_THRESHOLD) {
-                    Ship.prototype.InterpolateOver = payloadsEvery / 2;
-                    Ship.prototype.SmoothingY = true;
-                    Ship.prototype.TargetY = serverShip.MovementController.Position.Y;
-                    serverShip.MovementController.Position.Y = that.MovementController.Position.Y;
-                    Ship.prototype.StartedSmoothingYAt = new Date().getTime();
-                    console.log("Y TO " + that.TargetY + " FROM " + serverShip.MovementController.Position.Y);
+
+                if (that.TryInterpolateRotation) {
+                    CheckRotationInterpolation(serverShip);
                 }
             }
 
             if (that.LifeController.Alive) {
                 wasDead = false;
             }
-        }        
+        }
     }
 
     that.PayloadReceived = function (info) {
         RegisterPayload();
-        
+
         // Find my ship in the payload
         for (var i = 0; i < info.Ships.length; i++) {
             // Found my ship
@@ -103,7 +120,7 @@
     }
 
     function StartMovement(dir) {
-        if (!that.MovementController.Moving[dir]) {
+        if (!that.MovementController.Moving[dir] && that.LifeController.Alive) {
             var pingBack = false;
             movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
@@ -121,58 +138,64 @@
     }
 
     function StopMovement(dir) {
-        var pingBack = false;
-        movementCount = ++movementCount % that.REQUEST_PING_EVERY;
+        if (that.LifeController.Alive) {
+            var pingBack = false;
+            movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
-        // 0 Is when the counter loops over, aka hits max;
-        if (movementCount === 0) {
-            pingBack = true;
-            that.LatencyResolver.RequestedPingBack();
+            // 0 Is when the counter loops over, aka hits max;
+            if (movementCount === 0) {
+                pingBack = true;
+                that.LatencyResolver.RequestedPingBack();
+            }
+            movementList.push([++currentCommand, dir, false]);
+            conn.registerMoveStop(dir, pingBack, currentCommand);
+
+            that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+            that.MovementController.Moving[dir] = false;
         }
-        movementList.push([++currentCommand, dir, false]);
-        conn.registerMoveStop(dir, pingBack, currentCommand);
-
-        that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-        that.MovementController.Moving[dir] = false;
     }
 
     function StopAndStartMovement(toStop, toStart) {
-        var pingBack = false;
-        movementCount = ++movementCount % that.REQUEST_PING_EVERY;
+        if (that.LifeController.Alive) {
+            var pingBack = false;
+            movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
-        // 0 Is when the counter loops over, aka hits max;
-        if (movementCount === 0) {
-            pingBack = true;
-            that.LatencyResolver.RequestedPingBack();
+            // 0 Is when the counter loops over, aka hits max;
+            if (movementCount === 0) {
+                pingBack = true;
+                that.LatencyResolver.RequestedPingBack();
+            }
+            movementList.push([++currentCommand, toStop, false]);
+            movementList.push([++currentCommand, toStart, true]);
+
+            conn.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
+
+            that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+            that.MovementController.Moving[toStop] = false;
+            that.MovementController.Moving[toStart] = true;
         }
-        movementList.push([++currentCommand, toStop, false]);
-        movementList.push([++currentCommand, toStart, true]);
-
-        conn.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
-
-        that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-        that.MovementController.Moving[toStop] = false;
-        that.MovementController.Moving[toStart] = true;
     }
 
     function ResetMovement(MovementList) {
-        var pingBack = false;
-        movementCount = ++movementCount % that.REQUEST_PING_EVERY;
+        if (that.LifeController.Alive) {
+            var pingBack = false;
+            movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
-        // 0 Is when the counter loops over, aka hits max;
-        if (movementCount === 0) {
-            pingBack = true;
+            // 0 Is when the counter loops over, aka hits max;
+            if (movementCount === 0) {
+                pingBack = true;
+            }
+
+            that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+
+            // Reset all movement
+            for (var i = 0; i < MovementList.length; i++) {
+                that.MovementController.Moving[MovementList[i]] = false;
+                movementList.push([++currentCommand, MovementList[i], false]);
+            }
+
+            conn.resetMovement(MovementList, pingBack, currentCommand);
         }
-
-        that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-
-        // Reset all movement
-        for (var i = 0; i < MovementList.length; i++) {
-            that.MovementController.Moving[MovementList[i]] = false;
-            movementList.push([++currentCommand, MovementList[i], false]);
-        }
-
-        conn.resetMovement(MovementList, pingBack, currentCommand);
     }
 
     function shoot() {
