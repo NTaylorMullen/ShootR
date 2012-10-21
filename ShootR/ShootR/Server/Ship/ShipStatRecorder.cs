@@ -7,7 +7,7 @@ namespace ShootR
 {
     public class ShipStatRecorder
     {
-        private Ship _me;
+        protected Ship _me;
 
         public ShipStatRecorder(Ship me)
         {
@@ -19,7 +19,7 @@ namespace ShootR
         public int Kills { get; set; }
         public int Deaths { get; set; }
 
-        public void BulletCollision(Bullet bullet)
+        public virtual void BulletCollision(Bullet bullet)
         {
             DamageTaken += bullet.DamageDealt;
 

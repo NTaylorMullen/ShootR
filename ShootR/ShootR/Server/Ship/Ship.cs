@@ -38,7 +38,7 @@ namespace ShootR
         public User Host { get; set; }
         public bool RespawnEnabled { get; set; }        
 
-        public ShipStatRecorder StatRecorder { get; private set; }
+        public virtual ShipStatRecorder StatRecorder { get; protected set; }
         public ShipLevelManager LevelManager { get; private set; }
 
         public ShipLifeController LifeController

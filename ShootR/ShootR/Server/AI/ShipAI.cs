@@ -14,8 +14,7 @@ namespace ShootR
         public const int TIME_TO_WAIT_AFTER_BOUNDARY_LEAVE = 1000;
 
         private List<dynamic> _shipsOnScreen;
-        private AIState _state;
-        private int _seekingShip = -1;
+        private AIState _state;        
         private double _targetRotation = -1;
         private double _currentRotation = 0;
         private static Random _gen = new Random();
@@ -27,7 +26,11 @@ namespace ShootR
         {
             _state = AIState.Wandering;
             MovementController.Rotation = _gen.Next(0, 360);
+            StatRecorder = new AIShipStatRecorder(this);
+            SeekingShip = -1;
         }
+
+        public int SeekingShip { get; set; }
 
         public override void StartMoving(Movement where, long commandID = -1)
         {
@@ -54,7 +57,7 @@ namespace ShootR
         public void StartWandering()
         {
             ChangeState(AIState.Wandering);
-            _seekingShip = -1;
+            SeekingShip = -1;
         }
 
         public void SeekClosestShip()
@@ -78,7 +81,7 @@ namespace ShootR
             }
             else
             {
-                _seekingShip = closestID;
+                SeekingShip = closestID;
                 ChangeState(AIState.Seeking);
             }
         }
@@ -88,7 +91,7 @@ namespace ShootR
             foreach (dynamic ship in _shipsOnScreen)
             {
                 // Check if we've found our ship
-                if (_seekingShip == ship.ID)
+                if (SeekingShip == ship.ID)
                 {
                     if (DistanceFrom(Convert.ToInt32(ship.MovementController.Position.X), Convert.ToInt32(ship.MovementController.Position.Y)) <= KILL_DISTANCE)
                     {
@@ -107,7 +110,7 @@ namespace ShootR
             foreach (dynamic ship in _shipsOnScreen)
             {
                 // Check if we've found our ship
-                if (_seekingShip == ship.ID)
+                if (SeekingShip == ship.ID)
                 {
                     // Ship is still on screen
                     return;
@@ -124,12 +127,12 @@ namespace ShootR
             if (_shipsOnScreen != null && _shipsOnScreen.Count > 0)
             {
                 // We're not seeking
-                if (_seekingShip == -1)
+                if (SeekingShip == -1)
                 {
                     SeekClosestShip();
                     return;
                 }
-                else if (_seekingShip != -1) // We're seeking or killing a ship
+                else if (SeekingShip != -1) // We're seeking or killing a ship
                 {
                     // Currently seeking, need to check if we need to Kill
                     if (_state == AIState.Seeking)
@@ -256,7 +259,7 @@ namespace ShootR
             // Grab the position of the ship that i'm seeking
             foreach (dynamic ship in _shipsOnScreen)
             {
-                if (ship.ID == _seekingShip)
+                if (ship.ID == SeekingShip)
                 {
                     otherPosition = new Vector2(ship.MovementController.Position.X, ship.MovementController.Position.Y);
                     break;
@@ -290,10 +293,6 @@ namespace ShootR
                     StopMoving(Movement.RotatingRight);
                     StartMoving(Movement.RotatingLeft);
                 }
-            }
-            else if (Math.Abs(angleDiff) >= 90)
-            {
-                StopMoving(Movement.Forward);
             }
             else
             {
