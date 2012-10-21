@@ -24,6 +24,8 @@ namespace ShootR
 
         private int DRAW_AFTER;
         private int _updateCount = 0;
+        private int _threadCount = 0;
+        private Semaphore _updateLock = new Semaphore(2, 2);
         private object _locker = new object();
 
         private Game()
@@ -52,35 +54,45 @@ namespace ShootR
 
         private void Update(object state)
         {
-            lock (_locker)
+            if (_threadCount < 2)
             {
-                DateTime utcNow = DateTime.UtcNow;
-
-                try
+                _updateLock.WaitOne();
+                _threadCount++;
+                lock (_locker)
                 {
-                    if ((utcNow - _lastSpawn).TotalSeconds >= 1 && _spawned < AIShipsToSpawn)
+                    DateTime utcNow = DateTime.UtcNow;
+
+                    try
                     {
-                        _spawned += SpawnsPerInterval;
-                        SpawnAIShips(SpawnsPerInterval);
-                        _lastSpawn = utcNow;
+                        if ((utcNow - _lastSpawn).TotalSeconds >= 1 && _spawned < AIShipsToSpawn)
+                        {
+                            _spawned += SpawnsPerInterval;
+                            SpawnAIShips(SpawnsPerInterval);
+                            _lastSpawn = utcNow;
+                        }
+
+                        _gameTime.Update(utcNow);
+
+                        GameHandler.Update(_gameTime);
+
+                        _space.Update();
+
+                        if (++_updateCount % DRAW_AFTER == 0)
+                        {
+                            _updateCount = 0; // Reset update count to 0
+                            Draw();
+                        }
                     }
-
-                    _gameTime.Update(utcNow);
-
-                    GameHandler.Update(_gameTime);
-
-                    _space.Update();
-
-                    if (++_updateCount % DRAW_AFTER == 0)
+                    catch (Exception e)
                     {
-                        _updateCount = 0; // Reset update count to 0
-                        Draw();
+                        ErrorLog.Instance.Log(e);
                     }
                 }
-                catch (Exception e)
-                {
-                    ErrorLog.Instance.Log(e);
-                }
+                _threadCount--;
+                _updateLock.Release();
+            }
+            else if (_threadCount > 2)
+            {
             }
         }
 
