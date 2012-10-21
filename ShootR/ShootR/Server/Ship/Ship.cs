@@ -17,8 +17,6 @@ namespace ShootR
         public event DeathEventHandler OnDeath;
         public event Action<Bullet> OnFire;
 
-        private ShipWeaponController _weaponController;
-
         private static int _shipGUID = 0;
 
         public Ship(Vector2 position, BulletManager bm)
@@ -26,7 +24,7 @@ namespace ShootR
         {
             ID = Interlocked.Increment(ref _shipGUID);
             StatRecorder = new ShipStatRecorder(this);
-            _weaponController = new ShipWeaponController(this, bm);
+            WeaponController = new ShipWeaponController(this, bm);
             LifeController.OnDeath += new DeathEventHandler(Die);
             OnDeath += new DeathEventHandler(StatRecorder.ShipDeath);
             LifeController.Host = this;
@@ -40,6 +38,7 @@ namespace ShootR
 
         public virtual ShipStatRecorder StatRecorder { get; protected set; }
         public ShipLevelManager LevelManager { get; private set; }
+        public ShipWeaponController WeaponController { get; private set; }
 
         public ShipLifeController LifeController
         {
@@ -116,12 +115,7 @@ namespace ShootR
             }
 
             Host.LastCommandID = commandID;
-        }
-
-        public ShipWeaponController GetWeaponController()
-        {
-            return _weaponController;
-        }
+        }                
 
         public void Update(GameTime gameTime)
         {

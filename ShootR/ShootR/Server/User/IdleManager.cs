@@ -71,9 +71,9 @@ namespace ShootR
             {
                 // This is here for performance
                 // Check if we've fired to prevent idle
-                if ((now - _me.GetWeaponController().LastFired).TotalSeconds < IDLE_AFTER)
+                if ((now - _me.WeaponController.LastFired).TotalSeconds < IDLE_AFTER)
                 {
-                    _lastActive = _me.GetWeaponController().LastFired;
+                    _lastActive = _me.WeaponController.LastFired;
                     ComeBack();
                     return false;
                 }

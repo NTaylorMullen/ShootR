@@ -93,7 +93,7 @@ namespace ShootR
                 UserAI userAI = new UserAI(connectionidAI, shipAI) { Controller = false };
                 UserHandler.AddUser(userAI);
                 GameHandler.AddShipToGame(shipAI);
-                shipAI.Name = "Ship0" + shipAI.ID;
+                shipAI.Name = "CPU" + shipAI.ID;
             }
         }
 

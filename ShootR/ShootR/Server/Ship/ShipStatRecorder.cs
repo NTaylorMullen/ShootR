@@ -41,5 +41,13 @@ namespace ShootR
                 bullet.FiredBy.StatRecorder.Kills++;
             }
         }
+
+        public void Reset()
+        {
+            DamageDealt = 0;
+            DamageTaken = 0;
+            Deaths = 0;
+            Kills = 0;
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace ShootR
             _me.OnDeath += Died;
 
             OnLevel += _me.LifeController.LeveledUp;
-            OnLevel += _me.GetWeaponController().LeveledUp;
+            OnLevel += _me.WeaponController.LeveledUp;
         }
 
         public int Level { get; private set; }
@@ -56,6 +56,13 @@ namespace ShootR
         {
             int exp = Convert.ToInt32(_levelCalculator.CalculateKillExperience((e.KilledBy as Bullet).FiredBy, _me) * EXP_REDUCTION_MODIFIER);
             Experience = Math.Max(Experience - exp, 0);
+        }
+
+        public void Reset()
+        {
+            Level = 1;
+            Experience = 0;
+            ExperienceToNextLevel = Convert.ToInt32(_levelCalculator.NextLevelExperience(Level));
         }
     }
 }

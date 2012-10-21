@@ -11,9 +11,12 @@ namespace ShootR
 
         public event DeathEventHandler OnDeath;
 
+        private double _startLife = 0;
+
         public LifeController(double life)
         {
-            MaxLife = life;
+            _startLife = life;
+            MaxLife = _startLife;
             Health = MaxLife;
             Alive = true;
         }
@@ -50,6 +53,12 @@ namespace ShootR
         {
             Alive = true;
             Health = MaxLife;
-        }        
+        }
+
+        public void Reset()
+        {
+            MaxLife = _startLife;
+            Health = MaxLife;
+        }
     }
 }

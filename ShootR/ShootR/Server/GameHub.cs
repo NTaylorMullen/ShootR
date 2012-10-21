@@ -137,7 +137,7 @@ namespace ShootR
 
             if (ship.LifeController.Alive)
             {
-                ship.GetWeaponController().Fire();
+                ship.WeaponController.Fire();
             }
         }
 

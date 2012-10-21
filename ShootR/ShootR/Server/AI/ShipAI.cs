@@ -7,17 +7,24 @@ using System.Web;
 namespace ShootR
 {
     public class ShipAI : Ship
-    {
+    {        
+        public const int MAX_LEVEL_BEFORE_RESTART = 6;
         public const int KILL_DISTANCE = 500;
         public const int DISTANCE_AWAY_FROM_BOUNDARY = 400;
         public const int ROTATION_BUFFER = 20;
         public const int TIME_TO_WAIT_AFTER_BOUNDARY_LEAVE = 1000;
 
+        public TimeSpan GiveUpDuration = TimeSpan.FromSeconds(3);
+        public DateTime? GaveUpAt = null;
+        public TimeSpan GiveUpAfter = TimeSpan.FromSeconds(10);
+
         private List<dynamic> _shipsOnScreen;
-        private AIState _state;        
+        private AIState _state;
         private double _targetRotation = -1;
         private double _currentRotation = 0;
         private static Random _gen = new Random();
+        private DateTime? _startedRotatingLeft = null;
+        private DateTime? _startedRotatingRight = null;
 
         private DateTime _lastBoundaryRedirection = DateTime.UtcNow;
 
@@ -28,6 +35,8 @@ namespace ShootR
             MovementController.Rotation = _gen.Next(0, 360);
             StatRecorder = new AIShipStatRecorder(this);
             SeekingShip = -1;
+
+            LevelManager.OnLevel += CheckReset;
         }
 
         public int SeekingShip { get; set; }
@@ -121,8 +130,24 @@ namespace ShootR
             StartWandering();
         }
 
-        public void CheckCurrentState()
+        public void TryAndGiveUp(DateTime now)
         {
+            if ((_startedRotatingLeft.HasValue && (now - _startedRotatingLeft) >= GiveUpAfter) || (_startedRotatingRight.HasValue && (now - _startedRotatingRight) >= GiveUpAfter))
+            {
+                GaveUpAt = now;
+                _startedRotatingLeft = null;
+                _startedRotatingRight = null;
+                ChangeState(AIState.GaveUp);
+            }
+        }
+
+        public void CheckCurrentState(DateTime now)
+        {
+            if (_state == AIState.Seeking)
+            {
+                TryAndGiveUp(now);
+            }
+
             // We're either seeking or killing
             if (_shipsOnScreen != null && _shipsOnScreen.Count > 0)
             {
@@ -151,19 +176,28 @@ namespace ShootR
             StartWandering();
         }
 
-        public void ActOnCurrentState()
+        public void ActOnCurrentState(DateTime now)
         {
             if (_state == AIState.Wandering)
             {
                 Wander();
             }
             else if (_state == AIState.Seeking)
-            {
-                Seek();
+            {                
+                Seek(now);
             }
             else if (_state == AIState.Killing)
             {
-                Kill();
+                Kill(now);
+            }
+            else if (_state == AIState.GaveUp)
+            {
+                if ((now - GaveUpAt) >= GiveUpDuration)
+                {
+                    GaveUpAt = null;
+                    ChangeState(AIState.Wandering);
+                }
+                Wander();
             }
         }
 
@@ -253,7 +287,7 @@ namespace ShootR
             }
         }
 
-        public void Seek()
+        public void Seek(DateTime now)
         {
             Vector2 otherPosition = null; ;
             // Grab the position of the ship that i'm seeking
@@ -269,27 +303,47 @@ namespace ShootR
             // Calculate angle between me and ship that i'm seeking
             double angle = (Math.Atan2(MovementController.Position.Y - otherPosition.Y, MovementController.Position.X - otherPosition.X) * (180 / Math.PI) + 180) % 360;
             angle = Math.Abs(angle - 360);
-           
-            var angleDiff = angle-_currentRotation;
+
+            var angleDiff = angle - _currentRotation;
             if (Math.Abs(angleDiff) > 5) // Only adjust movement if we're out of sync
             {
-                if (angleDiff > 0 && Math.Abs(angleDiff) <= 180)
+                if (angleDiff > 0 && Math.Abs(angleDiff) <= 180 && !MovementController.Moving.RotatingLeft)
                 {
+                    if (_startedRotatingLeft == null)
+                    {
+                        _startedRotatingLeft = now;
+                    }
+                    _startedRotatingRight = null;
                     StopMoving(Movement.RotatingRight);
                     StartMoving(Movement.RotatingLeft);
                 }
-                else if(angleDiff > 0 && Math.Abs(angleDiff) > 180)
+                else if (angleDiff > 0 && Math.Abs(angleDiff) > 180 && !MovementController.Moving.RotatingRight)
                 {
+                    _startedRotatingLeft = null;
+                    if (_startedRotatingRight == null)
+                    {
+                        _startedRotatingRight = now;
+                    }
                     StopMoving(Movement.RotatingLeft);
                     StartMoving(Movement.RotatingRight);
                 }
-                else if (angleDiff < 0 && Math.Abs(angleDiff) <= 180)
+                else if (angleDiff < 0 && Math.Abs(angleDiff) <= 180 && !MovementController.Moving.RotatingRight)
                 {
+                    _startedRotatingLeft = null;
+                    if (_startedRotatingRight == null)
+                    {
+                        _startedRotatingRight = DateTime.UtcNow;
+                    }
                     StopMoving(Movement.RotatingLeft);
                     StartMoving(Movement.RotatingRight);
                 }
-                else if (angleDiff < 0 && Math.Abs(angleDiff) > 180)
+                else if (angleDiff < 0 && Math.Abs(angleDiff) > 180 && !MovementController.Moving.RotatingLeft)
                 {
+                    if (_startedRotatingLeft == null)
+                    {
+                        _startedRotatingLeft = now;
+                    }
+                    _startedRotatingRight = null;
                     StopMoving(Movement.RotatingRight);
                     StartMoving(Movement.RotatingLeft);
                 }
@@ -302,19 +356,20 @@ namespace ShootR
             }
         }
 
-        public void Kill()
+        public void Kill(DateTime now)
         {
-            Seek();
-            GetWeaponController().Fire();
+            Seek(now);
+            WeaponController.Fire();
         }
 
         public override void Update(double PercentOfSecond)
-        {           
+        {
+            DateTime now = DateTime.UtcNow;
             // Used to convert the calculated ship rotation to a usable 0-360 rotation
             UpdateCurrentRotation();
 
-            CheckCurrentState();
-            ActOnCurrentState();
+            CheckCurrentState(now);
+            ActOnCurrentState(now);
 
             base.Update(PercentOfSecond);
         }
@@ -329,6 +384,17 @@ namespace ShootR
             }
 
             _currentRotation = Math.Abs(_currentRotation - 360);
+        }
+
+        public void CheckReset(object sender, LevelUpEventArgs e)
+        {
+            if (e.NewLevel == MAX_LEVEL_BEFORE_RESTART)
+            {
+                StatRecorder.Reset();
+                LevelManager.Reset();
+                WeaponController.Reset();
+                LifeController.Reset();
+            }
         }
     }
 }

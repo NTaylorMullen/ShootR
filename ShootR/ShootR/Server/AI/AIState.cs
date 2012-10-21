@@ -9,6 +9,7 @@ namespace ShootR
     {
         Wandering,
         Seeking,
-        Killing        
+        Killing,
+        GaveUp
     }
 }

@@ -55,5 +55,10 @@ namespace ShootR
         {
             DamageModifier += .1;
         }
+
+        public void Reset()
+        {
+            DamageModifier = 1;
+        }
     }
 }
