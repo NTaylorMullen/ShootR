@@ -4,14 +4,14 @@ namespace ShootR
 {
     public class BulletMovementController : MovementController
     {
-        public const double MAX_SPEED =700;
+        public const double MAX_SPEED = 1100;
         public const double MASS = 800;
 
-        public BulletMovementController(Vector2 position, Vector2 direction, Vector2 initialVelocity)
+        public BulletMovementController(Vector2 position, Vector2 direction)
             : base(MASS)
         {
             Position = position;
-            Velocity = direction * MAX_SPEED + initialVelocity;
+            Velocity = direction * MAX_SPEED;
             Rotation = Math.Atan(direction.Y / direction.X) * 180 / Math.PI;
         }
 

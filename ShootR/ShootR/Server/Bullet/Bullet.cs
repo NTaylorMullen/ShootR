@@ -20,8 +20,8 @@ namespace ShootR
 
         private static int _bulletGUID = -1;
 
-        public Bullet(Vector2 position, Vector2 direction, Vector2 initialVelocity, Ship firedBy, double damageModifier)
-            : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, initialVelocity), new LifeController(LIFE))
+        public Bullet(Vector2 position, Vector2 direction, Ship firedBy, double damageModifier)
+            : base(WIDTH, HEIGHT, new BulletMovementController(position, direction), new LifeController(LIFE))
         {
             ID = Interlocked.Decrement(ref _bulletGUID);// Reverse bullet GUID's to go below 0
             _spawnedAt = DateTime.UtcNow;
