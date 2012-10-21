@@ -1,4 +1,4 @@
-﻿function BulletManager(connection, payloadManager) {
+﻿function BulletManager(payloadManager) {
     var that = this;
 
     that.Bullets = {};

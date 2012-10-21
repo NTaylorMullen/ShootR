@@ -57,7 +57,7 @@ $(window).load(function () {
         CanvasContext.Render();
     }
 
-    env.stopController = function () {
+    env.client.stopController = function () {
         touchController.Enabled = false;
         $("#StopControlling").hide(500);
         $("#RequestTab").show();
@@ -65,7 +65,7 @@ $(window).load(function () {
         holder.fadeIn(500);
     }
 
-    env.controlRequestAccepted = function () {
+    env.client.controlRequestAccepted = function () {
         resultSpan.attr("class", "success");
         resultSpan.html("Success");
         holder.fadeOut(500);
@@ -82,10 +82,10 @@ $(window).load(function () {
     }
 
     $("#StopControlling").click(function () {
-        env.stopControlling().done(env.stopController);
+        env.server.stopControlling().done(env.client.stopController);
     });
 
-    env.controlRequestDeclined = function () {
+    env.client.controlRequestDeclined = function () {
         resultSpan.attr("class", "denied");
         resultSpan.html("Denied");
         $("#SuccessTab").hide(1000, function () { $("#RequestTab").show(); });
@@ -98,7 +98,7 @@ $(window).load(function () {
     });
 
     $.connection.hub.start(function () {
-        env.initializeController().done(function (val) {
+        env.server.initializeController().done(function (val) {
             Initialize(val);
         });
     });
@@ -108,7 +108,7 @@ $(window).load(function () {
         resultSpan.html("Loading...");
         $("#RequestTab").hide();
         $("#SuccessTab").show(500, function () {
-            env.requestControlOf($("#shipToControl").val()).done(function (result) {
+            env.server.requestControlOf($("#shipToControl").val()).done(function (result) {
                 if (result) {
                     resultSpan.html("Pending......");
                 }

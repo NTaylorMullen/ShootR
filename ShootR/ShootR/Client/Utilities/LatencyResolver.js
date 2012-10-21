@@ -48,12 +48,12 @@
     that.Resolve = function (callback) {
         deltas = [];
         // Do an initial ping (this clears the network/readies the tunnel).
-        connection.ping().done(GetDelta);
+        connection.server.ping().done(GetDelta);
 
         function GetDelta() {
             // Calculate delta time
             var sentAt = new Date().getTime();
-            connection.ping().done(function (result) {
+            connection.server.ping().done(function (result) {
                 PushPingResults(sentAt, CST.GetServerTime(new Date(result).getTime()));
 
                 if (++pingCount < that.SampleSize) {

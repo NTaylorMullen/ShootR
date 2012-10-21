@@ -5,19 +5,19 @@
 
     function ApplyClickHandlers() {
         $("#acceptControlRequest").click(function () {
-            connection.acceptControlRequest();
+            connection.server.acceptControlRequest();
             controlRequest.hide(500, function () {
                 stopControllers.show(500);
             });
         });
 
         $("#declineControlRequest").click(function () {
-            connection.declineControlRequest();
+            connection.server.declineControlRequest();
             controlRequest.hide(500);
         });
 
         stopControllers.click(function () {
-            connection.stopRemoteControllers();
+            connection.server.stopRemoteControllers();
             stopControllers.hide(500);
         });
     }
