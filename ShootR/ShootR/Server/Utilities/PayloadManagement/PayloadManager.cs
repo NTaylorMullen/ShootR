@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace ShootR
 {
@@ -13,12 +14,54 @@ namespace ShootR
 
         private PayloadCache _payloadCache = new PayloadCache();
 
-        public Dictionary<string, object[]> GetGamePayloads(ICollection<User> userList, int shipCount, int bulletCount, Map space)
+        public ConcurrentDictionary<string, object[]> GetGamePayloads(ICollection<User> userList, int shipCount, int bulletCount, Map space)
         {
             _payloadCache.StartNextPayloadCache();
 
-            Dictionary<string, object[]> payloads = new Dictionary<string, object[]>();            
+            ConcurrentDictionary<string, object[]> payloads = new ConcurrentDictionary<string, object[]>();
 
+            Parallel.ForEach(userList, user =>
+            {
+                if (user.ReadyForPayloads)
+                {
+                    Vector2 screenOffset = new Vector2((user.Viewport.Width / 2) + Ship.WIDTH / 2, (user.Viewport.Height / 2) + Ship.HEIGHT / 2);
+                    string connectionID = user.ConnectionID;
+
+                    _payloadCache.CreateCacheFor(connectionID);
+
+                    var payload = GetInitializedPayload(shipCount, bulletCount, user);
+
+                    if (!user.IdleManager.CheckIdle())
+                    {
+                        Vector2 screenPosition = user.MyShip.MovementController.Position - screenOffset;
+                        List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), user.Viewport.Width + SCREEN_BUFFER_AREA, user.Viewport.Height + SCREEN_BUFFER_AREA));
+
+                        foreach (Collidable obj in onScreen)
+                        {
+                            if (obj is Bullet)
+                            {
+                                _payloadCache.Cache(connectionID, obj);
+
+                                if (obj.Altered() || !_payloadCache.ExistedLastPayload(connectionID, obj))
+                                {
+                                    payload.Bullets.Add(Compressor.Compress((Bullet)obj));
+                                }
+                            }
+                            else if (obj is Ship)
+                            {
+                                payload.Ships.Add(Compressor.Compress(((Ship)obj)));
+                            }
+                        }
+                    }
+                    else // User is Idle, push down "MyShip"
+                    {
+                        payload.Ships.Add(Compressor.Compress(user.MyShip));
+                    }
+
+                    payloads.TryAdd(connectionID, Compressor.Compress(payload));
+                }
+            });
+            /*
             foreach (User user in userList)
             {
                 if (user.ReadyForPayloads)
@@ -57,9 +100,9 @@ namespace ShootR
                         payload.Ships.Add(Compressor.Compress(user.MyShip));
                     }
 
-                    payloads[connectionID] = Compressor.Compress(payload);                                      
+                    payloads.TryAdd(connectionID, Compressor.Compress(payload));
                 }
-            }
+            }*/
 
             // Remove all disposed objects from the map
             space.Clean();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,30 +12,30 @@ namespace ShootR
     /// </summary>
     public class PayloadCache
     {
-        Dictionary<string, Dictionary<int, bool>> _lastCache;
-        Dictionary<string, Dictionary<int, bool>> _currentCache;
+        ConcurrentDictionary<string, ConcurrentDictionary<int, bool>> _lastCache;
+        ConcurrentDictionary<string, ConcurrentDictionary<int, bool>> _currentCache;
 
         public PayloadCache()
         {
             // Initiate base cache containers
-            _currentCache = new Dictionary<string, Dictionary<int, bool>>();
-            _lastCache = new Dictionary<string, Dictionary<int, bool>>();
+            _currentCache = new ConcurrentDictionary<string, ConcurrentDictionary<int, bool>>();
+            _lastCache = new ConcurrentDictionary<string, ConcurrentDictionary<int, bool>>();
         }
 
         public void StartNextPayloadCache()
         {
             _lastCache = _currentCache;
-            _currentCache = new Dictionary<string, Dictionary<int, bool>>();
+            _currentCache = new ConcurrentDictionary<string, ConcurrentDictionary<int, bool>>();
         }
 
         public void CreateCacheFor(string connectionID)
         {
-            _currentCache.Add(connectionID, new Dictionary<int, bool>());
+            _currentCache.TryAdd(connectionID, new ConcurrentDictionary<int, bool>());
         }
 
         public void Cache(string connectionID, Collidable obj)
         {
-            _currentCache[connectionID].Add(obj.ServerID(), true);
+            _currentCache[connectionID].TryAdd(obj.ServerID(), true);
         }
 
         public bool ExistedLastPayload(string connectionID, Collidable obj)

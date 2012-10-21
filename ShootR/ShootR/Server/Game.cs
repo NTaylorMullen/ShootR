@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -90,10 +91,7 @@ namespace ShootR
                 }
                 _threadCount--;
                 _updateLock.Release();
-            }
-            else if (_threadCount > 2)
-            {
-            }
+            }            
         }
 
         public void SpawnAIShips(int number)
@@ -117,7 +115,7 @@ namespace ShootR
             int shipCount = GameHandler.ShipCount();
             _space.CheckIncreaseMapSize(shipCount);
 
-            Dictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), shipCount, GameHandler.BulletManager.Bullets.Count, _space);
+            ConcurrentDictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), shipCount, GameHandler.BulletManager.Bullets.Count, _space);
             dynamic Clients = GetContext().Clients;
 
             foreach (string connectionID in payloads.Keys)
