@@ -78,8 +78,8 @@ namespace ShootR
             _configuration = new ConfigurationManager();
             DRAW_AFTER = _configuration.gameConfig.DRAW_INTERVAL / _configuration.gameConfig.UPDATE_INTERVAL;
             // _gameLoop = new Timer(Update, null, _configuration.gameConfig.UPDATE_INTERVAL, _configuration.gameConfig.UPDATE_INTERVAL);
-            _gameLoop = new FpsTimer(25, Update);
-            _gameLoop.Start();
+            
+            
 
             _leaderboardLoop = new Timer(UpdateLeaderboard, null, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
 
@@ -91,7 +91,8 @@ namespace ShootR
             UserHandler = new UserHandler(GameHandler);
             Leaderboard = new Leaderboard(UserHandler);
             ConnectionManager = new ConnectionManager(UserHandler, _locker);
-
+            _gameLoop = new FpsTimer(25, Update);
+            _gameLoop.Start();
             //SpawnAIShips(AIShipsToSpawn);
         }
 
