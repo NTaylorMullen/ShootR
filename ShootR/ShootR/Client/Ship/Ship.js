@@ -1,6 +1,6 @@
 ﻿function Ship(rotateLeft, forward, rotateRight, backward, fire, bullet_manager, conn) {
     var that = this,
-        lastShot = new Date(),
+        lastShot = new Date().getTime(),
         keyMapping = [],
         movementCount = that.REQUEST_PING_EVERY,
         touchController,
@@ -199,11 +199,8 @@
     }
 
     function shoot() {
-        var diff = new Date();
-        diff.setTime(diff - lastShot);
-
-        if (diff.getTime() > that.FIRE_RATE) {
-            lastShot = new Date();
+        if ((new Date().getTime() - lastShot) > that.FIRE_RATE) {
+            lastShot = new Date().getTime();
 
             conn.fire();
         }
