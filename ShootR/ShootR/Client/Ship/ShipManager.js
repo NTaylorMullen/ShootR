@@ -54,7 +54,7 @@
                 }
             }
             else {
-                that.Ships[id].Update();
+                //that.Ships[id].Update();
                 that.Ships[id].Draw();
             }
         }
