@@ -13,6 +13,7 @@ namespace ShootR
     {
         private readonly int _fps;
         private readonly Action _callback;
+        private Thread _runner;
 
         public FpsTimer(int fps, Action callback)
         {
@@ -22,23 +23,33 @@ namespace ShootR
 
         public void Start()
         {
-            var frameTicks = (int)Math.Round(1000.0 / _fps);
-            var lastUpdate = 0;
-
-            while (true)
+            if (_runner != null)
             {
-                int delta = (lastUpdate + frameTicks) - Environment.TickCount;
-                if (delta < 0)
-                {
-                    lastUpdate = Environment.TickCount;
-
-                    _callback();
-                }
-                else
-                {
-                    Thread.Sleep(TimeSpan.FromTicks(delta));
-                }
+                return;
             }
+
+            _runner = new Thread(() =>
+            {
+                var frameTicks = (int)Math.Round(1000.0 / _fps);
+                var lastUpdate = 0;
+
+                while (true)
+                {
+                    int delta = (lastUpdate + frameTicks) - Environment.TickCount;
+                    if (delta < 0)
+                    {
+                        lastUpdate = Environment.TickCount;
+
+                        _callback();
+                    }
+                    else
+                    {
+                        Thread.Sleep(TimeSpan.FromTicks(delta));
+                    }
+                }
+            });
+
+            _runner.Start();
         }
     }
 
@@ -68,6 +79,8 @@ namespace ShootR
             DRAW_AFTER = _configuration.gameConfig.DRAW_INTERVAL / _configuration.gameConfig.UPDATE_INTERVAL;
             // _gameLoop = new Timer(Update, null, _configuration.gameConfig.UPDATE_INTERVAL, _configuration.gameConfig.UPDATE_INTERVAL);
             _gameLoop = new FpsTimer(25, Update);
+            _gameLoop.Start();
+
             _leaderboardLoop = new Timer(UpdateLeaderboard, null, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
 
             _gameTime = new GameTime();
