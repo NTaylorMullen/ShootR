@@ -46,7 +46,7 @@ namespace ShootR
 
         public long LastCommandID { get; set; }
 
-        public virtual void PushToClient(object[] payload, dynamic Context)
+        public virtual void PushToClient(object[] payload, IHubContext Context)
         {
             //GlobalHost.ConnectionManager.GetHubContext<GameHub>().Client(ConnectionID)
             Context.Client(ConnectionID).d(payload);

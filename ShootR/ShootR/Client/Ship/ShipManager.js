@@ -63,10 +63,8 @@
     that.Update = function (gameTime) {
         for (var key in that.Ships) {
             // Ensure that the Ship is in view
-            if (CanvasContext.Camera.InView(that.Ships[key]) || that.MyShip.ID === that.Ships[key].ID) {
-                that.Ships[key].Update(gameTime);
-
-                that.Ships[key].Draw();
+            if (CanvasContext.Camera.InView(that.Ships[key]) && that.MyShip.ID === that.Ships[key].ID) {
+                that.Ships[key].Update(gameTime);                
 
                 if (that.Ships[key].LifeController.Alive && that.DrawDetails) {
                     if (that.Ships[key].ID !== that.MyShip.ID) {
@@ -80,8 +78,10 @@
                 }
             }
             else { // Ship is not in view, so remove it from our ship list
-                delete that.Ships[key];
+                //delete that.Ships[key];
             }
+
+            that.Ships[key].Draw();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 namespace ShootR
 {
     /// <summary>
@@ -94,12 +95,22 @@ namespace ShootR
 
             Host.IdleManager.RecordActivity();
             MovementController.StartMoving(where);
+            if (Host.LastCommandID + 1 != commandID)
+            {
+                (GlobalHost.ConnectionManager.GetHubContext<GameHub>() as IHubContext).Clients.notify("Missed command ID " + (Host.LastCommandID + 1) + " when starting movement (" + where.ToString() + ").  Instead I got command ID " + commandID);
+            }
+
             Host.LastCommandID = commandID;
         }
 
         public virtual void StopMoving(Movement where, long commandID)
         {
             Update(GameTime.CalculatePercentOfSecond(LastUpdated));
+
+            if (Host.LastCommandID + 1 != commandID)
+            {
+                (GlobalHost.ConnectionManager.GetHubContext<GameHub>() as IHubContext).Clients.notify("Missed command ID " + (Host.LastCommandID + 1) + " when stopping movement (" + where.ToString() + ").  Instead I got command ID " + commandID);
+            }
 
             Host.IdleManager.RecordActivity();
             MovementController.StopMoving(where);
