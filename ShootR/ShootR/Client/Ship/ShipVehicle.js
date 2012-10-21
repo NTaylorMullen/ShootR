@@ -33,16 +33,43 @@
         that.UpdateFromSecond(PercentOfSecond);
     }
 
+    function TryInterpolation(ClientPositionPrediction) {
+        if (that.InterpolateOver) {
+            var InterpolationPercent = CalculatePO(that.LastUpdated, that.InterpolateOver);
+
+            if (that.SmoothingX) {
+                that.TargetX += ClientPositionPrediction.X;
+
+                var posDiffX = that.TargetX - that.MovementController.Position.X;
+                console.log("x: " + posDiffX);
+                that.MovementController.Position.X += (posDiffX * InterpolationPercent);
+
+                if (Math.abs(posDiffX) <= that.INTERPOLATE_THRESHOLD) {
+                    that.SmoothingX = false;
+                    console.log("!X");
+                }
+            }
+
+            if (that.SmoothingY) {
+                that.TargetY += ClientPositionPrediction.Y;
+
+                var posDiffY = that.TargetY - that.MovementController.Position.Y;
+                console.log("y: " + posDiffY);
+                that.MovementController.Position.Y += (posDiffY * InterpolationPercent);
+
+                if (Math.abs(posDiffY) <= that.INTERPOLATE_THRESHOLD) {
+                    that.SmoothingY = false;
+                    console.log("!Y");
+                }
+            }
+        }
+    }
+
     that.UpdateFromSecond = function (PercentOfSecond) {
         var ClientPositionPrediction = {
             X: 0,
             Y: 0,
-        },
-        InterpolationPercent;
-
-        if (that.InterpolateOver) {
-            InterpolationPercent = CalculatePO(that.LastUpdated, that.InterpolateOver);
-        }
+        };
 
         Acceleration = { X: 0, Y: 0 }
 
@@ -55,31 +82,7 @@
         that.MovementController.Position.X += ClientPositionPrediction.X
         that.MovementController.Position.Y += ClientPositionPrediction.Y
 
-        if (that.SmoothingX) {            
-            that.TargetX += ClientPositionPrediction.X;
-
-            var posDiffX = that.TargetX - that.MovementController.Position.X;
-            
-            that.MovementController.Position.X += (posDiffX * InterpolationPercent);
-
-            if (that.LastUpdated.getTime() - that.StartedSmoothingXAt >= that.InterpolateOver) {
-                that.SmoothingX = false;
-                console.log("!X");
-            }
-        }
-
-        if (that.SmoothingY) {
-            that.TargetY += ClientPositionPrediction.Y;
-
-            var posDiffY = that.TargetY - that.MovementController.Position.Y;
-
-            that.MovementController.Position.Y += (posDiffY * InterpolationPercent);
-
-            if (that.LastUpdated.getTime() - that.StartedSmoothingYAt >= that.InterpolateOver) {
-                that.SmoothingY = false;
-                console.log("!Y");
-            }
-        }
+        TryInterpolation(ClientPositionPrediction);        
 
         that.MovementController.Velocity.X += Acceleration.X * PercentOfSecond;
         that.MovementController.Velocity.Y += Acceleration.Y * PercentOfSecond;
