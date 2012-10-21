@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,7 +26,7 @@ namespace ShootR
         private int DRAW_AFTER;
         private int _updateCount = 0;
         private int _threadCount = 0;
-        private Semaphore _updateLock = new Semaphore(2, 2);
+        private int _updating;
         private object _locker = new object();
 
         private Game()
@@ -55,43 +55,42 @@ namespace ShootR
 
         private void Update(object state)
         {
-            if (_threadCount < 2)
+            if (Interlocked.Exchange(ref _updating, 1) == 1)
             {
-                _updateLock.WaitOne();
-                _threadCount++;
-                lock (_locker)
+                return;
+            }
+
+            DateTime utcNow = DateTime.UtcNow;
+
+            try
+            {
+                if ((utcNow - _lastSpawn).TotalSeconds >= 1 && _spawned < AIShipsToSpawn)
                 {
-                    DateTime utcNow = DateTime.UtcNow;
-
-                    try
-                    {
-                        if ((utcNow - _lastSpawn).TotalSeconds >= 1 && _spawned < AIShipsToSpawn)
-                        {
-                            _spawned += SpawnsPerInterval;
-                            SpawnAIShips(SpawnsPerInterval);
-                            _lastSpawn = utcNow;
-                        }
-
-                        _gameTime.Update(utcNow);
-
-                        GameHandler.Update(_gameTime);
-
-                        _space.Update();
-
-                        if (++_updateCount % DRAW_AFTER == 0)
-                        {
-                            _updateCount = 0; // Reset update count to 0
-                            Draw();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        ErrorLog.Instance.Log(e);
-                    }
+                    _spawned += SpawnsPerInterval;
+                    SpawnAIShips(SpawnsPerInterval);
+                    _lastSpawn = utcNow;
                 }
-                _threadCount--;
-                _updateLock.Release();
-            }            
+
+                _gameTime.Update(utcNow);
+
+                GameHandler.Update(_gameTime);
+
+                _space.Update();
+
+                if (++_updateCount % DRAW_AFTER == 0)
+                {
+                    _updateCount = 0; // Reset update count to 0
+                    Draw();
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorLog.Instance.Log(e);
+            }
+            finally
+            {
+                Interlocked.Exchange(ref _updating, 0);
+            }
         }
 
         public void SpawnAIShips(int number)
@@ -155,7 +154,7 @@ namespace ShootR
         public object initializeClient(string connectionId)
         {
             if (!UserHandler.UserExists(connectionId))
-            {                
+            {
                 lock (_locker)
                 {
                     Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
