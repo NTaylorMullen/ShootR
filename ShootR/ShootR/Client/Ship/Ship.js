@@ -53,7 +53,7 @@
         if (lastPayloadReceivedAt) {
             payloadsEvery = now - lastPayloadReceivedAt
         }
-        $("#ShipName").val(that.MovementController.Rotation);
+        
         lastPayloadReceivedAt = now;
     }
 
