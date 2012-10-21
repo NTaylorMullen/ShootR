@@ -9,6 +9,39 @@ using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ShootR
 {
+    public class FpsTimer
+    {
+        private readonly int _fps;
+        private readonly Action _callback;
+
+        public FpsTimer(int fps, Action callback)
+        {
+            _fps = fps;
+            _callback = callback;
+        }
+
+        public void Start()
+        {
+            var frameTicks = (int)Math.Round(1000.0 / _fps);
+            var lastUpdate = 0;
+
+            while (true)
+            {
+                int delta = (lastUpdate + frameTicks) - Environment.TickCount;
+                if (delta < 0)
+                {
+                    lastUpdate = Environment.TickCount;
+
+                    _callback();
+                }
+                else
+                {
+                    Thread.Sleep(TimeSpan.FromTicks(delta));
+                }
+            }
+        }
+    }
+
     public class Game
     {
         public const int AIShipsToSpawn = 5;
@@ -17,7 +50,8 @@ namespace ShootR
         private DateTime _lastSpawn = DateTime.UtcNow;
 
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
-        private Timer _gameLoop, _leaderboardLoop;
+        private Timer _leaderboardLoop;
+        private FpsTimer _gameLoop;
         private ConfigurationManager _configuration;
         private GameTime _gameTime;
         private Map _space;
@@ -25,7 +59,6 @@ namespace ShootR
 
         private int DRAW_AFTER;
         private int _updateCount = 0;
-        private int _threadCount = 0;
         private int _updating;
         private object _locker = new object();
 
@@ -33,7 +66,8 @@ namespace ShootR
         {
             _configuration = new ConfigurationManager();
             DRAW_AFTER = _configuration.gameConfig.DRAW_INTERVAL / _configuration.gameConfig.UPDATE_INTERVAL;
-            _gameLoop = new Timer(Update, null, _configuration.gameConfig.UPDATE_INTERVAL, _configuration.gameConfig.UPDATE_INTERVAL);
+            // _gameLoop = new Timer(Update, null, _configuration.gameConfig.UPDATE_INTERVAL, _configuration.gameConfig.UPDATE_INTERVAL);
+            _gameLoop = new FpsTimer(25, Update);
             _leaderboardLoop = new Timer(UpdateLeaderboard, null, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
 
             _gameTime = new GameTime();
@@ -53,7 +87,7 @@ namespace ShootR
         public Leaderboard Leaderboard { get; private set; }
         public GameHandler GameHandler { get; set; }
 
-        private void Update(object state)
+        private void Update()
         {
             if (Interlocked.Exchange(ref _updating, 1) == 1)
             {
