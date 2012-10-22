@@ -28,6 +28,7 @@
         <div id="banner"></div>
 
         <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
+        <script src="Scripts/jquery.cookie.js" type="text/javascript"></script>
         <script src="Scripts/shortcut.js" type="text/javascript"></script>
         <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>
         <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>

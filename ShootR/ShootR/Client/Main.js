@@ -12,12 +12,12 @@ $(function () {
         screen = new Screen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env),
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] };
-        
+
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
         game = new Game(env, latencyResolver, init.ShipID);
         GAME_GLOBALS.Game = game;
-        payloadDecompressor.LoadContracts(init.CompressionContracts);        
+        payloadDecompressor.LoadContracts(init.CompressionContracts);
         game.HUDManager.Initialize(init);
         screen.Initialize(game.HUDManager);
 
@@ -57,7 +57,7 @@ $(function () {
         if (info.Notification) {
             $("#Notification").html(info.Notification);
             $('#Notification').css({ top: '50%', left: '50%', margin: '-' + ($('#Notification').height() / 2) + 'px 0 0 -' + ($('#Notification').width() / 2) + 'px' });
-            $("#Notification").fadeIn(1000).fadeOut(4000);            
+            $("#Notification").fadeIn(1000).fadeOut(4000);
         }
 
         myShip.Experience = info.Experience;
@@ -96,13 +96,13 @@ $(function () {
     env.pingBack = latencyResolver.ServerPingBack;
 
     env.controlRequest = function () {
-        game.HUDManager.ControlRequestManager.ControlRequest();        
+        game.HUDManager.ControlRequestManager.ControlRequest();
     }
 
     env.controllersStopped = function () {
-        game.HUDManager.ControlRequestManager.ControllersStopped();        
+        game.HUDManager.ControlRequestManager.ControllersStopped();
     }
-    
+
     var stateCookie = $.cookie('shootr.state'),
         state = stateCookie ? JSON.parse(stateCookie) : {},
         registrationID = state.RegistrationID;
@@ -110,7 +110,7 @@ $(function () {
     if (registrationID) {
         delete state.RegistrationID;
 
-        $.cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });        
+        $.cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });
 
         $.connection.hub.start(function () {
             env.initializeClient(registrationID).done(function (value) {
@@ -118,5 +118,5 @@ $(function () {
             });
         });
     }
-    
+
 });

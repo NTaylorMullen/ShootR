@@ -26,7 +26,7 @@ namespace ShootR
         {
             User u;
             _userList.TryRemove(connectionId, out u);
-            if (u.MyShip != null)
+            if (!u.Controller && u.MyShip != null)
             {
                 u.MyShip.Dispose();
                 u.MyShip.Host = null; // Remove linking from the ship
@@ -44,11 +44,6 @@ namespace ShootR
             }
         }
 
-        public void RegisterUser()
-        {
-
-        }
-
         public User GetUser(string connectionId)
         {
             return _userList[connectionId];
@@ -57,6 +52,13 @@ namespace ShootR
         public Ship GetUserShip(string connectionId)
         {
             return _userList[connectionId].MyShip;
+        }
+
+        public User FindUserByIdentity(string identity)
+        {
+            return (from user in _userList.Values
+                    where user.RegistrationTicket.Identity == identity && !user.Controller
+                    select user).FirstOrDefault();
         }
 
         public ICollection<User> GetUsers()

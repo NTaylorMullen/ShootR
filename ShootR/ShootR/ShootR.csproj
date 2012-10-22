@@ -200,7 +200,6 @@
     <Compile Include="Server\Configuration\ShipConfiguration.cs" />
     <Compile Include="Server\GameHub.cs" />
     <Compile Include="Server\GenericManagers\ConnectionManager.cs" />
-    <Compile Include="Server\GenericManagers\ControlRequestManager.cs" />
     <Compile Include="Server\GenericManagers\GameHandler.cs" />
     <Compile Include="Server\Leaderboard\Leaderboard.cs" />
     <Compile Include="Server\Leaderboard\LeaderboardEntry.cs" />

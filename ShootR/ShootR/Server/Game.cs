@@ -96,7 +96,7 @@ namespace ShootR
                 }
                 _threadCount--;
                 _updateLock.Release();
-            }            
+            }
         }
 
         public void SpawnAIShips(int number)
@@ -160,30 +160,37 @@ namespace ShootR
         public object initializeClient(string connectionId, RegisteredClient rc)
         {
             if (!UserHandler.UserExists(connectionId))
-            {                
-                lock (_locker)
+            {
+                try
                 {
-                    Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
-                    User user = new User(connectionId, ship, rc) { Controller = false };
-                    UserHandler.AddUser(user);
-                    GameHandler.AddShipToGame(ship);
-                    ship.Name = rc.DisplayName;
-                }
-
-                return new
-                {
-                    Configuration = _configuration,
-                    CompressionContracts = new
+                    lock (_locker)
                     {
-                        PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
-                        CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
-                        ShipContract = _payloadManager.Compressor.ShipCompressionContract,
-                        BulletContract = _payloadManager.Compressor.BulletCompressionContract,
-                        LeaderboardEntryContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
-                    },
-                    ShipID = UserHandler.GetUserShip(connectionId).ID,
-                    ShipName = UserHandler.GetUserShip(connectionId).Name
-                };
+                        Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
+                        User user = new User(connectionId, ship, rc) { Controller = false };
+                        UserHandler.AddUser(user);
+                        GameHandler.AddShipToGame(ship);
+                        ship.Name = rc.DisplayName;
+                    }
+
+                    return new
+                    {
+                        Configuration = _configuration,
+                        CompressionContracts = new
+                        {
+                            PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
+                            CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
+                            ShipContract = _payloadManager.Compressor.ShipCompressionContract,
+                            BulletContract = _payloadManager.Compressor.BulletCompressionContract,
+                            LeaderboardEntryContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
+                        },
+                        ShipID = UserHandler.GetUserShip(connectionId).ID,
+                        ShipName = UserHandler.GetUserShip(connectionId).Name
+                    };
+                }
+                catch (Exception e)
+                {
+                    ErrorLog.Instance.Log(e);
+                }
             }
 
             return null;
@@ -197,25 +204,47 @@ namespace ShootR
         {
             if (!UserHandler.UserExists(connectionId))
             {
-                UserHandler.AddUser(new User(connectionId, rc) { Controller = true });
-
-                return new
+                try
                 {
-                    Configuration = _configuration,
-                    CompressionContracts = new
+                    User main = UserHandler.FindUserByIdentity(rc.Identity);
+
+                    if (main != null)
                     {
-                        PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
-                        CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
-                        ShipContract = _payloadManager.Compressor.ShipCompressionContract,
-                        BulletContract = _payloadManager.Compressor.BulletCompressionContract,
-                        LeaderboardEntryCompressionContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
+                        User controllerUser = new User(connectionId, rc) { Controller = true };
+
+                        controllerUser.MyShip = main.MyShip;
+
+                        UserHandler.AddUser(controllerUser);
+                        main.RemoteControllers.Add(controllerUser);
+
+                        return new
+                        {
+                            Configuration = _configuration,
+                            CompressionContracts = new
+                            {
+                                PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
+                                CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
+                                ShipContract = _payloadManager.Compressor.ShipCompressionContract,
+                                BulletContract = _payloadManager.Compressor.BulletCompressionContract,
+                                LeaderboardEntryCompressionContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
+                            }
+                        };
                     }
-                };
+                    else
+                    {
+                        return new
+                        {
+                            FailureMessage = "Could not find logged in user to control."
+                        };
+                    }
+                }
+                catch (Exception e)
+                {
+                    ErrorLog.Instance.Log(e);
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         public static Game Instance

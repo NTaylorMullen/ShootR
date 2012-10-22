@@ -11,10 +11,7 @@ $(window).load(function () {
         shipControllerFn = new ShipControllerFunctions(env),
         touchController;
 
-    screen.SendNewViewportToServer = function () { }; // Don't send viewport updates to the server
-
-    var resultSpan = $("#SuccessTab span"),
-        holder = $("#ControllerRequestHolder");    
+    screen.SendNewViewportToServer = function () { }; // Don't send viewport updates to the server   
 
     function Initialize(init) {
         $.extend(Screen.prototype, init.Configuration.screenConfig);
@@ -26,6 +23,9 @@ $(window).load(function () {
         screen.Initialize();
 
         StartUpdateLoop();
+
+        touchController = new TouchController(shipControllerFn.StartMovement, shipControllerFn.StopMovement, shipControllerFn.StopAndStartMovement, shipControllerFn.ResetMovement, shipControllerFn.shoot);
+        touchController.Initialize(screen);
     }
 
     function StartUpdateLoop() {
@@ -43,7 +43,7 @@ $(window).load(function () {
         (function animloop() {
             requestAnimFrame(animloop);
 
-            if (touchController && touchController.Enabled) {
+            if (touchController) {
                 Update();
             }
         })();
@@ -57,72 +57,31 @@ $(window).load(function () {
         CanvasContext.Render();
     }
 
-    env.stopController = function () {
-        touchController.Enabled = false;
-        $("#StopControlling").hide(500);
-        $("#RequestTab").show();
-        $("#SuccessTab").hide();
-        holder.fadeIn(500);
+    var stateCookie = $.cookie('shootr.state'),
+        state = stateCookie ? JSON.parse(stateCookie) : {},
+        registrationID = state.RegistrationID;
+
+    env.stopController = function (msg) {
+        $.connection.hub.stop();
+        alert(msg);        
     }
 
-    env.controlRequestAccepted = function () {
-        resultSpan.attr("class", "success");
-        resultSpan.html("Success");
-        holder.fadeOut(500);
+    if (registrationID) {
+        delete state.RegistrationID;
 
-        if (!touchController) {
-            touchController = new TouchController(shipControllerFn.StartMovement, shipControllerFn.StopMovement, shipControllerFn.StopAndStartMovement, shipControllerFn.ResetMovement, shipControllerFn.shoot);
-            touchController.Initialize(screen);
-        }
-        else {
-            touchController.Enabled = true;
-        }
+        $.cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });
 
-        $("#StopControlling").show(500);        
-    }
-
-    $("#StopControlling").click(function () {
-        env.stopControlling().done(env.stopController);
-    });
-
-    env.controlRequestDeclined = function () {
-        resultSpan.attr("class", "denied");
-        resultSpan.html("Denied");
-        $("#SuccessTab").hide(1000, function () { $("#RequestTab").show(); });
-    }
-
-    $("#shipToControl").keyup(function (e) {
-        if (e.keyCode == 13) {
-            $("#requestControl").click();
-        }
-    });
-
-    $.connection.hub.start(function () {
-        env.initializeController().done(function (val) {
-            Initialize(val);
-        });
-    });
-
-    $("#requestControl").click(function () {
-        resultSpan.attr("class", "");
-        resultSpan.html("Loading...");
-        $("#RequestTab").hide();
-        $("#SuccessTab").show(500, function () {
-            env.requestControlOf($("#shipToControl").val()).done(function (result) {
-                if (result) {
-                    resultSpan.html("Pending......");
+        $.connection.hub.start(function () {
+            env.initializeController(registrationID).done(function (val) {
+                if (!val.FailureMessage) {
+                    Initialize(val);
                 }
                 else {
-                    resultSpan.html("Failure!");
-
-                    $("#SuccessTab").hide(500, function () {
-                        $("#RequestTab").show();
-                    });
-
+                    alert(val.FailureMessage);
+                    $.connection.hub.stop();
                 }
             });
         });
-    });
-
+    }
 
 });

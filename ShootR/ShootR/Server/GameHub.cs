@@ -9,8 +9,6 @@ namespace ShootR
     [HubName("h")]
     public class GameHub : Hub, IConnected, IDisconnect
     {
-        private static ControlRequestManager _controlRequestManager = new ControlRequestManager();
-
         private readonly Game _game;
 
         public GameHub() : this(Game.Instance) { }
@@ -42,86 +40,6 @@ namespace ShootR
         #endregion
 
         #region Client Accessor Methods
-
-        #region Control requests
-
-        public bool requestControlOf(string shipName)
-        {
-            User to = null;
-            foreach (string connectionID in _game.UserHandler.GetUserConnectionIds())
-            {
-                if (connectionID != Context.ConnectionId && _game.UserHandler.GetUserShip(connectionID).Name == shipName)
-                {
-                    to = _game.UserHandler.GetUser(connectionID);
-                    break;
-                }
-            }
-
-            if (to != null)
-            {
-                if (_controlRequestManager.Add(Context.ConnectionId, to.ConnectionID))
-                {
-                    Clients[to.ConnectionID].controlRequest();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public void acceptControlRequest()
-        {
-            string from = _controlRequestManager.PullControlRequest(Context.ConnectionId);
-
-            _game.UserHandler.GetUser(from).MyShip = _game.UserHandler.GetUserShip(Context.ConnectionId);
-            _game.UserHandler.GetUser(Context.ConnectionId).RemoteControllers.Add(_game.UserHandler.GetUser(from));
-
-            Clients[from].controlRequestAccepted();
-        }
-
-        public void declineControlRequest()
-        {
-            string from = _controlRequestManager.PullControlRequest(Context.ConnectionId);
-
-            Clients[from].controlRequestDeclined();
-        }
-
-        public void stopControlling()
-        {
-            stopControlling(Context.ConnectionId);
-        }
-
-        private void stopControlling(string connectionID)
-        {
-            _game.UserHandler.GetUserShip(connectionID).Host.RemoteControllers.Remove(_game.UserHandler.GetUser(connectionID));
-
-            // If there's no more remote controllers
-            if (_game.UserHandler.GetUserShip(connectionID).Host.RemoteControllers.Count == 0)
-            {
-                Clients[_game.UserHandler.GetUserShip(connectionID).Host.ConnectionID].controllersStopped();
-            }
-
-            _game.UserHandler.GetUser(connectionID).MyShip = null;
-        }
-
-        public void stopRemoteControllers()
-        {
-            foreach (User u in _game.UserHandler.GetUser(Context.ConnectionId).RemoteControllers)
-            {
-                u.MyShip = null;
-                Clients[u.ConnectionID].stopController();
-            }
-
-            _game.UserHandler.GetUser(Context.ConnectionId).RemoteControllers.Clear();
-        }
-
-        #endregion
 
         public DateTime ping()
         {

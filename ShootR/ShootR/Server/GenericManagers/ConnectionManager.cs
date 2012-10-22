@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using SignalR;
+using SignalR.Hubs;
 
 namespace ShootR
 {
@@ -41,15 +42,32 @@ namespace ShootR
                     User user = _userHandler.GetUser(connectionId);
                     
                     //It's possible for a controller to disconnect without a ship
-                    if (user.MyShip != null)
+                    if (!user.Controller)
                     {
                         user.MyShip.Dispose();
+                    }
+                    else
+                    {
+                        // Remove me from the ship hosts remote controllers
+                        user.MyShip.Host.RemoteControllers.Remove(user);
+                        user.MyShip = null;
                     }
 
                     _userHandler.RemoveUser(connectionId);                    
 
                     // Leave the leaderboard group just in case user was in it
-                    GlobalHost.ConnectionManager.GetHubContext<GameHub>().Groups.Remove(connectionId, Leaderboard.LEADERBOARD_REQUESTEE_GROUP);
+                    IHubContext context = Game.GetContext();
+                    context.Groups.Remove(connectionId, Leaderboard.LEADERBOARD_REQUESTEE_GROUP);
+
+                    // Clear controllers
+                    foreach (User u in user.RemoteControllers)
+                    {
+                        u.MyShip = null;
+                        context.Clients[u.ConnectionID].stopController("Primary account has been stopped!");
+                    }
+
+                    user.RemoteControllers.Clear();
+
                 }
             }
         }
