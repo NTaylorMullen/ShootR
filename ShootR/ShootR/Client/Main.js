@@ -12,6 +12,12 @@ $(function () {
         screen = new Screen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env),
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] };
+
+    /*$(window).load(function () {
+        setTimeout(function () {
+            $(".janrainEngage").click();
+        }, 1000);
+    });*/
         
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
@@ -102,11 +108,11 @@ $(function () {
     env.controllersStopped = function () {
         game.HUDManager.ControlRequestManager.ControllersStopped();        
     }
-
+    /*
     $.connection.hub.start(function () {
         // Send the viewport to the server initialization method
         env.initializeClient().done(function (value) {
             Initialize(value);
         });
-    });
+    });*/
 });

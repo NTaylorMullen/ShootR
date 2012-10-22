@@ -18,7 +18,7 @@ namespace ShootR
 
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
         private Timer _gameLoop, _leaderboardLoop;
-        private ConfigurationManager _configuration;
+        private GameConfigurationManager _configuration;
         private GameTime _gameTime;
         private Map _space;
         private PayloadManager _payloadManager;
@@ -29,9 +29,11 @@ namespace ShootR
         private Semaphore _updateLock = new Semaphore(2, 2);
         private object _locker = new object();
 
+        public bool blah = false;
+
         private Game()
         {
-            _configuration = new ConfigurationManager();
+            _configuration = new GameConfigurationManager();
             DRAW_AFTER = _configuration.gameConfig.DRAW_INTERVAL / _configuration.gameConfig.UPDATE_INTERVAL;
             _gameLoop = new Timer(Update, null, _configuration.gameConfig.UPDATE_INTERVAL, _configuration.gameConfig.UPDATE_INTERVAL);
             _leaderboardLoop = new Timer(UpdateLeaderboard, null, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
@@ -45,9 +47,12 @@ namespace ShootR
             Leaderboard = new Leaderboard(UserHandler);
             ConnectionManager = new ConnectionManager(UserHandler, _locker);
 
+            RegistrationHandler = new RegistrationHandler();
+
             //SpawnAIShips(AIShipsToSpawn);
         }
 
+        public RegistrationHandler RegistrationHandler { get; private set; }
         public UserHandler UserHandler { get; private set; }
         public ConnectionManager ConnectionManager { get; private set; }
         public Leaderboard Leaderboard { get; private set; }

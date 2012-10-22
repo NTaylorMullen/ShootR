@@ -44,6 +44,11 @@ namespace ShootR
             }
         }
 
+        public void RegisterUser()
+        {
+
+        }
+
         public User GetUser(string connectionId)
         {
             return _userList[connectionId];

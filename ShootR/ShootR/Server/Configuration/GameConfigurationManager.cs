@@ -1,8 +1,8 @@
 ﻿namespace ShootR
 {
-    public class ConfigurationManager
+    public class GameConfigurationManager
     {
-        public ConfigurationManager()
+        public GameConfigurationManager()
         {
             bulletConfig = new BulletConfiguration();
             gameConfig = new GameConfiguration();
