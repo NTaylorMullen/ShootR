@@ -133,11 +133,14 @@ namespace ShootR
         /// </summary>
         public void fire()
         {
-            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
-
-            if (ship.LifeController.Alive)
+            if (_game.UserHandler.UserExists(Context.ConnectionId))
             {
-                ship.WeaponController.Fire();
+                Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+                if (ship.LifeController.Alive)
+                {
+                    ship.WeaponController.Fire();
+                }
             }
         }
 
@@ -180,40 +183,46 @@ namespace ShootR
         /// <param name="pingBack"></param>
         public void resetMovement(List<string> movementList, bool pingBack, long commandID)
         {
-            if (pingBack)
+            if (_game.UserHandler.UserExists(Context.ConnectionId))
             {
-                Caller.pingBack();
-            }
+                if (pingBack)
+                {
+                    Caller.pingBack();
+                }
 
-            List<Movement> result = new List<Movement>();
-            foreach (string where in movementList)
-            {
-                result.Add((Movement)Enum.Parse(typeof(Movement), where));
-            }
+                List<Movement> result = new List<Movement>();
+                foreach (string where in movementList)
+                {
+                    result.Add((Movement)Enum.Parse(typeof(Movement), where));
+                }
 
-            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+                Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
-            if (ship.LifeController.Alive)
-            {
-                ship.ResetMoving(result, commandID);
+                if (ship.LifeController.Alive)
+                {
+                    ship.ResetMoving(result, commandID);
+                }
             }
         }
 
         public void startAndStopMovement(string toStop, string toStart, bool pingBack, long commandID)
         {
-            if (pingBack)
+            if (_game.UserHandler.UserExists(Context.ConnectionId))
             {
-                Caller.pingBack();
-            }
+                if (pingBack)
+                {
+                    Caller.pingBack();
+                }
 
-            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+                Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
-            if (ship.LifeController.Alive)
-            {
-                Movement whereToStop = (Movement)Enum.Parse(typeof(Movement), toStop);
-                Movement whereToStart = (Movement)Enum.Parse(typeof(Movement), toStart);
-                ship.StopMoving(whereToStop, commandID);
-                ship.StartMoving(whereToStart, commandID);
+                if (ship.LifeController.Alive)
+                {
+                    Movement whereToStop = (Movement)Enum.Parse(typeof(Movement), toStop);
+                    Movement whereToStart = (Movement)Enum.Parse(typeof(Movement), toStart);
+                    ship.StopMoving(whereToStop, commandID);
+                    ship.StartMoving(whereToStart, commandID);
+                }
             }
         }
 
@@ -223,17 +232,20 @@ namespace ShootR
         /// <param name="movement">Direction to start moving</param>
         public void registerMoveStart(string movement, bool pingBack, long commandID)
         {
-            if (pingBack)
+            if (_game.UserHandler.UserExists(Context.ConnectionId))
             {
-                Caller.pingBack();
-            }
+                if (pingBack)
+                {
+                    Caller.pingBack();
+                }
 
-            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+                Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
-            if (ship.LifeController.Alive)
-            {
-                Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-                ship.StartMoving(where, commandID);
+                if (ship.LifeController.Alive)
+                {
+                    Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
+                    ship.StartMoving(where, commandID);
+                }
             }
         }
 
@@ -243,29 +255,22 @@ namespace ShootR
         /// <param name="movement">Direction to stop moving</param>
         public void registerMoveStop(string movement, bool pingBack, long commandID)
         {
-            if (pingBack)
+            if (_game.UserHandler.UserExists(Context.ConnectionId))
             {
-                Caller.pingBack();
+                if (pingBack)
+                {
+                    Caller.pingBack();
+                }
+
+                Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
+
+                Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+                if (ship.LifeController.Alive)
+                {
+                    ship.StopMoving(where, commandID);
+                }
             }
-
-            Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-
-            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
-
-            if (ship.LifeController.Alive)
-            {
-                ship.StopMoving(where, commandID);
-            }
-        }
-
-        public void changeName(string newName)
-        {
-            if (newName.Length > 25)
-            {
-                newName = newName.Substring(0, 25);
-            }
-
-            _game.UserHandler.GetUserShip(Context.ConnectionId).Name = newName;
         }
 
         public void changeViewport(int viewportWidth, int viewportHeight)
@@ -278,14 +283,20 @@ namespace ShootR
 
         public void readyForLeaderboardPayloads()
         {
-            _game.UserHandler.GetUser(Context.ConnectionId).IdleManager.RecordActivity();
-            _game.Leaderboard.RequestLeaderboard(Context.ConnectionId);
+            if (_game.UserHandler.UserExists(Context.ConnectionId))
+            {
+                _game.UserHandler.GetUser(Context.ConnectionId).IdleManager.RecordActivity();
+                _game.Leaderboard.RequestLeaderboard(Context.ConnectionId);
+            }
         }
 
         public void stopLeaderboardPayloads()
         {
-            _game.UserHandler.GetUser(Context.ConnectionId).IdleManager.RecordActivity();
-            _game.Leaderboard.StopRequestingLeaderboard(Context.ConnectionId);
+            if (_game.UserHandler.UserExists(Context.ConnectionId))
+            {
+                _game.UserHandler.GetUser(Context.ConnectionId).IdleManager.RecordActivity();
+                _game.Leaderboard.StopRequestingLeaderboard(Context.ConnectionId);
+            }
         }
 
         #endregion

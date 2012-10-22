@@ -16,7 +16,7 @@
     }
 
     that.Initialize = function (config) {
-        that.GameDetailManager = new GameDetailManager(config.ShipName, connection);
+        that.GameDetailManager = new GameDetailManager(connection);
         $("#leaderboardPosition").css("display", "block");
         $("#ExperienceHUD").css("display", "block");
     }

@@ -16,10 +16,6 @@
         <img style="position: absolute; top: 0; left: 0; border: 0;" src="/Images/Page/GitHubForkMe.png" alt="Fork me on GitHub" />
     </a>
     <div id="shipStats">
-        <div id="ShipNameHolder">
-            <em>Press X to turn off/on ship details</em>
-            <input type="text" id="ShipName" value="" maxlength="25" /><input type="button" id="ChangeShipName" value="Change" />
-        </div>
     </div>
     <div id="janrainEngageEmbed"></div>
 

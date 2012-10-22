@@ -32,23 +32,6 @@ a {
     font-family:'Times New Roman';
     text-align:center;
 }
-
-#ShipNameHolder {
-    position:absolute;
-    left:390px;
-    top:75px;
-    height:23px;
-    width:480px;
-}
-
-#ShipName {
-    width:180px;
-}
-
-#ShipName input[type="button"] {
-    width:100px;
-    text-align:center;
-}
     
 .animation {
     position:absolute;
@@ -365,5 +348,5 @@ h3 {
 }
 
 .janrainContent {
-    margin:0 auto;
+    margin:0 auto 40px;
 }
