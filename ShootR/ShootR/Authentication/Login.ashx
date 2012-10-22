@@ -1,1 +1,1 @@
-﻿<%@ WebHandler Language="C#" CodeBehind="Login.ashx.cs" Class="ShootR.Login1" %>
+﻿<%@ WebHandler Language="C#" CodeBehind="Login.ashx.cs" Class="ShootR.Login" %>

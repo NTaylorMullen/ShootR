@@ -2,7 +2,14 @@
     if (typeof window.janrain !== 'object') window.janrain = {};
     if (typeof window.janrain.settings !== 'object') window.janrain.settings = {};
 
-    janrain.settings.tokenUrl = document.location.href + 'Authentication/Login.ashx';
+    var url = document.location.href;
+    url = url.replace("default.aspx", "");
+    url = url.replace("controller.aspx", "");
+    if (url[url.length - 1] !== "/") {
+        url += "/";
+    }
+
+    janrain.settings.tokenUrl =  url + 'Authentication/Login.ashx';
     janrain.settings.type = "embed";
 
     function isReady() { janrain.ready = true; };

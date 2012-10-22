@@ -104,11 +104,16 @@ $(function () {
     }
     
     var stateCookie = $.cookie('shootr.state'),
-        state = stateCookie ? JSON.parse(stateCookie) : {};
+        state = stateCookie ? JSON.parse(stateCookie) : {},
+        registrationID = state.RegistrationID;
 
-    if (state.RegistrationID) {
+    if (registrationID) {
+        delete state.RegistrationID;
+
+        $.cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });        
+
         $.connection.hub.start(function () {
-            env.initializeClient(state.RegistrationID).done(function (value) {
+            env.initializeClient(registrationID).done(function (value) {
                 Initialize(value);
             });
         });

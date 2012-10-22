@@ -6,14 +6,15 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using Newtonsoft.Json;
 
 namespace ShootR
 {
     /// <summary>
-    /// Summary description for Login1
+    /// Summary description for Login
     /// </summary>
-    public class Login1 : IHttpHandler
+    public class Login : IHttpHandler
     {
         private const string VerifyTokenUrl = "https://rpxnow.com/api/v2/auth_info?apiKey={0}&token={1}";
 
@@ -29,60 +30,82 @@ namespace ShootR
                 return;
             }
 
-            string token = context.Request.Form["token"];
+            var registeredClient = GetClientState(context);
 
-            if (String.IsNullOrEmpty(token))
+            // We have an identifier, we're already authenticated
+            if (registeredClient.Identity != null)
             {
-                context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
-                context.ApplicationInstance.CompleteRequest();
-                return;
+                Game.Instance.RegistrationHandler.Register(registeredClient);
+
+                AddOrUpdateState(registeredClient, context);
+            }
+            else
+            {
+                string token = context.Request.Form["token"];
+
+                if (String.IsNullOrEmpty(token))
+                {
+                    context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
+                    context.ApplicationInstance.CompleteRequest();
+                    return;
+                }
+
+                var response = new WebClient().DownloadString(String.Format(VerifyTokenUrl, apiKey, token));
+
+                if (String.IsNullOrEmpty(response))
+                {
+                    context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
+                    context.ApplicationInstance.CompleteRequest();
+                    return;
+                }
+
+                dynamic j = JsonConvert.DeserializeObject(response);
+
+                if (j.stat.ToString() != "ok")
+                {
+                    context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
+                    context.ApplicationInstance.CompleteRequest();
+                    return;
+                }
+
+                string identity = j.profile.identifier.ToString(),
+                    displayName = j.profile.displayName.ToString(),
+                    photo = "";
+
+                if (j.profile.photo != null)
+                {
+                    photo = j.profile.photo;
+                }
+                else if (j.profile.email != null)
+                {
+                    photo = "http://www.gravatar.com/avatar/" + ToMD5(j.profile.email.ToString()) + "?d=404";
+                }
+
+                RegisteredClient rc = Game.Instance.RegistrationHandler.Register(identity, displayName, photo);
+
+                AddOrUpdateState(rc, context);
             }
 
-            var response = new WebClient().DownloadString(String.Format(VerifyTokenUrl, apiKey, token));
-
-            if (String.IsNullOrEmpty(response))
-            {
-                context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
-                context.ApplicationInstance.CompleteRequest();
-                return;
-            }
-
-            dynamic j = JsonConvert.DeserializeObject(response);
-
-            if (j.stat.ToString() != "ok")
-            {
-                context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
-                context.ApplicationInstance.CompleteRequest();
-                return;
-            }
-
-            string identity = j.profile.identifier.ToString();
-            string displaName = j.profile.displayName.ToString();
-            string photo = "";
-
-            if (j.profile.photo != null)
-            {
-                photo = j.profile.photo;
-            }
-            else if (j.profile.email != null)
-            {
-                photo = "http://www.gravatar.com/avatar/" + ToMD5(j.profile.email.ToString()) + "?d=404";
-            }
-
-            string registrationID = Game.Instance.RegistrationHandler.Register(identity, displaName, photo);
-
-            // Save the cokie state
-            var state = JsonConvert.SerializeObject(new
-            {
-                RegistrationID = registrationID,
-                Photo = photo
-            });
-
-            var cookie = new HttpCookie("shootr.state", state);
-            cookie.Expires = DateTime.Now.AddDays(30);
-            context.Response.Cookies.Add(cookie);
-            context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath + "?todo=startGame", false);
+            context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
             context.ApplicationInstance.CompleteRequest();
+        }
+
+        public static void AddOrUpdateState(RegisteredClient rc, HttpContext context)
+        {
+            // Save the cokie state
+            var state = JsonConvert.SerializeObject(rc);
+
+            if (context.Response.Cookies["shootr.state"] == null)
+            {
+                var cookie = new HttpCookie("shootr.state", state);
+                cookie.Expires = DateTime.Now.AddDays(30);
+                context.Response.Cookies.Add(cookie);
+            }
+            else
+            {
+                context.Response.Cookies["shootr.state"].Value = state;
+                context.Response.Cookies["shootr.state"].Expires = DateTime.Now.AddDays(30);
+            }
         }
 
         public bool IsReusable
@@ -91,6 +114,31 @@ namespace ShootR
             {
                 return false;
             }
+        }
+
+        private RegisteredClient GetClientState(HttpContext context)
+        {
+            // New client state
+            var shootrState = GetCookieValue(context, "shootr.state");            
+
+            RegisteredClient clientState = null;
+
+            if (String.IsNullOrEmpty(shootrState))
+            {
+                clientState = new RegisteredClient();
+            }
+            else
+            {
+                clientState = JsonConvert.DeserializeObject<RegisteredClient>(shootrState);
+            }
+
+            return clientState;
+        }
+
+        private string GetCookieValue(HttpContext context, string key)
+        {
+            HttpCookie cookie = context.Request.Cookies[key];
+            return cookie != null ? HttpUtility.UrlDecode(cookie.Value) : null;
         }
 
         public string ToMD5(string value)

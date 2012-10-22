@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Newtonsoft.Json;
 
 namespace ShootR
 {
@@ -12,17 +13,35 @@ namespace ShootR
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.QueryString["todo"] != null && Request.QueryString["todo"] == "startGame")
+            var state = Request.Cookies["shootr.state"];            
+
+            if (state != null)
             {
+                string decoded = HttpUtility.UrlDecode(state.Value);
+                var rc = JsonConvert.DeserializeObject<RegisteredClient>(decoded);
+
+                // Need to setup registration
+                if (rc.RegistrationID == null)
+                {
+                    Game.Instance.RegistrationHandler.Register(rc);
+
+                    Login.AddOrUpdateState(rc, HttpContext.Current);
+                }
+                
                 JanrainScripts.Visible = false;
                 GameScripts.Visible = true;
             }
             else
             {
-                JanrainScripts.Visible = true;
-                GameScripts.Visible = false;
+                ShowLogin();
             }
         }
-         
+
+
+        public void ShowLogin()
+        {
+            JanrainScripts.Visible = true;
+            GameScripts.Visible = false;
+        }
     }
 }

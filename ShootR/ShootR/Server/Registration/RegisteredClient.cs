@@ -7,6 +7,10 @@ namespace ShootR
 {
     public class RegisteredClient
     {
+        public RegisteredClient()
+        {
+        }
+
         public RegisteredClient(string registrationID, string identity, string displayName, string photo)
         {
             RegistrationID = registrationID;

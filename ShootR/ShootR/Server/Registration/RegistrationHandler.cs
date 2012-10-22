@@ -28,11 +28,18 @@ namespace ShootR
             return rc;
         }
 
-        public string Register(string identity, string displayName, string photo)
+        public RegisteredClient Register(string identity, string displayName, string photo)
         {
-            string guid = Guid.NewGuid().ToString();
-            _registrationList.TryAdd(guid, new RegisteredClient(guid, identity, displayName, photo));
-            return guid;
+            RegisteredClient rc = new RegisteredClient(Guid.NewGuid().ToString(), identity, displayName, photo);
+            _registrationList.TryAdd(rc.RegistrationID, rc);
+            return rc;
+        }
+
+        public RegisteredClient Register(RegisteredClient existing)
+        {
+            existing.RegistrationID = Guid.NewGuid().ToString();
+            _registrationList.TryAdd(existing.RegistrationID, existing);
+            return existing;
         }
 
         public RegisteredClient GetRegistration(string registrationID)
