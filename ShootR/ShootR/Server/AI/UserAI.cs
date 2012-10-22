@@ -7,19 +7,19 @@ using System.Web;
 namespace ShootR
 {
     public class UserAI : User
-    {       
+    {
         private static AIPayloadDecompressor _decompressor = new AIPayloadDecompressor();
 
         public UserAI(string connectionID, ShipAI ship)
-            : base(connectionID, ship)
+            : base(connectionID, ship, new RegisteredClient("", ship.Name, ship.Name, ""))
         {
             Viewport = new Size(1280, 600);
-            ReadyForPayloads = true;            
+            ReadyForPayloads = true;
         }
 
         public override void PushToClient(object[] payload, dynamic Clients)
         {
-            (MyShip as ShipAI).LoadShipsOnScreen(_decompressor.DecompressShips(payload,MyShip.ID));
+            (MyShip as ShipAI).LoadShipsOnScreen(_decompressor.DecompressShips(payload, MyShip.ID));
         }
     }
 }

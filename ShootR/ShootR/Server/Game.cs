@@ -157,17 +157,17 @@ namespace ShootR
         /// Retrieves the game's configuration
         /// </summary>
         /// <returns>The game's configuration</returns>
-        public object initializeClient(string connectionId)
+        public object initializeClient(string connectionId, RegisteredClient rc)
         {
             if (!UserHandler.UserExists(connectionId))
             {                
                 lock (_locker)
                 {
                     Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
-                    User user = new User(connectionId, ship) { Controller = false };
+                    User user = new User(connectionId, ship, rc) { Controller = false };
                     UserHandler.AddUser(user);
                     GameHandler.AddShipToGame(ship);
-                    ship.Name = "Ship" + ship.ID;
+                    ship.Name = rc.DisplayName;
                 }
 
                 return new
@@ -193,11 +193,11 @@ namespace ShootR
         /// Retrieves the game's configuration
         /// </summary>
         /// <returns>The game's configuration</returns>
-        public object initializeController(string connectionId)
+        public object initializeController(string connectionId, RegisteredClient rc)
         {
             if (!UserHandler.UserExists(connectionId))
             {
-                UserHandler.AddUser(new User(connectionId) { Controller = true });
+                UserHandler.AddUser(new User(connectionId, rc) { Controller = true });
 
                 return new
                 {

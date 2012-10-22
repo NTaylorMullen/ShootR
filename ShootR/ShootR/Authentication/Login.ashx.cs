@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 
@@ -54,31 +56,32 @@ namespace ShootR
                 return;
             }
 
-            string userIdentity = j.profile.identifier.ToString();
-            string username = j.profile.preferredUsername.ToString();
-            string email = String.Empty;
-            if (j.profile.email != null)
+            string identity = j.profile.identifier.ToString();
+            string displaName = j.profile.displayName.ToString();
+            string photo = "";
+
+            if (j.profile.photo != null)
             {
-                email = j.profile.email.ToString();
+                photo = j.profile.photo;
+            }
+            else if (j.profile.email != null)
+            {
+                photo = "http://www.gravatar.com/avatar/" + ToMD5(j.profile.email.ToString()) + "?d=404";
             }
 
-            string registrationID = Game.Instance.RegistrationHandler.Register();
+            string registrationID = Game.Instance.RegistrationHandler.Register(identity, displaName, photo);
 
             // Save the cokie state
-            var state = JsonConvert.SerializeObject(new { RegistrationID = registrationID });            
-
-            if (context.Request.Cookies["shootr.state"] != null)
+            var state = JsonConvert.SerializeObject(new
             {
-                context.Response.Cookies["shootr.state"].Value = state;
-            }
-            else
-            {
-                var cookie = new HttpCookie("shootr.state", state);
-                cookie.Expires = DateTime.Now.AddDays(30);
-                context.Response.Cookies.Add(cookie);
-            }
+                RegistrationID = registrationID,
+                Photo = photo
+            });
 
-            context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
+            var cookie = new HttpCookie("shootr.state", state);
+            cookie.Expires = DateTime.Now.AddDays(30);
+            context.Response.Cookies.Add(cookie);
+            context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath + "?todo=startGame", false);
             context.ApplicationInstance.CompleteRequest();
         }
 
@@ -88,6 +91,18 @@ namespace ShootR
             {
                 return false;
             }
+        }
+
+        public string ToMD5(string value)
+        {
+            if (String.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+
+            return String.Join("", MD5.Create()
+                         .ComputeHash(Encoding.Default.GetBytes(value))
+                         .Select(b => b.ToString("x2")));
         }
     }
 }

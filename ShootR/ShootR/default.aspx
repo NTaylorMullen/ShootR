@@ -99,7 +99,9 @@
 
     <div id="banner"><em>Created by: </em><a href="http://www.ntaylormullen.com" target="_blank" style="margin-right: 10px;">NTaylorMullen.</a>  <em>Follow us on Twitter: </em><a href="https://twitter.com/DamianEdwards" target="_blank">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl" target="_blank">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen" target="_blank">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr" target="_blank">@StephenHaltR</a>, <a href="https://twitter.com/SignalR" target="_blank">@SignalR</a></div>
 
-    <script src="Scripts/janrain.js" type="text/javascript"></script>
+        <asp:Panel runat="server" ID="JanrainScripts" Visible="true">
+            <script src="Scripts/janrain.js" type="text/javascript"></script>
+        </asp:Panel>
 
         <asp:Panel runat="server" ID="GameScripts" Visible="false">
             <!-- NOTE: These are not minified so people can see how the game works.  On a larger release I will minify everything -->

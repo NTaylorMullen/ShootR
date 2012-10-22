@@ -20,16 +20,18 @@ namespace ShootR
             return _registrationList.ContainsKey(registrationId);
         }
 
-        public void Unregister(string registrationId)
+        public RegisteredClient RemoveRegistration(string registrationId)
         {
             RegisteredClient rc;
             _registrationList.TryRemove(registrationId, out rc);
+
+            return rc;
         }
 
-        public string Register()
+        public string Register(string identity, string displayName, string photo)
         {
             string guid = Guid.NewGuid().ToString();
-            _registrationList.TryAdd(guid, new RegisteredClient(guid));
+            _registrationList.TryAdd(guid, new RegisteredClient(guid, identity, displayName, photo));
             return guid;
         }
 

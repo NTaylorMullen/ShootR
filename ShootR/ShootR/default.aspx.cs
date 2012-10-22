@@ -12,10 +12,15 @@ namespace ShootR
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Response.Cookies["shootr.state"] != null)
+            if (Request.QueryString["todo"] != null && Request.QueryString["todo"] == "startGame")
             {
-                var obj = HttpUtility.UrlDecode(Response.Cookies["shootr.state"].Value);
+                JanrainScripts.Visible = false;
                 GameScripts.Visible = true;
+            }
+            else
+            {
+                JanrainScripts.Visible = true;
+                GameScripts.Visible = false;
             }
         }
          

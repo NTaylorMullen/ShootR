@@ -12,13 +12,14 @@ namespace ShootR
         public const int MAX_SCREEN_WIDTH = 2000;
         public const int MAX_SCREEN_HEIGHT = 1000;
 
-        public User(string connectionID)
-            : this(connectionID, null)
+        public User(string connectionID, RegisteredClient rc)
+            : this(connectionID, null, rc)
         {
         }
 
-        public User(string connectionID, Ship ship)
+        public User(string connectionID, Ship ship, RegisteredClient rc)
         {
+            RegistrationTicket = rc;
             ConnectionID = connectionID;
             MyShip = ship;
             ReadyForPayloads = false;
@@ -33,6 +34,7 @@ namespace ShootR
             }
         }
 
+        public RegisteredClient RegistrationTicket { get; set; }
         public List<User> RemoteControllers { get; set; }
         public NotificationManager NotificationManager { get; private set; }
         public IdleManager IdleManager { get; private set; }

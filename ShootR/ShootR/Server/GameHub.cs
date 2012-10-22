@@ -147,16 +147,26 @@ namespace ShootR
         /// <returns>The game's configuration</returns>
         public object initializeClient(string registrationID)
         {
-            return _game.initializeClient(Context.ConnectionId);
+            if (_game.RegistrationHandler.RegistrationExists(registrationID))
+            {
+                return _game.initializeClient(Context.ConnectionId, _game.RegistrationHandler.RemoveRegistration(registrationID));
+            }
+
+            return null;
         }
 
         /// <summary>
         /// Retrieves the game's configuration
         /// </summary>
         /// <returns>The game's configuration</returns>
-        public object initializeController()
+        public object initializeController(string registrationID)
         {
-            return _game.initializeController(Context.ConnectionId);
+            if (_game.RegistrationHandler.RegistrationExists(registrationID))
+            {
+                return _game.initializeController(Context.ConnectionId, _game.RegistrationHandler.RemoveRegistration(registrationID));
+            }
+
+            return null;
         }
 
         public void readyForPayloads()

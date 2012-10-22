@@ -104,14 +104,14 @@ $(function () {
     }
     
     var stateCookie = $.cookie('shootr.state'),
-            state = stateCookie ? JSON.parse(stateCookie) : {};
-    
-    if (state.registrationID) {
+        state = stateCookie ? JSON.parse(stateCookie) : {};
+
+    if (state.RegistrationID) {
         $.connection.hub.start(function () {
-            // Send the viewport to the server initialization method
-            env.initializeClient(state.registrationID).done(function (value) {
+            env.initializeClient(state.RegistrationID).done(function (value) {
                 Initialize(value);
             });
         });
     }
+    
 });
