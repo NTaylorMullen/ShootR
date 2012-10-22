@@ -114,6 +114,7 @@
     <Content Include="controller.aspx" />
     <Content Include="default.aspx" />
     <Content Include="Images\bg_stars.jpg" />
+    <Content Include="Images\favicon.ico" />
     <Content Include="Images\Laser.png" />
     <Content Include="Images\Page\GitHubForkMe.png" />
     <Content Include="Images\Ship1.png" />
@@ -125,11 +126,12 @@
     <Content Include="Images\Ship7.png" />
     <Content Include="Images\ShipFinal.png" />
     <Content Include="Images\SpriteSheets\explosion_1.png" />
-    <Content Include="Login.ashx" />
+    <Content Include="Authentication\Login.ashx" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
     </None>
     <Content Include="Images\SpriteSheets\explosion_2.png" />
+    <Content Include="Scripts\janrain.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
@@ -175,7 +177,7 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Login.ashx.cs">
+    <Compile Include="Authentication\Login.ashx.cs">
       <DependentUpon>Login.ashx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -202,6 +204,8 @@
     <Compile Include="Server\Leaderboard\Leaderboard.cs" />
     <Compile Include="Server\Leaderboard\LeaderboardEntry.cs" />
     <Compile Include="Server\AI\ShipAI.cs" />
+    <Compile Include="Server\Registration\RegisteredClient.cs" />
+    <Compile Include="Server\Registration\RegistrationHandler.cs" />
     <Compile Include="Server\Ship\Levels\LevelCalculator.cs" />
     <Compile Include="Server\Ship\Levels\ShipLevelManager.cs" />
     <Compile Include="Server\Ship\ShipLifeController.cs" />
@@ -242,6 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="Scripts\jquery.cookie.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

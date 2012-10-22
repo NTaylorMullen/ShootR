@@ -2,7 +2,7 @@
     if (typeof window.janrain !== 'object') window.janrain = {};
     if (typeof window.janrain.settings !== 'object') window.janrain.settings = {};
 
-    janrain.settings.tokenUrl = document.location.hostname + '/Login.ashx';
+    janrain.settings.tokenUrl = document.location.href + 'Authentication/Login.ashx';
     janrain.settings.type = "embed";
 
     function isReady() { janrain.ready = true; };

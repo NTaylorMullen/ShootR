@@ -145,7 +145,7 @@ namespace ShootR
         /// Retrieves the game's configuration
         /// </summary>
         /// <returns>The game's configuration</returns>
-        public object initializeClient()
+        public object initializeClient(string registrationID)
         {
             return _game.initializeClient(Context.ConnectionId);
         }

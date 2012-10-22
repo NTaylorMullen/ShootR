@@ -45,7 +45,7 @@
     Ship.prototype.TargetRotation;
 
     that.TryInterpolate = true;
-    that.TryInterpolateRotation = true;
+    that.TryInterpolateRotation = false;
 
     function RegisterPayload() {
         // Calculate how often we receive payloads so we can interpolate between them

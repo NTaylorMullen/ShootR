@@ -11,15 +11,12 @@ namespace ShootR
     public partial class _default : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
-        {/*
-            if (Request.Form.Keys.Count > 0)
+        {
+            if (Response.Cookies["shootr.state"] != null)
             {
-                string token = Request.Form["token"];
-                string janrainAPIKey = ConfigurationManager.AppSettings["janrainAPIKey"];
-                Rpx rpx = new Rpx(janrainAPIKey, "https://rpxnow.com/api/v2/auth_info");
-
-                var info = rpx.AuthInfo(token);
-            }            */
+                var obj = HttpUtility.UrlDecode(Response.Cookies["shootr.state"].Value);
+                GameScripts.Visible = true;
+            }
         }
          
     }

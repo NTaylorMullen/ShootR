@@ -62,6 +62,22 @@ namespace ShootR
                 email = j.profile.email.ToString();
             }
 
+            string registrationID = Game.Instance.RegistrationHandler.Register();
+
+            // Save the cokie state
+            var state = JsonConvert.SerializeObject(new { RegistrationID = registrationID });            
+
+            if (context.Request.Cookies["shootr.state"] != null)
+            {
+                context.Response.Cookies["shootr.state"].Value = state;
+            }
+            else
+            {
+                var cookie = new HttpCookie("shootr.state", state);
+                cookie.Expires = DateTime.Now.AddDays(30);
+                context.Response.Cookies.Add(cookie);
+            }
+
             context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
             context.ApplicationInstance.CompleteRequest();
         }
