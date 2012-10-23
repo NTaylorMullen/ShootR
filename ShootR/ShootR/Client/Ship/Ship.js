@@ -19,7 +19,7 @@
     that.REQUEST_PING_EVERY;
 
     // Interpolate if we're more than 5 pixels away from the server
-    Ship.prototype.INTERPOLATE_POSITION_THRESHOLD = 9;
+    Ship.prototype.INTERPOLATE_POSITION_THRESHOLD = 13;
     Ship.prototype.INTERPOLATE_ROTATION_THRESHOLD = 15;
 
     // Instantiated in main.js
