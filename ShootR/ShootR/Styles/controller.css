@@ -32,3 +32,21 @@ p {
 .janrainContent {
     margin:150px auto;
 }
+
+#logout:hover {
+    cursor:pointer;    
+}
+
+#logout {
+    z-index:100;
+    text-align:center;
+    position:absolute;
+    width:100px;
+    height:22px;
+    line-height:22px;
+    left:47%;
+    top:0;
+    border:1px solid black;
+    background-color:#777777;
+    color:white;
+}

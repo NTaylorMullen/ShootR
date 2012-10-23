@@ -14,7 +14,7 @@
     <form runat="server">
     <a href="https://github.com/NTaylorMullen/ShootR" target="_blank">
         <img style="position: absolute; top: 0; left: 0; border: 0;" src="/Images/Page/GitHubForkMe.png" alt="Fork me on GitHub" />
-    </a>
+    </a>        
     <div id="shipStats">
     </div>
     <div id="janrainEngageEmbed"></div>
@@ -100,6 +100,7 @@
         </asp:Panel>
 
         <asp:Panel runat="server" ID="GameScripts" Visible="false">
+            <div id="logout">Log Out</div>
             <!-- NOTE: These are not minified so people can see how the game works.  On a larger release I will minify everything -->
             <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
             <script src="Scripts/jquery.cookie.js" type="text/javascript"></script>

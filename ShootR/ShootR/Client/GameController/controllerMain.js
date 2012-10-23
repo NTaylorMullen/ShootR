@@ -84,4 +84,16 @@ $(window).load(function () {
         });
     }
 
+    $("#logout").click(function () {
+        // Clear cookies
+        var c = document.cookie.split(";");
+        for (var i = 0; i < c.length; i++) {
+            var e = c[i].indexOf("=");
+            var n = e > -1 ? c[i].substr(0, e) : c[i];
+            document.cookie = n + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
+
+        window.location.href = window.location.href
+    });
+
 });

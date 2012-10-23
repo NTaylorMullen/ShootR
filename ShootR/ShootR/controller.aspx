@@ -10,7 +10,7 @@
     <title>ShootR Controller</title>
 </head>
 <body>
-    <form runat="server">
+    <form runat="server">        
     <asp:Panel runat="server" ID="JanrainScripts" Visible="true">
         <script src="Scripts/janrain.js" type="text/javascript"></script>
 
@@ -18,6 +18,7 @@
     </asp:Panel>
 
     <asp:Panel runat="server" ID="GameElements" Visible="false">
+        <div id="logout">Log Out</div>
         <div id="shipStats">
         </div>        
 
