@@ -17,9 +17,9 @@ namespace ShootR
             _gameHandler = gameHandler;
         }
 
-        public bool UserExists(string connectionId)
+        public bool UserExistsAndReady(string connectionId)
         {
-            return _userList.ContainsKey(connectionId);
+            return _userList.ContainsKey(connectionId) && _userList[connectionId].MyShip != null;
         }
 
         public void RemoveUser(string connectionId)

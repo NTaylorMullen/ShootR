@@ -6,7 +6,6 @@
     that.HealthMonitor = new HealthMonitor(MyShip);
     that.ExperienceMonitor = new ExperienceMonitor(gameHUD, MyShip);
     that.Leaderboard = new Leaderboard(gameHUD, connection);
-    that.ControlRequestManager = new ControlRequestManager(connection);
 
     that.OnScreenResize = function (newViewport) {
         gameHUD.css("width", newViewport.Width);

@@ -159,7 +159,7 @@ namespace ShootR
         /// <returns>The game's configuration</returns>
         public object initializeClient(string connectionId, RegisteredClient rc)
         {
-            if (!UserHandler.UserExists(connectionId))
+            if (!UserHandler.UserExistsAndReady(connectionId))
             {
                 try
                 {
@@ -202,7 +202,7 @@ namespace ShootR
         /// <returns>The game's configuration</returns>
         public object initializeController(string connectionId, RegisteredClient rc)
         {
-            if (!UserHandler.UserExists(connectionId))
+            if (!UserHandler.UserExistsAndReady(connectionId))
             {
                 try
                 {
@@ -216,6 +216,8 @@ namespace ShootR
 
                         UserHandler.AddUser(controllerUser);
                         main.RemoteControllers.Add(controllerUser);
+
+                        main.NotificationManager.Notify("Controller attached.");
 
                         return new
                         {

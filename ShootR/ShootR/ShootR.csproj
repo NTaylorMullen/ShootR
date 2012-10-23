@@ -89,7 +89,6 @@
     <Content Include="Client\GameController\TouchController.js" />
     <Content Include="Client\GameGlobals.js" />
     <Content Include="Client\HUD\Animation\TextAnimation.js" />
-    <Content Include="Client\HUD\ControlRequestManager.js" />
     <Content Include="Client\HUD\ExperienceMonitor.js" />
     <Content Include="Client\HUD\GameDetailManager.js" />
     <Content Include="Client\HUD\HealthMonitor.js" />

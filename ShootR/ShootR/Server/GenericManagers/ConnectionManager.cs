@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using SignalR;
 using SignalR.Hubs;
@@ -37,37 +38,48 @@ namespace ShootR
         {
             lock (_locker)
             {
-                if (_userHandler.UserExists(connectionId))
+                try
                 {
-                    User user = _userHandler.GetUser(connectionId);
-                    
-                    //It's possible for a controller to disconnect without a ship
-                    if (!user.Controller)
+                    if (_userHandler.UserExistsAndReady(connectionId))
                     {
-                        user.MyShip.Dispose();
+                        User user = _userHandler.GetUser(connectionId);
+
+                        //It's possible for a controller to disconnect without a ship
+                        if (!user.Controller)
+                        {
+                            user.MyShip.Dispose();
+                        }
+                        else
+                        {
+                            // Remove me from the ship hosts remote controllers
+                            if (user.MyShip != null)
+                            {
+                                user.MyShip.Host.RemoteControllers.Remove(user);
+                                user.MyShip.Host.NotificationManager.Notify("Detached controller.");
+                                user.MyShip = null;
+                            }
+                        }
+
+                        _userHandler.RemoveUser(connectionId);
+
+                        // Leave the leaderboard group just in case user was in it
+                        IHubContext context = Game.GetContext();
+                        context.Groups.Remove(connectionId, Leaderboard.LEADERBOARD_REQUESTEE_GROUP);
+
+                        // Clear controllers
+                        foreach (User u in user.RemoteControllers)
+                        {
+                            u.MyShip = null;
+                            context.Clients[u.ConnectionID].stopController("Primary account has been stopped!");
+                        }
+
+                        user.RemoteControllers.Clear();
+
                     }
-                    else
-                    {
-                        // Remove me from the ship hosts remote controllers
-                        user.MyShip.Host.RemoteControllers.Remove(user);
-                        user.MyShip = null;
-                    }
-
-                    _userHandler.RemoveUser(connectionId);                    
-
-                    // Leave the leaderboard group just in case user was in it
-                    IHubContext context = Game.GetContext();
-                    context.Groups.Remove(connectionId, Leaderboard.LEADERBOARD_REQUESTEE_GROUP);
-
-                    // Clear controllers
-                    foreach (User u in user.RemoteControllers)
-                    {
-                        u.MyShip = null;
-                        context.Clients[u.ConnectionID].stopController("Primary account has been stopped!");
-                    }
-
-                    user.RemoteControllers.Clear();
-
+                }
+                catch (Exception e)
+                {
+                    ErrorLog.Instance.Log(e);
                 }
             }
         }

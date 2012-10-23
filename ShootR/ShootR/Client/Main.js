@@ -95,14 +95,6 @@ $(function () {
 
     env.pingBack = latencyResolver.ServerPingBack;
 
-    env.controlRequest = function () {
-        game.HUDManager.ControlRequestManager.ControlRequest();
-    }
-
-    env.controllersStopped = function () {
-        game.HUDManager.ControlRequestManager.ControllersStopped();
-    }
-
     var stateCookie = $.cookie('shootr.state'),
         state = stateCookie ? JSON.parse(stateCookie) : {},
         registrationID = state.RegistrationID;
