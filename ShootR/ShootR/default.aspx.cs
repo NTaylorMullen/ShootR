@@ -38,15 +38,9 @@ namespace ShootR
             }
             else
             {
-                ShowLogin();
+                JanrainScripts.Visible = true;
+                GameScripts.Visible = false;
             }
-        }
-
-
-        public void ShowLogin()
-        {
-            JanrainScripts.Visible = true;
-            GameScripts.Visible = false;
         }
     }
 }

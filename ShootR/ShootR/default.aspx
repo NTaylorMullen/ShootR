@@ -17,7 +17,12 @@
     </a>        
     <div id="shipStats">
     </div>
-    <div id="janrainEngageEmbed"></div>
+
+    <asp:Panel runat="server" ID="JanrainScripts" Visible="true">
+        <script src="Scripts/janrain.js" type="text/javascript"></script>
+        <div id="janrainEngageEmbed"></div>
+    </asp:Panel>
+    
 
     <div id="respawnText">
         <p id="respawnHeader">
@@ -82,22 +87,9 @@
                 </div>
             </div>
         </div>
-
-        <div id="controlRequest">
-            <div id="header">Control Request</div>
-            <div id="controlRequestButtons">
-                <div id="acceptControlRequest">Accept</div>
-                <div id="declineControlRequest">Decline</div>
-            </div>
-        </div>
-        <div id="StopControlling">Stop Remote Controllers</div>
     </div>
 
-    <div id="banner"><em>Created by: </em><a href="http://www.ntaylormullen.com" target="_blank" style="margin-right: 10px;">NTaylorMullen.</a>  <em>Follow us on Twitter: </em><a href="https://twitter.com/DamianEdwards" target="_blank">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl" target="_blank">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen" target="_blank">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr" target="_blank">@StephenHaltR</a>, <a href="https://twitter.com/SignalR" target="_blank">@SignalR</a></div>
-
-        <asp:Panel runat="server" ID="JanrainScripts" Visible="true">
-            <script src="Scripts/janrain.js" type="text/javascript"></script>
-        </asp:Panel>
+    <div id="banner"><em>Created by: </em><a href="http://www.ntaylormullen.com" target="_blank" style="margin-right: 10px;">NTaylorMullen.</a>  <em>Follow us on Twitter: </em><a href="https://twitter.com/DamianEdwards" target="_blank">@DamianEdwards</a>, <a href="https://twitter.com/davidfowl" target="_blank">@davidfowl</a>, <a href="https://twitter.com/ntaylormullen" target="_blank">@NTaylorMullen</a>, <a href="https://twitter.com/stephenhaltr" target="_blank">@StephenHaltR</a>, <a href="https://twitter.com/SignalR" target="_blank">@SignalR</a></div>        
 
         <asp:Panel runat="server" ID="GameScripts" Visible="false">
             <div id="logout">Log Out</div>
