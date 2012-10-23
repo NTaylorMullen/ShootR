@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
-using SignalR.Hubs;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ShootR
 {
     [HubName("h")]
-    public class GameHub : Hub, IConnected, IDisconnect
+    public class GameHub : Hub
     {
         private readonly Game _game;
 
@@ -19,22 +19,22 @@ namespace ShootR
         }
 
         #region Connection Methods
-        public Task Connect()
+        public override Task OnConnected()
         {
             _game.ConnectionManager.OnConnected(Context.ConnectionId);
-            return null;
+            return base.OnConnected();
         }
 
-        public Task Reconnect(IEnumerable<string> groups)
+        public override Task OnReconnected()
         {
             _game.ConnectionManager.OnReconnected(Context.ConnectionId);
-            return null;
+            return base.OnReconnected();
         }
 
-        public Task Disconnect()
+        public override Task OnDisconnected()
         {
             _game.ConnectionManager.OnDisconnected(Context.ConnectionId);
-            return null;
+            return base.OnDisconnected();
         }
 
         #endregion
@@ -114,7 +114,7 @@ namespace ShootR
                 {
                     if (pingBack)
                     {
-                        Caller.pingBack();
+                        Clients.Caller.pingBack();
                     }
 
                     List<Movement> result = new List<Movement>();
@@ -145,7 +145,7 @@ namespace ShootR
                 {
                     if (pingBack)
                     {
-                        Caller.pingBack();
+                        Clients.Caller.pingBack();
                     }
 
                     Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
@@ -177,7 +177,7 @@ namespace ShootR
                 {
                     if (pingBack)
                     {
-                        Caller.pingBack();
+                        Clients.Caller.pingBack();
                     }
 
                     Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
@@ -207,7 +207,7 @@ namespace ShootR
                 {
                     if (pingBack)
                     {
-                        Caller.pingBack();
+                        Clients.Caller.pingBack();
                     }
 
                     Movement where = (Movement)Enum.Parse(typeof(Movement), movement);

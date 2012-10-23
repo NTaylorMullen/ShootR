@@ -1,4 +1,4 @@
-﻿function Ship(rotateLeft, forward, rotateRight, backward, fire, bullet_manager, conn) {
+﻿function Ship(rotateLeft, forward, rotateRight, backward, fire, bullet_manager, connection) {
     var that = this,
         lastShot = new Date().getTime(),
         keyMapping = [],
@@ -130,7 +130,7 @@
                 that.LatencyResolver.RequestedPingBack();
             }
             movementList.push([++currentCommand, dir, true]);
-            conn.registerMoveStart(dir, pingBack, currentCommand);
+            connection.server.registerMoveStart(dir, pingBack, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
             that.MovementController.Moving[dir] = true;
@@ -148,7 +148,7 @@
                 that.LatencyResolver.RequestedPingBack();
             }
             movementList.push([++currentCommand, dir, false]);
-            conn.registerMoveStop(dir, pingBack, currentCommand);
+            connection.server.registerMoveStop(dir, pingBack, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
             that.MovementController.Moving[dir] = false;
@@ -168,7 +168,7 @@
             movementList.push([++currentCommand, toStop, false]);
             movementList.push([++currentCommand, toStart, true]);
 
-            conn.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
+            connection.server.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
             that.MovementController.Moving[toStop] = false;
@@ -194,7 +194,7 @@
                 movementList.push([++currentCommand, MovementList[i], false]);
             }
 
-            conn.resetMovement(MovementList, pingBack, currentCommand);
+            connection.server.resetMovement(MovementList, pingBack, currentCommand);
         }
     }
 
@@ -202,7 +202,7 @@
         if ((new Date().getTime() - lastShot) > that.FIRE_RATE) {
             lastShot = new Date().getTime();
 
-            conn.fire();
+            connection.server.fire();
         }
     }
 

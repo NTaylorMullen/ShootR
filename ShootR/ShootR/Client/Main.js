@@ -25,7 +25,7 @@ $(function () {
         game.ShipManager.MyShip.Initialize(screen);
 
         StartUpdateLoop();
-        env.readyForPayloads();
+        env.server.readyForPayloads();
     }
 
     function StartUpdateLoop() {
@@ -75,25 +75,25 @@ $(function () {
     }
 
     // Small name in order to minimize payload
-    env.d = function (compressedPayload) {
+    env.client.d = function (compressedPayload) {
         LoadMapInfo(payloadDecompressor.Decompress(compressedPayload));
     }
 
     // Leaderboard request endpoint
-    env.l = function (compressedLeaderboard) {
+    env.client.l = function (compressedLeaderboard) {
         game.HUDManager.Leaderboard.Load(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard, game.ShipManager.MyShip.Name));
     }
 
-    env.mapSizeIncreased = function (size) {
+    env.client.mapSizeIncreased = function (size) {
         Map.prototype.WIDTH = size.Width;
         Map.prototype.HEIGHT = size.Height;
     }
 
-    env.notify = function (msg) {
+    env.client.notify = function (msg) {
         alert(msg);
     }
 
-    env.pingBack = latencyResolver.ServerPingBack;
+    env.client.pingBack = latencyResolver.ServerPingBack;
 
     var stateCookie = $.cookie('shootr.state'),
         state = stateCookie ? JSON.parse(stateCookie) : {},
@@ -105,7 +105,7 @@ $(function () {
         $.cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });
 
         $.connection.hub.start(function () {
-            env.initializeClient(registrationID).done(function (value) {
+            env.server.initializeClient(registrationID).done(function (value) {
                 Initialize(value);
             });
         });

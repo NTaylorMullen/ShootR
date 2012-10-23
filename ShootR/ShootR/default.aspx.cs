@@ -12,12 +12,11 @@ namespace ShootR
     public partial class _default : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
-        {
-            
+        {            
 #if !DEBUG
             var state = Request.Cookies["shootr.state"];
 #else
-            var state = new HttpCookie("shootr.state",JsonConvert.SerializeObject(new RegisteredClient(null, Guid.NewGuid().ToString(), "John Doe", "")));
+            var state = new HttpCookie("shootr.state",JsonConvert.SerializeObject(new RegisteredClient(null, "ABCDEFGH", "John Doe", "")));
 #endif
 
             if (state != null)

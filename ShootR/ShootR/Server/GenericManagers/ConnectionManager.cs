@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using SignalR;
-using SignalR.Hubs;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ShootR
 {
@@ -70,7 +70,7 @@ namespace ShootR
                         foreach (User u in user.RemoteControllers)
                         {
                             u.MyShip = null;
-                            context.Clients[u.ConnectionID].stopController("Primary account has been stopped!");
+                            context.Client(u.ConnectionID).stopController("Primary account has been stopped!");
                         }
 
                         user.RemoteControllers.Clear();

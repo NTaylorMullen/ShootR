@@ -61,7 +61,7 @@ $(window).load(function () {
         state = stateCookie ? JSON.parse(stateCookie) : {},
         registrationID = state.RegistrationID;
 
-    env.stopController = function (msg) {
+    env.client.stopController = function (msg) {
         $.connection.hub.stop();
         alert(msg);        
     }
@@ -72,7 +72,7 @@ $(window).load(function () {
         $.cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });
 
         $.connection.hub.start(function () {
-            env.initializeController(registrationID).done(function (val) {
+            env.server.initializeController(registrationID).done(function (val) {
                 if (!val.FailureMessage) {
                     Initialize(val);
                 }

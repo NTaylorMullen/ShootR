@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using SignalR;
-using SignalR.Hubs;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ShootR
 {
@@ -121,11 +121,11 @@ namespace ShootR
             _space.CheckIncreaseMapSize(shipCount);
 
             ConcurrentDictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), shipCount, GameHandler.BulletManager.Bullets.Count, _space);
-            dynamic Clients = GetContext().Clients;
+            IHubContext context = GetContext();
 
             foreach (string connectionID in payloads.Keys)
             {
-                UserHandler.GetUser(connectionID).PushToClient(payloads[connectionID], Clients);
+                UserHandler.GetUser(connectionID).PushToClient(payloads[connectionID], context);
             }
         }
 
@@ -145,7 +145,7 @@ namespace ShootR
 
         private void PushLeaderboard(List<object> leaderboard)
         {
-            GetContext().Clients[Leaderboard.LEADERBOARD_REQUESTEE_GROUP].l(leaderboard);
+            GetContext().Group(Leaderboard.LEADERBOARD_REQUESTEE_GROUP).l(leaderboard);
         }
 
         public static IHubContext GetContext()

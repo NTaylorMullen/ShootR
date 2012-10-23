@@ -18,14 +18,12 @@ namespace ShootR
 
         public void RequestLeaderboard(string connectionId)
         {
-            dynamic Groups = Game.GetContext().Groups;
-            Groups.Add(connectionId, LEADERBOARD_REQUESTEE_GROUP);
+            Game.GetContext().Groups.Add(connectionId, LEADERBOARD_REQUESTEE_GROUP);
         }
 
         public void StopRequestingLeaderboard(string connectionId)
         {
-            dynamic Groups = Game.GetContext().Groups;
-            Groups.Remove(connectionId, LEADERBOARD_REQUESTEE_GROUP);
+            Game.GetContext().Groups.Remove(connectionId, LEADERBOARD_REQUESTEE_GROUP);
         }
 
         public IEnumerable<LeaderboardEntry> GetAndUpdateLeaderboard()

@@ -1,4 +1,4 @@
-﻿function GameDetailManager(connection) {
+﻿function GameDetailManager() {
     var that = this;
 
     function ApplyKeyboardShortcuts() {

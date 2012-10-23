@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ShootR
 {
@@ -46,9 +47,9 @@ namespace ShootR
 
         public long LastCommandID { get; set; }
 
-        public virtual void PushToClient(object[] payload, dynamic Clients)
+        public virtual void PushToClient(object[] payload, IHubContext context)
         {
-            Clients[ConnectionID].d(payload);
+            context.Client(ConnectionID).d(payload);
         }
 
         private Size _viewport;
