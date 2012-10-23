@@ -59,7 +59,7 @@ namespace ShootR
 
                     if (ship.LifeController.Alive)
                     {
-                        ship.WeaponController.Fire();
+                        ship.WeaponController.Fire(DateTime.UtcNow);
                     }
                 }
                 catch (Exception e)

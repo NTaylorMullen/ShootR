@@ -29,10 +29,7 @@
 
             currentShip.Visible = true;
 
-            var shipImage = currentShip.Level;
-            if (shipImage >= 8) {
-                shipImage = "Final"
-            }
+            var shipImage = Math.min(currentShip.Level,10);
 
             currentShip.Vehicle = CanvasContext.IMAGE_ASSETS["Ship" + shipImage];
 

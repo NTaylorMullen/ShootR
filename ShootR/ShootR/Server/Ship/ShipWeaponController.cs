@@ -14,6 +14,14 @@ namespace ShootR
         private BulletManager _bulletManager;
         private Ship _me;
 
+        private const double HALF_SHIP_WIDTH = Ship.WIDTH * .5;
+        private const double HALF_SHIP_HEIGHT = Ship.HEIGHT * .5;
+        
+        private const double HALF_BULLET_WIDTH = Bullet.WIDTH * .5;
+        private const double HALF_BULLET_HEIGHT = Bullet.HEIGHT * .5;
+
+        private static readonly Vector2 BULLET_OFFSET = new Vector2(HALF_BULLET_WIDTH, HALF_BULLET_HEIGHT);
+
         public ShipWeaponController(Ship ship, BulletManager bm)
         {
             _bulletManager = bm;
@@ -29,19 +37,18 @@ namespace ShootR
         /// Create's a bullet in the direction of the ship
         /// </summary>
         /// <returns>Newly created bullet</returns>
-        public void Fire()
+        public void Fire(DateTime now)
         {
-            if ((DateTime.UtcNow - LastFired).TotalMilliseconds >= FIRE_RATE)
+            if ((now - LastFired).TotalMilliseconds >= FIRE_RATE)
             {
-                var shipCenter = new Vector2(_me.MovementController.Position.X + .5 * _me.Width(), _me.MovementController.Position.Y + .5 * _me.Height());
+                var shipCenter = new Vector2(_me.MovementController.Position.X + HALF_SHIP_WIDTH, _me.MovementController.Position.Y + HALF_SHIP_HEIGHT);
                 var shipDirection = new Vector2(_me.MovementController.Rotation);
-                var bulletOffset = new Vector2(Bullet.WIDTH / 2, Bullet.HEIGHT / 2);
-                var startPosition = new Vector2((shipCenter + (BULLET_LEAD * shipDirection)) + bulletOffset);
+                var startPosition = new Vector2((shipCenter + (BULLET_LEAD * shipDirection)) - BULLET_OFFSET);
 
                 Bullet spawnedBullet = new Bullet(startPosition, shipDirection, _me, DamageModifier);
                 _bulletManager.Add(spawnedBullet);
 
-                LastFired = DateTime.UtcNow;
+                LastFired = now;
 
                 _me.Fired(spawnedBullet);
 

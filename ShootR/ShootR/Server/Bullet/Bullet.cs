@@ -8,8 +8,8 @@ namespace ShootR
     /// </summary>
     public class Bullet : Collidable
     {
-        public const int HEIGHT = 10;
-        public const int WIDTH = 4;
+        public const int HEIGHT = 13;
+        public const int WIDTH = 13;
         public const int DISPOSE_AFTER = 2; // Disposes bullet after X seconds of not being seen.
         public const int LIFE = 1;
         public const int BASE_DAMAGE = 10;
@@ -21,7 +21,7 @@ namespace ShootR
         private static int _bulletGUID = -1;
 
         public Bullet(Vector2 position, Vector2 direction, Ship firedBy, double damageModifier)
-            : base(WIDTH, HEIGHT, new BulletMovementController(position, direction), new LifeController(LIFE))
+            : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, firedBy.MovementController.Rotation), new LifeController(LIFE))
         {
             ID = Interlocked.Decrement(ref _bulletGUID);// Reverse bullet GUID's to go below 0
             _spawnedAt = DateTime.UtcNow;

@@ -359,7 +359,7 @@ namespace ShootR
         public void Kill(DateTime now)
         {
             Seek(now);
-            WeaponController.Fire();
+            WeaponController.Fire(now);
         }
 
         public override void Update(double PercentOfSecond)

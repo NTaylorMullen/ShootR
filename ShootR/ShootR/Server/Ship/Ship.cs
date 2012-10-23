@@ -9,8 +9,8 @@ namespace ShootR
     /// </summary>
     public class Ship : Collidable
     {
-        public const int WIDTH = 73;
-        public const int HEIGHT = 50;
+        public const int WIDTH = 75;
+        public const int HEIGHT = 75;
         public const int START_LIFE = 100;
 
         public event KillEventHandler OnKill;

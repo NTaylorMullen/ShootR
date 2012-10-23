@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace ShootR
 {
@@ -7,12 +8,12 @@ namespace ShootR
         public const double MAX_SPEED = 1100;
         public const double MASS = 800;
 
-        public BulletMovementController(Vector2 position, Vector2 direction)
+        public BulletMovementController(Vector2 position, Vector2 direction, double rotation)
             : base(MASS)
         {
             Position = position;
             Velocity = direction * MAX_SPEED;
-            Rotation = Math.Atan(direction.Y / direction.X) * 180 / Math.PI;
+            Rotation = rotation;
         }
 
         public override void Move(double percentOfSecond)
