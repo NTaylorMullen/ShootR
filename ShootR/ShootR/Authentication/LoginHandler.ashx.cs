@@ -14,7 +14,7 @@ namespace ShootR
     /// <summary>
     /// Summary description for Login
     /// </summary>
-    public class Login : IHttpHandler
+    public class LoginHandler : IHttpHandler
     {
         private const string VerifyTokenUrl = "https://rpxnow.com/api/v2/auth_info?apiKey={0}&token={1}";
 
@@ -86,7 +86,8 @@ namespace ShootR
                 AddOrUpdateState(rc, context);
             }
 
-            context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
+            string path = context.Request.QueryString["path"];
+            context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath + path, false);
             context.ApplicationInstance.CompleteRequest();
         }
 

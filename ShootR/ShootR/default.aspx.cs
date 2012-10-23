@@ -30,7 +30,7 @@ namespace ShootR
                 {
                     Game.Instance.RegistrationHandler.Register(rc);
 
-                    Login.AddOrUpdateState(rc, HttpContext.Current);
+                    LoginHandler.AddOrUpdateState(rc, HttpContext.Current);
                 }
                 
                 JanrainScripts.Visible = false;

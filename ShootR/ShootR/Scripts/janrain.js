@@ -3,13 +3,19 @@
     if (typeof window.janrain.settings !== 'object') window.janrain.settings = {};
 
     var url = document.location.href;
+    var path = url.split("/");
+    path = path[path.length - 1];
     url = url.replace("default.aspx", "");
     url = url.replace("controller.aspx", "");
+    if (url[url.length - 1] != "/") {
+        url += "/";
+    }
+
     if (url[url.length - 1] !== "/") {
         url += "/";
     }
 
-    janrain.settings.tokenUrl =  url + 'Authentication/Login.ashx';
+    janrain.settings.tokenUrl =  url + 'Authentication/LoginHandler.ashx?path='+path;
     janrain.settings.type = "embed";
 
     function isReady() { janrain.ready = true; };
