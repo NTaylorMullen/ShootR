@@ -3,9 +3,12 @@
     var that = this,
         vehicleCanvas = document.createElement("canvas"),
         vehicleCanvasContext = vehicleCanvas.getContext("2d"),
-        thrustBasicAnimation;
+        thrustBasicAnimation,
+        canvasWidthBuffer = 26; // thruster animation frame width
 
-    vehicleCanvas.width = that.WIDTH + 26;
+    that.DrawOffset.X = -canvasWidthBuffer;
+
+    vehicleCanvas.width = that.WIDTH + canvasWidthBuffer;
     vehicleCanvas.height = that.HEIGHT;
 
     thrustBasicAnimation = new spritify({
@@ -14,7 +17,7 @@
         X: 0,
         Y: (that.HEIGHT / 2) - 27,
         frameCount: 6,
-        fps: 18,
+        fps: 12,
         spriteSheetSize: {
             width: 26,
             height: 330
@@ -28,14 +31,17 @@
         loop: true
     });
 
-    vehicleCanvasContext.drawImage(IMAGE_ASSETS.Ship1,26, 0);
+    // Part of collidable
+    that.AnimationDrawList.push(thrustBasicAnimation);
+
+    vehicleCanvasContext.drawImage(IMAGE_ASSETS.Ship1, canvasWidthBuffer, 0);
 
     that.Vehicle = vehicleCanvas;
 
     //GAME_GLOBALS.AnimationManager.Add(thrustBasicAnimation);
 
     that.UpdateVehicle = function (newVehicle) {
-        vehicleCanvasContext.drawImage(newVehicle,26,0);
+        vehicleCanvasContext.drawImage(newVehicle, canvasWidthBuffer, 0);
     }
 
     that.Destroy = function () {
@@ -154,10 +160,15 @@
             TryInterpolationRotation(rotationIncrementor);
         }
         if (that.MovementController.Moving.Forward) {
+            thrustBasicAnimation.Play();
             that.MovementController.Forces.X += direction.X * that.ENGINE_POWER;
             that.MovementController.Forces.Y += direction.Y * that.ENGINE_POWER;
         }
-        if (that.MovementController.Moving.Backward) {
+        else {
+            thrustBasicAnimation.Stop();
+        }
+
+        if (that.MovementController.Moving.Backward) {            
             that.MovementController.Forces.X -= direction.X * that.ENGINE_POWER;
             that.MovementController.Forces.Y -= direction.Y * that.ENGINE_POWER;
         }
@@ -187,3 +198,5 @@
 
     that.UpdateProperties({ MovementController: { Position: { X: 0, Y: 0 }, Forces: { X: 0, Y: 0 }, Velocity: { X: 0, Y: 0 }, Moving: { RotatingLeft: false, RotatingRight: false, Forward: false, Backward: false }, Rotation: 0 } });
 }
+
+ShipVehicle.prototype = new Collidable();

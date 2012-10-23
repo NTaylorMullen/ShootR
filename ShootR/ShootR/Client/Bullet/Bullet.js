@@ -52,3 +52,5 @@
 
     that.LastUpdated = new Date();
 }
+
+Bullet.prototype = new Collidable();

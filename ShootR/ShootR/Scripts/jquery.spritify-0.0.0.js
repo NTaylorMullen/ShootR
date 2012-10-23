@@ -11,9 +11,13 @@
         return { row: row, column: column };
     }
 
+    function ClearDrawOnCanvas() {
+        options.drawOn.clearRect(that.MovementController.Position.X, that.MovementController.Position.Y, options.frameSize.width, options.frameSize.height);
+    }
+
     that.Play = function () {
         if (!that.Playing) {
-            that.initiateAnimation();
+            initiateAnimation();
         }
     }
 
@@ -27,6 +31,8 @@
     that.Stop = function () {
         if (that.Playing) {
             that.Playing = false;
+            options.currentFrame = 0;
+            ClearDrawOnCanvas();
             clearTimeout(options.timeoutID);
         }
     }
@@ -34,9 +40,8 @@
     that.Playing = false;
 
     function initiateAnimation () {
-        clearTimeout(options.timeoutID);
-        nextAnimationFrame();
         that.Playing = true;
+        nextAnimationFrame();        
     }
 
     function nextAnimationFrame() {
@@ -105,14 +110,14 @@
     }
 
     that.Draw = function () {
-        if (!that.Destroyed) {
+        if (that.Playing && !that.Destroyed) {
             var framePosition = getFramePosition(options.currentFrame, options.frameSize, options.spriteSheetSize);
 
             if (!options.drawOn) {
                 CanvasContext.drawRotatedImage(options.image, that.MovementController.Rotation, framePosition.column * options.frameSize.width, framePosition.row * options.frameSize.height, options.frameSize.width, options.frameSize.height, that.MovementController.Position.X, that.MovementController.Position.Y, options.frameSize.width, options.frameSize.height);
             }
             else {
-                options.drawOn.clearRect(that.MovementController.Position.X, that.MovementController.Position.Y, options.frameSize.width, options.frameSize.height);
+                ClearDrawOnCanvas();
                 options.drawOn.drawImage(options.image, framePosition.column * options.frameSize.width, framePosition.row * options.frameSize.height, options.frameSize.width, options.frameSize.height, that.MovementController.Position.X, that.MovementController.Position.Y, options.frameSize.width, options.frameSize.height);
             }
         }

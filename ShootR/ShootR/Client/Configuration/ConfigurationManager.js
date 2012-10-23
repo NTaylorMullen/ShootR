@@ -26,7 +26,5 @@
 }
 
 function ApplyInheritance() {
-    Ship.prototype = new ShipVehicle();
-    Bullet.prototype = new Collidable();
-    ShipVehicle.prototype = new Collidable();
+    Ship.prototype = new ShipVehicle();        
 }
