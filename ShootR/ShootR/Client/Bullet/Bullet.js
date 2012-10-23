@@ -4,7 +4,7 @@
         spawnedAt = new Date().getTime();
 
     that.Visible = true;
-    that.Vehicle = CanvasContext.IMAGE_ASSETS.Laser;
+    that.Vehicle = IMAGE_ASSETS.Laser;
     that.ShouldDispose = function () {
         return ((new Date().getTime()) - spawnedAt) >= that.BULLET_DIE_AFTER;
     }
@@ -14,7 +14,7 @@
         if (that.Collided) {
             // We want to explode
             GAME_GLOBALS.AnimationManager.Add(new spritify({
-                image: CanvasContext.IMAGE_ASSETS.Explosion,
+                image: IMAGE_ASSETS.Explosion,
                 centerOn: { X: that.CollidedAt.X, Y: that.CollidedAt.Y },
                 frameCount: 24,
                 spriteSheetSize: {
@@ -52,5 +52,3 @@
 
     that.LastUpdated = new Date();
 }
-
-Bullet.prototype = new Collidable();

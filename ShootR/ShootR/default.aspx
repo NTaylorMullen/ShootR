@@ -118,6 +118,7 @@
             <script src="Client/Space/Map.js" type="text/javascript"></script>
             <script src="Client/Space/Camera.js" type="text/javascript"></script>
             <script src="Client/Space/CanvasRenderer.js" type="text/javascript"></script>
+            <script src="Client/Utilities/ImageAssets.js" type="text/javascript"></script>
             <script src="Client/Utilities/GameTime.js" type="text/javascript"></script>
             <script src="Client/Utilities/Collidable.js" type="text/javascript"></script>
             <script src="Client/Bullet/Bullet.js" type="text/javascript"></script>

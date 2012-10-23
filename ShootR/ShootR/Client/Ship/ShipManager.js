@@ -31,9 +31,9 @@
 
             var shipImage = Math.min(currentShip.Level,10);
 
-            currentShip.Vehicle = CanvasContext.IMAGE_ASSETS["Ship" + shipImage];
-
             that.Ships[id].UpdateProperties(currentShip);
+
+            that.Ships[id].UpdateVehicle(IMAGE_ASSETS["Ship" + shipImage]);
 
             // Check if the ship still exists
             if (that.Ships[id].Disposed) {

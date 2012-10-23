@@ -1,15 +1,49 @@
 ﻿function ShipVehicle(properties) {
     Collidable.call(this);
-    var that = this;
+    var that = this,
+        vehicleCanvas = document.createElement("canvas"),
+        vehicleCanvasContext = vehicleCanvas.getContext("2d"),
+        thrustBasicAnimation;
 
-    that.Vehicle = CanvasContext.IMAGE_ASSETS.Ship1;
+    vehicleCanvas.width = that.WIDTH + 26;
+    vehicleCanvas.height = that.HEIGHT;
+
+    thrustBasicAnimation = new spritify({
+        image: IMAGE_ASSETS.ThrustBasic,
+        drawOn: vehicleCanvasContext,
+        X: 0,
+        Y: (that.HEIGHT / 2) - 27,
+        frameCount: 6,
+        fps: 18,
+        spriteSheetSize: {
+            width: 26,
+            height: 330
+        },
+        frameSize: {
+            width: 26,
+            height: 55,
+        },
+        Rotation: 0,
+        autoPlay: false,
+        loop: true
+    });
+
+    vehicleCanvasContext.drawImage(IMAGE_ASSETS.Ship1,26, 0);
+
+    that.Vehicle = vehicleCanvas;
+
+    //GAME_GLOBALS.AnimationManager.Add(thrustBasicAnimation);
+
+    that.UpdateVehicle = function (newVehicle) {
+        vehicleCanvasContext.drawImage(newVehicle,26,0);
+    }
 
     that.Destroy = function () {
         // Ship has died
         if (!that.LifeController.Alive) {
             // We want to explode
             GAME_GLOBALS.AnimationManager.Add(new spritify({
-                image: CanvasContext.IMAGE_ASSETS.BigExplosion,
+                image: IMAGE_ASSETS.BigExplosion,
                 centerOn: { X: that.MovementController.Position.X + that.HALF_WIDTH, Y: that.MovementController.Position.Y + that.HALF_HEIGHT },
                 frameCount: 30,
                 fps: 25,
@@ -153,5 +187,3 @@
 
     that.UpdateProperties({ MovementController: { Position: { X: 0, Y: 0 }, Forces: { X: 0, Y: 0 }, Velocity: { X: 0, Y: 0 }, Moving: { RotatingLeft: false, RotatingRight: false, Forward: false, Backward: false }, Rotation: 0 } });
 }
-
-ShipVehicle.prototype = new Collidable();

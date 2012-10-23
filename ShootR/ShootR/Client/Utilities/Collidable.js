@@ -2,7 +2,6 @@
     var that = this;
     
     that.Visible = true;
-    that.PropertiesToCopy = ["MovementController"];
     that.LastUpdated = new Date();
     that.Vehicle;
     that.FollowID;

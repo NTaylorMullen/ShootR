@@ -21,4 +21,12 @@
     Ship.prototype.REQUEST_PING_EVERY = config.gameConfig.REQUEST_PING_EVERY;
 
     $.extend(that, config);
+
+    ApplyInheritance();
+}
+
+function ApplyInheritance() {
+    Ship.prototype = new ShipVehicle();
+    Bullet.prototype = new Collidable();
+    ShipVehicle.prototype = new Collidable();
 }

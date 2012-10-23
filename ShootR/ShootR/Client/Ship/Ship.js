@@ -256,5 +256,3 @@
         }
     }
 }
-
-Ship.prototype = new ShipVehicle();
