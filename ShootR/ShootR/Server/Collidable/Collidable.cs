@@ -44,7 +44,7 @@ namespace ShootR
             return _altered;
         }
 
-        public void ResetAltered()
+        public virtual void ResetFlags()
         {
             _altered = false;
         }

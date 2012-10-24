@@ -11,8 +11,7 @@ namespace ShootR
             Bullets = new List<object>();
         }
 
-        public List<object> Ships { get; set; }
-        public int LeaderboardPosition { get; set; }
+        public List<object> Ships { get; set; }        
         public List<object> Bullets { get; set; }
         public int ShipsInWorld { get; set; }
         public int BulletsInWorld { get; set; }
@@ -22,5 +21,12 @@ namespace ShootR
 
         public string Notification { get; set; }
         public long LastCommandProcessed { get; set; }
+
+        public int LeaderboardPosition { get; set; }
+        public int Kills { get; set; }
+        public int Deaths { get; set; }
+
+        public string KilledByName { get; set; }
+        public string KilledByPhoto { get; set; }
     }
 }

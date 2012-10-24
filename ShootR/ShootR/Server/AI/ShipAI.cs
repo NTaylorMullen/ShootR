@@ -35,6 +35,7 @@ namespace ShootR
             MovementController.Rotation = _gen.Next(0, 360);
             StatRecorder = new AIShipStatRecorder(this);
             SeekingShip = -1;
+            Name = "CPU" + ID;
 
             LevelManager.OnLevel += CheckReset;
         }

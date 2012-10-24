@@ -57,6 +57,7 @@ namespace ShootR
 
         public void Reset()
         {
+            Alive = true;
             MaxLife = _startLife;
             Health = MaxLife;
         }

@@ -11,5 +11,9 @@
         public short ExperienceToNextLevel = 6;
         public short Notification = 7;
         public short LastCommandProcessed = 8;
+        public short Kills = 9;
+        public short Deaths = 10;
+        public short KilledByName = 11;
+        public short KilledByPhoto = 12;
     }
 }

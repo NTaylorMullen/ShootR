@@ -58,51 +58,18 @@ namespace ShootR
                         payload.Ships.Add(Compressor.Compress(user.MyShip));
                     }
 
-                    payloads.TryAdd(connectionID, Compressor.Compress(payload));
-                }
-            });
-            /*
-            foreach (User user in userList)
-            {
-                if (user.ReadyForPayloads)
-                {
-                    Vector2 screenOffset = new Vector2((user.Viewport.Width / 2) + Ship.WIDTH / 2, (user.Viewport.Height / 2) + Ship.HEIGHT / 2);
-                    string connectionID = user.ConnectionID;
-
-                    _payloadCache.CreateCacheFor(connectionID);
-
-                    var payload = GetInitializedPayload(shipCount, bulletCount, user);
-
-                    if (!user.IdleManager.CheckIdle())
+                    // This is used to send down "death" data a single time to the client and not send it repeatedly
+                    if (user.DeathOccured)
                     {
-                        Vector2 screenPosition = user.MyShip.MovementController.Position - screenOffset;
-                        List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), user.Viewport.Width + SCREEN_BUFFER_AREA, user.Viewport.Height + SCREEN_BUFFER_AREA));
-
-                        foreach (Collidable obj in onScreen)
-                        {
-                            if (obj is Bullet)
-                            {
-                                _payloadCache.Cache(connectionID, obj);
-
-                                if (obj.Altered() || !_payloadCache.ExistedLastPayload(connectionID, obj))
-                                {
-                                    payload.Bullets.Add(Compressor.Compress((Bullet)obj));
-                                }
-                            }
-                            else if (obj is Ship)
-                            {
-                                payload.Ships.Add(Compressor.Compress(((Ship)obj)));
-                            }
-                        }
-                    }
-                    else // User is Idle, push down "MyShip"
-                    {
-                        payload.Ships.Add(Compressor.Compress(user.MyShip));
+                        // We've acknowledged the death
+                        user.DeathOccured = false;
+                        payload.KilledByName = user.MyShip.LastKilledBy.Host.RegistrationTicket.DisplayName;
+                        payload.KilledByPhoto = user.MyShip.LastKilledBy.Host.RegistrationTicket.Photo;
                     }
 
                     payloads.TryAdd(connectionID, Compressor.Compress(payload));
                 }
-            }*/
+            });            
 
             // Remove all disposed objects from the map
             space.Clean();
@@ -127,6 +94,8 @@ namespace ShootR
             return new Payload()
             {
                 LeaderboardPosition = user.CurrentLeaderboardPosition,
+                Kills = user.MyShip.StatRecorder.Kills,
+                Deaths = user.MyShip.StatRecorder.Deaths,
                 ShipsInWorld = shipCount,
                 BulletsInWorld = bulletCount,
                 Experience = user.MyShip.LevelManager.Experience,

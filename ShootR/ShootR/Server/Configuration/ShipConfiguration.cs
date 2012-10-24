@@ -12,6 +12,7 @@
             ROTATE_SPEED = ShipMovementController.ROTATE_SPEED;
             WIDTH = Ship.WIDTH;
             START_LIFE = Ship.START_LIFE;
+            DAMAGE_INCREASE_RATE = ShipWeaponController.DAMAGE_INCREASE_RATE;
         }
 
         public double DRAG_AREA { get; set; }
@@ -22,5 +23,6 @@
         public double ROTATE_SPEED { get; set; }
         public int WIDTH { get; set; }
         public int START_LIFE { get; set; }
+        public double DAMAGE_INCREASE_RATE { get; set; }
     }
 }

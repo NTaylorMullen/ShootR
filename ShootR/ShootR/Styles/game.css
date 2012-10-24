@@ -1,6 +1,6 @@
 ﻿@font-face {
     font-family: 'Segoe UI Semibold';
-    src: url( '/Fonts/seguisb.ttf' ) format('truetype');
+    src: url( '/Fonts/seguisb.ttf' ) format('truetype'), url( '/Fonts/seguisb.eot' ) format('opentype');
 }
 
 html, body, div, span, applet, object, iframe,
@@ -12,39 +12,44 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-	display: block;
+    display: block;
 }
+
 body {
-	line-height: 1;
+    line-height: 1;
 }
+
 ol, ul {
-	list-style: none;
+    list-style: none;
 }
+
 blockquote, q {
-	quotes: none;
+    quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
+
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+        content: '';
+        content: none;
+    }
+
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
 html, body {
@@ -59,7 +64,7 @@ a {
 #game {
     display: block;
     position: absolute;
-    z-index: 100000;
+    z-index: 10000;
 }
 
 #gameWrapper {
@@ -70,21 +75,6 @@ a {
     background: url('/Images/bg_stars.png') repeat;
 }
 
-#respawnText {
-    position: absolute;
-    background-color: black;
-    display: none;
-    z-index: 10000;
-    font-size: 48px;
-    color: white;
-    font-family: 'Times New Roman';
-    text-align: center;
-}
-
-.animation {
-    position: absolute;
-}
-
 .explosion {
     width: 64px;
     height: 64px;
@@ -93,26 +83,6 @@ a {
     top: 200px;
     left: 200px;
 }
-
-.ship {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-image: url('/Images/Ship.png');
-    background-repeat: no-repeat;
-}
-
-.bullet {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: green;
-    width: 10px;
-    height: 4px;
-}
-
 
 #popUpHolder {
     position: absolute;

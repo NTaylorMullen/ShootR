@@ -44,6 +44,7 @@ namespace ShootR
         public bool Controller { get; set; }
         public bool ReadyForPayloads { get; set; }
         public int CurrentLeaderboardPosition { get; set; }
+        public bool DeathOccured { get; set; }
 
         public long LastCommandID { get; set; }
 

@@ -23,6 +23,7 @@ namespace ShootR
             : base(WIDTH, HEIGHT, new ShipMovementController(position), new ShipLifeController(START_LIFE))
         {
             ID = Interlocked.Increment(ref _shipGUID);
+            Name = "Ship" + ID;
             StatRecorder = new ShipStatRecorder(this);
             WeaponController = new ShipWeaponController(this, bm);
             LifeController.OnDeath += new DeathEventHandler(Die);
@@ -39,6 +40,7 @@ namespace ShootR
         public virtual ShipStatRecorder StatRecorder { get; protected set; }
         public ShipLevelManager LevelManager { get; private set; }
         public ShipWeaponController WeaponController { get; private set; }
+        public Ship LastKilledBy { get; private set; }
 
         public ShipLifeController LifeController
         {
@@ -64,6 +66,12 @@ namespace ShootR
             }
         }
 
+        public override void ResetFlags()
+        {
+
+            base.ResetFlags();
+        }
+
         public void Die(object sender, DeathEventArgs e)
         {
             MovementController.StopMovement();
@@ -74,7 +82,10 @@ namespace ShootR
                 OnDeath(this, e);
             }
 
-            (e.KilledBy as Bullet).FiredBy.Killed(this);
+            LastKilledBy = (e.KilledBy as Bullet).FiredBy;
+            Host.DeathOccured = true;
+
+            LastKilledBy.Killed(this);
 
             this.Dispose();
         }

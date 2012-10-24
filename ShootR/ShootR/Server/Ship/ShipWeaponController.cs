@@ -11,12 +11,14 @@ namespace ShootR
         // Lead the weapon by X pixels
         public const double BULLET_LEAD = 70;
 
+        public const double DAMAGE_INCREASE_RATE = .1;
+
         private BulletManager _bulletManager;
         private Ship _me;
 
         private const double HALF_SHIP_WIDTH = Ship.WIDTH * .5;
         private const double HALF_SHIP_HEIGHT = Ship.HEIGHT * .5;
-        
+
         private const double HALF_BULLET_WIDTH = Bullet.WIDTH * .5;
         private const double HALF_BULLET_HEIGHT = Bullet.HEIGHT * .5;
 
@@ -60,7 +62,7 @@ namespace ShootR
         /// </summary>
         public void LeveledUp(object sender, LevelUpEventArgs e)
         {
-            DamageModifier += .1;
+            DamageModifier += DAMAGE_INCREASE_RATE;
         }
 
         public void Reset()

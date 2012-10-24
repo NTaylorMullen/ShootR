@@ -19,32 +19,6 @@ function Game(connection, latencyResolver, myShipID) {
 
     that.HUDManager = new HUDManager(myShip, connection);
 
-    // Ship Respawn
-    $(that.ShipManager).on("Respawn", function () {
-        var respawnText = $("#respawnText"),
-            gameCanvas = $("#game"),
-            timeLeft = $("#timeLeft");
-
-        respawnText.css("width", gameCanvas.width());
-        respawnText.css("height", gameCanvas.height());
-        respawnText.css("top", gameCanvas.offset().top);
-        respawnText.css("left", gameCanvas.offset().left);
-
-        timeLeft.html(that.RESPAWN_TIMER);
-
-        respawnText.fadeIn(2000);
-
-        var interval = setInterval(function () {
-            var left = parseInt(timeLeft.html()) - 1;
-            timeLeft.html(left);
-
-            if (left === 0) {
-                clearInterval(interval);
-                respawnText.fadeOut(1000);
-            }
-        }, 1000);
-    });
-
     that.Update = function (payload) {
         gameTime.Update();
         CanvasContext.clear();
@@ -65,6 +39,6 @@ function Game(connection, latencyResolver, myShipID) {
         CanvasContext.Render();
 //        shipStats.Update(payload, latencyResolver.Latency, that.ShipManager.Ships, that.BulletManager.Bullets);
 
-        that.HUDManager.Update();
+        that.HUDManager.Update(payload);
     }
 }

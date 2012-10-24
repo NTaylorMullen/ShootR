@@ -42,15 +42,15 @@
             currentHealthHeart.removeClass("good hurt bad")
             if (lifePercentage <= .3) {
                 currentHealthHeart.addClass("bad");
-                barColor = "#ED1E79";
+                barColor = GAME_GLOBALS.Colors.ShipBad;
             }
             else if (lifePercentage <= .6) {
                 currentHealthHeart.addClass("hurt");
-                barColor = "#FF931E";
+                barColor = GAME_GLOBALS.Colors.ShipHurt;
             }
             else {
                 currentHealthHeart.addClass("good");
-                barColor = "#7AC943";
+                barColor = GAME_GLOBALS.Colors.ShipGood;
             }
 
             currentHealthHeart.animate({ left: heartLeft }, healthAnimateSpeed, "easeOutExpo");

@@ -90,11 +90,14 @@
     <Content Include="Client\GameController\TouchController.js" />
     <Content Include="Client\GameGlobals.js" />
     <Content Include="Client\HUD\Animation\TextAnimation.js" />
+    <Content Include="Client\HUD\DeathScreen.js" />
+    <Content Include="Client\HUD\EnvironmentMonitor.js" />
     <Content Include="Client\HUD\ExperienceMonitor.js" />
     <Content Include="Client\HUD\GameDetailManager.js" />
     <Content Include="Client\HUD\HealthMonitor.js" />
     <Content Include="Client\HUD\HUDManager.js" />
     <Content Include="Client\HUD\Leaderboard.js" />
+    <Content Include="Client\HUD\MyRankings.js" />
     <Content Include="Client\Main.js" />
     <Content Include="Client\Ship\Ship.js" />
     <Content Include="Client\Ship\ShipManager.js" />
@@ -111,7 +114,7 @@
     <Content Include="Client\Utilities\Collidable.js" />
     <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.js" />
     <Content Include="Client\Utilities\GameTime.js" />
-    <Content Include="Client\Utilities\ShipStatRecorder.js" />
+    <Content Include="Client\HUD\ShipStatMonitor.js" />
     <Content Include="Client\Utilities\UtilityFunctions.js" />
     <Content Include="controller.aspx" />
     <Content Include="default.aspx" />
@@ -261,6 +264,7 @@
     <Compile Include="Server\Utilities\MovementFlags.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\Payload.cs" />
     <Compile Include="Server\Utilities\Vector2.cs" />
+    <Compile Include="SignalRModifiers\SmallHubDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

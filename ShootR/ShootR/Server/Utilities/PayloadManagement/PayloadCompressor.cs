@@ -59,9 +59,21 @@ namespace ShootR
 
         public object[] Compress(Payload payload)
         {
-            object[] result = new object[9];
+            object[] result;
+            if (payload.KilledByName != null)
+            {
+                result = new object[13];
+                result[PayloadCompressionContract.KilledByName] = payload.KilledByName;
+                result[PayloadCompressionContract.KilledByPhoto] = payload.KilledByPhoto;
+            }
+            else
+            {
+                result = new object[11];
+            }
             result[PayloadCompressionContract.Ships] = payload.Ships;
             result[PayloadCompressionContract.LeaderboardPosition] = payload.LeaderboardPosition;
+            result[PayloadCompressionContract.Kills] = payload.Kills;
+            result[PayloadCompressionContract.Deaths] = payload.Deaths;
             result[PayloadCompressionContract.Bullets] = payload.Bullets;
             result[PayloadCompressionContract.ShipsInWorld] = payload.ShipsInWorld;
             result[PayloadCompressionContract.BulletsInWorld] = payload.BulletsInWorld;
@@ -69,6 +81,9 @@ namespace ShootR
             result[PayloadCompressionContract.ExperienceToNextLevel] = payload.ExperienceToNextLevel;
             result[PayloadCompressionContract.Notification] = payload.Notification;
             result[PayloadCompressionContract.LastCommandProcessed] = payload.LastCommandProcessed;
+
+            
+
             return result;
         }
 

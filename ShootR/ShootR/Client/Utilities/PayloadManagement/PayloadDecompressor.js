@@ -73,13 +73,17 @@
         return {
             Ships: data[PayloadContract.Ships],
             LeaderboardPosition: data[PayloadContract.LeaderboardPosition],
+            Kills: data[PayloadContract.Kills],
+            Deaths: data[PayloadContract.Deaths],
             Bullets: data[PayloadContract.Bullets],
             ShipsInWorld: data[PayloadContract.ShipsInWorld],
             BulletsInWorld: data[PayloadContract.BulletsInWorld],
             Experience: data[PayloadContract.Experience],
             ExperienceToNextLevel: data[PayloadContract.ExperienceToNextLevel],
             Notification: data[PayloadContract.Notification],
-            LastCommandProcessed: data[PayloadContract.LastCommandProcessed]
+            LastCommandProcessed: data[PayloadContract.LastCommandProcessed],
+            KilledByName: data[PayloadContract.KilledByName],
+            KilledByPhoto: data[PayloadContract.KilledByPhoto]
         };
     }
 

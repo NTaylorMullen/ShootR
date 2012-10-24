@@ -13,21 +13,6 @@ $(function () {
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] };
 
-    GAME_GLOBALS.AnimationManager.Add(new spritify({
-        image: IMAGE_ASSETS.HealthPack,
-        centerOn: { X: 400, Y: 400 },
-        frameCount: 11,
-        spriteSheetSize: {
-            width: 355,
-            height: 216
-        },
-        frameSize: {
-            width: 71,
-            height: 72,
-        },
-        loop: true
-    }));
-
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
         game = new Game(env, latencyResolver, init.ShipID);
@@ -66,6 +51,9 @@ $(function () {
 
     function LoadMapInfo(info) {
         var myShip = game.ShipManager.MyShip;
+
+        info.ShipsOnScreen = game.ShipManager.Ships;
+
         lastPayload = info;
         gameInfoReceived = true;
 
@@ -75,10 +63,14 @@ $(function () {
             $("#Notification").fadeIn(1000).fadeOut(4000);
         }
 
+        if (info.KilledByName) {
+            game.HUDManager.DeathScreen.YouDied(info.KilledByName, info.KilledByPhoto);
+        }
+
         myShip.Experience = info.Experience;
         myShip.ExperienceToNextLevel = info.ExperienceToNextLevel;
 
-        //game.HUDManager.Leaderboard.LoadPosition(info.LeaderboardPosition);
+        game.HUDManager.MyRankings.LoadPosition(info.LeaderboardPosition);
 
         game.ShipManager.MyShip.PayloadReceived(info);
 

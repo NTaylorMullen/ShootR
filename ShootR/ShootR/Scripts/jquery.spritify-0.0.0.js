@@ -1,5 +1,6 @@
 ﻿function spritify(options) {
-    var that = this;
+    var that = this,
+        lastUpdateFrame = new Date().getTime();
 
     that.Destroyed = false;
 
@@ -56,14 +57,14 @@
             if (options.loop) {
                 options.currentFrame = 0;
             }
-            else {                
+            else {
                 that.Playing = false;
                 options.deferred.resolve();
             }
         }
 
-        if (that.Playing) {
-            options.timeoutID = setTimeout(nextAnimationFrame, 1000 / options.fps);
+        if (that.Playing && options.autoPlay) {
+            options.timeoutID = setTimeout(nextAnimationFrame, options.interval);
         }
     }
 
@@ -89,6 +90,8 @@
         // Initialize the current frame to the designated start frame
         options.currentFrame = options.startFrame;
 
+        options.interval = 1000 / options.fps;
+
         // Check if we have a frame count set, if not then we need to calculate the frames
         if (!options.frameCount) {
             options.frameCount = (options.spriteSheetSize.width / options.frameSize.width) * (options.spriteSheetSize.height / options.frameSize.height);
@@ -106,6 +109,18 @@
 
         if (options.autoPlay) {
             initiateAnimation();
+        }
+    }
+
+    // Only need to update if we're not auto playing, auto play is dealt with via a timeout.
+    that.Update = function (now) {
+        if (!options.autoPlay) {
+            var nowMilliseconds = now.getTime();
+            // Check if time for next frame
+            if (that.Playing && (nowMilliseconds - lastUpdateFrame) >= options.interval) {
+                nextAnimationFrame();
+                lastUpdateFrame = nowMilliseconds;
+            }
         }
     }
 

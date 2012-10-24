@@ -19,15 +19,8 @@
         <div id="janrainEngageEmbed"></div>
     </asp:Panel>
 
-    <div id="respawnText">
-        <p id="respawnHeader">
-            <strong>You have died!</strong><br />
-            Respawning in:
-        </p>
-        <p id="timeLeft"></p>
-    </div>
-
     <div id="gameWrapper">
+        <div id="GameCover"></div>
         <canvas id="game"></canvas>
         <div id="gameHUD">
             <div id="HealthHolder">
@@ -37,6 +30,7 @@
                 <span id="HealthText"></span>
             </div>
             <div id="HUDBar">
+                <div id="HUDBarCover">RESPAWNING IN ... <span id="RespawnTime"></span></div>
                 <div id="YouHolder" class="left">
                     <img id="You" src="Images/HUD/You_Default.png" onerror="this.src='Images/HUD/You_Default.png'" alt="Your profile picture" width="96" height="96" />
                 </div>
@@ -86,13 +80,13 @@
                     <div class="offset">
                         <div class="mainStatHolder">
                             <p>LEVEL</p>
-                            <h1>7</h1>
+                            <h1 id="Level">1</h1>
                         </div>
                         <div class="increasedStatisticsHolder statistics left">
                             <p class="header">SHIP</p>
                             <div>
                                 <p class="left">SPEED</p>
-                                <p class="right"><span id="Speed">300</span></p>
+                                <p class="right"><span id="Speed">300</span> AU</p>
                             </div>
                             <div>
                                 <p class="left">HEALTH BONUS</p>
@@ -115,7 +109,7 @@
                             <p class="header"></p>
                             <div>
                                 <p class="left">TARGETS</p>
-                                <p class="right"><span id="Targets">20</span>AU</p>
+                                <p class="right"><span id="Targets">20</span></p>
                             </div>
                             <div>
                                 <p class="left">WORLD TARGETS</p>
@@ -212,12 +206,15 @@
         <script src="Client/Bullet/BulletManager.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipManager.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipVehicle.js"></script>
-        <script src="Client/Ship/Ship.js" type="text/javascript"></script>
-        <script src="Client/Utilities/ShipStatRecorder.js" type="text/javascript"></script>
+        <script src="Client/Ship/Ship.js" type="text/javascript"></script>        
         <script src="Client/Utilities/PayloadManagement/PayloadDecompressor.js" type="text/javascript"></script>
         <script src="Client/Game.js" type="text/javascript"></script>
         <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
+        <script src="Client/HUD/EnvironmentMonitor.js" type="text/javascript"></script>
+        <script src="Client/HUD/ShipStatMonitor.js" type="text/javascript"></script>
         <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>
+        <script src="Client/HUD/DeathScreen.js" type="text/javascript"></script>
+        <script src="Client/HUD/MyRankings.js" type="text/javascript"></script>
         <script src="Client/HUD/ExperienceMonitor.js" type="text/javascript"></script>
         <script src="Client/HUD/Leaderboard.js" type="text/javascript"></script>
         <script src="Client/HUD/GameDetailManager.js" type="text/javascript"></script>

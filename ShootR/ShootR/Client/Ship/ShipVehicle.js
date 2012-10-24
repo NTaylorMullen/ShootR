@@ -176,7 +176,9 @@
         that.MovementController.Forces.X += dragForce.X;
         that.MovementController.Forces.Y += dragForce.Y;
 
-        that.LastUpdated = new Date();
+        var now = new Date();
+        thrustBasicAnimation.Update(now);
+        that.LastUpdated = now;
     }
 
     that.DrawHealthBar = function () {

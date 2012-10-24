@@ -104,11 +104,10 @@ namespace ShootR
             for (int i = 0; i < number; i++)
             {
                 string connectionidAI = Guid.NewGuid().ToString();
-                ShipAI shipAI = new ShipAI(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
+                ShipAI shipAI = new ShipAI(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);                
                 UserAI userAI = new UserAI(connectionidAI, shipAI) { Controller = false };
                 UserHandler.AddUser(userAI);
-                GameHandler.AddShipToGame(shipAI);
-                shipAI.Name = "CPU" + shipAI.ID;
+                GameHandler.AddShipToGame(shipAI);                
             }
         }
 

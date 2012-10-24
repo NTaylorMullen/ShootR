@@ -29,332 +29,356 @@
 }
 
 #HealthHeart {
-    position:absolute;
-    top:-38px;
-    left:100%;
-    background-image:url('/Images/HUD/hearts.png');
-    background-repeat:no-repeat;
-    width:34px;
-    height:26px;    
+    position: absolute;
+    top: -38px;
+    left: 100%;
+    background-image: url('/Images/HUD/hearts.png');
+    background-repeat: no-repeat;
+    width: 34px;
+    height: 26px;
 }
 
 #WhiteHealthHeart {
-    position:absolute;
-    top:6px;
-    left:8px;
-    background-image:url('/Images/HUD/HUD_whiteheart.png');
-    background-repeat:no-repeat;
-    width:17px;
-    height:14px;  
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    background-image: url('/Images/HUD/HUD_whiteheart.png');
+    background-repeat: no-repeat;
+    width: 17px;
+    height: 14px;
 }
 
 #HealthHeart.good {
-    background-position:0 0;
+    background-position: 0 0;
 }
 
 #HealthHeart.hurt {
-    background-position:-34px 0;
+    background-position: -34px 0;
 }
 
 #HealthHeart.bad {
-    background-position:-68px 0;
+    background-position: -68px 0;
 }
 
 #HealthText {
-    margin-right:11px;
+    margin-right: 11px;
 }
 
 #HUDBar {
-    width:100%;
-    height:98px;
-    overflow:hidden;
+    width: 100%;
+    height: 98px;
+    position: relative;
+    overflow: hidden;
 }
 
-#HUDBar div.left {
-    float:left;
-    height:98px;
-}
+    #HUDBar div.left {
+        float: left;
+        height: 98px;
+    }
 
-#HUDBar div.right {
-    float:right;
-    height:98px;
-}
+    #HUDBar div.right {
+        float: right;
+        height: 98px;
+    }
 
-#HUDBar .separate {
-    border-right:5px solid #1e242b;
-}
+    #HUDBar .separate {
+        border-right: 5px solid #1e242b;
+    }
 
-#HUDBar img#You {
-    width:98px;
-    height:98px;
-    display:block;
-}
+    #HUDBar img#You {
+        width: 98px;
+        height: 98px;
+        display: block;
+    }
 
-#HUDBar #YouHolder {
-    width:98px;
-    background-color:#BFBFBF;
-}
+    #HUDBar #YouHolder {
+        width: 98px;
+        background-color: #BFBFBF;
+    }
 
-#HUDBar #PlayerInfoHolder {
-    width:285px;
-    font-family: 'Segoe UI Semibold';
-}
+    #HUDBar #PlayerInfoHolder {
+        width: 285px;
+        font-family: 'Segoe UI Semibold';
+    }
 
-#HUDBar .offset {
-    margin:10px 0 0 13px;
-    height:78px;
-}
+    #HUDBar .offset {
+        margin: 10px 0 0 13px;
+        height: 78px;
+    }
 
-#HUDBar .pilotHeader {
-    height:10px;
-    line-height:10px;
-    font-size:10px!important;
-    color:white;
-    margin-bottom:7px;
-}
+    #HUDBar .pilotHeader {
+        height: 10px;
+        line-height: 10px;
+        font-size: 10px!important;
+        color: white;
+        margin-bottom: 7px;
+    }
 
-#HUDBar .pilotHeader img {
-    margin-left:4px;
-}
+        #HUDBar .pilotHeader img {
+            margin-left: 4px;
+        }
 
-#HUDBar #DisplayName {
-    color:white;
-    font-size: 20px;
-    height:16px;
-    line-height:16px;
-    margin-bottom:7px;
-}
+    #HUDBar #DisplayName {
+        color: white;
+        font-size: 20px;
+        height: 16px;
+        line-height: 16px;
+        margin-bottom: 7px;
+    }
 
-#HUDBar #Experience {
-    color:#7F7F7F;
-    font-size:18px;
-    height:15px;
-    line-height:15px;
-    margin-bottom:6px;
-}
+    #HUDBar #Experience {
+        color: #7F7F7F;
+        font-size: 18px;
+        height: 15px;
+        line-height: 15px;
+        margin-bottom: 6px;
+    }
 
-#HUDBar #ExperienceHolder,  #HUDBar #GlobalRankingHolder{
-    color:#7F7F7F;
-    font-size:18px;
-    height:15px;
-    line-height:15px;    
-}
+    #HUDBar #ExperienceHolder, #HUDBar #GlobalRankingHolder {
+        color: #7F7F7F;
+        font-size: 18px;
+        height: 15px;
+        line-height: 15px;
+    }
 
-#HUDBar #ExperienceHolder {
-    margin-bottom:6px;
-}
+    #HUDBar #ExperienceHolder {
+        margin-bottom: 6px;
+    }
 
-#HUDBar #LeaderboardInfoHolder {
-    width:300px;
-}
+    #HUDBar #LeaderboardInfoHolder {
+        width: 300px;
+    }
 
-#HUDBar #LeaderboardInfoHolder .offset div {
-    float:left;
-}
+        #HUDBar #LeaderboardInfoHolder .offset div {
+            float: left;
+        }
 
-#HUDBar .killsDeathRatio {
-    width:178px;
-    height:76px;
-    margin-right:34px;
-}
+    #HUDBar .killsDeathRatio {
+        width: 178px;
+        height: 76px;
+        margin-right: 34px;
+    }
 
-#HUDBar .lastKilledByHolder {
-    width:auto;
-    height:76px;
-    text-align:center;
-    font-size:10px;
-}
+    #HUDBar .lastKilledByHolder {
+        width: auto;
+        height: 76px;
+        text-align: center;
+        font-size: 10px;
+    }
 
-#HUDBar .killDeathHolder {
-    height:43px;
-    width:178px;    
-}
+    #HUDBar .killDeathHolder {
+        height: 43px;
+        width: 178px;
+    }
 
-#HUDBar .killHolder, #HUDBar .deathHolder {
-    width:89px;
-    height:43px;
-    
-}
+    #HUDBar .killHolder, #HUDBar .deathHolder {
+        width: 89px;
+        height: 43px;
+    }
 
-#HUDBar .killHolder .killIcon {
-    background-image:url('/Images/HUD/kills.png');
-    background-repeat:no-repeat;
-    width:15px;
-    height:43px;
-    margin-right:13px;
-}
+        #HUDBar .killHolder .killIcon {
+            background-image: url('/Images/HUD/kills.png');
+            background-repeat: no-repeat;
+            width: 15px;
+            height: 43px;
+            margin-right: 13px;
+        }
 
-#HUDBar .deathHolder .deathIcon {
-    background-image:url('/Images/HUD/skull_deaths.png');
-    background-repeat:no-repeat;
-    width:30px;
-    height:34px;
-    margin-right:13px;
-}
+        #HUDBar .deathHolder .deathIcon {
+            background-image: url('/Images/HUD/skull_deaths.png');
+            background-repeat: no-repeat;
+            width: 30px;
+            height: 34px;
+            margin-right: 13px;
+        }
 
-#HUDBar .killDeathHolder p {
-    color:#80868c;
-    font-size:7px;
-    height:5px;
-    line-height:5px;
-    margin-bottom:2px;
-}
+    #HUDBar .killDeathHolder p {
+        color: #80868c;
+        font-size: 7px;
+        height: 5px;
+        line-height: 5px;
+        margin-bottom: 2px;
+    }
 
-#HUDBar .killDeathHolder h1 {
-    color:white;
-    font-size:30px;
-    height:36px;
-    text-align:left;
-}
+    #HUDBar .killDeathHolder h1 {
+        color: white;
+        font-size: 30px;
+        height: 36px;
+        text-align: left;
+    }
 
-#HUDBar .ratioHolder {
-    float:right!important;
-    width:144px;
-    height:33px;
-    border-top:1px solid #80868c;
-}
+    #HUDBar .ratioHolder {
+        float: right!important;
+        width: 144px;
+        height: 33px;
+        border-top: 1px solid #80868c;
+    }
 
-#HUDBar .ratioHolder p {
-    float:left;
-    font-size:7px;
-    color:#80868c!important;
-    height:33px;
-    color:white;
-    line-height:33px;
-    width:auto;
-    margin-right:13px;
-}
+        #HUDBar .ratioHolder p {
+            float: left;
+            font-size: 7px;
+            color: #80868c!important;
+            height: 33px;
+            color: white;
+            line-height: 33px;
+            width: auto;
+            margin-right: 13px;
+        }
 
-#HUDBar .ratioHolder h1 {
-    float:left;
-    color:white;
-    font-size:26px;
-    height:33px;
-    width:55px;
-    line-height:33px;
-}
+        #HUDBar .ratioHolder h1 {
+            float: left;
+            color: white;
+            font-size: 26px;
+            height: 33px;
+            width: 55px;
+            line-height: 33px;
+        }
 
-#HUDBar .ratioHolder .goRight {
-    float:right!important;
-    width:auto;
-    height:33px;
-}
+        #HUDBar .ratioHolder .goRight {
+            float: right!important;
+            width: auto;
+            height: 33px;
+        }
 
-#HUDBar .lastKilledByHolder h1 {
-    color:white!important;    
-    margin-bottom:6px;    
-}
+    #HUDBar .lastKilledByHolder h1 {
+        color: white!important;
+        margin-bottom: 6px;
+    }
 
-#HUDBar .lastKilledByHolder p {
-    color:white;
-    overflow:hidden;
-}
+    #HUDBar .lastKilledByHolder p {
+        color: white;
+        overflow: hidden;
+    }
 
-#HUDBar .lastKilledByHolder img {
-    margin:0 auto 4px;
-    display:block;    
-    background-color:#BFBFBF;
-}
+    #HUDBar .lastKilledByHolder img {
+        margin: 0 auto 4px;
+        display: block;
+        background-color: #BFBFBF;
+    }
 
-#HUDBar .mainStatHolder {
-    text-align:center;
-    width:80px;
-    height:76px;
-    float:left;
-}
+    #HUDBar .mainStatHolder {
+        text-align: center;
+        width: 80px;
+        height: 76px;
+        float: left;
+    }
 
-#HUDBar .mainStatHolder p {
-    font-size:10px;
-    color:white;
-}
+        #HUDBar .mainStatHolder p {
+            font-size: 10px;
+            color: white;
+        }
 
-#HUDBar .mainStatHolder h1 {
-    font-size:68px;
-    line-height:68px;
-    color:white;
-    width:auto;
-    height:68px;
-}
+        #HUDBar .mainStatHolder h1 {
+            font-size: 68px;
+            line-height: 68px;
+            color: white;
+            width: auto;
+            height: 68px;
+        }
 
 p.left {
-    float:left;
+    float: left;
 }
 
 p.right {
-    float:right;
+    float: right;
 }
 
 #HUDBar .statistics p {
-    font-size:16px;
-    color:white!important;
+    font-size: 16px;
+    color: white!important;
 }
 
-#HUDBar .statistics p.header {
-    font-size:10px;
-    margin-bottom:10px;
-}
+    #HUDBar .statistics p.header {
+        font-size: 10px;
+        margin-bottom: 10px;
+    }
 
-#HUDBar .statistics p.left {
-    color: #808080!important;
-    width:auto;
-}
+    #HUDBar .statistics p.left {
+        color: #808080!important;
+        width: auto;
+    }
 
 #HUDBar div.left.statistics {
-    height:78px;
+    height: 78px;
 }
 
 #HUDBar .statistics div {
-    height:17px;
-    line-height:17px;
-    width:180px;
+    height: 17px;
+    line-height: 17px;
+    width: 180px;
 }
 
 #HUDBar .increasedStatisticsHolder {
-    margin-right:13px;
+    margin-right: 13px;
 }
 
-#HUDBar div.locationStats.statistics, 
+#HUDBar div.locationStats.statistics,
 #HUDBar div.locationStats.statistics div {
     width: 180px;
 }
 
-#HUDBar div.locationStats.statistics p.header {
-    height:10px;
-}
+    #HUDBar div.locationStats.statistics p.header {
+        height: 10px;
+    }
 
 #HUDBar #LocationStatisticsHolder .mainStatHolder {
-    width:120px;
+    width: 120px;
 }
 
 #HUDBar .rightSide {
-    width:173px;
+    width: 173px;
 }
 
 #HUDBar #ControlsHolder {
-    width:83px;
+    width: 83px;
 }
 
 #HUDBar #Controls {
     margin-top: 8px;
-    width:83px;
-    height:80px;
-    background-image:url('/Images/HUD/keys_def.png');
-    background-repeat:no-repeat;
+    width: 83px;
+    height: 80px;
+    background-image: url('/Images/HUD/keys_def.png');
+    background-repeat: no-repeat;
 }
 
 #HUDBar #HideHUDHolder {
-    width:90px;
+    width: 90px;
 }
 
 #HUDBar #HideHUD {
     margin: 24px auto 0;
-    width:48px;
-    height:48px;
-    background-image:url('/Images/HUD/minimize_arrow.png');
-    background-repeat:no-repeat;
+    width: 48px;
+    height: 48px;
+    background-image: url('/Images/HUD/minimize_arrow.png');
+    background-repeat: no-repeat;
 }
 
-#HUDBar #HideHUD:hover {
-    cursor:pointer;
-    background-image:url('/Images/HUD/minimize_arrow_over.png');
+    #HUDBar #HideHUD:hover {
+        cursor: pointer;
+        background-image: url('/Images/HUD/minimize_arrow_over.png');
+    }
+
+#HUDBarCover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 98px;
+    line-height: 98px;
+    text-align: center;
+    background-color: #9D005C;
+    color: white;
+    font-size: 35px;
+    display: none;
+}
+
+#GameCover {
+    position:absolute;
+    height:100%;
+    width:100%;
+    background-color:black;
+    opacity:.5;
+    z-index:10001;
+    display:none;
 }

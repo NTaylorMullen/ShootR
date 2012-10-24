@@ -95,7 +95,7 @@ namespace ShootR
                 }
                 else
                 {
-                    _allObjects[i].ResetAltered();
+                    _allObjects[i].ResetFlags();
                 }
             }
         }
