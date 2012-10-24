@@ -19,14 +19,10 @@
 
     <asp:Panel runat="server" ID="GameElements" Visible="false">
         <div id="logout">Log Out</div>
-        <div id="shipStats">
-        </div>        
 
         <div id="gameWrapper">
             <canvas id="game"></canvas>
         </div>
-
-        <div id="banner"></div>
 
         <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
         <script src="Scripts/jquery.cookie.js" type="text/javascript"></script>

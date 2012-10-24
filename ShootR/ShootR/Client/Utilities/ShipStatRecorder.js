@@ -25,6 +25,7 @@
     WorldColumn.append(shipsInWorld, bulletsInWorld);
     ControlColumn.append(moveControls, shootControls, latency);
     holder.append(MovementColumn, RenderedColumn, WorldColumn, ControlColumn);
+    
 
     that.Update = function (payload, gameLatency, ships, bullets) {
         var speed = Math.round(Math.sqrt(Math.pow(ship.MovementController.Velocity.X, 2) + Math.pow(ship.MovementController.Velocity.Y, 2)));

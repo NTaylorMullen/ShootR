@@ -15,11 +15,11 @@
     }    
 
     that.TopOffset = function () {
-        return HeightOffset($("#shipStats"));
+        return 0;
     };
 
     that.BottomOffset = function () {
-        return HeightOffset($("#banner"));
+        return 0;
     };
 
     that.UpdateViewport = function () {

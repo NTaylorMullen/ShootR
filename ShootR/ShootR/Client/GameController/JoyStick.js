@@ -35,7 +35,7 @@
             that.InActionAt = new Date().getTime();
             that.InAction = true;
             that.PositionStart.X = touch.clientX;
-            that.PositionStart.Y = touch.clientY - that.topOffset;
+            that.PositionStart.Y = touch.clientY;
             that.touchID = touch.identifier;
             that.Position = $.extend({}, that.PositionStart);
         }
@@ -44,7 +44,7 @@
     that.TouchMove = function (touch) {
         if (that.touchID === touch.identifier) {
             that.Position.X = touch.clientX;
-            that.Position.Y = touch.clientY - that.topOffset;
+            that.Position.Y = touch.clientY;
 
             var changes = GetAlteredMovements();
 
@@ -155,5 +155,3 @@
         }
     }
 }
-
-JoyStick.prototype.topOffset = HeightOffset($("#shipStats"));

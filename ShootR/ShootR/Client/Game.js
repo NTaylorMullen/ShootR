@@ -13,8 +13,7 @@ function Game(connection, latencyResolver, myShipID) {
     that.ShipManager = new ShipManager(myShipID, gameTime);
     that.ShipManager.InitializeMyShip(that.BulletManager, connection);
 
-    var shipStats = new ShipStatRecorder(that.ShipManager.MyShip),
-        myShip = that.ShipManager.MyShip;
+    var myShip = that.ShipManager.MyShip;
 
     CanvasContext.Camera.Follow(myShip);
 
@@ -64,7 +63,7 @@ function Game(connection, latencyResolver, myShipID) {
         that.ShipManager.MyShip.DrawHUD();
 
         CanvasContext.Render();
-        shipStats.Update(payload, latencyResolver.Latency, that.ShipManager.Ships, that.BulletManager.Bullets);
+//        shipStats.Update(payload, latencyResolver.Latency, that.ShipManager.Ships, that.BulletManager.Bullets);
 
         that.HUDManager.Update();
     }

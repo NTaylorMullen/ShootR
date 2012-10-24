@@ -19,7 +19,6 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
         canvas = document.getElementById("game"),
         shootPosition = false,
         shootDrawStart = false,
-        topOffset = HeightOffset($("#shipStats")),
         lengthOffset = 22,
         drawShotsFor = 100;
 
@@ -62,7 +61,7 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
                 (rightJoyStick.InAction && rightJoyStick.Traveled() < lengthOffset && rightJoyStick.TimeSinceTouch() <= 1000)) {
                 shootPosition = {
                     X: touch.clientX,
-                    Y: touch.clientY - topOffset
+                    Y: touch.clientY
                 };
                 shootDrawStart = new Date().getTime();
                 ShipFire();
