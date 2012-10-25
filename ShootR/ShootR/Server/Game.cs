@@ -17,15 +17,15 @@ namespace ShootR
         private DateTime _lastSpawn = DateTime.UtcNow;
 
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
-        private Timer _gameLoop, _leaderboardLoop;
+        private Timer _leaderboardLoop;
+        private HighFrequencyTimer _gameLoop;
         private GameConfigurationManager _configuration;
         private GameTime _gameTime;
         private Map _space;
         private PayloadManager _payloadManager;
 
         private TimeSpan DRAW_AFTER;
-        private int _threadCount = 0;
-        private Semaphore _updateLock = new Semaphore(2, 2);
+        private int _fps;
         private object _locker = new object();
         private DateTime _lastDraw = DateTime.UtcNow;
 
@@ -34,8 +34,8 @@ namespace ShootR
         private Game()
         {
             _configuration = new GameConfigurationManager();
-            DRAW_AFTER = TimeSpan.FromMilliseconds(_configuration.gameConfig.DRAW_INTERVAL);
-            _gameLoop = new Timer(Update, null, _configuration.gameConfig.UPDATE_INTERVAL, _configuration.gameConfig.UPDATE_INTERVAL);
+            DRAW_AFTER = TimeSpan.FromMilliseconds(_configuration.gameConfig.UPDATE_INTERVAL / _configuration.gameConfig.DRAW_INTERVAL);
+            _gameLoop = new HighFrequencyTimer(1000/_configuration.gameConfig.UPDATE_INTERVAL, id => Update(id));
             _leaderboardLoop = new Timer(UpdateLeaderboard, null, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
 
             _gameTime = new GameTime();
@@ -49,6 +49,7 @@ namespace ShootR
 
             RegistrationHandler = new RegistrationHandler();
 
+            _gameLoop.Start();
             //SpawnAIShips(AIShipsToSpawn);
         }
 
@@ -56,30 +57,26 @@ namespace ShootR
         public UserHandler UserHandler { get; private set; }
         public ConnectionManager ConnectionManager { get; private set; }
         public Leaderboard Leaderboard { get; private set; }
-        public GameHandler GameHandler { get; set; }
+        public GameHandler GameHandler { get; set; }       
 
-        private void Update(object state)
-        {
-            if (_threadCount < 2)
+        private long Update(long id)
+        {         
+            DateTime utcNow = DateTime.UtcNow;
+
+            try
             {
-                _updateLock.WaitOne();
-                _threadCount++;
-                lock (_locker)
+                if ((utcNow - _lastSpawn).TotalSeconds >= 1 && _spawned < AIShipsToSpawn)
                 {
-                    DateTime utcNow = DateTime.UtcNow;
+                    _spawned += SpawnsPerInterval;
+                    SpawnAIShips(SpawnsPerInterval);
+                    _lastSpawn = utcNow;
+                }
 
-                    try
-                    {
-                        if ((utcNow - _lastSpawn).TotalSeconds >= 1 && _spawned < AIShipsToSpawn)
-                        {
-                            _spawned += SpawnsPerInterval;
-                            SpawnAIShips(SpawnsPerInterval);
-                            _lastSpawn = utcNow;
-                        }
+                _gameTime.Update(utcNow);
 
-                        _gameTime.Update(utcNow);
+                GameHandler.Update(_gameTime);
 
-                        GameHandler.Update(_gameTime);
+                _space.Update();
 
                         _space.Update();
 
@@ -94,9 +91,13 @@ namespace ShootR
                         ErrorLog.Instance.Log(e);
                     }
                 }
-                _threadCount--;
-                _updateLock.Release();
             }
+            catch (Exception e)
+            {
+                ErrorLog.Instance.Log(e);
+            }
+
+            return id;
         }
 
         public void SpawnAIShips(int number)
