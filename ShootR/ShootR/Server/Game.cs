@@ -23,18 +23,18 @@ namespace ShootR
         private Map _space;
         private PayloadManager _payloadManager;
 
-        private int DRAW_AFTER;
-        private int _updateCount = 0;
+        private TimeSpan DRAW_AFTER;
         private int _threadCount = 0;
         private Semaphore _updateLock = new Semaphore(2, 2);
         private object _locker = new object();
+        private DateTime _lastDraw = DateTime.UtcNow;
 
         public bool blah = false;
 
         private Game()
         {
             _configuration = new GameConfigurationManager();
-            DRAW_AFTER = _configuration.gameConfig.DRAW_INTERVAL / _configuration.gameConfig.UPDATE_INTERVAL;
+            DRAW_AFTER = TimeSpan.FromMilliseconds(_configuration.gameConfig.DRAW_INTERVAL);
             _gameLoop = new Timer(Update, null, _configuration.gameConfig.UPDATE_INTERVAL, _configuration.gameConfig.UPDATE_INTERVAL);
             _leaderboardLoop = new Timer(UpdateLeaderboard, null, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
 
@@ -83,10 +83,10 @@ namespace ShootR
 
                         _space.Update();
 
-                        if (++_updateCount % DRAW_AFTER == 0)
+                        if (utcNow - _lastDraw > DRAW_AFTER)
                         {
-                            _updateCount = 0; // Reset update count to 0
                             Draw();
+                            _lastDraw = utcNow;
                         }
                     }
                     catch (Exception e)

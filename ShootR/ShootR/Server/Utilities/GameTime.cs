@@ -16,6 +16,7 @@ namespace ShootR
         /// This is updated on Update to show what percent of a second has passed since the last Update loop.
         /// </summary>
         public double PercentOfSecond { get; set; }
+        public TimeSpan Elapsed { get; set; }
 
         public static double CalculatePercentOfSecond(DateTime from)
         {
@@ -25,6 +26,7 @@ namespace ShootR
         public void Update(DateTime utcNow)
         {
             PercentOfSecond = CalculatePercentOfSecond(LastUpdated);
+            Elapsed = utcNow - LastUpdated;
             LastUpdated = utcNow;
             Now = LastUpdated;
         }
