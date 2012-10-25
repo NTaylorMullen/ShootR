@@ -7,7 +7,8 @@ using System.Web;
 namespace ShootR
 {
     public class ShipAI : Ship
-    {        
+    {
+        private static TimeSpan FIRE_RATE_AI = TimeSpan.FromMilliseconds(400); // Fire every X ms
         public const int MAX_LEVEL_BEFORE_RESTART = 6;
         public const int KILL_DISTANCE = 500;
         public const int DISTANCE_AWAY_FROM_BOUNDARY = 400;
@@ -26,6 +27,7 @@ namespace ShootR
         private DateTime? _startedRotatingLeft = null;
         private DateTime? _startedRotatingRight = null;
 
+        private DateTime _lastFired = DateTime.UtcNow;
         private DateTime _lastBoundaryRedirection = DateTime.UtcNow;
 
         public ShipAI(Vector2 position, BulletManager bulletManager)
@@ -360,7 +362,14 @@ namespace ShootR
         public void Kill(DateTime now)
         {
             Seek(now);
-            WeaponController.Fire(now);
+
+            if (now - _lastFired > FIRE_RATE_AI)
+            {
+                if (WeaponController.Fire(now))
+                {
+                    _lastFired = now;
+                }
+            }
         }
 
         public override void Update(double PercentOfSecond)

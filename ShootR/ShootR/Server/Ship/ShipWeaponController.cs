@@ -39,7 +39,7 @@ namespace ShootR
         /// Create's a bullet in the direction of the ship
         /// </summary>
         /// <returns>Newly created bullet</returns>
-        public void Fire(DateTime now)
+        public bool Fire(DateTime now)
         {
             if ((now - LastFired).TotalMilliseconds >= FIRE_RATE)
             {
@@ -53,8 +53,9 @@ namespace ShootR
                 LastFired = now;
 
                 _me.Fired(spawnedBullet);
-
+                return true;
             }
+            return false;
         }
 
         /// <summary>

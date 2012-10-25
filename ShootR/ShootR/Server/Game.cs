@@ -18,12 +18,12 @@ namespace ShootR
 
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
         private Timer _leaderboardLoop;
-        private HighFrequencyTimer _gameLoop;
-        private GameConfigurationManager _configuration;
+        private HighFrequencyTimer _gameLoop;        
         private GameTime _gameTime;
         private Map _space;
         private PayloadManager _payloadManager;
 
+        private DateTime _lastDraw = DateTime.UtcNow;
         private TimeSpan DRAW_AFTER;
         private int _fps;
         private object _locker = new object();
@@ -33,10 +33,10 @@ namespace ShootR
 
         private Game()
         {
-            _configuration = new GameConfigurationManager();
-            DRAW_AFTER = TimeSpan.FromMilliseconds(_configuration.gameConfig.UPDATE_INTERVAL / _configuration.gameConfig.DRAW_INTERVAL);
-            _gameLoop = new HighFrequencyTimer(1000/_configuration.gameConfig.UPDATE_INTERVAL, id => Update(id));
-            _leaderboardLoop = new Timer(UpdateLeaderboard, null, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, _configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
+            Configuration = new GameConfigurationManager();
+            DRAW_AFTER = TimeSpan.FromMilliseconds(Configuration.gameConfig.DRAW_INTERVAL);
+            _gameLoop = new HighFrequencyTimer(1000/Configuration.gameConfig.UPDATE_INTERVAL, id => Update(id));
+            _leaderboardLoop = new Timer(UpdateLeaderboard, null, Configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, Configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
 
             _gameTime = new GameTime();
             _space = new Map();
@@ -50,9 +50,9 @@ namespace ShootR
             RegistrationHandler = new RegistrationHandler();
 
             _gameLoop.Start();
-            //SpawnAIShips(AIShipsToSpawn);
         }
 
+        public GameConfigurationManager Configuration { get; set; }
         public RegistrationHandler RegistrationHandler { get; private set; }
         public UserHandler UserHandler { get; private set; }
         public ConnectionManager ConnectionManager { get; private set; }
@@ -78,18 +78,10 @@ namespace ShootR
 
                 _space.Update();
 
-                        _space.Update();
-
-                        if (utcNow - _lastDraw > DRAW_AFTER)
-                        {
-                            Draw();
-                            _lastDraw = utcNow;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        ErrorLog.Instance.Log(e);
-                    }
+                if (utcNow - _lastDraw >= DRAW_AFTER)
+                {
+                    Draw();
+                    _lastDraw = utcNow;
                 }
             }
             catch (Exception e)
@@ -174,7 +166,7 @@ namespace ShootR
 
                     return new
                     {
-                        Configuration = _configuration,
+                        Configuration = Configuration,
                         CompressionContracts = new
                         {
                             PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
@@ -221,7 +213,7 @@ namespace ShootR
 
                         return new
                         {
-                            Configuration = _configuration,
+                            Configuration = Configuration,
                             CompressionContracts = new
                             {
                                 PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,

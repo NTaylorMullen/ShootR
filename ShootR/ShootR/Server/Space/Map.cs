@@ -57,6 +57,8 @@ namespace ShootR
             if (shipCount >= MAX_SHIPS)
             {
                 IncreaseSize();
+                Game.Instance.Configuration.mapConfig.WIDTH = WIDTH;
+                Game.Instance.Configuration.mapConfig.HEIGHT = HEIGHT;
                 GlobalHost.ConnectionManager.GetHubContext<GameHub>().Clients.mapSizeIncreased(new { Width = WIDTH, Height = HEIGHT });
             }
         }
