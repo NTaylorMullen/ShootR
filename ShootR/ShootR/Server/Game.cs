@@ -11,8 +11,8 @@ namespace ShootR
 {
     public class Game
     {
-        public const int AIShipsToSpawn = 5;
-        public const int SpawnsPerInterval = 1;
+        public const int AIShipsToSpawn = 100;
+        public const int SpawnsPerInterval = 10;
         private int _spawned = 0;
         private DateTime _lastSpawn = DateTime.UtcNow;
 
@@ -27,7 +27,6 @@ namespace ShootR
         private TimeSpan DRAW_AFTER;
         private int _fps;
         private object _locker = new object();
-        private DateTime _lastDraw = DateTime.UtcNow;
 
         public bool blah = false;
 
