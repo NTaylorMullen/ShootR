@@ -2,22 +2,26 @@
     var that = this,
         myPosition = false, // Initially set to a very high value so we flash green on leaderboard position first update
         globalRanking = $("#GlobalRanking"),
+        globalRankingLB = $("#GlobalRankingLB"),
         killsEle = $("#Kills"),
         deathsEle = $("#Deaths"),
         kdRatioEle = $("#KDRatio"),
         lastKills,
-        lastDeaths;
+        lastDeaths,
+        lastOutOf;
 
-    that.LoadPosition = function (newPosition) {
-        if (myPosition != newPosition) {
-            if (myPosition) {
+    that.LoadPosition = function (newPosition, outOf) {
+        if (myPosition != newPosition || outOf !== lastOutOf) {
+            if (myPosition && myPosition != newPosition) {
                 globalRanking.stop(true);
                 globalRanking.animate({ color: "#FFFFFF" }, 500).animate({ color: "#7F7F7F" }, 500);
             }
 
             myPosition = newPosition;
+            lastOutOf = outOf;
 
             globalRanking.html(myPosition);
+            globalRankingLB.html(myPosition + " of " + outOf);
         }
     }
 

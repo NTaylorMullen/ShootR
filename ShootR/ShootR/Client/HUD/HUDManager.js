@@ -10,7 +10,7 @@
     that.DeathScreen = new DeathScreen();
     that.Leaderboard = new Leaderboard(gameHUD, connection);
     that.ShipStatMonitor = new ShipStatMonitor(MyShip);
-    that.EnvironmentMonitor = new EnvironmentMonitor();
+    that.EnvironmentMonitor = new EnvironmentMonitor(MyShip);
 
     that.OnScreenResize = function (newViewport) {
         gameHUD.css("width", newViewport.Width);

@@ -90,12 +90,14 @@
     function DecompressLeaderboardEntry(data) {
         return {
             Name: data[LeaderboardEntryContract.Name],
+            Photo: data[LeaderboardEntryContract.Photo]/*
             Level: data[LeaderboardEntryContract.Level],
             Kills: data[LeaderboardEntryContract.Kills],
             Deaths: data[LeaderboardEntryContract.Deaths],
             DamageDealt: data[LeaderboardEntryContract.DamageDealt],
             DamageTaken: data[LeaderboardEntryContract.DamageTaken],
-            KillDeathRatio: data[LeaderboardEntryContract.KillDeathRatio]
+            KillDeathRatio: data[LeaderboardEntryContract.KillDeathRatio]*/
+            
         };
     }
 
@@ -125,10 +127,10 @@
             item.Position = i + 1;
 
             if (item.Name === myShipName) {
-                item.customClass = "highlight";
+                item.customClass = "row highlight";
             }
             else {
-                item.customClass = "";
+                item.customClass = "row";
             }
 
             payload.push(item);

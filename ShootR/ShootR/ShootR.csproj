@@ -128,11 +128,14 @@
     <Content Include="Images\HUD\minimize_arrow.png" />
     <Content Include="Images\HUD\skull_deaths.png" />
     <Content Include="Images\Laser.png" />
+    <Content Include="Images\Page\death_note.png" />
     <Content Include="Images\Page\GitHubForkMe.png" />
     <Content Include="Images\HUD\hearts.png" />
     <Content Include="Images\HUD\HUD_whiteheart.png" />
     <Content Include="Images\HUD\KilledBy_Default.png" />
     <Content Include="Images\HUD\You_Default.png" />
+    <Content Include="Images\Page\leaderboard_divider.png" />
+    <Content Include="Images\Page\leaderboard_lion.png" />
     <Content Include="Images\Ships\ship_lvl1.png" />
     <Content Include="Images\Ships\ship_lvl10.png" />
     <Content Include="Images\Ships\ship_lvl3.png" />
@@ -180,6 +183,7 @@
     <Content Include="Styles\images\ui-icons_888888_256x240.png" />
     <Content Include="Styles\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Styles\jquery-ui-1.9.0.css" />
+    <Content Include="Styles\leaderboard.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +250,7 @@
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\LeaderboardEntryCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\PayloadCompressionContract.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\CompressionContracts\ShipCompressionContract.cs" />
+    <Compile Include="Server\Utilities\PayloadManagement\LeaderboardPayload.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\PayloadCache.cs" />
     <Compile Include="Server\Utilities\PayloadManagement\PayloadCompressor.cs" />
     <Compile Include="Server\AI\AIPayloadDecompressor.cs" />

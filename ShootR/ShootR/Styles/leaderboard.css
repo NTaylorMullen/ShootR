@@ -1,0 +1,89 @@
+﻿#leaderboardHolder {
+    z-index: 100001;
+    display: none;
+    position: relative;
+    margin: 0 auto;
+    width: 494px;
+    margin-top: 30px;
+    height: 584px;
+    border: 1px solid #d4145a;
+}
+
+    #leaderboardHolder .offset {
+        margin: 29px;
+    }
+
+    #leaderboardHolder .lionHolder {
+        margin-bottom: 9px;
+        height: 105px;
+        width: 100%;
+    }
+
+        #leaderboardHolder .lionHolder #Lion {
+            background-image: url('/Images/Page/leaderboard_lion.png');
+            background-repeat: no-repeat;
+            width: 172px;
+            height: 105px;
+            float: right;
+        }
+
+#leaderboard {
+    border-top: 4px solid #3c454f;
+    width: 100%;
+    height: 100%;
+}
+
+#leaderboardHolder .row {
+    height: 71px;
+    border-bottom: 2px solid #3c454f;
+}
+
+    #leaderboardHolder .row .rowOffset {
+        height: 50px;
+        margin: 10px 0;
+    }
+
+    #leaderboardHolder .row .leaderboardImgHolder {
+        position:relative;
+        height: auto;
+        width: 50px;
+        margin-right: 13px;
+        float: left;
+    }
+    
+    #leaderboardHolder .row .isMe {
+        display:none;
+    }
+
+    #leaderboardHolder .row.highlight .isMe {
+        position:absolute;
+        left:-28px;
+        top:15px;
+        display:block;
+        width:25px;
+        height:19px;
+        background-image:url('/Images/Page/leaderboard_arrow.png');
+        background-repeat:no-repeat;
+    }
+
+    #leaderboardHolder .row .leaderboardPosHolder {
+        height: auto;
+        width: auto;
+        color: white;
+        font-size: 16px;
+        float: left;
+    }
+
+        #leaderboardHolder .row .leaderboardPosHolder h1 {
+            font-size: 32px;
+            font-family: 'Segoe UI Semibold';
+            height: 27px;
+            line-height: 27px;
+            margin-bottom: 8px;
+        }
+
+#leaderboardHolder .dividerForMe {
+    text-align: center;
+    margin-top: 6px;
+    height: 20px;
+}

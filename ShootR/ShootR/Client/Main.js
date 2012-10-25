@@ -13,6 +13,10 @@ $(function () {
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] };
 
+    var stateCookie = $.cookie('shootr.state'),
+        state = stateCookie ? JSON.parse(stateCookie) : {},
+        registrationID = state.RegistrationID;
+
     function Initialize(init) {
         configurationManager = new ConfigurationManager(init.Configuration);
         game = new Game(env, latencyResolver, init.ShipID);
@@ -70,7 +74,7 @@ $(function () {
         myShip.Experience = info.Experience;
         myShip.ExperienceToNextLevel = info.ExperienceToNextLevel;
 
-        game.HUDManager.MyRankings.LoadPosition(info.LeaderboardPosition);
+        game.HUDManager.MyRankings.LoadPosition(info.LeaderboardPosition, info.ShipsInWorld);
 
         game.ShipManager.MyShip.PayloadReceived(info);
 
@@ -100,17 +104,15 @@ $(function () {
         alert(msg);
     }
 
-    env.client.pingBack = latencyResolver.ServerPingBack;
-
-    var stateCookie = $.cookie('shootr.state'),
-        state = stateCookie ? JSON.parse(stateCookie) : {},
-        registrationID = state.RegistrationID;
+    env.client.pingBack = latencyResolver.ServerPingBack;    
 
     if (registrationID) {
         delete state.RegistrationID;
 
         $("#DisplayName").html(state.DisplayName);
-        $("#You").attr("src",state.Photo);
+        $("#DisplayNameLB").html(state.DisplayName);
+        $("#You").attr("src", state.Photo);
+        $("#YouLB").attr("src", state.Photo);
 
         $.cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });
 

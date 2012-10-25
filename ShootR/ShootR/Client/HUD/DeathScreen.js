@@ -6,10 +6,10 @@
             fadeIns = $("#HUDBarCover, #GameCover"),
             respawnTime = $("#RespawnTime"),
             killedByNameSmall = $("#KilledByNameSmall"),
-            killedByPhotoSmall = $("KilledByPhotoSmall");
+            killedByPhotoSmall = $("#KilledByPhotoSmall");
 
         killedByNameSmall.html(by);
-        killedByPhotoSmall.html(byPhoto);
+        killedByPhotoSmall.attr("src",byPhoto);
 
         fadeIns.fadeIn(1000);
         respawnTime.html(that.RESPAWN_TIMER);

@@ -8,10 +8,11 @@
     <link href="Styles/game.css" rel="stylesheet" />
     <link href="Styles/jquery-ui-1.9.0.css" rel="stylesheet" />
     <link href="Styles/gameHUD.css" rel="stylesheet" />
+    <link href="Styles/leaderboard.css" rel="stylesheet" />
 
     <title>SignalR ShootR</title>
 </head>
-<body style="height: 100%;overflow:hidden">
+<body style="height: 100%; overflow: hidden">
     <form runat="server">
 
     <asp:Panel runat="server" ID="JanrainScripts" Visible="true">
@@ -19,161 +20,168 @@
         <div id="janrainEngageEmbed"></div>
     </asp:Panel>
 
-    <div id="gameWrapper">
-        <div id="GameCover"></div>
-        <canvas id="game"></canvas>
-        <div id="gameHUD">
-            <div id="HealthHolder">
-                <div id="Health"></div>
-                <div id="WhiteHealthHeart"></div>
-                <div id="HealthHeart" class="bad"></div>
-                <span id="HealthText"></span>
-            </div>
-            <div id="HUDBar">
-                <div id="HUDBarCover">RESPAWNING IN ... <span id="RespawnTime"></span></div>
-                <div id="YouHolder" class="left">
-                    <img id="You" src="Images/HUD/You_Default.png" onerror="this.src='Images/HUD/You_Default.png'" alt="Your profile picture" width="96" height="96" />
-                </div>
-                <div id="PlayerInfoHolder" class="left separate">
-                    <div class="offset">
-                        <p class="pilotHeader">PILOT<img src="Images/HUD/logout.png" alt="Logout" id="logout" /></p>
-                        <p id="DisplayName"></p>
-                        <p id="ExperienceHolder">EXP: <span id="Experience">987/2138</span></p>
-                        <p id="GlobalRankingHolder">GLOBAL RANKING: <span id="GlobalRanking">193</span></p>
-                    </div>
-                </div>
-                <div id="LeaderboardInfoHolder" class="left separate">
-                    <div class="offset">
-                        <div class="killsDeathRatio">
-                            <div class="killDeathHolder">
-                                <div class="killHolder">
-                                    <div class="killIcon">
-                                    </div>
-                                    <div class="killStatsHolder">
-                                        <p>KILLS</p>
-                                        <h1 id="Kills">222</h1>
-                                    </div>
-                                </div>
-                                <div class="deathHolder">
-                                    <div class="deathIcon"></div>
-                                    <div class="deathStatsHolder">
-                                        <p>DEATHS</p>
-                                        <h1 id="Deaths">13</h1>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ratioHolder">
-                                <div class="goRight">
-                                    <p>RATIO</p>
-                                    <h1 id="KDRatio">12/1</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="lastKilledByHolder">
-                            <h1>KILLED BY</h1>
-                            <img id="KilledByPhotoSmall" src="Images/HUD/KilledBy_Default.png" alt="Killed By" onerror="this.src='Images/HUD/KilledBy_Default.png'" width="50" height="50" />
-                            <p id="KilledByNameSmall">YoMoma</p>
-                        </div>
-                    </div>
-                </div>
-                <div id="StatisticHolder" class="left">
-                    <div class="offset">
-                        <div class="mainStatHolder">
-                            <p>LEVEL</p>
-                            <h1 id="Level">1</h1>
-                        </div>
-                        <div class="increasedStatisticsHolder statistics left">
-                            <p class="header">SHIP</p>
-                            <div>
-                                <p class="left">SPEED</p>
-                                <p class="right"><span id="Speed">300</span> AU</p>
-                            </div>
-                            <div>
-                                <p class="left">HEALTH BONUS</p>
-                                <p class="right">+<span id="IncreasedHealth">300</span></p>
-                            </div>
-                            <div>
-                                <p class="left">DAMAGE BONUS</p>
-                                <p class="right">+<span id="IncreasedDamage">20</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="LocationStatisticsHolder" class="left">
-                    <div class="offset">
-                        <div class="mainStatHolder">
-                            <p>AREA</p>
-                            <h1>A7</h1>
-                        </div>
-                        <div class="locationStats statistics left">
-                            <p class="header"></p>
-                            <div>
-                                <p class="left">TARGETS</p>
-                                <p class="right"><span id="Targets">20</span></p>
-                            </div>
-                            <div>
-                                <p class="left">WORLD TARGETS</p>
-                                <p class="right"><span id="WorldTargets">1000</span></p>
-                            </div>
-                            <div>
-                                <p class="left">WORLD BULLETS</p>
-                                <p class="right"><span id="WorldBullets">10235</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="rightSide right">
-                    <div id="ControlsHolder" class="left">
-                        <div id="Controls"></div>
-                    </div>
-                    <div id="HideHUDHolder" class="left">
-                        <div id="HideHUD"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="Notification">
-        </div>
-
-        <div id="popUpHolder">
-            <div id="levelNotification">Level <span id="CurrentLevel_Notification"></span>!</div>
-            <div id="leaderboardHolder">
-                <div id="leaderboardBG"></div>
-                <div id="leaderboard">
-                    <h1>Leaderboard</h1>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="positionColumn">Position</th>
-                                <th class="levelColumn">Level</th>
-                                <th class="nameColumn">Name</th>
-                                <th class="killsColumn">Kills</th>
-                                <th class="deathsColumn">Deaths</th>
-                                <th class="ddColumn">Damage Dealt</th>
-                                <th class="dtColumn">Damage Taken</th>
-                                <th class="kdratioColumn">KD Ratio</th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach: leaderboard">
-                            <tr data-bind="attr: { class: customClass }">
-                                <td class="positionColumn">#<span data-bind="text: Position"></span></td>
-                                <td class="levelColumn" data-bind="text: Level"></td>
-                                <td class="nameColumn" data-bind="text: Name"></td>
-                                <td class="killsColumn" data-bind="text: Kills"></td>
-                                <td class="deathsColumn" data-bind="text: Deaths"></td>
-                                <td class="ddColumn" data-bind="text: DamageDealt"></td>
-                                <td class="dtColumn" data-bind="text: DamageTaken"></td>
-                                <td class="kdratioColumn"><span data-bind="text: KillDeathRatio"></span>%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <asp:Panel runat="server" ID="GameScripts" Visible="false">
+        <div id="gameWrapper">
+            <div id="GameCover"></div>
+            <canvas id="game"></canvas>
+            <div id="gameHUD">
+                <div id="HealthHolder">
+                    <div id="Health"></div>
+                    <div id="WhiteHealthHeart"></div>
+                    <div id="HealthHeart" class="bad"></div>
+                    <span id="HealthText"></span>
+                </div>
+                <div id="HUDBar">
+                    <div id="HUDBarCover">RESPAWNING IN ... <span id="RespawnTime"></span></div>
+                    <div id="YouHolder" class="left">
+                        <img id="You" src="Images/HUD/You_Default.png" onerror="this.src='Images/HUD/You_Default.png'" alt="Your profile picture" width="96" height="96" />
+                    </div>
+                    <div id="PlayerInfoHolder" class="left separate">
+                        <div class="offset">
+                            <p class="pilotHeader">PILOT<img src="Images/HUD/logout.png" alt="Logout" id="logout" /></p>
+                            <p id="DisplayName"></p>
+                            <p id="ExperienceHolder">EXP: <span id="Experience"></span></p>
+                            <p id="GlobalRankingHolder">GLOBAL RANKING: <span id="GlobalRanking"></span></p>
+                        </div>
+                    </div>
+                    <div id="LeaderboardInfoHolder" class="left separate">
+                        <div class="offset">
+                            <div class="killsDeathRatio">
+                                <div class="killDeathHolder">
+                                    <div class="killHolder">
+                                        <div class="killIcon">
+                                        </div>
+                                        <div class="killStatsHolder">
+                                            <p>KILLS</p>
+                                            <h1 id="Kills"></h1>
+                                        </div>
+                                    </div>
+                                    <div class="deathHolder">
+                                        <div class="deathIcon"></div>
+                                        <div class="deathStatsHolder">
+                                            <p>DEATHS</p>
+                                            <h1 id="Deaths"></h1>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ratioHolder">
+                                    <div class="goRight">
+                                        <p>RATIO</p>
+                                        <h1 id="KDRatio"></h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lastKilledByHolder">
+                                <h1>KILLED BY</h1>
+                                <img id="KilledByPhotoSmall" src="Images/HUD/KilledBy_Default.png" alt="Killed By" onerror="this.src='Images/HUD/KilledBy_Default.png'" width="50" height="50" />
+                                <p id="KilledByNameSmall"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="StatisticHolder" class="left">
+                        <div class="offset">
+                            <div class="mainStatHolder">
+                                <p>LEVEL</p>
+                                <h1 id="Level"></h1>
+                            </div>
+                            <div class="increasedStatisticsHolder statistics left">
+                                <p class="header">SHIP</p>
+                                <div>
+                                    <p class="left">SPEED</p>
+                                    <p class="right"><span id="Speed"></span>AU</p>
+                                </div>
+                                <div>
+                                    <p class="left">HEALTH BONUS</p>
+                                    <p class="right">+<span id="IncreasedHealth"></span></p>
+                                </div>
+                                <div>
+                                    <p class="left">DAMAGE BONUS</p>
+                                    <p class="right">+<span id="IncreasedDamage"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="LocationStatisticsHolder" class="left">
+                        <div class="offset">
+                            <div class="mainStatHolder">
+                                <p>AREA</p>
+                                <h1 id="Area"></h1>
+                            </div>
+                            <div class="locationStats statistics left">
+                                <p class="header"></p>
+                                <div>
+                                    <p class="left">TARGETS</p>
+                                    <p class="right"><span id="Targets"></span></p>
+                                </div>
+                                <div>
+                                    <p class="left">WORLD TARGETS</p>
+                                    <p class="right"><span id="WorldTargets"></span></p>
+                                </div>
+                                <div>
+                                    <p class="left">WORLD BULLETS</p>
+                                    <p class="right"><span id="WorldBullets"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rightSide right">
+                        <div id="ControlsHolder" class="left">
+                            <div id="Controls"></div>
+                        </div>
+                        <div id="HideHUDHolder" class="left">
+                            <div id="HideHUD"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Notification">
+            </div>
+
+            <div id="popUpHolder">
+                <div id="levelNotification">Level <span id="CurrentLevel_Notification"></span>!</div>
+
+                <div id="leaderboardHolder">
+                    <div class="offset">
+                        <div class="lionHolder">
+                            <div id="Lion"></div>
+                        </div>
+                        <div id="leaderboard" data-bind="foreach: leaderboard">
+                            <div data-bind="attr: { class: customClass} ">
+                                <div class="rowOffset">
+                                    <div class="leaderboardImgHolder">
+                                        <div class="isMe"></div>
+                                        <img src="" data-bind="attr: { src: Photo }" onerror="this.src='Images/HUD/KilledBy_Default.png'" width="50" height="50" alt="Profile picture" />
+                                    </div>
+                                    <div class="leaderboardPosHolder">
+                                        <h1># <span data-bind="text: Position"></span></h1>
+                                        <p data-bind="text: Name"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span id="myRanking">
+                            <div class="dividerForMe">
+                                <img src="Images/Page/leaderboard_divider.png" alt="Divider for me" width="40" height="6" />
+                            </div>
+                            <div class="row borderless">
+                                <div class="rowOffset">
+                                    <div class="leaderboardImgHolder">
+                                        <div class="isMe"></div>
+                                        <img src="" id="YouLB" onerror="this.src='Images/HUD/You_Default.png'" width="50" height="50" alt="Profile picture" />
+                                    </div>
+                                    <div class="leaderboardPosHolder">
+                                        <h1># <span id="GlobalRankingLB"></span></h1>
+                                        <p id="DisplayNameLB"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- NOTE: These are not minified so people can see how the game works.  On a larger release I will minify everything -->
         <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
         <script src="Scripts/jquery.cookie.js" type="text/javascript"></script>
@@ -206,7 +214,7 @@
         <script src="Client/Bullet/BulletManager.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipManager.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipVehicle.js"></script>
-        <script src="Client/Ship/Ship.js" type="text/javascript"></script>        
+        <script src="Client/Ship/Ship.js" type="text/javascript"></script>
         <script src="Client/Utilities/PayloadManagement/PayloadDecompressor.js" type="text/javascript"></script>
         <script src="Client/Game.js" type="text/javascript"></script>
         <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>

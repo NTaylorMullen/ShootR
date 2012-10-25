@@ -11,7 +11,7 @@ namespace ShootR
     public class User
     {
         public const int MAX_SCREEN_WIDTH = 2000;
-        public const int MAX_SCREEN_HEIGHT = 1000;
+        public const int MAX_SCREEN_HEIGHT = 2000;
 
         public User(string connectionID, RegisteredClient rc)
             : this(connectionID, null, rc)

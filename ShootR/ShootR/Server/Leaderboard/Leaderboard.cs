@@ -6,7 +6,7 @@ namespace ShootR
 {
     public class Leaderboard
     {
-        public const int LEADERBOARD_SIZE = 10;
+        public const int LEADERBOARD_SIZE = 4;
         public const string LEADERBOARD_REQUESTEE_GROUP = "LeaderboardRequestees";
 
         private UserHandler _userHandler;
@@ -30,7 +30,7 @@ namespace ShootR
         {
             IEnumerable<LeaderboardEntry> currentLeaderboard = 
                 (from user in _userHandler.GetUsers()
-                where !user.Controller && user.MyShip != null
+                where !user.Controller && !user.IdleManager.Idle && user.MyShip != null
                 select user.MyShip)
                 .Select(ship => new LeaderboardEntry()
                 {
@@ -41,6 +41,7 @@ namespace ShootR
                     DamageDealt = ship.StatRecorder.DamageDealt,
                     DamageTaken = ship.StatRecorder.DamageTaken,
                     KillDeathRatio = (Convert.ToDouble(ship.StatRecorder.Kills) / Math.Max((ship.StatRecorder.Kills + ship.StatRecorder.Deaths), 1))*100,
+                    Photo = ship.Host.RegistrationTicket.Photo,
                     ConnectionID = ship.Host.ConnectionID
                 })
                 .OrderByDescending(entry => entry.Level)

@@ -61,6 +61,10 @@ a {
     color: #13678B;
 }
 
+div.borderless {
+    border:0!important;
+}
+
 #game {
     display: block;
     position: absolute;
@@ -88,106 +92,6 @@ a {
     position: absolute;
     display: none;
 }
-
-#leaderboardHolder {
-    z-index: 100001;
-    display: none;
-    position: relative;
-    margin: 0 auto;
-    width: 700px;
-    margin-top: 30px;
-    min-height: 140px;
-}
-
-#leaderboardBG {
-    position: absolute;
-    background-color: white;
-    opacity: .7;
-    border: 1px double gray;
-    border-radius: 10px;
-    width: 100%;
-    height: 100%;
-}
-
-#leaderboard h1 {
-    margin: 5px 0 10px;
-    text-align: center;
-    font-family: Lucida Grande;
-}
-
-#leaderboard {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
-    #leaderboard tr.highlight {
-        background-color: #99e491;
-    }
-
-    #leaderboard table {
-        border-collapse: collapse;
-        font-size: 14px;
-        margin: 0 auto;
-        text-align: center;
-        font-family: Comic Sans MS;
-    }
-
-    #leaderboard th {
-        border-top: 1px solid black;
-        padding: 7px;
-        font-size: 15px;
-        border-bottom: 1px solid;
-        background-color: #CCCCCC;
-    }
-
-    #leaderboard .positionColumn {
-        width: 50px;
-        font-weight: bold;
-        font-style: italic;
-    }
-
-    #leaderboard .levelColumn {
-        width: 50px;
-    }
-
-    #leaderboard .nameColumn {
-        width: 100px;
-    }
-
-    #leaderboard td {
-        padding: 7px;
-        border-top: 1px solid;
-        border-bottom: 1px solid;
-    }
-
-#leaderboardPosition {
-    z-index: 100001;
-    position: absolute;
-    min-width: 50px;
-    height: 50px;
-    font-size: 24px;
-    line-height: 50px;
-    text-align: center;
-    font-family: Comic Sans MS;
-    border: 2px double #FAFAFA;
-    background-color: #4f4f4f;
-    color: white;
-    display: none;
-}
-
-    #leaderboardPosition:hover {
-        cursor: pointer;
-    }
-
-    #leaderboardPosition.topten {
-        border-color: #1cc209;
-    }
-
-    #leaderboardPosition span {
-        font-size: 19px;
-        font-style: normal;
-    }
 
 #levelNotification {
     position: absolute;

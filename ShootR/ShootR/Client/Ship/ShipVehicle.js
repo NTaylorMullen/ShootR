@@ -4,16 +4,13 @@
         vehicleCanvas = document.createElement("canvas"),
         vehicleCanvasContext = vehicleCanvas.getContext("2d"),
         thrustBasicAnimation,
-        canvasWidthBuffer = 26; // thruster animation frame width
+        canvasWidthBuffer = 52; // thruster animation frame width *2 (to keep canvas centered)
 
-    that.DrawOffset.X = -canvasWidthBuffer;
-
-    vehicleCanvas.width = that.WIDTH + canvasWidthBuffer;
-    vehicleCanvas.height = that.HEIGHT;
+    that.UpdateAnimationCanvasSize({ Width: that.WIDTH + canvasWidthBuffer, Height: that.HEIGHT });
 
     thrustBasicAnimation = new spritify({
         image: IMAGE_ASSETS.ThrustBasic,
-        drawOn: vehicleCanvasContext,
+        drawOn: that.AnimationCanvasContext,
         X: 0,
         Y: (that.HEIGHT / 2) - 27,
         frameCount: 6,
@@ -34,15 +31,7 @@
     // Part of collidable
     that.AnimationDrawList.push(thrustBasicAnimation);
 
-    vehicleCanvasContext.drawImage(IMAGE_ASSETS.Ship1, canvasWidthBuffer, 0);
-
-    that.Vehicle = vehicleCanvas;
-
-    //GAME_GLOBALS.AnimationManager.Add(thrustBasicAnimation);
-
-    that.UpdateVehicle = function (newVehicle) {
-        vehicleCanvasContext.drawImage(newVehicle, canvasWidthBuffer, 0);
-    }
+    that.Vehicle = IMAGE_ASSETS.Ship1;
 
     that.Destroy = function () {
         // Ship has died
