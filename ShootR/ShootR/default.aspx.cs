@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Text;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Newtonsoft.Json;
@@ -21,21 +23,33 @@ namespace ShootR
 
             if (state != null)
             {
-                string decoded = HttpUtility.UrlDecode(state.Value);
-                var rc = JsonConvert.DeserializeObject<RegisteredClient>(decoded);
-
-                rc.DisplayName = System.Net.WebUtility.HtmlEncode(rc.DisplayName);
-
-                // Need to setup registration
-                if (rc.RegistrationID == null)
+                try
                 {
-                    Game.Instance.RegistrationHandler.Register(rc);
+                    string decoded = HttpUtility.UrlDecode(state.Value);
+                    var rc = JsonConvert.DeserializeObject<RegisteredClient>(decoded);
 
-                    LoginHandler.AddOrUpdateState(rc, HttpContext.Current);
+                    Byte[] encryptedIdentity = HttpServerUtility.UrlTokenDecode(rc.Identity);
+                    Byte[] unprotectedIdentity = MachineKey.Unprotect(encryptedIdentity, "ShootR.Identity");
+                    rc.Identity = Encoding.UTF8.GetString(unprotectedIdentity);
+
+                    rc.DisplayName = System.Net.WebUtility.HtmlEncode(rc.DisplayName);
+
+                    // Need to setup registration
+                    if (rc.RegistrationID == null)
+                    {
+                        Game.Instance.RegistrationHandler.Register(rc);
+
+                        LoginHandler.AddOrUpdateState(rc, HttpContext.Current);
+                    }
+
+                    JanrainScripts.Visible = false;
+                    GameScripts.Visible = true;
                 }
-                
-                JanrainScripts.Visible = false;
-                GameScripts.Visible = true;
+                catch
+                {
+                    JanrainScripts.Visible = true;
+                    GameScripts.Visible = false;
+                }
             }
             else
             {

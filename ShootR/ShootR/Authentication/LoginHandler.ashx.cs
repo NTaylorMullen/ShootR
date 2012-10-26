@@ -94,7 +94,10 @@ namespace ShootR
         public static void AddOrUpdateState(RegisteredClient rc, HttpContext context)
         {
             // Save the cokie state
-            var state = JsonConvert.SerializeObject(rc);
+            Byte[] identity = Encoding.UTF8.GetBytes(rc.Identity);
+            Byte[] encrypted = MachineKey.Protect(identity, "ShootR.Identity");
+            RegisteredClient temp = new RegisteredClient(rc.RegistrationID, HttpServerUtility.UrlTokenEncode(encrypted), rc.DisplayName, rc.Photo);
+            var state = JsonConvert.SerializeObject(temp);
 
             if (context.Response.Cookies["shootr.state"] == null)
             {
