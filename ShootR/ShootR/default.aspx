@@ -8,7 +8,7 @@
     <link href="Styles/game.css" rel="stylesheet" />
     <link href="Styles/jquery-ui-1.9.0.css" rel="stylesheet" />
     <link href="Styles/gameHUD.css" rel="stylesheet" />
-    <link href="Styles/leaderboard.css" rel="stylesheet" />
+    <link href="Styles/popups.css" rel="stylesheet" />
 
     <title>SignalR ShootR</title>
 </head>
@@ -141,42 +141,54 @@
             <div id="popUpHolder">
                 <div id="levelNotification">Level <span id="CurrentLevel_Notification"></span>!</div>
 
-                <div id="leaderboardHolder">
-                    <div class="offset">
-                        <div class="lionHolder">
-                            <div id="Lion"></div>
+                <div id="doublePopupHolder">
+                    <div id="deathScreenHolder" class="goLeft">
+                        <div class="bodyHolder">
+                            <div id="DeathNote"></div>
+                            <img src="" id="KilledByPhotoLarge" onerror="this.src='Images/HUD/KilledBy_Default.png'" width="108" height="108" alt="You got killed by" />
+                            <h1 id="KilledByNameLarge">GUY WHO KILLED YOU</h1>
+                            <p>HAS LEFT A DENT IN YOUR EGO.</p>
+                            <p>(HOPE NOBODY SAW THAT)</p>
                         </div>
-                        <div id="leaderboard" data-bind="foreach: leaderboard">
-                            <div data-bind="attr: { class: customClass} ">
-                                <div class="rowOffset">
-                                    <div class="leaderboardImgHolder">
-                                        <div class="isMe"></div>
-                                        <img src="" data-bind="attr: { src: Photo }" onerror="this.src='Images/HUD/KilledBy_Default.png'" width="50" height="50" alt="Profile picture" />
-                                    </div>
-                                    <div class="leaderboardPosHolder">
-                                        <h1># <span data-bind="text: Position"></span></h1>
-                                        <p data-bind="text: Name"></p>
+                    </div>
+
+                    <div id="leaderboardHolder">
+                        <div class="offset">
+                            <div class="lionHolder">
+                                <div id="Lion"></div>
+                            </div>
+                            <div id="leaderboard" data-bind="foreach: leaderboard">
+                                <div class="row">
+                                    <div class="rowOffset">
+                                        <div class="leaderboardImgHolder">
+                                            <div class="isMe"></div>
+                                            <img src="" class="lbPhoto" onerror="this.src='Images/HUD/KilledBy_Default.png'" width="50" height="50" alt="Profile picture" />
+                                        </div>
+                                        <div class="leaderboardPosHolder">
+                                            <h1># <span class="lbPosition"></span></h1>
+                                            <p class="lbName"></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <span id="myRanking">
-                            <div class="dividerForMe">
-                                <img src="Images/Page/leaderboard_divider.png" alt="Divider for me" width="40" height="6" />
-                            </div>
-                            <div class="row borderless">
-                                <div class="rowOffset">
-                                    <div class="leaderboardImgHolder">
-                                        <div class="isMe"></div>
-                                        <img src="" id="YouLB" onerror="this.src='Images/HUD/You_Default.png'" width="50" height="50" alt="Profile picture" />
-                                    </div>
-                                    <div class="leaderboardPosHolder">
-                                        <h1># <span id="GlobalRankingLB"></span></h1>
-                                        <p id="DisplayNameLB"></p>
+                            <span id="myRanking">
+                                <div class="dividerForMe">
+                                    <img src="Images/Page/leaderboard_divider.png" alt="Divider for me" width="40" height="6" />
+                                </div>
+                                <div class="row borderless">
+                                    <div class="rowOffset">
+                                        <div class="leaderboardImgHolder">
+                                            <div class="isMe"></div>
+                                            <img src="" id="YouLB" onerror="this.src='Images/HUD/You_Default.png'" width="50" height="50" alt="Profile picture" />
+                                        </div>
+                                        <div class="leaderboardPosHolder">
+                                            <h1># <span id="GlobalRankingLB"></span></h1>
+                                            <p id="DisplayNameLB"></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -185,7 +197,6 @@
         <!-- NOTE: These are not minified so people can see how the game works.  On a larger release I will minify everything -->
         <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
         <script src="Scripts/jquery.cookie.js" type="text/javascript"></script>
-        <script src="Scripts/knockout-2.1.0.js" type="text/javascript"></script>
         <script src="Scripts/jquery-ui-1.9.0.min.js" type="text/javascript"></script>
         <script src="Scripts/shortcut.js" type="text/javascript"></script>
         <script src="Scripts/jquery.signalR-1.0.0.js" type="text/javascript"></script>
@@ -216,8 +227,8 @@
         <script src="Client/Ship/ShipVehicle.js"></script>
         <script src="Client/Ship/Ship.js" type="text/javascript"></script>
         <script src="Client/Utilities/PayloadManagement/PayloadDecompressor.js" type="text/javascript"></script>
-        <script src="Client/Game.js" type="text/javascript"></script>
         <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
+        <script src="Client/Game.js" type="text/javascript"></script>
         <script src="Client/HUD/EnvironmentMonitor.js" type="text/javascript"></script>
         <script src="Client/HUD/ShipStatMonitor.js" type="text/javascript"></script>
         <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>

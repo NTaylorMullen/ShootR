@@ -88,34 +88,6 @@ div.borderless {
     left: 200px;
 }
 
-#popUpHolder {
-    position: absolute;
-    display: none;
-}
-
-#levelNotification {
-    position: absolute;
-    color: white;
-    top: 20%;
-    left: 44%;
-    font-size: 50px;
-    font-family: 'Comic Sans MS';
-    z-index: 10000;
-    font-weight: bolder;
-    display: none;
-}
-
-#Notification {
-    z-index: 100001;
-    border: 1px double white;
-    color: white;
-    background-color: gray;
-    position: absolute;
-    overflow: auto;
-    padding: 10px;
-    display: none;
-}
-
 .janrainContent {
     margin: 0 auto 40px;
 }

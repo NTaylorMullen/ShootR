@@ -9,13 +9,16 @@ namespace ShootR
     public class UserHandler
     {
         private ConcurrentDictionary<string, User> _userList;
-        private GameHandler _gameHandler;
+        private GameHandler _gameHandler;        
 
         public UserHandler(GameHandler gameHandler)
         {
             _userList = new ConcurrentDictionary<string, User>();
             _gameHandler = gameHandler;
+            TotalActiveUsers = 0;
         }
+
+        public int TotalActiveUsers { get; set; }
 
         public bool UserExistsAndReady(string connectionId)
         {
@@ -61,9 +64,20 @@ namespace ShootR
                     select user).FirstOrDefault();
         }
 
-        public ICollection<User> GetUsers()
+        public List<User> GetUsers()
         {
-            return _userList.Values;
+            return _userList.Values.ToList();
+        }
+
+        public List<User> GetActiveUsers()
+        {
+            List<User> activeUsers = (from user in _userList.Values
+                                            where !user.Controller && !user.IdleManager.Idle
+                                            select user).ToList();
+
+            TotalActiveUsers = activeUsers.Count;
+
+            return activeUsers;
         }
 
         public ICollection<string> GetUserConnectionIds()

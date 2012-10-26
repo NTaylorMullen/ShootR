@@ -7,7 +7,7 @@
         areaLetters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 
     that.Update = function (payload) {
-        var count = 0,
+        var count = -1, // -1 because we will always be on the screen, hence 1
             mapSize = Map.prototype.WIDTH, // It's square so height is same
             areaSize = Math.max(Math.round( mapSize / 26), 1000);
 

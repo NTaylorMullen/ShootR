@@ -134,8 +134,10 @@
     <Content Include="Images\HUD\HUD_whiteheart.png" />
     <Content Include="Images\HUD\KilledBy_Default.png" />
     <Content Include="Images\HUD\You_Default.png" />
+    <Content Include="Images\Page\leaderboard_arrow.png" />
     <Content Include="Images\Page\leaderboard_divider.png" />
     <Content Include="Images\Page\leaderboard_lion.png" />
+    <Content Include="Images\Page\SignalRLogoIdea.png" />
     <Content Include="Images\Ships\ship_lvl1.png" />
     <Content Include="Images\Ships\ship_lvl10.png" />
     <Content Include="Images\Ships\ship_lvl3.png" />
@@ -164,7 +166,6 @@
       <DependentUpon>jquery.signalR-1.0.0.js</DependentUpon>
     </Content>
     <Content Include="Scripts\jquery.spritify-0.0.0.js" />
-    <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\shortcut.js" />
     <Content Include="Styles\controller.css" />
     <Content Include="Styles\game.css" />
@@ -183,7 +184,7 @@
     <Content Include="Styles\images\ui-icons_888888_256x240.png" />
     <Content Include="Styles\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Styles\jquery-ui-1.9.0.css" />
-    <Content Include="Styles\leaderboard.css" />
+    <Content Include="Styles\popups.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

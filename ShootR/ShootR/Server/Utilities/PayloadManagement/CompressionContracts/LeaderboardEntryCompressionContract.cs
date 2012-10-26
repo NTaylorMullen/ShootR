@@ -9,6 +9,7 @@ namespace ShootR
     {
         public short Name = 0;
         public short Photo = 1;
+        public short ID = 2;
         /*public short Level = 2;
         public short Kills = 3;
         public short Deaths = 4;

@@ -31,6 +31,8 @@ namespace ShootR
                 ship.MovementController.Position = GetRandomStartPosition();
                 ship.Disposed = false;
                 _gameHandler.AddShipToGame(ship);
+
+                Game.Instance.Leaderboard.StopRequestingLeaderboard(ship.Host.ConnectionID);
                 return true;
             }
             else
@@ -41,7 +43,13 @@ namespace ShootR
 
         public void StartRespawnCountdown(object sender, DeathEventArgs e)
         {
-            _respawningShips.Add(new KeyValuePair<Ship, DateTime>(sender as Ship, DateTime.UtcNow));
+            Ship ship = sender as Ship;
+            // Don't want to subscribe AI to retrieve leaderboard info
+            if(!(ship is ShipAI))
+            {
+                Game.Instance.Leaderboard.RequestLeaderboard(ship.Host.ConnectionID);
+                _respawningShips.Add(new KeyValuePair<Ship, DateTime>(ship, DateTime.UtcNow));
+            }
         }
 
         public static Vector2 GetRandomStartPosition()

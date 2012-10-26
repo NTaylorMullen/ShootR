@@ -14,7 +14,7 @@ namespace ShootR
 
         private PayloadCache _payloadCache = new PayloadCache();
 
-        public ConcurrentDictionary<string, object[]> GetGamePayloads(ICollection<User> userList, int shipCount, int bulletCount, Map space)
+        public ConcurrentDictionary<string, object[]> GetGamePayloads(ICollection<User> userList, int playerCount, int bulletCount, Map space)
         {
             _payloadCache.StartNextPayloadCache();
 
@@ -29,7 +29,7 @@ namespace ShootR
 
                     _payloadCache.CreateCacheFor(connectionID);
 
-                    var payload = GetInitializedPayload(shipCount, bulletCount, user);
+                    var payload = GetInitializedPayload(playerCount, bulletCount, user);
 
                     if (!user.IdleManager.CheckIdle())
                     {
@@ -89,14 +89,14 @@ namespace ShootR
             return result;
         }
 
-        public Payload GetInitializedPayload(int shipCount, int bulletCount, User user)
+        public Payload GetInitializedPayload(int playerCount, int bulletCount, User user)
         {
             return new Payload()
             {
                 LeaderboardPosition = user.CurrentLeaderboardPosition,
                 Kills = user.MyShip.StatRecorder.Kills,
                 Deaths = user.MyShip.StatRecorder.Deaths,
-                ShipsInWorld = shipCount,
+                ShipsInWorld = playerCount,
                 BulletsInWorld = bulletCount,
                 Experience = user.MyShip.LevelManager.Experience,
                 ExperienceToNextLevel = user.MyShip.LevelManager.ExperienceToNextLevel,

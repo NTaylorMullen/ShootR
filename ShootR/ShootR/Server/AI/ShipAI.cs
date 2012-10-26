@@ -15,9 +15,9 @@ namespace ShootR
         public const int ROTATION_BUFFER = 20;
         public const int TIME_TO_WAIT_AFTER_BOUNDARY_LEAVE = 1000;
 
-        public TimeSpan GiveUpDuration = TimeSpan.FromSeconds(3);
+        public TimeSpan GiveUpDuration = TimeSpan.FromSeconds(2);
         public DateTime? GaveUpAt = null;
-        public TimeSpan GiveUpAfter = TimeSpan.FromSeconds(10);
+        public TimeSpan GiveUpAfter = TimeSpan.FromSeconds(4);
 
         private List<dynamic> _shipsOnScreen;
         private AIState _state;

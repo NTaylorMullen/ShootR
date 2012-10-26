@@ -1,10 +1,88 @@
-﻿#leaderboardHolder {
+﻿#popUpHolder {
+    position: absolute;
+    display: none;
+    z-index: 100001;
+}
+
+#levelNotification {
+    position: absolute;
+    color: white;
+    top: 20%;
+    left: 44%;
+    font-size: 50px;
+    font-family: 'Comic Sans MS';
+    z-index: 10000;
+    font-weight: bolder;
+    display: none;
+}
+
+#Notification {
+    z-index: 100001;
+    border: 1px double white;
+    color: white;
+    background-color: gray;
+    position: absolute;
+    overflow: auto;
+    padding: 10px;
+    display: none;
+}
+
+.goLeft {
+    float:left;
+}
+
+#doublePopupHolder {
+    width:1009px;
+    height:584px;
+    margin:30px auto 0;
+    display:none;
+}
+
+#deathScreenHolder {
+    margin-right:17px!important;
+}
+
+#deathScreenHolder .bodyHolder {
+    margin:29px auto;
+    width:370px;
+    height:100%;
+    text-align:center;
+    font-family: 'Segoe UI Semibold';
+    font-size:20px;
+    color:white;
+}
+
+#deathScreenHolder #DeathNote {
+    width:370px;
+    height:311px;
+    background-image:url("/Images/Page/death_note.png");
+    background-repeat:no-repeat;
+}
+
+#deathScreenHolder #KilledByPhotoLarge {
+    position:relative;
+    top:-19px;
+    width:108px;
+    height:108px;
+    margin:0 auto;
+    display:block;
+}
+
+#deathScreenHolder h1 {
+    color: #d4145a;
+}
+
+    #deathScreenHolder h1, #deathScreenHolder p {
+        height:25px;
+        line-height:25px;
+    }
+
+#leaderboardHolder, #deathScreenHolder {
     z-index: 100001;
     display: none;
     position: relative;
     margin: 0 auto;
-    width: 494px;
-    margin-top: 30px;
+    width: 494px;    
     height: 584px;
     border: 1px solid #d4145a;
 }
@@ -87,3 +165,5 @@
     margin-top: 6px;
     height: 20px;
 }
+
+

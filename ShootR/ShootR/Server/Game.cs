@@ -11,8 +11,8 @@ namespace ShootR
 {
     public class Game
     {
-        public const int AIShipsToSpawn = 100;
-        public const int SpawnsPerInterval = 10;
+        public const int AIShipsToSpawn = 10;
+        public const int SpawnsPerInterval = 1;
         private int _spawned = 0;
         private DateTime _lastSpawn = DateTime.UtcNow;
 
@@ -108,10 +108,9 @@ namespace ShootR
         /// </summary>
         private void Draw()
         {
-            int shipCount = GameHandler.ShipCount();
-            _space.CheckIncreaseMapSize(shipCount);
+            _space.CheckIncreaseMapSize(UserHandler.TotalActiveUsers);
 
-            ConcurrentDictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), shipCount, GameHandler.BulletManager.Bullets.Count, _space);
+            ConcurrentDictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), UserHandler.TotalActiveUsers, GameHandler.BulletManager.Bullets.Count, _space);
             IHubContext context = GetContext();
 
             foreach (string connectionID in payloads.Keys)
@@ -126,6 +125,7 @@ namespace ShootR
             try
             {
                 List<object> leaderboardEntries = _payloadManager.GetLeaderboardPayloads(Leaderboard.GetAndUpdateLeaderboard());
+                
                 PushLeaderboard(leaderboardEntries);
             }
             catch (Exception e)

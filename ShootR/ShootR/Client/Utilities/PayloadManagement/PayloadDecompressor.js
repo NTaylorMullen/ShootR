@@ -90,7 +90,9 @@
     function DecompressLeaderboardEntry(data) {
         return {
             Name: data[LeaderboardEntryContract.Name],
-            Photo: data[LeaderboardEntryContract.Photo]/*
+            Photo: data[LeaderboardEntryContract.Photo],
+            ID: data[LeaderboardEntryContract.ID]
+            /*
             Level: data[LeaderboardEntryContract.Level],
             Kills: data[LeaderboardEntryContract.Kills],
             Deaths: data[LeaderboardEntryContract.Deaths],
@@ -118,20 +120,13 @@
         return payload;
     }
 
-    that.DecompressLeaderboard = function (data, myShipName) {
+    that.DecompressLeaderboard = function (data) {
         var payload = [],
             leaderboardEntryCount = data.length;
 
         for (i = 0; i < leaderboardEntryCount; i++) {
             var item = DecompressLeaderboardEntry(data[i]);
             item.Position = i + 1;
-
-            if (item.Name === myShipName) {
-                item.customClass = "row highlight";
-            }
-            else {
-                item.customClass = "row";
-            }
 
             payload.push(item);
         }

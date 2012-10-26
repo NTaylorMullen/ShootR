@@ -18,18 +18,23 @@ $(function () {
         registrationID = state.RegistrationID;
 
     function Initialize(init) {
-        configurationManager = new ConfigurationManager(init.Configuration);
-        game = new Game(env, latencyResolver, init.ShipID);
-        GAME_GLOBALS.Game = game;
-        payloadDecompressor.LoadContracts(init.CompressionContracts);
-        game.HUDManager.Initialize(init);
-        screen.Initialize(game.HUDManager);
+        if (init != null) {
+            configurationManager = new ConfigurationManager(init.Configuration);
+            game = new Game(env, latencyResolver, init.ShipID);
+            GAME_GLOBALS.Game = game;
+            payloadDecompressor.LoadContracts(init.CompressionContracts);
+            game.HUDManager.Initialize(init);
+            screen.Initialize(game.HUDManager);
 
-        game.ShipManager.MyShip.LatencyResolver = latencyResolver;
-        game.ShipManager.MyShip.Initialize(screen);
+            game.ShipManager.MyShip.LatencyResolver = latencyResolver;
+            game.ShipManager.MyShip.Initialize(screen);
 
-        StartUpdateLoop();
-        env.server.readyForPayloads();
+            StartUpdateLoop();
+            env.server.readyForPayloads();
+        }
+        else {
+            alert("Refresh your page");
+        }
     }
 
     function StartUpdateLoop() {
@@ -92,7 +97,7 @@ $(function () {
 
     // Leaderboard request endpoint
     env.client.l = function (compressedLeaderboard) {
-        game.HUDManager.Leaderboard.Load(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard, game.ShipManager.MyShip.Name));
+        game.HUDManager.Leaderboard.Load(payloadDecompressor.DecompressLeaderboard(compressedLeaderboard));
     }
 
     env.client.mapSizeIncreased = function (size) {

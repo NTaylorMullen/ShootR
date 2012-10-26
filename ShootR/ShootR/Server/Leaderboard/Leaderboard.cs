@@ -29,8 +29,8 @@ namespace ShootR
         public IEnumerable<LeaderboardEntry> GetAndUpdateLeaderboard()
         {
             IEnumerable<LeaderboardEntry> currentLeaderboard = 
-                (from user in _userHandler.GetUsers()
-                where !user.Controller && !user.IdleManager.Idle && user.MyShip != null
+                (from user in _userHandler.GetActiveUsers()
+                where user.MyShip != null
                 select user.MyShip)
                 .Select(ship => new LeaderboardEntry()
                 {
@@ -42,6 +42,7 @@ namespace ShootR
                     DamageTaken = ship.StatRecorder.DamageTaken,
                     KillDeathRatio = (Convert.ToDouble(ship.StatRecorder.Kills) / Math.Max((ship.StatRecorder.Kills + ship.StatRecorder.Deaths), 1))*100,
                     Photo = ship.Host.RegistrationTicket.Photo,
+                    ID = ship.ID,
                     ConnectionID = ship.Host.ConnectionID
                 })
                 .OrderByDescending(entry => entry.Level)

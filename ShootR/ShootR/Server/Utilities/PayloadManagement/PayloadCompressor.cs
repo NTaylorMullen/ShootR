@@ -89,10 +89,12 @@ namespace ShootR
 
         public object[] Compress(LeaderboardEntry leaderboardEntry)
         {
-            object[] result = new object[2];
+            object[] result = new object[3];
 
             result[LeaderboardEntryCompressionContract.Name] = leaderboardEntry.Name;
-            result[LeaderboardEntryCompressionContract.Photo] = leaderboardEntry.Photo;/*
+            result[LeaderboardEntryCompressionContract.Photo] = leaderboardEntry.Photo;
+            result[LeaderboardEntryCompressionContract.ID] = leaderboardEntry.ID;
+            /*
             result[LeaderboardEntryCompressionContract.Level] = leaderboardEntry.Level;
             result[LeaderboardEntryCompressionContract.Kills] = leaderboardEntry.Kills;
             result[LeaderboardEntryCompressionContract.Deaths] = leaderboardEntry.Deaths;

@@ -1,17 +1,27 @@
-﻿function DeathScreen() {
-    var that = this;
+﻿function DeathScreen(leaderboard) {
+    var that = this,
+        topLineQuotes = [],
+        botLineQuotes = [];
 
     that.YouDied = function (by, byPhoto) {
         var gameCanvas = $("#game"),
-            fadeIns = $("#HUDBarCover, #GameCover"),
+            fadeIns = $("#HUDBarCover, #GameCover, #popUpHolder"),
             respawnTime = $("#RespawnTime"),
-            killedByNameSmall = $("#KilledByNameSmall"),
-            killedByPhotoSmall = $("#KilledByPhotoSmall");
+            killedByName = $("#KilledByNameSmall, #KilledByNameLarge"),
+            killedByPhoto = $("#KilledByPhotoSmall, #KilledByPhotoLarge"),
+            doublePopupHolder = $("#doublePopupHolder"),
+            popupWindows = $("#leaderboardHolder, #deathScreenHolder");
 
-        killedByNameSmall.html(by);
-        killedByPhotoSmall.attr("src",byPhoto);
+        killedByName.html(by);
+        killedByPhoto.attr("src",byPhoto);
+
+        popupWindows.css("display", "block");
+        doublePopupHolder.css("display", "block");
+
+        popupWindows.addClass("goLeft");
 
         fadeIns.fadeIn(1000);
+
         respawnTime.html(that.RESPAWN_TIMER);
 
         var interval = setInterval(function () {
@@ -20,7 +30,11 @@
 
             if (left === 0) {
                 clearInterval(interval);
-                fadeIns.fadeOut(1000);
+                fadeIns.fadeOut(1000, function () {
+                    popupWindows.css("display", "none");
+                    doublePopupHolder.css("display", "none");
+                    popupWindows.removeClass("goLeft");
+                });
             }
         }, 1000);
     }
