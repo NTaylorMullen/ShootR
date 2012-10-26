@@ -11,7 +11,7 @@ namespace ShootR
 {
     public class Game
     {
-        public const int AIShipsToSpawn = 0;
+        public const int AIShipsToSpawn = 35;
         public const int SpawnsPerInterval = 1;
         private int _spawned = 0;
         private DateTime _lastSpawn = DateTime.UtcNow;
@@ -170,17 +170,19 @@ namespace ShootR
                         {
                             string previousConnectionID = user.ConnectionID;
                             UserHandler.ReassignUser(connectionId, user);
+                            ship = user.MyShip;
 
                             if (user.Connected) // Check if it's a duplicate login
                             {
                                 GetContext().Client(previousConnectionID).controlTransferred();
                                 user.NotificationManager.Notify("Transfering control to this browser.  You were already logged in.");
                             }
-                            
-                            ship = user.MyShip;
-                            user.Connected = true;
-                            ship.Disposed = false;
-                            ship.LifeController.HealFull();
+                            else
+                            {
+                                ship.Disposed = false;
+                                ship.LifeController.HealFull();
+                                user.Connected = true;
+                            }
                         }
 
                         GameHandler.AddShipToGame(ship);
