@@ -5,6 +5,6 @@
         RotatingLeft,
         RotatingRight,
         Forward,
-        Backward,
+        Backward
     }
 }

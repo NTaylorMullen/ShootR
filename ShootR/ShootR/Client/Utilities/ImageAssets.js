@@ -15,6 +15,8 @@
         this.Ship10.src = "/Images/Ships/ship_lvl10.png";
         this.ThrustBasic.src = "/Images/SpriteSheets/thrust_basic.png";
         this.HealthPack.src = "/Images/SpriteSheets/health_pack.png";
+        this.Boost.src = "/Images/SpriteSheets/thrusters-BOOST.png";
+        this.ThrustStart.src = "/Images/SpriteSheets/thrust_start.png";
     },
     Explosion: new Image(),
     Laser: new Image(),
@@ -27,7 +29,9 @@
     Ship9: new Image(),
     Ship10: new Image(),
     ThrustBasic: new Image(),
-    HealthPack: new Image()
+    HealthPack: new Image(),
+    Boost: new Image(),
+    ThrustStart: new Image()
 };
 
 IMAGE_ASSETS.INIT();

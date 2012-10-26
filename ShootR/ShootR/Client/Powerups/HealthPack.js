@@ -12,15 +12,15 @@
         drawOn: that.AnimationCanvasContext,
         X: 0,
         Y: 0,
-        frameCount: 11,
-        fps: 11,
+        frameCount: 18,
+        fps: 18,
         spriteSheetSize: {
-            width: 355,
-            height: 216
+            width: 450,
+            height: 100
         },
         frameSize: {
-            width: 71,
-            height: 72,
+            width: that.WIDTH,
+            height: that.HEIGHT,
         },
         Rotation: 0,
         autoPlay: false,

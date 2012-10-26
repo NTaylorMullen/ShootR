@@ -103,6 +103,7 @@
     <Content Include="Client\Powerups\Powerup.js" />
     <Content Include="Client\Powerups\PowerupManager.js" />
     <Content Include="Client\Ship\Ship.js" />
+    <Content Include="Client\Ship\ShipAnimationHandler.js" />
     <Content Include="Client\Ship\ShipManager.js" />
     <Content Include="Client\Ship\ShipVehicle.js" />
     <Content Include="Client\Managers\AnimationManager.js" />
@@ -151,12 +152,15 @@
     <Content Include="Images\SpriteSheets\explosion_1.png" />
     <Content Include="Authentication\LoginHandler.ashx" />
     <Content Include="Fonts\seguisb.ttf" />
+    <Content Include="Fonts\seguisb.eot" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
     </None>
     <Content Include="Images\SpriteSheets\explosion_2.png" />
     <Content Include="Images\SpriteSheets\health_pack.png" />
+    <Content Include="Images\SpriteSheets\thrusters-BOOST.png" />
     <Content Include="Images\SpriteSheets\thrust_basic.png" />
+    <Content Include="Images\SpriteSheets\thrust_start.png" />
     <Content Include="Scripts\janrain.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js">

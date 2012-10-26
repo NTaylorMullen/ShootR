@@ -1,37 +1,9 @@
 ﻿function ShipVehicle(properties) {
     Collidable.call(this);
-    var that = this,
-        vehicleCanvas = document.createElement("canvas"),
-        vehicleCanvasContext = vehicleCanvas.getContext("2d"),
-        thrustBasicAnimation,
-        canvasWidthBuffer = 52; // thruster animation frame width *2 (to keep canvas centered)
+    var that = this;
 
-    that.InitializeAnimationCanvas();
-    that.UpdateAnimationCanvasSize({ Width: that.WIDTH + canvasWidthBuffer, Height: that.HEIGHT });
-
-    thrustBasicAnimation = new spritify({
-        image: IMAGE_ASSETS.ThrustBasic,
-        drawOn: that.AnimationCanvasContext,
-        X: 0,
-        Y: (that.HEIGHT / 2) - 27,
-        frameCount: 6,
-        fps: 12,
-        spriteSheetSize: {
-            width: 26,
-            height: 330
-        },
-        frameSize: {
-            width: 26,
-            height: 55,
-        },
-        Rotation: 0,
-        autoPlay: false,
-        loop: true
-    });
-
-    // Part of collidable
-    that.AnimationDrawList.push(thrustBasicAnimation);
-
+    that.AnimationHandler = new ShipAnimationHandler(that);
+    
     that.Vehicle = IMAGE_ASSETS.Ship1;
 
     that.Destroy = function () {
@@ -112,6 +84,9 @@
             Y: 0,
         };
 
+        var now = new Date(),
+            nowMilliseconds = now.getTime();
+
         Acceleration = { X: 0, Y: 0 }
 
         Acceleration.X += that.MovementController.Forces.X / that.MovementController.Mass;
@@ -149,13 +124,9 @@
             that.MovementController.Rotation += rotationIncrementor;
             TryInterpolationRotation(rotationIncrementor);
         }
-        if (that.MovementController.Moving.Forward) {
-            thrustBasicAnimation.Play();
+        if (that.MovementController.Moving.Forward) {                    
             that.MovementController.Forces.X += direction.X * that.ENGINE_POWER;
             that.MovementController.Forces.Y += direction.Y * that.ENGINE_POWER;
-        }
-        else {
-            thrustBasicAnimation.Stop();
         }
 
         if (that.MovementController.Moving.Backward) {            
@@ -165,9 +136,8 @@
 
         that.MovementController.Forces.X += dragForce.X;
         that.MovementController.Forces.Y += dragForce.Y;
-
-        var now = new Date();
-        thrustBasicAnimation.Update(now);
+        
+        that.AnimationHandler.Update(now);        
         that.LastUpdated = now;
     }
 

@@ -7,8 +7,8 @@ namespace ShootR
 {
     public class HealthPack : Powerup
     {
-        public const int WIDTH = 71;
-        public const int HEIGHT = 72;
+        public const int WIDTH = 50;
+        public const int HEIGHT = 50;
         public static int HALF_WIDTH = WIDTH / 2;
         public static int HALF_HEIGHT = HEIGHT / 2;
 

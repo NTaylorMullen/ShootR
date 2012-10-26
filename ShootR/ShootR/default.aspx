@@ -228,7 +228,8 @@
         <script src="Client/Bullet/Bullet.js" type="text/javascript"></script>
         <script src="Client/Bullet/BulletManager.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipManager.js" type="text/javascript"></script>
-        <script src="Client/Ship/ShipVehicle.js"></script>
+        <script src="Client/Ship/ShipAnimationHandler.js" type="text/javascript"></script>
+        <script src="Client/Ship/ShipVehicle.js" type="text/javascript"></script>        
         <script src="Client/Ship/Ship.js" type="text/javascript"></script>
         <script src="Client/Utilities/PayloadManagement/PayloadDecompressor.js" type="text/javascript"></script>
         <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>

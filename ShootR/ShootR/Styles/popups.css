@@ -2,6 +2,7 @@
     position: absolute;
     display: none;
     z-index: 100001;
+    font-family: 'Segoe UI Semibold';
 }
 
 #levelNotification {
@@ -109,6 +110,7 @@
     border-top: 4px solid #3c454f;
     width: 100%;
     height: 100%;
+    font-family: 'Segoe UI Semibold';
 }
 
 #leaderboardHolder .row {
