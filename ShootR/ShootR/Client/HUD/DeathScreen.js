@@ -1,19 +1,39 @@
 ﻿function DeathScreen(leaderboard) {
     var that = this,
-        topLineQuotes = [],
-        botLineQuotes = [];
+        randomQuotes = [
+            ["HAS LEFT A DENT IN YOUR EGO.", "(HOPE NOBODY SAW THAT)"],
+            ["JUST DOMINATED YOU.", "OUCH!"],
+            ["SUCKS TO BE YOU!", ""],
+            ["...", "REALLY?"],
+            ["YOU ALRIGHT?", "THAT MUST HAVE HURT."],
+            ["SAID TO TELL YOUR MOTHER", "HELLO!"],
+            ["TIS BUT A SCRATCH", ""],
+            ["BOOM...", "HEADSHOT!"],
+            ["CAN'T LET YOU DO THAT STARFOX",""],
+            ["PLAYTIME IS OVER!",""],
+            ["YOU MISSED!", "YOU MAY NEED GLASSES"],
+            ["YOU'RE GOOD...", "BUT I'M BETTER."],
+            ["TOO SLOW...", "MY GRAMAH DRIVES FASTER THAN THAT!"]
+        ];
 
-    that.YouDied = function (by, byPhoto) {
-        var gameCanvas = $("#game"),
+    var gameCanvas = $("#game"),
             fadeIns = $("#HUDBarCover, #GameCover, #popUpHolder"),
             respawnTime = $("#RespawnTime"),
             killedByName = $("#KilledByNameSmall, #KilledByNameLarge"),
             killedByPhoto = $("#KilledByPhotoSmall, #KilledByPhotoLarge"),
             doublePopupHolder = $("#doublePopupHolder"),
-            popupWindows = $("#leaderboardHolder, #deathScreenHolder");
+            popupWindows = $("#leaderboardHolder, #deathScreenHolder"),
+            topLineQuote = $("#topLineQuote"),
+            botLineQuote = $("#botLineQuote");
+
+    that.YouDied = function (by, byPhoto) {
+        var quote = Math.floor(Math.random() * randomQuotes.length);
+
+        topLineQuote.html(randomQuotes[quote][0]);
+        botLineQuote.html(randomQuotes[quote][1]);
 
         killedByName.html(by);
-        killedByPhoto.attr("src",byPhoto);
+        killedByPhoto.attr("src", byPhoto);
 
         popupWindows.css("display", "block");
         doublePopupHolder.css("display", "block");

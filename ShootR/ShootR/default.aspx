@@ -147,8 +147,8 @@
                             <div id="DeathNote"></div>
                             <img src="" id="KilledByPhotoLarge" onerror="this.src='Images/HUD/KilledBy_Default.png'" width="108" height="108" alt="You got killed by" />
                             <h1 id="KilledByNameLarge">GUY WHO KILLED YOU</h1>
-                            <p>HAS LEFT A DENT IN YOUR EGO.</p>
-                            <p>(HOPE NOBODY SAW THAT)</p>
+                            <p id="topLineQuote">HAS LEFT A DENT IN YOUR EGO.</p>
+                            <p id="botLineQuote">(HOPE NOBODY SAW THAT)</p>
                         </div>
                     </div>
 
