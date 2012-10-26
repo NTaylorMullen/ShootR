@@ -127,7 +127,7 @@ $(function () {
     }
 
     env.client.controlTransferred = function () {
-        Notify("You have been disconnected!  The control for your ship has been transferred to your other login.");
+        Notify("You have been disconnected!  The control for your ship has been transferred to your other login.", true);
         $.connection.hub.stop();
     }
 

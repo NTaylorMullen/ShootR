@@ -33,6 +33,7 @@
 }
 
 #doublePopupHolder {
+    position:relative;
     width:1009px;
     height:584px;
     margin:30px auto 0;

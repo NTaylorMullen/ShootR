@@ -17,7 +17,12 @@
             maxHealth = MyShip.MaxLife;
             // If we're taking damage
             if (MyShip.LifeController.Health < lastHealth) {
-                gameWrapper.effect("shake", { distance: 3, direction: "up" }, 100);
+                var healthDecrease = MyShip.LifeController.Health - lastHealth;
+
+                if (healthDecrease !== 0) {
+                    GAME_GLOBALS.AnimationManager.Add(new TextAnimation(healthDecrease, MyShip.MovementController.Position.X + .5 * MyShip.WIDTH, MyShip.MovementController.Position.Y - 1.5 * MyShip.HEIGHT, { duration: 2000, color: [237, 30, 121], fontSize: "36px verdana" }));
+                }
+
                 if (MyShip.LifeController.Health <= 0) {
                     whiteHeartIndicator.fadeOut(healthAnimateSpeed);
                     whiteHeartVisible = false;
@@ -30,7 +35,7 @@
                 }
                 else {
                     var healthIncrease = (MyShip.LifeController.Health - lastHealth);
-                    if(healthIncrease >= 0) {
+                    if(healthIncrease > 0) {
                         GAME_GLOBALS.AnimationManager.Add(new TextAnimation("+" + healthIncrease, MyShip.MovementController.Position.X + .5* MyShip.WIDTH, MyShip.MovementController.Position.Y - 1.5 * MyShip.HEIGHT, { duration: 2000, color: [122, 201, 67], fontSize: "36px verdana" }));
                     }
                 }
@@ -47,11 +52,11 @@
                 barColor;
 
             currentHealthHeart.removeClass("good hurt bad")
-            if (lifePercentage <= .3) {
+            if (lifePercentage <= that.BadThreshold) {
                 currentHealthHeart.addClass("bad");
                 barColor = GAME_GLOBALS.Colors.ShipBad;
             }
-            else if (lifePercentage <= .6) {
+            else if (lifePercentage <= that.HurtThreshold) {
                 currentHealthHeart.addClass("hurt");
                 barColor = GAME_GLOBALS.Colors.ShipHurt;
             }
@@ -65,3 +70,6 @@
         }
     }
 }
+
+HealthMonitor.prototype.BadThreshold = .3;
+HealthMonitor.prototype.HurtThreshold = .6;

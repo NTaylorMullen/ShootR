@@ -144,10 +144,24 @@
     that.DrawHealthBar = function () {
         var maxWidth = that.WIDTH * .8,
             xOffset = (that.WIDTH - maxWidth) * .5,
-            currentHealth = maxWidth * that.LifeController.Health / that.MaxLife;
+            lifePercentage = that.LifeController.Health / that.MaxLife,
+            currentHealth = maxWidth * lifePercentage;
 
-        CanvasContext.drawRectangle(that.MovementController.Position.X + xOffset, that.MovementController.Position.Y + that.HEIGHT + 15, maxWidth, 5, "#808080");
-        CanvasContext.drawRectangle(that.MovementController.Position.X + xOffset, that.MovementController.Position.Y + that.HEIGHT + 15, currentHealth, 5, "#E01B1B");
+        CanvasContext.drawRectangle(that.MovementController.Position.X + xOffset, that.MovementController.Position.Y + that.HEIGHT + 15, maxWidth, 5, "#7F767D");
+
+        var color;
+
+        if (lifePercentage <= HealthMonitor.prototype.BadThreshold) {
+            color = GAME_GLOBALS.Colors.ShipBad;
+        }
+        else if (lifePercentage <= HealthMonitor.prototype.HurtThreshold) {
+            color = GAME_GLOBALS.Colors.ShipHurt;
+        }
+        else {
+            color = GAME_GLOBALS.Colors.ShipGood;
+        }
+
+        CanvasContext.drawRectangle(that.MovementController.Position.X + xOffset, that.MovementController.Position.Y + that.HEIGHT + 15, currentHealth, 5, color);
     }
 
     that.DrawName = function (healthOffset) {

@@ -97,10 +97,10 @@
 
         canvasBufferContext.translate(cameraOffset.X + x, y + cameraOffset.Y);
         canvasBufferContext.textAlign = "center";
-        canvasBufferContext.font = customFont;
-        canvasBufferContext.strokeStyle = customColor;
+        canvasBufferContext.font = customFont;        
+        canvasBufferContext.fillStyle = customColor;
 
-        canvasBufferContext.strokeText(text, 0, 0);
+        canvasBufferContext.fillText(text, 0, 0);
 
         canvasBufferContext.restore();
     }
