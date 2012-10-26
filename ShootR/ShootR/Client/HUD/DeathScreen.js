@@ -9,11 +9,12 @@
             ["SAID TO TELL YOUR MOTHER", "HELLO!"],
             ["TIS BUT A SCRATCH", ""],
             ["BOOM...", "HEADSHOT!"],
-            ["CAN'T LET YOU DO THAT STARFOX",""],
-            ["PLAYTIME IS OVER!",""],
+            ["CAN'T LET YOU DO THAT STARFOX", ""],
+            ["PLAYTIME IS OVER!", ""],
             ["YOU MISSED!", "YOU MAY NEED GLASSES"],
             ["YOU'RE GOOD...", "BUT I'M BETTER."],
-            ["TOO SLOW...", "MY GRAMAH DRIVES FASTER THAN THAT!"]
+            ["TOO SLOW...", "MY GRAMAH DRIVES FASTER THAN THAT!"],
+            ["TOASTERS...", "BLAME THE TOASTERS!"]
         ];
 
     var gameCanvas = $("#game"),

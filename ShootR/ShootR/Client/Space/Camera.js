@@ -1,5 +1,6 @@
 ﻿function Camera() {
-    var that = this;
+    var that = this,
+        gameWrapper = $("#gameWrapper");
 
     // Position is the center of the screen 
     that.Position = {
@@ -15,7 +16,7 @@
         // Update position
         that.Position = Position;
         // Update background position based on camera
-        $("#gameWrapper").css("background-position", -Position.X + "px " + -Position.Y + "px");
+        gameWrapper.css("background-position", -Position.X + "px " + -Position.Y + "px");
     };
 
     that.Follow = function (obj) {

@@ -47,9 +47,10 @@ namespace ShootR
             // Don't want to subscribe AI to retrieve leaderboard info
             if(!(ship is ShipAI))
             {
-                Game.Instance.Leaderboard.RequestLeaderboard(ship.Host.ConnectionID);
-                _respawningShips.Add(new KeyValuePair<Ship, DateTime>(ship, DateTime.UtcNow));
+                Game.Instance.Leaderboard.RequestLeaderboard(ship.Host.ConnectionID);                
             }
+
+            _respawningShips.Add(new KeyValuePair<Ship, DateTime>(ship, DateTime.UtcNow));
         }
 
         public static Vector2 GetRandomStartPosition()
