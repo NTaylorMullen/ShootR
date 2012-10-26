@@ -84,6 +84,7 @@ $(function () {
         game.ShipManager.MyShip.PayloadReceived(info);
 
         game.ShipManager.UpdateShips(info.Ships);
+        game.PowerupManager.UpdatePowerups(info.Powerups, game.GameTime);
 
         game.ShipManager.MyShip.ReplayCommands(info.LastCommandProcessed);
 

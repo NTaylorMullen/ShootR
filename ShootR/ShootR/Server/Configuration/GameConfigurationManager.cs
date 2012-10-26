@@ -10,6 +10,7 @@
             mapConfig = new MapConfiguration();
             screenConfig = new ScreenConfiguration();
             leaderboardConfig = new LeaderboardConfiguration();
+            healthPackConfig = new HealthPackConfiguration();
         }
 
         // Bullet Configurations
@@ -29,5 +30,9 @@
 
         // Leaderboard Configurations
         public LeaderboardConfiguration leaderboardConfig { get; set; }
+
+        // Powerup Configurations
+        // HealthPack Configurations
+        public HealthPackConfiguration healthPackConfig { get; set; }
     }
 }

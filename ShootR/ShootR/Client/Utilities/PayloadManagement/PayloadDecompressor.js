@@ -3,7 +3,8 @@
         PayloadContract,
         CollidableContract,
         ShipContract,
-        BulletContract;
+        BulletContract,
+        PowerupContract;
 
     that.LoadContracts = function (contracts) {
         PayloadContract = contracts.PayloadContract;
@@ -11,6 +12,7 @@
         ShipContract = contracts.ShipContract;
         BulletContract = contracts.BulletContract;
         LeaderboardEntryContract = contracts.LeaderboardEntryContract;
+        PowerupContract = contracts.PowerupContract;
     }
 
     function DecompressCollidable(obj) {
@@ -41,14 +43,14 @@
                 Health: obj[CollidableContract.Health]
             },
             ID: obj[CollidableContract.ID],
-            Disposed: !!obj[CollidableContract.Disposed]            
+            Disposed: !!obj[CollidableContract.Disposed]
         };
     }
 
     function DecompressShip(ship) {
         var result = DecompressCollidable(ship);
 
-        result.MovementController.Moving = {            
+        result.MovementController.Moving = {
             RotatingLeft: !!ship[ShipContract.RotatingLeft],
             RotatingRight: !!ship[ShipContract.RotatingRight],
             Forward: !!ship[ShipContract.Forward],
@@ -75,6 +77,7 @@
             LeaderboardPosition: data[PayloadContract.LeaderboardPosition],
             Kills: data[PayloadContract.Kills],
             Deaths: data[PayloadContract.Deaths],
+            Powerups: data[PayloadContract.Powerups],
             Bullets: data[PayloadContract.Bullets],
             ShipsInWorld: data[PayloadContract.ShipsInWorld],
             BulletsInWorld: data[PayloadContract.BulletsInWorld],
@@ -99,7 +102,25 @@
             DamageDealt: data[LeaderboardEntryContract.DamageDealt],
             DamageTaken: data[LeaderboardEntryContract.DamageTaken],
             KillDeathRatio: data[LeaderboardEntryContract.KillDeathRatio]*/
-            
+
+        };
+    }
+
+    function DecompressPowerup(data) {
+        return {
+            MovementController: {
+                Position: {
+                    X: data[PowerupContract.PositionX],
+                    Y: data[PowerupContract.PositionY]
+                },
+                Rotation: 0
+            },
+            ID: data[PowerupContract.ID],
+            Disposed: data[PowerupContract.Disposed],
+            Type: data[PowerupContract.Type],
+            LifeController: {
+                Alive: true
+            }
         };
     }
 
@@ -107,6 +128,7 @@
         var payload = DecompressPayload(data),
             shipCount = payload.Ships.length,
             bulletCount = payload.Bullets.length,
+            powerupCount = payload.Powerups.length,
             i = 0;
 
         for (i = 0; i < shipCount; i++) {
@@ -115,6 +137,10 @@
 
         for (i = 0; i < bulletCount; i++) {
             payload.Bullets[i] = DecompressBullet(payload.Bullets[i]);
+        }
+
+        for (i = 0; i < powerupCount; i++) {
+            payload.Powerups[i] = DecompressPowerup(payload.Powerups[i]);
         }
 
         return payload;

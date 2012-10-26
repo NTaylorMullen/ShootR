@@ -13,7 +13,8 @@
         public short LastCommandProcessed = 8;
         public short Kills = 9;
         public short Deaths = 10;
-        public short KilledByName = 11;
-        public short KilledByPhoto = 12;
+        public short Powerups = 11;
+        public short KilledByName = 12;
+        public short KilledByPhoto = 13;        
     }
 }

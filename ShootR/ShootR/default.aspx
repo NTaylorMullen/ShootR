@@ -204,6 +204,7 @@
         <script src="Scripts/jquery.animate-colors-min.js" type="text/javascript"></script>
         <script src="signalr/hubs" type="text/javascript"></script>
 
+
         <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
         <script src="Client/Space/Screen.js" type="text/javascript"></script>
         <script src="Client/GameGlobals.js" type="text/javascript"></script>
@@ -221,6 +222,9 @@
         <script src="Client/Utilities/ImageAssets.js" type="text/javascript"></script>
         <script src="Client/Utilities/GameTime.js" type="text/javascript"></script>
         <script src="Client/Utilities/Collidable.js" type="text/javascript"></script>
+        <script src="Client/Powerups/Powerup.js" type="text/javascript"></script>
+        <script src="Client/Powerups/HealthPack.js" type="text/javascript"></script>        
+        <script src="Client/Powerups/PowerupManager.js" type="text/javascript"></script>
         <script src="Client/Bullet/Bullet.js" type="text/javascript"></script>
         <script src="Client/Bullet/BulletManager.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipManager.js" type="text/javascript"></script>

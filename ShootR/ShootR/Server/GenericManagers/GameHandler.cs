@@ -4,6 +4,7 @@ namespace ShootR
     public class GameHandler
     {
         private ShipManager _shipManager;
+        private PowerupManager _powerupManager;
         private CollisionManager _collisionManager;
         private Map _space;
 
@@ -12,6 +13,7 @@ namespace ShootR
             BulletManager = new BulletManager();
             _collisionManager = new CollisionManager(space);
             _shipManager = new ShipManager(this);
+            _powerupManager = new PowerupManager();
 
             _space = space;
         }
@@ -41,14 +43,21 @@ namespace ShootR
             _space.Insert(bullet);
         }
 
+        public void AddPowerupToGame(Powerup powerup)
+        {
+            _powerupManager.Add(powerup);
+            _space.Insert(powerup);
+        }
+
         public int ShipCount()
         {
             return _shipManager.Ships.Count;
         }
 
         public void Update(GameTime gameTime)
-        {            
+        {
             _shipManager.Update(gameTime);
+            _powerupManager.Update(gameTime);
             BulletManager.Update(gameTime);
 
             _collisionManager.Update(gameTime);

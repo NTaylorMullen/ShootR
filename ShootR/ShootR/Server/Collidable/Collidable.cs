@@ -166,7 +166,7 @@ namespace ShootR
         #endregion
 
 
-        public void Update()
+        public virtual void Update()
         {
             LastUpdated = DateTime.UtcNow;
             UpdateBounds();

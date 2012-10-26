@@ -9,10 +9,12 @@ namespace ShootR
         {
             Ships = new List<object>();
             Bullets = new List<object>();
+            Powerups = new List<object>();
         }
 
         public List<object> Ships { get; set; }        
         public List<object> Bullets { get; set; }
+        public List<object> Powerups { get; set; }
         public int ShipsInWorld { get; set; }
         public int BulletsInWorld { get; set; }
 

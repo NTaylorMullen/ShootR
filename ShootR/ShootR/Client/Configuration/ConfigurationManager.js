@@ -13,6 +13,7 @@
     $.extend(Map.prototype, config.mapConfig);
     $.extend(Screen.prototype, config.screenConfig);
     $.extend(Game.prototype, config.gameConfig);
+    $.extend(HealthPack.prototype, config.healthPackConfig);
     
     DeathScreen.prototype.RESPAWN_TIMER = config.gameConfig.RESPAWN_TIMER;
 

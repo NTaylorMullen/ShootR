@@ -6,6 +6,7 @@
         thrustBasicAnimation,
         canvasWidthBuffer = 52; // thruster animation frame width *2 (to keep canvas centered)
 
+    that.InitializeAnimationCanvas();
     that.UpdateAnimationCanvasSize({ Width: that.WIDTH + canvasWidthBuffer, Height: that.HEIGHT });
 
     thrustBasicAnimation = new spritify({

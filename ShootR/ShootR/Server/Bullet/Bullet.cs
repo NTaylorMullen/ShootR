@@ -18,12 +18,12 @@ namespace ShootR
         private DateTime _spawnedAt;
         private int _damage;
 
-        private static int _bulletGUID = -1;
+        private static int _bulletGUID = 0;
 
         public Bullet(Vector2 position, Vector2 direction, Ship firedBy, double damageModifier)
             : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, firedBy.MovementController.Rotation), new LifeController(LIFE))
         {
-            ID = Interlocked.Decrement(ref _bulletGUID);// Reverse bullet GUID's to go below 0
+            ID = Interlocked.Increment(ref _bulletGUID);// Reverse bullet GUID's to go below 0
             _spawnedAt = DateTime.UtcNow;
             FiredBy = firedBy;
             _damage = Convert.ToInt32(BASE_DAMAGE * damageModifier);

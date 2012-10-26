@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 namespace ShootR
 {
     public class ShipManager
-    {        
+    {
         private RespawnManager _respawnManager;
+        private GameHandler _gameHandler;
 
         public ShipManager(GameHandler gameHandler)
         {
             Ships = new ConcurrentDictionary<string, Ship>();
-            _respawnManager = new RespawnManager(gameHandler);
+            _gameHandler = gameHandler;
+            _respawnManager = new RespawnManager(_gameHandler);
         }
 
         public ConcurrentDictionary<string, Ship> Ships { get; set; }
@@ -27,7 +29,7 @@ namespace ShootR
             if (!s.RespawnEnabled)
             {
                 s.RespawnEnabled = true;
-                s.OnDeath += new DeathEventHandler(_respawnManager.StartRespawnCountdown);                
+                s.OnDeath += new DeathEventHandler(_respawnManager.StartRespawnCountdown);
             }
             Ships.TryAdd(s.Host.ConnectionID, s);
         }
@@ -45,7 +47,7 @@ namespace ShootR
         public void Update(GameTime gameTime)
         {
             _respawnManager.Update();
-            
+
             List<string> keysToRemove = new List<string>(Ships.Count);
             Parallel.ForEach(Ships, currentShip =>
             {
@@ -57,7 +59,7 @@ namespace ShootR
                 {
                     keysToRemove.Add(currentShip.Key);
                 }
-                
+
             });
 
             for (int i = keysToRemove.Count - 1; i >= 0; i--)

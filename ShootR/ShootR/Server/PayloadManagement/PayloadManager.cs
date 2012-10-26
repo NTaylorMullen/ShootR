@@ -51,6 +51,15 @@ namespace ShootR
                             {
                                 payload.Ships.Add(Compressor.Compress(((Ship)obj)));
                             }
+                            else if (obj is Powerup)
+                            {
+                                _payloadCache.Cache(connectionID, obj);
+
+                                if (obj.Altered() || !_payloadCache.ExistedLastPayload(connectionID, obj))
+                                {
+                                    payload.Powerups.Add(Compressor.Compress(((Powerup)obj)));
+                                }
+                            }
                         }
                     }
                     else // User is Idle, push down "MyShip"

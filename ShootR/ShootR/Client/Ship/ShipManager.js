@@ -32,6 +32,8 @@
             var shipImage = Math.min(currentShip.Level,10);
 
             currentShip.Vehicle = IMAGE_ASSETS["Ship" + shipImage];
+            // Create a GUID on the ship object.  This allows the camera to follow a GUID based object
+            currentShip.GUID = currentShip.ID;
 
             that.Ships[id].UpdateProperties(currentShip);
 

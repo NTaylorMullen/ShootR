@@ -3,10 +3,12 @@
         lastUpdated = new Date();
 
     that.PercentOfSecond = 0;
+    that.Now = new Date();
 
     that.Update = function () {
         that.PercentOfSecond = CalculatePOS(lastUpdated);
 
-        lastUpdated = new Date();
+        that.Now = new Date();
+        lastUpdated = that.Now;
     }
 }

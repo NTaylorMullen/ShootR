@@ -13,6 +13,11 @@ namespace ShootR
 
         private double _startLife = 0;
 
+        public LifeController()
+            : this(1)
+        {            
+        }
+
         public LifeController(double life)
         {
             _startLife = life;

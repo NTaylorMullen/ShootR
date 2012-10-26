@@ -9,8 +9,13 @@
     that.LastUpdated = new Date();
     that.Vehicle;
     that.FollowID;
-    that.AnimationCanvas = document.createElement("canvas");
-    that.AnimationCanvasContext = that.AnimationCanvas.getContext("2d");
+    that.AnimationCanvas;
+    that.AnimationCanvasContext;
+
+    that.InitializeAnimationCanvas = function() {
+        that.AnimationCanvas = document.createElement("canvas");
+        that.AnimationCanvasContext = that.AnimationCanvas.getContext("2d");
+    }
 
     that.UpdateProperties = function (properties) {
         for (var key in properties) {
@@ -27,14 +32,18 @@
 
     that.Draw = function () {
         if (that.LifeController.Alive && that.Visible) {
-            CanvasContext.drawRotatedImage.apply(that, [that.Vehicle, that.MovementController.Rotation, that.MovementController.Position.X, that.MovementController.Position.Y]);
-
-            // Draw animations onto animation canvas
-            for (var i = that.AnimationDrawList.length - 1; i >= 0; i--) {
-                that.AnimationDrawList[i].Draw();
+            if (that.Vehicle) {
+                CanvasContext.drawRotatedImage.apply(that, [that.Vehicle, that.MovementController.Rotation, that.MovementController.Position.X, that.MovementController.Position.Y]);
             }
 
-            CanvasContext.drawRotatedImage.apply(that, [that.AnimationCanvas, that.MovementController.Rotation, that.MovementController.Position.X + animationCanvasOffset.X, that.MovementController.Position.Y + animationCanvasOffset.Y]);
+            if (that.AnimationCanvas) {
+                // Draw animations onto animation canvas
+                for (var i = that.AnimationDrawList.length - 1; i >= 0; i--) {
+                    that.AnimationDrawList[i].Draw();
+                }
+
+                CanvasContext.drawRotatedImage.apply(that, [that.AnimationCanvas, that.MovementController.Rotation, that.MovementController.Position.X + animationCanvasOffset.X, that.MovementController.Position.Y + animationCanvasOffset.Y]);
+            }
         }
     }
 }

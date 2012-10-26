@@ -25,7 +25,14 @@
             }
             else {
                 if (!whiteHeartVisible) {
+                    whiteHeartVisible = true;
                     whiteHeartIndicator.fadeIn(healthAnimateSpeed);
+                }
+                else {
+                    var healthIncrease = (MyShip.LifeController.Health - lastHealth);
+                    if(healthIncrease >= 0) {
+                        GAME_GLOBALS.AnimationManager.Add(new TextAnimation("+" + healthIncrease, MyShip.MovementController.Position.X + .5* MyShip.WIDTH, MyShip.MovementController.Position.Y - 1.5 * MyShip.HEIGHT, { duration: 2000, color: [122, 201, 67], fontSize: "36px verdana" }));
+                    }
                 }
             }
 

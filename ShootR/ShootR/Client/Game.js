@@ -6,12 +6,13 @@
 
 function Game(connection, latencyResolver, myShipID) {
     var that = this,
-        gameTime = new GameTime(),
         map = new Map();
 
+    that.GameTime = new GameTime();
     that.BulletManager = new BulletManager();
-    that.ShipManager = new ShipManager(myShipID, gameTime);
+    that.ShipManager = new ShipManager(myShipID, that.GameTime);
     that.ShipManager.InitializeMyShip(that.BulletManager, connection);
+    that.PowerupManager = new PowerupManager();
 
     var myShip = that.ShipManager.MyShip;
 
@@ -20,18 +21,20 @@ function Game(connection, latencyResolver, myShipID) {
     that.HUDManager = new HUDManager(myShip, connection);
 
     that.Update = function (payload) {
-        gameTime.Update();
+        that.GameTime.Update();
         CanvasContext.clear();
 
         map.CheckBoundaryCollisions(that.ShipManager.Ships, that.BulletManager.Bullets);
 
         // Move the ships on the client
-        that.ShipManager.Update(gameTime);
+        that.ShipManager.Update(that.GameTime);
+
+        that.PowerupManager.Update(that.GameTime);
 
         // Move the bullets on the client
-        that.BulletManager.Update(gameTime);
+        that.BulletManager.Update(that.GameTime);
 
-        GAME_GLOBALS.AnimationManager.Update(gameTime);        
+        GAME_GLOBALS.AnimationManager.Update(that.GameTime);
 
         map.Draw();
         that.ShipManager.MyShip.DrawHUD();

@@ -9,6 +9,7 @@ namespace ShootR
         public ShipCompressionContract ShipCompressionContract = new ShipCompressionContract();
         public BulletCompressionContract BulletCompressionContract = new BulletCompressionContract();
         public LeaderboardEntryCompressionContract LeaderboardEntryCompressionContract = new LeaderboardEntryCompressionContract();
+        public PowerupCompressionContract PowerupCompressionContract = new PowerupCompressionContract();
 
         private void SetCollidableContractMembers(object[] result, Collidable obj)
         {
@@ -57,21 +58,35 @@ namespace ShootR
             return result;
         }
 
+        public object[] Compress(Powerup powerup)
+        {
+            object[] result = new object[5];
+
+            result[PowerupCompressionContract.PositionX] = Convert.ToInt32(powerup.MovementController.Position.X);
+            result[PowerupCompressionContract.PositionY] = Convert.ToInt32(powerup.MovementController.Position.Y);
+            result[PowerupCompressionContract.ID] = powerup.ID;
+            result[PowerupCompressionContract.Disposed] = Convert.ToInt32(powerup.Disposed);
+            result[PowerupCompressionContract.Type] = powerup.Type;
+
+            return result;
+        }
+
         public object[] Compress(Payload payload)
         {
             object[] result;
             if (payload.KilledByName != null)
             {
-                result = new object[13];
+                result = new object[14];
                 result[PayloadCompressionContract.KilledByName] = payload.KilledByName;
                 result[PayloadCompressionContract.KilledByPhoto] = payload.KilledByPhoto;
             }
             else
             {
-                result = new object[11];
+                result = new object[12];
             }
             result[PayloadCompressionContract.Ships] = payload.Ships;
             result[PayloadCompressionContract.LeaderboardPosition] = payload.LeaderboardPosition;
+            result[PayloadCompressionContract.Powerups] = payload.Powerups;
             result[PayloadCompressionContract.Kills] = payload.Kills;
             result[PayloadCompressionContract.Deaths] = payload.Deaths;
             result[PayloadCompressionContract.Bullets] = payload.Bullets;

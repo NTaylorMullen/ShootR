@@ -11,7 +11,7 @@ namespace ShootR
 {
     public class Game
     {
-        public const int AIShipsToSpawn = 10;
+        public const int AIShipsToSpawn = 0;
         public const int SpawnsPerInterval = 1;
         private int _spawned = 0;
         private DateTime _lastSpawn = DateTime.UtcNow;
@@ -172,7 +172,8 @@ namespace ShootR
                             CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
                             ShipContract = _payloadManager.Compressor.ShipCompressionContract,
                             BulletContract = _payloadManager.Compressor.BulletCompressionContract,
-                            LeaderboardEntryContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract
+                            LeaderboardEntryContract = _payloadManager.Compressor.LeaderboardEntryCompressionContract,
+                            PowerupContract = _payloadManager.Compressor.PowerupCompressionContract
                         },
                         ShipID = UserHandler.GetUserShip(connectionId).ID,
                         ShipName = UserHandler.GetUserShip(connectionId).Name
