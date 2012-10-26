@@ -66,6 +66,11 @@ $(window).load(function () {
         alert(msg);        
     }
 
+    env.client.disconnect = function () {
+        $.connection.hub.stop();
+        alert("You have been disconnected for being Idle for too long.");        
+    }
+
     if (registrationID) {
         delete state.RegistrationID;
 

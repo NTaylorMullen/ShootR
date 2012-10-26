@@ -22,7 +22,7 @@ namespace ShootR
 
             Parallel.ForEach(userList, user =>
             {
-                if (user.ReadyForPayloads)
+                if (user.ReadyForPayloads && user.Connected)
                 {
                     Vector2 screenOffset = new Vector2((user.Viewport.Width / 2) + Ship.WIDTH / 2, (user.Viewport.Height / 2) + Ship.HEIGHT / 2);
                     string connectionID = user.ConnectionID;
@@ -76,7 +76,10 @@ namespace ShootR
                         payload.KilledByPhoto = user.MyShip.LastKilledBy.Host.RegistrationTicket.Photo;
                     }
 
-                    payloads.TryAdd(connectionID, Compressor.Compress(payload));
+                    if (user.Connected)
+                    {
+                        payloads.TryAdd(connectionID, Compressor.Compress(payload));
+                    }
                 }
             });            
 

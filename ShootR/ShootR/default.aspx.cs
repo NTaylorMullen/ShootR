@@ -24,6 +24,8 @@ namespace ShootR
                 string decoded = HttpUtility.UrlDecode(state.Value);
                 var rc = JsonConvert.DeserializeObject<RegisteredClient>(decoded);
 
+                rc.DisplayName = System.Net.WebUtility.HtmlEncode(rc.DisplayName);
+
                 // Need to setup registration
                 if (rc.RegistrationID == null)
                 {

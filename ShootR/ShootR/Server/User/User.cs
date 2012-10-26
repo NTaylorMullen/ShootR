@@ -28,6 +28,7 @@ namespace ShootR
             RemoteControllers = new List<User>();
             NotificationManager = new NotificationManager();
             IdleManager = new IdleManager(ship, NotificationManager);
+            Connected = true;
 
             if (ship != null)
             {
@@ -35,6 +36,7 @@ namespace ShootR
             }
         }
 
+        public bool Connected { get; set; }
         public RegisteredClient RegistrationTicket { get; set; }
         public List<User> RemoteControllers { get; set; }
         public NotificationManager NotificationManager { get; private set; }

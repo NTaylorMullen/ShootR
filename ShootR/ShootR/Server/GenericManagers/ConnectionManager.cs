@@ -48,6 +48,7 @@ namespace ShootR
                         if (!user.Controller)
                         {
                             user.MyShip.Dispose();
+                            user.Connected = false;
                         }
                         else
                         {
@@ -58,9 +59,9 @@ namespace ShootR
                                 user.MyShip.Host.NotificationManager.Notify("Detached controller.");
                                 user.MyShip = null;
                             }
-                        }
 
-                        _userHandler.RemoveUser(connectionId);
+                            _userHandler.RemoveUser(connectionId);
+                        }
 
                         // Leave the leaderboard group just in case user was in it
                         IHubContext context = Game.GetContext();
@@ -74,7 +75,6 @@ namespace ShootR
                         }
 
                         user.RemoteControllers.Clear();
-
                     }
                 }
                 catch (Exception e)

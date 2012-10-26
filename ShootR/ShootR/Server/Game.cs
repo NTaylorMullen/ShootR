@@ -11,14 +11,14 @@ namespace ShootR
 {
     public class Game
     {
-        public const int AIShipsToSpawn = 5;
+        public const int AIShipsToSpawn = 0;
         public const int SpawnsPerInterval = 1;
         private int _spawned = 0;
         private DateTime _lastSpawn = DateTime.UtcNow;
 
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
         private Timer _leaderboardLoop;
-        private HighFrequencyTimer _gameLoop;        
+        private HighFrequencyTimer _gameLoop;
         private GameTime _gameTime;
         private Map _space;
         private PayloadManager _payloadManager;
@@ -34,7 +34,7 @@ namespace ShootR
         {
             Configuration = new GameConfigurationManager();
             DRAW_AFTER = TimeSpan.FromMilliseconds(Configuration.gameConfig.DRAW_INTERVAL);
-            _gameLoop = new HighFrequencyTimer(1000/Configuration.gameConfig.UPDATE_INTERVAL, id => Update(id));
+            _gameLoop = new HighFrequencyTimer(1000 / Configuration.gameConfig.UPDATE_INTERVAL, id => Update(id));
             _leaderboardLoop = new Timer(UpdateLeaderboard, null, Configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, Configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
 
             _gameTime = new GameTime();
@@ -56,10 +56,10 @@ namespace ShootR
         public UserHandler UserHandler { get; private set; }
         public ConnectionManager ConnectionManager { get; private set; }
         public Leaderboard Leaderboard { get; private set; }
-        public GameHandler GameHandler { get; set; }       
+        public GameHandler GameHandler { get; set; }
 
         private long Update(long id)
-        {         
+        {
             DateTime utcNow = DateTime.UtcNow;
 
             try
@@ -96,10 +96,10 @@ namespace ShootR
             for (int i = 0; i < number; i++)
             {
                 string connectionidAI = Guid.NewGuid().ToString();
-                ShipAI shipAI = new ShipAI(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);                
+                ShipAI shipAI = new ShipAI(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
                 UserAI userAI = new UserAI(connectionidAI, shipAI) { Controller = false };
                 UserHandler.AddUser(userAI);
-                GameHandler.AddShipToGame(shipAI);                
+                GameHandler.AddShipToGame(shipAI);
             }
         }
 
@@ -125,7 +125,7 @@ namespace ShootR
             try
             {
                 List<object> leaderboardEntries = _payloadManager.GetLeaderboardPayloads(Leaderboard.GetAndUpdateLeaderboard());
-                
+
                 PushLeaderboard(leaderboardEntries);
             }
             catch (Exception e)
@@ -156,11 +156,34 @@ namespace ShootR
                 {
                     lock (_locker)
                     {
-                        Ship ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
-                        User user = new User(connectionId, ship, rc) { Controller = false };
-                        UserHandler.AddUser(user);
+                        User user = UserHandler.FindUserByIdentity(rc.Identity);
+                        Ship ship;
+
+                        if (user == null)
+                        {
+                            ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
+                            ship.Name = rc.DisplayName;
+                            user = new User(connectionId, ship, rc) { Controller = false };
+                            UserHandler.AddUser(user);
+                        }
+                        else
+                        {
+                            string previousConnectionID = user.ConnectionID;
+                            UserHandler.ReassignUser(connectionId, user);
+
+                            if (user.Connected) // Check if it's a duplicate login
+                            {
+                                GetContext().Client(previousConnectionID).controlTransferred();
+                                user.NotificationManager.Notify("Transfering control to this browser.  You were already logged in.");
+                            }
+                            
+                            ship = user.MyShip;
+                            user.Connected = true;
+                            ship.Disposed = false;
+                            ship.LifeController.HealFull();
+                        }
+
                         GameHandler.AddShipToGame(ship);
-                        ship.Name = rc.DisplayName;
                     }
 
                     return new

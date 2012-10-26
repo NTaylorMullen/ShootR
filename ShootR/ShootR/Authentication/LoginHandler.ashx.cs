@@ -69,7 +69,7 @@ namespace ShootR
                 }
 
                 string identity = j.profile.identifier.ToString(),
-                    displayName = j.profile.displayName.ToString(),
+                    displayName = System.Net.WebUtility.HtmlEncode(j.profile.displayName.ToString()),
                     photo = "";
 
                 if (j.profile.photo != null)

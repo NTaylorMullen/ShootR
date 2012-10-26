@@ -36,11 +36,36 @@ namespace ShootR
             }
         }
 
+        public void ReassignUser(string connectionId, User user)
+        {
+            _userList.TryRemove(user.ConnectionID, out user);
+            user.ConnectionID = connectionId;
+            _userList.TryAdd(connectionId, user);
+        }
+
+        public void DisconnectUser(User user)
+        {
+            RemoveUser(user.ConnectionID);
+            foreach (User u in user.RemoteControllers)
+            {
+                DisconnectUser(u);
+            }
+
+            if (user.Connected)
+            {
+                Game.GetContext().Client(user.ConnectionID).disconnect();
+            }
+
+            user.Connected = false;
+        }
+
         public void AddUser(User user)
         {
             _userList.TryAdd(user.ConnectionID, user);
             user.IdleManager.OnIdle += _gameHandler.RemoveShipFromGame;
+            user.IdleManager.OnIdleTimeout += DisconnectUser;
             user.IdleManager.OnComeBack += _gameHandler.AddShipToGame;
+
             if (!user.Controller)
             {
                 user.MyShip.OnFire += _gameHandler.AddBulletToGame;

@@ -10,6 +10,7 @@ $(function () {
         payloadDecompressor = new PayloadDecompressor(),
         latencyResolver = new LatencyResolver(env),
         screen = new Screen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env),
+        notification = $("#Notification"),
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] };
 
@@ -58,6 +59,17 @@ $(function () {
         })();
     }
 
+    function Notify(msg, stayUp) {
+        notification.html(msg);
+        notification.css({ top: '50%', left: '50%', margin: '-' + (notification.height() / 2) + 'px 0 0 -' + (notification.width() / 2) + 'px' });
+        if (!stayUp) {
+            notification.fadeIn(1000).fadeOut(4000);
+        }
+        else {
+            notification.fadeIn(1000);
+        }
+    }
+
     function LoadMapInfo(info) {
         var myShip = game.ShipManager.MyShip;
 
@@ -67,9 +79,7 @@ $(function () {
         gameInfoReceived = true;
 
         if (info.Notification) {
-            $("#Notification").html(info.Notification);
-            $('#Notification').css({ top: '50%', left: '50%', margin: '-' + ($('#Notification').height() / 2) + 'px 0 0 -' + ($('#Notification').width() / 2) + 'px' });
-            $("#Notification").fadeIn(1000).fadeOut(4000);
+            Notify(info.Notification);
         }
 
         if (info.KilledByName) {
@@ -108,6 +118,17 @@ $(function () {
 
     env.client.notify = function (msg) {
         alert(msg);
+    }
+
+    env.client.disconnect = function () {
+        Notify("You have been disconnected for being Idle too long.  Refresh the page to play again.", true);
+        
+        $.connection.hub.stop();
+    }
+
+    env.client.controlTransferred = function () {
+        Notify("You have been disconnected!  The control for your ship has been transferred to your other login.");
+        $.connection.hub.stop();
     }
 
     env.client.pingBack = latencyResolver.ServerPingBack;    
