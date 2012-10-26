@@ -14,7 +14,8 @@
             ["YOU MISSED!", "YOU MAY NEED GLASSES"],
             ["YOU'RE GOOD...", "BUT I'M BETTER."],
             ["TOO SLOW...", "MY GRAMAH DRIVES FASTER THAN THAT!"],
-            ["TOASTERS...", "BLAME THE TOASTERS!"]
+            ["TOASTERS...", "BLAME THE TOASTERS!"],
+            ["=(",""]
         ];
 
     var gameCanvas = $("#game"),
