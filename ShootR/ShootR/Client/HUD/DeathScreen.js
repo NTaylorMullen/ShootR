@@ -1,4 +1,4 @@
-﻿function DeathScreen(leaderboard) {
+﻿function DeathScreen(leaderboard, MyShip) {
     var that = this,
         randomQuotes = [
             ["HAS LEFT A DENT IN YOUR EGO.", "(HOPE NOBODY SAW THAT)"],
@@ -30,6 +30,8 @@
 
     that.YouDied = function (by, byPhoto) {
         var quote = Math.floor(Math.random() * randomQuotes.length);
+
+        MyShip.ResetTouchController();
 
         topLineQuote.html(randomQuotes[quote][0]);
         botLineQuote.html(randomQuotes[quote][1]);

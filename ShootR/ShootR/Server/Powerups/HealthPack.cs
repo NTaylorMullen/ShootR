@@ -23,7 +23,7 @@ namespace ShootR
         private DateTime _dieAfter;
 
         public HealthPack(Vector2 position, int shipLevel)
-            : base(WIDTH, HEIGHT, new StationaryMovementController(position), new LifeController(), POWERUP_TYPE)
+            : base(WIDTH, HEIGHT, new StationaryMovementController(position), new LifeController(), new HarmlessDamageController(), POWERUP_TYPE)
         {
             _healAmount = Convert.ToInt32(BASE_HEAL_AMOUNT + (shipLevel-1) * BASE_HEAL_AMOUNT * HEAL_INCREASE_PER_LEVEL);
             _dieAfter = DateTime.UtcNow + LIFE_SPAN;

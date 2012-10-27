@@ -9,10 +9,10 @@ namespace ShootR
         public const double MASS = 800;
 
         public BulletMovementController(Vector2 position, Vector2 direction, double rotation)
-            : base(MASS)
+            : base(MASS, MAX_SPEED)
         {
             Position = position;
-            Velocity = direction * MAX_SPEED;
+            Velocity = direction * Power;
             Rotation = rotation;
         }
 

@@ -13,8 +13,10 @@ namespace ShootR
         public const double DRAG_COEFFICIENT = .2;
         public const double DRAG_AREA = 5;
 
+        private Vector2 _acceleration = Vector2.Zero;
+
         public ShipMovementController(Vector2 position) :
-            base(MASS)
+            base(MASS, ENGINE_POWER)
         {
             Position = position;
             Moving = new MovementFlags();
@@ -28,6 +30,26 @@ namespace ShootR
         /// <param name="percentOfSecond">How much time, percentage wise, has passed since the last Update.</param>
         public override void Move(double percentOfSecond)
         {
+            double velocityLength;
+            _acceleration += Forces / Mass;
+
+            Position += Velocity * percentOfSecond + _acceleration * percentOfSecond * percentOfSecond;
+            Velocity += _acceleration * percentOfSecond;
+            velocityLength = Velocity.Length();
+
+            // Stop moving if the "speed" is less than 10
+            if (velocityLength < 10)
+            {
+                Velocity = Vector2.Zero;
+            }
+            else if (velocityLength > 3000) // Hack
+            {
+                Velocity = new Vector2(Rotation) * 600;
+            }
+
+            _acceleration = new Vector2();
+            Forces = new Vector2();
+
             double rotationIncrementor = percentOfSecond * ROTATE_SPEED;
             Vector2 direction = new Vector2(Rotation),
                     dragForce = .5 * Velocity * Velocity.Abs() * DRAG_COEFFICIENT * DRAG_AREA * -1;
@@ -42,11 +64,11 @@ namespace ShootR
             }
             if (Moving.Forward)
             {
-                ApplyForce(direction * ENGINE_POWER);
+                ApplyForce(direction * Power);
             }
             if (Moving.Backward)
             {
-                ApplyForce(direction * ENGINE_POWER * -1);
+                ApplyForce(direction * Power * -1);
             }
 
             ApplyForce(dragForce);
@@ -71,15 +93,15 @@ namespace ShootR
             {
                 Moving.RotatingLeft = flag;
             }
-            if (where == Movement.RotatingRight)
+            else if (where == Movement.RotatingRight)
             {
                 Moving.RotatingRight = flag;
             }
-            if (where == Movement.Forward)
+            else if (where == Movement.Forward)
             {
                 Moving.Forward = flag;
             }
-            if (where == Movement.Backward)
+            else if (where == Movement.Backward)
             {
                 Moving.Backward = flag;
             }

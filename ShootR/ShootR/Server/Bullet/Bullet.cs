@@ -16,17 +16,16 @@ namespace ShootR
         public static readonly TimeSpan DIE_AFTER = TimeSpan.FromSeconds(2);
 
         private DateTime _spawnedAt;
-        private int _damage;
 
         private static int _bulletGUID = 0;
 
         public Bullet(Vector2 position, Vector2 direction, Ship firedBy, double damageModifier)
-            : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, firedBy.MovementController.Rotation), new LifeController(LIFE))
+            : base(WIDTH, HEIGHT, new BulletMovementController(position, direction, firedBy.MovementController.Rotation), new LifeController(LIFE), new DamageController(BASE_DAMAGE))
         {
             ID = Interlocked.Increment(ref _bulletGUID);// Reverse bullet GUID's to go below 0
             _spawnedAt = DateTime.UtcNow;
             FiredBy = firedBy;
-            _damage = Convert.ToInt32(BASE_DAMAGE * damageModifier);
+            DamageController.MultiplyDamage(damageModifier);
             
         }
 
@@ -58,7 +57,7 @@ namespace ShootR
         public override void HandleCollisionWith(Collidable c, Map space)
         {
             base.HandleCollisionWith(c, space);
-            DamageDealt = _damage;
+            DamageDealt = DamageController.Damage;
             c.LifeController.Hurt(DamageDealt, this);
 
             if(c is Ship)

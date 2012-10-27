@@ -255,4 +255,10 @@
             touchController.Draw();
         }
     }
+
+    that.ResetTouchController = function () {
+        if (touchController) {
+            touchController.Reset();
+        }
+    }
 }

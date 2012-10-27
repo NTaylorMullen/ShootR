@@ -20,7 +20,7 @@ namespace ShootR
         private static int _shipGUID = 0;
 
         public Ship(Vector2 position, BulletManager bm)
-            : base(WIDTH, HEIGHT, new ShipMovementController(position), new ShipLifeController(START_LIFE))
+            : base(WIDTH, HEIGHT, new ShipMovementController(position), new ShipLifeController(START_LIFE), new HarmlessDamageController())
         {
             ID = Interlocked.Increment(ref _shipGUID);
             Name = "Ship" + ID;

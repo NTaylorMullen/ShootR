@@ -16,7 +16,7 @@ namespace ShootR
 
         protected static bool _altered = true;
 
-        public Collidable(int w, int h, MovementController mc, LifeController lc)
+        public Collidable(int w, int h, MovementController mc, LifeController lc, DamageController dc)
         {
             ID = -1;
             _width = w;
@@ -25,12 +25,14 @@ namespace ShootR
             _bounds = new Rectangle(Convert.ToInt32(mc.Position.X), Convert.ToInt32(mc.Position.Y), _width, _height);
             MovementController = mc;
             LifeController = lc;
+            DamageController = dc;
 
             _serverID = Interlocked.Increment(ref _itemCount);
         }
 
         public MovementController MovementController { get; set; }
         public LifeController LifeController { get; set; }
+        public DamageController DamageController { get; set; }
         public bool Disposed { get; set; }
         public int ID { get; set; }
         public bool Collided { get; set; }

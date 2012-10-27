@@ -8,7 +8,7 @@
     that.ExperienceMonitor = new ExperienceMonitor(gameHUD, MyShip);
     that.MyRankings = new MyRankings();
     that.Leaderboard = new Leaderboard(gameHUD, MyShip, connection);
-    that.DeathScreen = new DeathScreen(that.Leaderboard);    
+    that.DeathScreen = new DeathScreen(that.Leaderboard, MyShip);    
     that.ShipStatMonitor = new ShipStatMonitor(MyShip);
     that.EnvironmentMonitor = new EnvironmentMonitor(MyShip);
 

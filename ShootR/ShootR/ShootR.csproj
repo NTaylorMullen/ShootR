@@ -222,6 +222,8 @@
     <Compile Include="Server\Bullet\Bullet.cs" />
     <Compile Include="Server\Bullet\BulletManager.cs" />
     <Compile Include="Server\Bullet\BulletMovementController.cs" />
+    <Compile Include="Server\Collidable\DamageControllers\DamageController.cs" />
+    <Compile Include="Server\Collidable\DamageControllers\HarmlessDamageController.cs" />
     <Compile Include="Server\Collidable\LifeControllers\LifeController.cs" />
     <Compile Include="Server\Collidable\MovementControllers\StationaryMovementController.cs" />
     <Compile Include="Server\Configuration\HealthPackConfiguration.cs" />
@@ -246,6 +248,10 @@
     <Compile Include="Server\Powerups\PowerupManager.cs" />
     <Compile Include="Server\Registration\RegisteredClient.cs" />
     <Compile Include="Server\Registration\RegistrationHandler.cs" />
+    <Compile Include="Server\Abilities\Abstractions\Ability.cs" />
+    <Compile Include="Server\Abilities\Boost.cs" />
+    <Compile Include="Server\Abilities\Abstractions\MovementAbility.cs" />
+    <Compile Include="Server\Abilities\AbilityHandler.cs" />
     <Compile Include="Server\Ship\Levels\LevelCalculator.cs" />
     <Compile Include="Server\Ship\Levels\ShipLevelManager.cs" />
     <Compile Include="Server\Ship\ShipLifeController.cs" />

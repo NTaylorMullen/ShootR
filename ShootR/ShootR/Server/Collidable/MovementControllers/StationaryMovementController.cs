@@ -8,7 +8,7 @@ namespace ShootR
     public class StationaryMovementController : MovementController
     {
         public StationaryMovementController(Vector2 position)
-            : base(position, 0)
+            : base(position, 0, 0)
         {
         }
 

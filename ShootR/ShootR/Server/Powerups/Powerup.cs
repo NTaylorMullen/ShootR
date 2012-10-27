@@ -10,8 +10,8 @@ namespace ShootR
     {
         private static int _powerupGUID = 0;
 
-        public Powerup(int w, int h, MovementController mc, LifeController lc, short type)
-            : base(w, h, mc, lc)
+        public Powerup(int w, int h, MovementController mc, LifeController lc, DamageController dc, short type)
+            : base(w, h, mc, lc, dc)
         {
             ID = Interlocked.Increment(ref _powerupGUID);
             Type = type;
