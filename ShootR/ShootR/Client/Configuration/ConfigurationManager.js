@@ -3,6 +3,7 @@
 
     // Update the prototypes from the config
     $.extend(ShipVehicle.prototype, config.shipConfig);
+    $.extend(Ability.prototype, config.abilityConfig);
     ShipVehicle.prototype.HALF_WIDTH = ShipVehicle.prototype.WIDTH * .5;
     ShipVehicle.prototype.HALF_HEIGHT = ShipVehicle.prototype.HEIGHT * .5;
 

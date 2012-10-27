@@ -7,10 +7,11 @@ namespace ShootR
 {
     public abstract class MovementAbility : Ability
     {
-        private MovementController _movementController;
+        protected MovementController _movementController;
         private double _initialPower;
 
-        public MovementAbility(MovementController movementController)
+        public MovementAbility(string name, MovementController movementController)
+            : base(name)
         {            
             _movementController = movementController;
             _initialPower = _movementController.Power;

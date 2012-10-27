@@ -139,7 +139,9 @@
             </div>
 
             <div id="popUpHolder">
-                <div id="levelNotification"><p id="CurrentLevel_Notification"></p></div>
+                <div id="levelNotification">
+                    <p id="CurrentLevel_Notification"></p>
+                </div>
 
                 <div id="doublePopupHolder">
                     <div id="deathScreenHolder" class="goLeft">
@@ -204,36 +206,52 @@
         <script src="Scripts/jquery.animate-colors-min.js" type="text/javascript"></script>
         <script src="signalr/hubs" type="text/javascript"></script>
 
-
+        <script src="Client/Utilities/ValueRef.js" type="text/javascript"></script>
         <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
         <script src="Client/Space/Screen.js" type="text/javascript"></script>
         <script src="Client/GameGlobals.js" type="text/javascript"></script>
+
         <script src="Client/Utilities/LatencyResolver.js" type="text/javascript"></script>
         <script src="Client/Utilities/UtilityFunctions.js" type="text/javascript"></script>
+
         <script src="Client/GameController/JoyStick.js" type="text/javascript"></script>
         <script src="Client/GameController/Adapters/IETouchAdapter.js" type="text/javascript"></script>
         <script src="Client/GameController/Adapters/MouseAdapter.js" type="text/javascript"></script>
         <script src="Client/GameController/Adapters/TouchAdapter.js" type="text/javascript"></script>
         <script src="Client/GameController/TouchController.js" type="text/javascript"></script>
+
         <script src="Client/Utilities/ClientServerTime.js" type="text/javascript"></script>
+
         <script src="Client/Space/Map.js" type="text/javascript"></script>
         <script src="Client/Space/Camera.js" type="text/javascript"></script>
         <script src="Client/Space/CanvasRenderer.js" type="text/javascript"></script>
+
         <script src="Client/Utilities/ImageAssets.js" type="text/javascript"></script>
         <script src="Client/Utilities/GameTime.js" type="text/javascript"></script>
         <script src="Client/Utilities/Collidable.js" type="text/javascript"></script>
+
         <script src="Client/Powerups/Powerup.js" type="text/javascript"></script>
         <script src="Client/Powerups/HealthPack.js" type="text/javascript"></script>
         <script src="Client/Powerups/PowerupManager.js" type="text/javascript"></script>
+
         <script src="Client/Bullet/Bullet.js" type="text/javascript"></script>
         <script src="Client/Bullet/BulletManager.js" type="text/javascript"></script>
+
+        <script src="Client/Abilities/AbilityHandlers/AbilityHandler.js" type="text/javascript"></script>
+        <script src="Client/Abilities/AbilityHandlers/ShipAbilityHandler.js" type="text/javascript"></script>
+        <script src="Client/Abilities/Abstractions/Ability.js" type="text/javascript"></script>
+        <script src="Client/Abilities/Abstractions/MovementAbility.js" type="text/javascript"></script>
+        <script src="Client/Abilities/Boost.js"></script>
+
         <script src="Client/Ship/ShipManager.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipAnimationHandler.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipVehicle.js" type="text/javascript"></script>
         <script src="Client/Ship/Ship.js" type="text/javascript"></script>
+
         <script src="Client/Utilities/PayloadManagement/PayloadDecompressor.js" type="text/javascript"></script>
         <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
         <script src="Client/Game.js" type="text/javascript"></script>
+
         <script src="Client/HUD/EnvironmentMonitor.js" type="text/javascript"></script>
         <script src="Client/HUD/ShipStatMonitor.js" type="text/javascript"></script>
         <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>
@@ -244,6 +262,7 @@
         <script src="Client/HUD/GameDetailManager.js" type="text/javascript"></script>
         <script src="Client/HUD/HUDManager.js" type="text/javascript"></script>
         <script src="Client/HUD/Animation/TextAnimation.js" type="text/javascript"></script>
+
         <script src="Client/Main.js"></script>
     </asp:Panel>
     </form>

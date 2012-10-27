@@ -23,19 +23,23 @@
             var currentShip = shipList[i],
                 id = currentShip.ID;
 
-            if (!that.Ships[id]) {
-                that.Ships[id] = new ShipVehicle({ x: currentShip.MovementController.Position.X, y: currentShip.MovementController.Position.Y });
-            }
-
             currentShip.Visible = true;
-
-            var shipImage = Math.min(currentShip.Level,10);
-
+            var shipImage = Math.min(currentShip.Level, 10);
             currentShip.Vehicle = IMAGE_ASSETS["Ship" + shipImage];
             // Create a GUID on the ship object.  This allows the camera to follow a GUID based object
             currentShip.GUID = currentShip.ID;
 
-            that.Ships[id].UpdateProperties(currentShip);
+            var abilities = currentShip.Abilities;
+            delete currentShip.Abilities;
+
+            if (!that.Ships[id]) {
+                that.Ships[id] = new ShipVehicle(currentShip);
+            }
+            else {
+                that.Ships[id].UpdateProperties(currentShip);
+            }
+
+            that.Ships[id].ShipAbilityHandler.UpdateAbilities(abilities);
 
             // Check if the ship still exists
             if (that.Ships[id].Disposed) {

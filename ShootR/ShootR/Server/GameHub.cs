@@ -57,7 +57,7 @@ namespace ShootR
                 {
                     Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
-                    if (ship.LifeController.Alive)
+                    if (ship.Controllable.Value)
                     {
                         ship.WeaponController.Fire(DateTime.UtcNow);
                     }
@@ -117,16 +117,16 @@ namespace ShootR
                         Clients.Caller.pingBack();
                     }
 
-                    List<Movement> result = new List<Movement>();
-                    foreach (string where in movementList)
-                    {
-                        result.Add((Movement)Enum.Parse(typeof(Movement), where));
-                    }
-
                     Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
-                    if (ship.LifeController.Alive)
+                    if (ship.Controllable.Value)
                     {
+                        List<Movement> result = new List<Movement>();
+                        foreach (string where in movementList)
+                        {
+                            result.Add((Movement)Enum.Parse(typeof(Movement), where));
+                        }
+
                         ship.ResetMoving(result, commandID);
                     }
                 }
@@ -150,7 +150,7 @@ namespace ShootR
 
                     Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
-                    if (ship.LifeController.Alive)
+                    if (ship.Controllable.Value)
                     {
                         Movement whereToStop = (Movement)Enum.Parse(typeof(Movement), toStop);
                         Movement whereToStart = (Movement)Enum.Parse(typeof(Movement), toStart);
@@ -182,7 +182,7 @@ namespace ShootR
 
                     Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
-                    if (ship.LifeController.Alive)
+                    if (ship.Controllable.Value)
                     {
                         Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
                         ship.StartMoving(where, commandID);
@@ -208,14 +208,13 @@ namespace ShootR
                     if (pingBack)
                     {
                         Clients.Caller.pingBack();
-                    }
-
-                    Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
+                    }                    
 
                     Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
-                    if (ship.LifeController.Alive)
+                    if (ship.Controllable.Value)
                     {
+                        Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
                         ship.StopMoving(where, commandID);
                     }
                 }
@@ -223,6 +222,61 @@ namespace ShootR
                 {
                     //ErrorLog.Instance.Log(e);
                 }
+            }
+        }
+
+        public void registerAbilityStart(string abilityName, bool pingBack, long commandID)
+        {
+            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            {
+                try
+                {
+                    if (pingBack)
+                    {
+                        Clients.Caller.pingBack();
+                    }
+
+                    Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+                    if (ship.Controllable.Value)
+                    {
+                        ship.ActivateAbility(abilityName, commandID);
+                    }
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        }
+
+        public void registerAbilityStop(string abilityName, bool pingBack, long commandID)
+        {
+            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            {
+                try
+                {
+                    if (pingBack)
+                    {
+                        Clients.Caller.pingBack();
+                    }
+
+                    Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+                    if (ship.Controllable.Value)
+                    {
+                        ship.DeactivateAbility(abilityName, commandID);
+                    }
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        }
+
+        public void registerAbilityStop(string ability)
+        {
+            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            {
             }
         }
 

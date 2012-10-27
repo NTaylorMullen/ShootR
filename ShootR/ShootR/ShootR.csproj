@@ -77,6 +77,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Client\Abilities\AbilityHandlers\AbilityHandler.js" />
+    <Content Include="Client\Abilities\AbilityHandlers\ShipAbilityHandler.js" />
+    <Content Include="Client\Abilities\Abstractions\Ability.js" />
+    <Content Include="Client\Abilities\Abstractions\MovementAbility.js" />
+    <Content Include="Client\Abilities\Boost.js" />
     <Content Include="Client\Bullet\Bullet.js" />
     <Content Include="Client\Bullet\BulletManager.js" />
     <Content Include="Client\Configuration\ConfigurationManager.js" />
@@ -120,6 +125,7 @@
     <Content Include="Client\Utilities\GameTime.js" />
     <Content Include="Client\HUD\ShipStatMonitor.js" />
     <Content Include="Client\Utilities\UtilityFunctions.js" />
+    <Content Include="Client\Utilities\ValueRef.js" />
     <Content Include="controller.aspx" />
     <Content Include="default.aspx" />
     <Content Include="Images\bg_stars.png" />
@@ -216,6 +222,7 @@
       <DependentUpon>LoginHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\Abilities\AbilityHandlers\ShipAbilityHandler.cs" />
     <Compile Include="Server\AI\AIShipStatRecorder.cs" />
     <Compile Include="Server\AI\AIState.cs" />
     <Compile Include="Server\AI\UserAI.cs" />
@@ -226,6 +233,7 @@
     <Compile Include="Server\Collidable\DamageControllers\HarmlessDamageController.cs" />
     <Compile Include="Server\Collidable\LifeControllers\LifeController.cs" />
     <Compile Include="Server\Collidable\MovementControllers\StationaryMovementController.cs" />
+    <Compile Include="Server\Configuration\AbilityConfiguration.cs" />
     <Compile Include="Server\Configuration\HealthPackConfiguration.cs" />
     <Compile Include="Server\Configuration\LeaderboardConfiguration.cs" />
     <Compile Include="Server\Configuration\MapConfiguration.cs" />
@@ -251,7 +259,7 @@
     <Compile Include="Server\Abilities\Abstractions\Ability.cs" />
     <Compile Include="Server\Abilities\Boost.cs" />
     <Compile Include="Server\Abilities\Abstractions\MovementAbility.cs" />
-    <Compile Include="Server\Abilities\AbilityHandler.cs" />
+    <Compile Include="Server\Abilities\AbilityHandlers\AbilityHandler.cs" />
     <Compile Include="Server\Ship\Levels\LevelCalculator.cs" />
     <Compile Include="Server\Ship\Levels\ShipLevelManager.cs" />
     <Compile Include="Server\Ship\ShipLifeController.cs" />
@@ -262,6 +270,7 @@
     <Compile Include="Server\User\RespawnManager.cs" />
     <Compile Include="Server\User\User.cs" />
     <Compile Include="Server\User\UserHandler.cs" />
+    <Compile Include="Server\Utilities\ValueRef.cs" />
     <Compile Include="Server\Utilities\EventHandlers\DeathEventHandler.cs" />
     <Compile Include="Server\Utilities\EventHandlers\KillEventHandler.cs" />
     <Compile Include="Server\Utilities\EventHandlers\LevelUpEventHandler.cs" />

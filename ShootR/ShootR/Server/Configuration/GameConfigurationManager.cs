@@ -11,6 +11,7 @@
             screenConfig = new ScreenConfiguration();
             leaderboardConfig = new LeaderboardConfiguration();
             healthPackConfig = new HealthPackConfiguration();
+            abilityConfig = new AbilityConfiguration();
         }
 
         // Bullet Configurations
@@ -34,5 +35,8 @@
         // Powerup Configurations
         // HealthPack Configurations
         public HealthPackConfiguration healthPackConfig { get; set; }
+
+        // Ability Configuration
+        public AbilityConfiguration abilityConfig { get; set; }
     }
 }

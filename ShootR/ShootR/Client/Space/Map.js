@@ -31,6 +31,8 @@
             if (!MapContains(ships[key].MovementController.Position, ships[key].WIDTH, ships[key].HEIGHT)) {
                 var bounceMultiplier;
 
+                $(ships[key]).triggerHandler("OnOutOfBounds");
+
                 // Collided with left or right side
                 if (ships[key].MovementController.Position.X <= 0 || (ships[key].MovementController.Position.X + ships[key].WIDTH) >= that.WIDTH) {
                     bounceMultiplier = { X: -that.BARRIER_DEPRECATION, Y: that.BARRIER_DEPRECATION };

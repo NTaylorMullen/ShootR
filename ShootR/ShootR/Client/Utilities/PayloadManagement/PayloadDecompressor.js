@@ -56,9 +56,13 @@
             Forward: !!ship[ShipContract.Forward],
             Backward: !!ship[ShipContract.Backward]
         };
+        result.MovementController.Power = ShipVehicle.prototype.ENGINE_POWER;
         result.Name = ship[ShipContract.Name];
         result.MaxLife = ship[ShipContract.MaxLife];
         result.Level = ship[ShipContract.Level];
+        result.Abilities = {
+            Boost: ship[ShipContract.Boost]
+        };
 
         return result;
     }

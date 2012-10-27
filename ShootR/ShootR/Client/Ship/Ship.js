@@ -1,13 +1,19 @@
 ﻿function Ship(rotateLeft, forward, rotateRight, backward, fire, bullet_manager, connection) {
+    this.MovementController = {
+        Power: this.ENGINE_POWER
+    }
+    ShipVehicle.call(this);
     var that = this,
         lastShot = new Date().getTime(),
         keyMapping = [],
         movementCount = that.REQUEST_PING_EVERY,
         touchController,
-        movementList = [],
+        commandList = [],
         currentCommand = 0,
         lastPayloadReceivedAt,
         payloadsEvery,
+        lastCommandStartAt = new Date().getTime(),
+        lastCommandStart,
         wasDead = false;
 
     keyMapping.push({ key: rotateLeft, dir: "RotatingLeft" });
@@ -53,7 +59,7 @@
         if (lastPayloadReceivedAt) {
             payloadsEvery = now - lastPayloadReceivedAt
         }
-        
+
         lastPayloadReceivedAt = now;
     }
 
@@ -119,8 +125,17 @@
         }
     }
 
-    function StartMovement(dir) {
-        if (!that.MovementController.Moving[dir] && that.LifeController.Alive) {
+    function DoubleTap(dir) {
+        if (dir === "Forward") {
+            StartAbility("Boost");
+            return true;
+        }
+
+        return false;
+    }
+
+    function StartAbility(name) {
+        if (that.Controllable.Value && that.ShipAbilityHandler.Activate(name) && that.LifeController.Alive) {
             var pingBack = false;
             movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
@@ -129,16 +144,65 @@
                 pingBack = true;
                 that.LatencyResolver.RequestedPingBack();
             }
-            movementList.push([++currentCommand, dir, true]);
-            connection.server.registerMoveStart(dir, pingBack, currentCommand);
+
+            commandList.push([++currentCommand, name, true, true]);
+            connection.server.registerAbilityStart(name, pingBack, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-            that.MovementController.Moving[dir] = true;
+        }
+    }
+
+    function StopAbility(name) {
+        if (that.Controllable.Value && that.ShipAbilityHandler.Deactivate(name) && that.LifeController.Alive) {
+            var pingBack = false;
+            movementCount = ++movementCount % that.REQUEST_PING_EVERY;
+
+            // 0 Is when the counter loops over, aka hits max;
+            if (movementCount === 0) {
+                pingBack = true;
+                that.LatencyResolver.RequestedPingBack();
+            }
+            commandList.push([++currentCommand, name, false]);
+            connection.server.registerAbilityStop(name, pingBack, currentCommand);
+
+            that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+        }
+    }
+
+    function StartMovement(dir) {
+        if (that.Controllable.Value && !that.MovementController.Moving[dir] && that.LifeController.Alive) {
+            var pingBack = false,
+                now = new Date().getTime();
+
+            movementCount = ++movementCount % that.REQUEST_PING_EVERY;
+
+            // 0 Is when the counter loops over, aka hits max;
+            if (movementCount === 0) {
+                pingBack = true;
+                that.LatencyResolver.RequestedPingBack();
+            }
+
+            var successfulDoubleTap = false;
+            // Double tap
+            if (now - lastCommandStartAt <= 175 && lastCommandStart === dir) {
+                successfulDoubleTap = DoubleTap(dir);
+            }
+            
+            if(!successfulDoubleTap) {
+                lastCommandStartAt = now;
+                lastCommandStart = dir;
+
+                commandList.push([++currentCommand, dir, true]);
+                connection.server.registerMoveStart(dir, pingBack, currentCommand);
+
+                that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+                that.MovementController.Moving[dir] = true;
+            }
         }
     }
 
     function StopMovement(dir) {
-        if (that.LifeController.Alive) {
+        if (that.Controllable.Value && that.LifeController.Alive) {
             var pingBack = false;
             movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
@@ -147,7 +211,7 @@
                 pingBack = true;
                 that.LatencyResolver.RequestedPingBack();
             }
-            movementList.push([++currentCommand, dir, false]);
+            commandList.push([++currentCommand, dir, false]);
             connection.server.registerMoveStop(dir, pingBack, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
@@ -156,7 +220,7 @@
     }
 
     function StopAndStartMovement(toStop, toStart) {
-        if (that.LifeController.Alive) {
+        if (that.Controllable.Value && that.LifeController.Alive) {
             var pingBack = false;
             movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
@@ -165,8 +229,8 @@
                 pingBack = true;
                 that.LatencyResolver.RequestedPingBack();
             }
-            movementList.push([++currentCommand, toStop, false]);
-            movementList.push([++currentCommand, toStart, true]);
+            commandList.push([++currentCommand, toStop, false]);
+            commandList.push([++currentCommand, toStart, true]);
 
             connection.server.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
 
@@ -177,7 +241,7 @@
     }
 
     function ResetMovement(MovementList) {
-        if (that.LifeController.Alive) {
+        if (that.Controllable.Value && that.LifeController.Alive) {
             var pingBack = false;
             movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
@@ -191,7 +255,7 @@
             // Reset all movement
             for (var i = 0; i < MovementList.length; i++) {
                 that.MovementController.Moving[MovementList[i]] = false;
-                movementList.push([++currentCommand, MovementList[i], false]);
+                commandList.push([++currentCommand, MovementList[i], false]);
             }
 
             connection.server.resetMovement(MovementList, pingBack, currentCommand);
@@ -199,7 +263,7 @@
     }
 
     function shoot() {
-        if ((new Date().getTime() - lastShot) > that.FIRE_RATE) {
+        if (that.Controllable.Value && (new Date().getTime() - lastShot) > that.FIRE_RATE) {
             lastShot = new Date().getTime();
 
             connection.server.fire();
@@ -231,14 +295,19 @@
     ApplyKeyboardMappings();
 
     that.ReplayCommands = function (serverCommand) {
-        if (movementList.length >= 1) {
-            var serverCommandIndex = movementList.length - (currentCommand - serverCommand);
+        if (commandList.length >= 1) {
+            var serverCommandIndex = commandList.length - (currentCommand - serverCommand);
 
-            for (var i = serverCommandIndex; i < movementList.length; i++) {
-                that.MovementController.Moving[movementList[i][1]] = movementList[i][2];
+            for (var i = serverCommandIndex; i < commandList.length; i++) {
+                if (commandList[i][3]) { // Checking if the command is an ability
+                    that.Abilities[commandList[i][1]] = commandList[i][2];
+                }
+                else {
+                    that.MovementController.Moving[commandList[i][1]] = commandList[i][2];
+                }
             }
 
-            movementList.splice(0, serverCommandIndex);
+            commandList.splice(0, serverCommandIndex);
         }
     }
 

@@ -7,11 +7,13 @@ namespace ShootR
 {
     public abstract class Ability
     {
-        public Ability()
+        public Ability(string name)
         {
-            Active = false;            
+            Active = false;
+            Name = name;
         }
 
+        public string Name { get; set; }
         public bool Active { get; set; }
         public DateTime? ActivatedAt { get; private set; }
 

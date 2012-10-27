@@ -8,22 +8,33 @@ namespace ShootR
     public class Boost : MovementAbility
     {
         // Increase speed by X, multiplies it
-        public const double SPEED_INCREASE = 1.35;
-        public static readonly TimeSpan DURATION = TimeSpan.FromSeconds(4);
+        public const double SPEED_INCREASE = 2.5;
+        public const string NAME = "Boost";
+        public static readonly TimeSpan DURATION = TimeSpan.FromSeconds(3);
 
-        public Boost(MovementController movementController)
-            : base(movementController)
+        private ValueRef<bool> _controllable;
+        
+        public Boost(ShipMovementController movementController, ValueRef<bool> controllable)
+            : base(NAME, movementController)
         {
+            _controllable = controllable;
         }
 
         public override void Activate()
         {
+            ShipMovementController smc = _movementController as ShipMovementController;
+            smc.StopMovement();
+            smc.Moving.Forward = true;
+
+            _controllable.Value = false;
             MultiplySpeedBy(SPEED_INCREASE);
             base.Activate();
         }
 
         public override void Deactivate()
         {
+            (_movementController as ShipMovementController).Moving.Forward = false;
+            _controllable.Value = true;
             ResetSpeed();
             base.Deactivate();
         }
@@ -34,7 +45,7 @@ namespace ShootR
             {
                 Deactivate();
                 base.Update(utcNow);
-            }            
+            }
         }
     }
 }

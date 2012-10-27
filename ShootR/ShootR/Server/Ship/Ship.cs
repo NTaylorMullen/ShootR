@@ -16,6 +16,7 @@ namespace ShootR
         public event KillEventHandler OnKill;
         public event DeathEventHandler OnDeath;
         public event Action<Bullet> OnFire;
+        public event Action OnOutOfBounds;
 
         private static int _shipGUID = 0;
 
@@ -31,6 +32,7 @@ namespace ShootR
             LifeController.Host = this;
 
             LevelManager = new ShipLevelManager(this);
+            AbilityHandler = new ShipAbilityHandler(this);
         }
 
         public string Name { get; set; }
@@ -38,6 +40,7 @@ namespace ShootR
         public bool RespawnEnabled { get; set; }        
 
         public virtual ShipStatRecorder StatRecorder { get; protected set; }
+        public ShipAbilityHandler AbilityHandler { get; private set; }
         public ShipLevelManager LevelManager { get; private set; }
         public ShipWeaponController WeaponController { get; private set; }
         public Ship LastKilledBy { get; private set; }
@@ -101,6 +104,24 @@ namespace ShootR
             }
         }
 
+        public virtual void ActivateAbility(string abilityName, long commandID)
+        {
+            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
+
+            Host.IdleManager.RecordActivity();
+            AbilityHandler.Activate(abilityName);
+            Host.LastCommandID = commandID;
+        }
+
+        public virtual void DeactivateAbility(string abilityName, long commandID)
+        {
+            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
+
+            Host.IdleManager.RecordActivity();
+            AbilityHandler.Deactivate(abilityName);
+            Host.LastCommandID = commandID;
+        }
+
         public virtual void StartMoving(Movement where, long commandID)
         {
             Update(GameTime.CalculatePercentOfSecond(LastUpdated));
@@ -139,6 +160,7 @@ namespace ShootR
         public virtual void Update(double PercentOfSecond)
         {
             MovementController.Update(PercentOfSecond);
+            AbilityHandler.Update(GameTime.Now);
             base.Update();
         }
 
@@ -152,6 +174,16 @@ namespace ShootR
 
         public override void HandleCollisionWith(Collidable c, Map space)
         {
+        }
+
+        public override void HandleOutOfBounds()
+        {
+            if (OnOutOfBounds != null)
+            {
+                OnOutOfBounds();
+            }
+
+            base.HandleOutOfBounds();
         }
     }
 }

@@ -11,5 +11,6 @@
         public short Name = 19;
         public short MaxLife = 20;
         public short Level = 21;
+        public short Boost = 22;
     }
 }

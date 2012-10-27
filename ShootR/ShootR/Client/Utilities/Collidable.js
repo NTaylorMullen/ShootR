@@ -11,6 +11,7 @@
     that.FollowID;
     that.AnimationCanvas;
     that.AnimationCanvasContext;
+    that.Controllable = new ValueRef(true);
 
     that.InitializeAnimationCanvas = function() {
         that.AnimationCanvas = document.createElement("canvas");

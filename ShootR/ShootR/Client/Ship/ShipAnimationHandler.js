@@ -2,17 +2,40 @@
     var that = this,
         thrustBasicAnimation,
         thrustStartAnimation,
+        boostAnimation,
         movingForwardSince,
         fullThrustAfter = 400,
-        canvasWidthBuffer = 100; // thruster animation frame width *2 (to keep canvas centered)
+        canvasWidthBuffer = 200; // thruster animation frame width *2 (to keep canvas centered)
 
     MyShip.InitializeAnimationCanvas();
     MyShip.UpdateAnimationCanvasSize({ Width: MyShip.WIDTH + canvasWidthBuffer, Height: MyShip.HEIGHT });
 
+    boostAnimation = new spritify({
+        image: IMAGE_ASSETS.Boost,
+        drawOn: MyShip.AnimationCanvasContext,
+        X: 0,
+        Y: (MyShip.HEIGHT / 2) - 26,
+        frameCount: 10,
+        fps: 12,
+        spriteSheetSize: {
+            width: 400,
+            height: 150
+        },
+        frameSize: {
+            width: 100,
+            height: 50,
+        },
+        Rotation: 0,
+        autoPlay: false,
+        autoClear: false,
+        loop: true,
+        loopFrom: 4
+    });
+
     thrustBasicAnimation = new spritify({
         image: IMAGE_ASSETS.ThrustBasic,
         drawOn: MyShip.AnimationCanvasContext,
-        X: 0,
+        X: 50,
         Y: (MyShip.HEIGHT / 2) - 25,
         frameCount: 18,
         fps: 18,
@@ -33,7 +56,7 @@
     thrustStartAnimation = new spritify({
         image: IMAGE_ASSETS.ThrustStart,
         drawOn: MyShip.AnimationCanvasContext,
-        X: 0,
+        X: 50,
         Y: (MyShip.HEIGHT / 2) - 25,
         frameCount: 18,
         fps: 18,
@@ -53,27 +76,39 @@
     // Part of collidable
     MyShip.AnimationDrawList.push(thrustBasicAnimation);
     MyShip.AnimationDrawList.push(thrustStartAnimation);
+    MyShip.AnimationDrawList.push(boostAnimation);
 
     that.Update = function (now) {
         var nowMilliseconds = now.getTime();
-        if (MyShip.MovementController.Moving.Forward) {
-            if (!movingForwardSince) {
-                movingForwardSince = new Date().getTime();
-            }
 
-            if (nowMilliseconds - movingForwardSince >= fullThrustAfter) {
-                thrustBasicAnimation.Play();
+        if (!MyShip.ShipAbilityHandler.Ability("Boost").Active) {
+            boostAnimation.Stop();
+            if (MyShip.MovementController.Moving.Forward) {
+                if (!movingForwardSince) {
+                    movingForwardSince = new Date().getTime();
+                }
+
+                if (nowMilliseconds - movingForwardSince >= fullThrustAfter) {
+                    thrustBasicAnimation.Play();
+                }
+                thrustStartAnimation.Play();
             }
-            thrustStartAnimation.Play();
+            else {
+                movingForwardSince = false;
+                thrustBasicAnimation.Stop();
+                thrustStartAnimation.Stop();
+            }
+            thrustBasicAnimation.Update(now);
+            thrustStartAnimation.Update(now);
         }
-        else {
-            movingForwardSince = false;
+        else { // We're boosting
+            boostAnimation.Play();
             thrustBasicAnimation.Stop();
             thrustStartAnimation.Stop();
+            boostAnimation.Update(now);
+            boostAnimation.ClearDrawOnCanvas();
         }
-
-        thrustBasicAnimation.Update(now);
-        thrustStartAnimation.Update(now);
+        
         thrustStartAnimation.ClearDrawOnCanvas();
     }
 }

@@ -28,7 +28,7 @@
         }
 
         that.Visible = false;
-    }
+    }    
 
     that.Update = function (gameTime) {
         var PercentOfSecond = CalculatePOS(that.LastUpdated);
@@ -125,13 +125,13 @@
             TryInterpolationRotation(rotationIncrementor);
         }
         if (that.MovementController.Moving.Forward) {                    
-            that.MovementController.Forces.X += direction.X * that.ENGINE_POWER;
-            that.MovementController.Forces.Y += direction.Y * that.ENGINE_POWER;
+            that.MovementController.Forces.X += direction.X * that.MovementController.Power;
+            that.MovementController.Forces.Y += direction.Y * that.MovementController.Power;
         }
 
         if (that.MovementController.Moving.Backward) {            
-            that.MovementController.Forces.X -= direction.X * that.ENGINE_POWER;
-            that.MovementController.Forces.Y -= direction.Y * that.ENGINE_POWER;
+            that.MovementController.Forces.X -= direction.X * that.MovementController.Power;
+            that.MovementController.Forces.Y -= direction.Y * that.MovementController.Power;
         }
 
         that.MovementController.Forces.X += dragForce.X;
@@ -141,7 +141,8 @@
         that.MovementController.Position.X = Math.round(that.MovementController.Position.X);
         that.MovementController.Position.Y = Math.round(that.MovementController.Position.Y);
 
-        that.AnimationHandler.Update(now);        
+        that.AnimationHandler.Update(now);
+        that.ShipAbilityHandler.Update(now);
         that.LastUpdated = now;
     }
 
@@ -176,7 +177,9 @@
         CanvasContext.strokeSquare(that.MovementController.Position.X, that.MovementController.Position.Y, that.WIDTH, that.HEIGHT);
     }
 
-    that.UpdateProperties({ MovementController: { Position: { X: 0, Y: 0 }, Forces: { X: 0, Y: 0 }, Velocity: { X: 0, Y: 0 }, Moving: { RotatingLeft: false, RotatingRight: false, Forward: false, Backward: false }, Rotation: 0 } });
+    that.UpdateProperties(properties);
+
+    that.ShipAbilityHandler = new ShipAbilityHandler(this);
 }
 
 ShipVehicle.prototype = new Collidable();

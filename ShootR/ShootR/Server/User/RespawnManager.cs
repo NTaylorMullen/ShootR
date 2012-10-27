@@ -30,6 +30,7 @@ namespace ShootR
                 ship.LifeController.HealFull();
                 ship.MovementController.Position = GetRandomStartPosition();
                 ship.Disposed = false;
+                ship.Controllable.Value = true;
                 _gameHandler.AddShipToGame(ship);
 
                 Game.Instance.Leaderboard.StopRequestingLeaderboard(ship.Host.ConnectionID);
@@ -50,6 +51,7 @@ namespace ShootR
                 Game.Instance.Leaderboard.RequestLeaderboard(ship.Host.ConnectionID);                
             }
 
+            ship.Controllable.Value = false;
             _respawningShips.Add(new KeyValuePair<Ship, DateTime>(ship, DateTime.UtcNow));
         }
 
