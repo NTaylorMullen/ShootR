@@ -14,7 +14,8 @@
         payloadsEvery,
         lastCommandStartAt = new Date().getTime(),
         lastCommandStart,
-        wasDead = false;
+        wasDead = false,
+        doubleTapAfter = 175; // Trigger a double tap if movement start prior to X milliseconds
 
     keyMapping.push({ key: rotateLeft, dir: "RotatingLeft" });
     keyMapping.push({ key: rotateRight, dir: "RotatingRight" });
@@ -184,7 +185,7 @@
 
             var successfulDoubleTap = false;
             // Double tap
-            if (now - lastCommandStartAt <= 175 && lastCommandStart === dir) {
+            if (now - lastCommandStartAt <= doubleTapAfter && lastCommandStart === dir) {
                 successfulDoubleTap = DoubleTap(dir);
             }
             
@@ -221,7 +222,9 @@
 
     function StopAndStartMovement(toStop, toStart) {
         if (that.Controllable.Value && that.LifeController.Alive) {
-            var pingBack = false;
+            var pingBack = false,
+                now = new Date().getTime();
+
             movementCount = ++movementCount % that.REQUEST_PING_EVERY;
 
             // 0 Is when the counter loops over, aka hits max;
@@ -229,14 +232,26 @@
                 pingBack = true;
                 that.LatencyResolver.RequestedPingBack();
             }
-            commandList.push([++currentCommand, toStop, false]);
-            commandList.push([++currentCommand, toStart, true]);
 
-            connection.server.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
+            var successfulDoubleTap = false;
+            // Double tap
+            if (now - lastCommandStartAt <= doubleTapAfter && lastCommandStart === toStart) {
+                successfulDoubleTap = DoubleTap(toStart);
+            }
 
-            that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-            that.MovementController.Moving[toStop] = false;
-            that.MovementController.Moving[toStart] = true;
+            if (!successfulDoubleTap) {
+                lastCommandStartAt = now;
+                lastCommandStart = toStart;
+
+                commandList.push([++currentCommand, toStop, false]);
+                commandList.push([++currentCommand, toStart, true]);
+
+                connection.server.startAndStopMovement(toStop, toStart, pingBack, currentCommand);
+
+                that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
+                that.MovementController.Moving[toStop] = false;
+                that.MovementController.Moving[toStart] = true;
+            }
         }
     }
 
