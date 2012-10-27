@@ -60,35 +60,38 @@ namespace ShootR
 
         private long Update(long id)
         {
-            DateTime utcNow = DateTime.UtcNow;
-
-            try
+            lock (_locker)
             {
-                if ((utcNow - _lastSpawn).TotalSeconds >= 1 && _spawned < AIShipsToSpawn)
+                DateTime utcNow = DateTime.UtcNow;
+
+                try
                 {
-                    _spawned += SpawnsPerInterval;
-                    SpawnAIShips(SpawnsPerInterval);
-                    _lastSpawn = utcNow;
+                    if ((utcNow - _lastSpawn).TotalSeconds >= 1 && _spawned < AIShipsToSpawn)
+                    {
+                        _spawned += SpawnsPerInterval;
+                        SpawnAIShips(SpawnsPerInterval);
+                        _lastSpawn = utcNow;
+                    }
+
+                    _gameTime.Update(utcNow);
+
+                    GameHandler.Update(_gameTime);
+
+                    _space.Update();
+
+                    if (utcNow - _lastDraw >= DRAW_AFTER)
+                    {
+                        Draw();
+                        _lastDraw = utcNow;
+                    }
+                }
+                catch (Exception e)
+                {
+                    ErrorLog.Instance.Log(e);
                 }
 
-                _gameTime.Update(utcNow);
-
-                GameHandler.Update(_gameTime);
-
-                _space.Update();
-
-                if (utcNow - _lastDraw >= DRAW_AFTER)
-                {
-                    Draw();
-                    _lastDraw = utcNow;
-                }
+                return id;
             }
-            catch (Exception e)
-            {
-                ErrorLog.Instance.Log(e);
-            }
-
-            return id;
         }
 
         public void SpawnAIShips(int number)

@@ -19,8 +19,8 @@ namespace ShootR
             result[CollidableCompressionContract.ForcesX] = Math.Round(obj.MovementController.Forces.X, 2);
             result[CollidableCompressionContract.ForcesY] = Math.Round(obj.MovementController.Forces.Y, 2);
             result[CollidableCompressionContract.Mass] = obj.MovementController.Mass;
-            result[CollidableCompressionContract.PositionX] = Math.Round(obj.MovementController.Position.X, 2);
-            result[CollidableCompressionContract.PositionY] = Math.Round(obj.MovementController.Position.Y, 2);
+            result[CollidableCompressionContract.PositionX] = Math.Round(obj.MovementController.Position.X);
+            result[CollidableCompressionContract.PositionY] = Math.Round(obj.MovementController.Position.Y);
             result[CollidableCompressionContract.Rotation] = Math.Round(obj.MovementController.Rotation, 2);
             result[CollidableCompressionContract.VelocityX] = Math.Round(obj.MovementController.Velocity.X, 2);
             result[CollidableCompressionContract.VelocityY] = Math.Round(obj.MovementController.Velocity.Y, 2);

@@ -139,16 +139,16 @@
             </div>
 
             <div id="popUpHolder">
-                <div id="levelNotification">Level <span id="CurrentLevel_Notification"></span>!</div>
+                <div id="levelNotification"><p id="CurrentLevel_Notification"></p></div>
 
                 <div id="doublePopupHolder">
                     <div id="deathScreenHolder" class="goLeft">
                         <div class="bodyHolder">
-                            <div id="DeathNote"></div>
+                            <div id="DeathNote"><span id="Note">BUH BYE!</span></div>
                             <img src="" id="KilledByPhotoLarge" onerror="this.src='Images/HUD/KilledBy_Default.png'" width="108" height="108" alt="You got killed by" />
-                            <h1 id="KilledByNameLarge">GUY WHO KILLED YOU</h1>
-                            <p id="topLineQuote">HAS LEFT A DENT IN YOUR EGO.</p>
-                            <p id="botLineQuote">(HOPE NOBODY SAW THAT)</p>
+                            <h1 id="KilledByNameLarge"></h1>
+                            <p id="topLineQuote"></p>
+                            <p id="botLineQuote"></p>
                         </div>
                     </div>
 
@@ -223,13 +223,13 @@
         <script src="Client/Utilities/GameTime.js" type="text/javascript"></script>
         <script src="Client/Utilities/Collidable.js" type="text/javascript"></script>
         <script src="Client/Powerups/Powerup.js" type="text/javascript"></script>
-        <script src="Client/Powerups/HealthPack.js" type="text/javascript"></script>        
+        <script src="Client/Powerups/HealthPack.js" type="text/javascript"></script>
         <script src="Client/Powerups/PowerupManager.js" type="text/javascript"></script>
         <script src="Client/Bullet/Bullet.js" type="text/javascript"></script>
         <script src="Client/Bullet/BulletManager.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipManager.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipAnimationHandler.js" type="text/javascript"></script>
-        <script src="Client/Ship/ShipVehicle.js" type="text/javascript"></script>        
+        <script src="Client/Ship/ShipVehicle.js" type="text/javascript"></script>
         <script src="Client/Ship/Ship.js" type="text/javascript"></script>
         <script src="Client/Utilities/PayloadManagement/PayloadDecompressor.js" type="text/javascript"></script>
         <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>

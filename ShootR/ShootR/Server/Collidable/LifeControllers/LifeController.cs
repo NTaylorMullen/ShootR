@@ -51,7 +51,7 @@ namespace ShootR
         public void Heal(double life)
         {
             Alive = true;
-            Health += life;
+            Health = Math.Min(Health + life, MaxLife);
         }
 
         public void HealFull()

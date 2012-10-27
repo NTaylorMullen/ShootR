@@ -6,7 +6,9 @@
         currentExperience = $("#Experience"),
         experienceAnimateSpeed = 500,
         currentLevel = $("#Level"),
-        levelNotification = $("#levelNotification");
+        levelNotification = $("#levelNotification"),
+        currentLevelNotification = $("#CurrentLevel_Notification"),
+        popupHolder = $("#popUpHolder");
 
     that.Update = function () {
         if (MyShip.Experience !== lastExperience || MyShip.Level !== lastLevel ) {
@@ -17,10 +19,10 @@
             if (MyShip.Level !== lastLevel) {
                 experienceIncrease = lastExperienceToNextLevel - lastExperience + MyShip.Experience;
                
-                levelNotification.css("display", "block");
-                $("#CurrentLevel_Notification").html(MyShip.Level);
-                $("#popUpHolder").fadeIn(1000).fadeOut(1000, function () {
-                    levelNotification.css("display", "none");
+                popupHolder.css("display", "block");
+                currentLevelNotification.html(MyShip.Level);
+                levelNotification.animate({top:0},1000).delay(3000).animate({top:-234},1000, function () {
+                    popupHolder.css("display", "none");
                 });
             }
             else {

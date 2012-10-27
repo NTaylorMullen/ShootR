@@ -136,7 +136,11 @@
 
         that.MovementController.Forces.X += dragForce.X;
         that.MovementController.Forces.Y += dragForce.Y;
-        
+
+        // Rounding so we doing do alpha transparency on the canvas
+        that.MovementController.Position.X = Math.round(that.MovementController.Position.X);
+        that.MovementController.Position.Y = Math.round(that.MovementController.Position.Y);
+
         that.AnimationHandler.Update(now);        
         that.LastUpdated = now;
     }

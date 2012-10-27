@@ -8,13 +8,19 @@
 #levelNotification {
     position: absolute;
     color: white;
-    top: 20%;
-    left: 44%;
-    font-size: 50px;
-    font-family: 'Comic Sans MS';
-    z-index: 10000;
-    font-weight: bolder;
-    display: none;
+    top: -234px;
+    left: 50px;       
+    width:150px;
+    height:234px;
+    background-image:url('/Images/Page/badge_LEVEL.png');
+    background-repeat:no-repeat;
+}
+
+#CurrentLevel_Notification {
+    position:relative;
+    text-align:center;
+    top:90px;
+    font-size: 70px; 
 }
 
 #Notification {
@@ -59,7 +65,16 @@
     height:311px;
     background-image:url("/Images/Page/death_note.png");
     background-repeat:no-repeat;
+    position:relative;
 }
+
+    #deathScreenHolder #DeathNote #Note {
+        position:relative;
+        font-size:48px;
+        top:208px;
+        color:white;
+        margin:0 auto;
+    }
 
 #deathScreenHolder #KilledByPhotoLarge {
     position:relative;

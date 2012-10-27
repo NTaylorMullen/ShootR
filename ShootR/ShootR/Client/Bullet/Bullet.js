@@ -44,6 +44,10 @@
         that.MovementController.Position.X += incrementor.X;
         that.MovementController.Position.Y += incrementor.Y;
 
+        // Rounding so we doing do alpha transparency on the canvas
+        that.MovementController.Position.X = Math.round(that.MovementController.Position.X);
+        that.MovementController.Position.Y = Math.round(that.MovementController.Position.Y);
+
         that.LastUpdated = new Date();
     }
 
