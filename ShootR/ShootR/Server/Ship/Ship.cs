@@ -83,7 +83,7 @@ namespace ShootR
             }
 
             // Spawn health pack on death
-            Game.Instance.GameHandler.AddPowerupToGame(new HealthPack(MovementController.Position));
+            Game.Instance.GameHandler.AddPowerupToGame(new HealthPack(MovementController.Position, LevelManager.Level));
 
             LastKilledBy = (e.KilledBy as Bullet).FiredBy;
             Host.DeathOccured = true;
