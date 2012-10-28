@@ -71,6 +71,8 @@
 
             that.Position = Vector2.AddV(that.Position, clientPositionPrediction);
 
+            TryInterpolation(clientPositionPrediction);
+
             that.Velocity = Vector2.AddV(that.Velocity, Vector2.MultiplyN(acceleration, percentOfSecond));
             velocityLength = that.Velocity.Length();
 

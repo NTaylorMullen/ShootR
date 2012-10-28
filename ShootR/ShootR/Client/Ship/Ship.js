@@ -23,30 +23,30 @@
     that.REQUEST_PING_EVERY;
 
     // Interpolate if we're more than 5 pixels away from the server
-    Ship.prototype.INTERPOLATE_POSITION_THRESHOLD = 13;
-    Ship.prototype.INTERPOLATE_ROTATION_THRESHOLD = 15;
+    that.MovementController.INTERPOLATE_POSITION_THRESHOLD = 4;
+    that.MovementController.INTERPOLATE_ROTATION_THRESHOLD = 15;
 
     // Instantiated in main.js
     that.LatencyResolver;
 
-    Ship.prototype.Smoothing = {
+    that.MovementController.Smoothing = {
         X: false,
         Y: false
     }
 
-    Ship.prototype.Target = {
+    that.MovementController.Target = {
         X: 0,
         Y: 0
     };
 
-    Ship.prototype.InterpolateOver = {
+    that.MovementController.InterpolateOver = {
         X: 0,
         Y: 0
     }
 
-    Ship.prototype.InterpolateRotationOver;
-    Ship.prototype.SmoothingRotation = false;
-    Ship.prototype.TargetRotation;
+    that.MovementController.InterpolateRotationOver;
+    that.MovementController.SmoothingRotation = false;
+    that.MovementController.TargetRotation;
 
     that.TryInterpolate = true;
     that.TryInterpolateRotation = false;
@@ -62,10 +62,10 @@
     }
 
     function CheckInterpolation(serverShip, axis, distance) {
-        if (distance[axis] > that.INTERPOLATE_POSITION_THRESHOLD) {
-            Ship.prototype.InterpolateOver[axis] = Math.max(payloadsEvery, 50);
-            Ship.prototype.Smoothing[axis] = true;
-            Ship.prototype.Target[axis] = serverShip.MovementController.Position[axis];
+        if (distance[axis] > that.MovementController.INTERPOLATE_POSITION_THRESHOLD) {
+            that.MovementController.InterpolateOver[axis] = Math.max(payloadsEvery, 50);
+            that.MovementController.Smoothing[axis] = true;
+            that.MovementController.Target[axis] = serverShip.MovementController.Position[axis];
             serverShip.MovementController.Position[axis] = that.MovementController.Position[axis];
         }
     }
@@ -73,10 +73,10 @@
     function CheckRotationInterpolation(serverShip) {
         var distance = Math.abs(that.MovementController.Rotation - serverShip.MovementController.Rotation);
 
-        if (distance > that.INTERPOLATE_ROTATION_THRESHOLD) {
-            Ship.prototype.InterpolateRotationOver = Math.max(payloadsEvery, 35);
-            Ship.prototype.SmoothingRotation = true;
-            Ship.prototype.TargetRotation = serverShip.MovementController.Rotation;
+        if (distance > that.MovementController.INTERPOLATE_ROTATION_THRESHOLD) {
+            that.MovementController.InterpolateRotationOver = Math.max(payloadsEvery, 35);
+            that.MovementController.SmoothingRotation = true;
+            that.MovementController.TargetRotation = serverShip.MovementController.Rotation;
             serverShip.MovementController.Rotation = that.MovementController.Rotation;
         }
     }
@@ -84,8 +84,8 @@
     function DetermineInterpolation(serverShip) {
         if (payloadsEvery) {
             if (!that.LifeController.Alive) {
-                that.Smoothing.X = false;
-                that.Smoothing.Y = false;
+                that.MovementController.Smoothing.X = false;
+                that.MovementController.Smoothing.Y = false;
                 wasDead = true;
             }
 

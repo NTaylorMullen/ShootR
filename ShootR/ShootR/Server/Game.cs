@@ -11,8 +11,8 @@ namespace ShootR
 {
     public class Game
     {
-        public const int AIShipsToSpawn = 35;
-        public const int SpawnsPerInterval = 1;
+        public const int AIShipsToSpawn = 1000;
+        public const int SpawnsPerInterval = 35;
         private int _spawned = 0;
         private DateTime _lastSpawn = DateTime.UtcNow;
 
