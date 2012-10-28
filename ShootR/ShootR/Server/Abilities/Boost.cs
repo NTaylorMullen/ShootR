@@ -8,9 +8,9 @@ namespace ShootR
     public class Boost : MovementAbility
     {
         // Increase speed by X, multiplies it
-        public const double SPEED_INCREASE = 2.5;
+        public const double SPEED_INCREASE = 3;
         public const string NAME = "Boost";
-        public static readonly TimeSpan DURATION = TimeSpan.FromSeconds(3);
+        public static readonly TimeSpan DURATION = TimeSpan.FromSeconds(1.5);
 
         private ValueRef<bool> _controllable;
         

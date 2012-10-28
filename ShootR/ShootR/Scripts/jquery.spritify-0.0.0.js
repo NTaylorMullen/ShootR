@@ -19,6 +19,7 @@
 
     that.Play = function () {
         if (!that.Playing) {
+            finishingFrames = false;
             initiateAnimation();
         }
     }

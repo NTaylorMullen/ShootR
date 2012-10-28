@@ -139,13 +139,14 @@
     <Content Include="default.aspx" />
     <Content Include="Images\bg_stars.png" />
     <Content Include="Images\favicon.ico" />
+    <Content Include="Images\HUD\btn_Info_def.png" />
+    <Content Include="Images\HUD\btn_Info_over.png" />
     <Content Include="Images\HUD\keys_def.png" />
     <Content Include="Images\HUD\keys_over.png" />
     <Content Include="Images\HUD\kills.png" />
     <Content Include="Images\HUD\logout.png" />
-    <Content Include="Images\HUD\minimize_arrow_over.png" />
-    <Content Include="Images\HUD\minimize_arrow.png" />
     <Content Include="Images\HUD\skull_deaths.png" />
+    <Content Include="Images\HUD\toast_btn_active.png" />
     <Content Include="Images\Laser.png" />
     <Content Include="Images\Page\badge_LEVEL.png" />
     <Content Include="Images\Page\death_note.png" />
