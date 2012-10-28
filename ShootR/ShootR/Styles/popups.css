@@ -40,24 +40,37 @@
 
 #doublePopupHolder {
     position:relative;
-    width:1009px;
+    width:992px;
     height:584px;
-    margin:30px auto 0;
+    margin:0 auto;
     display:none;
 }
 
-#deathScreenHolder {
-    margin-right:17px!important;
-}
-
 #deathScreenHolder .bodyHolder {
-    margin:29px auto;
+    margin:0 auto;
     width:370px;
     height:100%;
     text-align:center;
     font-family: 'Segoe UI Semibold';
     font-size:20px;
     color:white;
+}
+
+.popUpScreenBG {
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-color:#160612;
+    opacity:.7;
+    z-index:-1;
+}
+
+#deathScreenHolder .bodyExtendedHolder {
+    margin:29px 0;
+    width:100%;
+    height:526px;
+    border-right:1px solid #d4145a;
+    z-index:0;
 }
 
 #deathScreenHolder #DeathNote {
@@ -67,14 +80,6 @@
     background-repeat:no-repeat;
     position:relative;
 }
-
-    #deathScreenHolder #DeathNote #Note {
-        position:relative;
-        font-size:48px;
-        top:208px;
-        color:white;
-        margin:0 auto;
-    }
 
 #deathScreenHolder #KilledByPhotoLarge {
     position:relative;
@@ -94,14 +99,21 @@
         line-height:25px;
     }
 
+    
+#deathScreenHolder {
+    z-index:0;
+}
+
+#leaderboardHolder {
+    z-index:-1;
+}
+
 #leaderboardHolder, #deathScreenHolder {
-    z-index: 100001;
     display: none;
     position: relative;
     margin: 0 auto;
     width: 494px;    
     height: 584px;
-    border: 1px solid #d4145a;
 }
 
     #leaderboardHolder .offset {
@@ -180,8 +192,7 @@
 
 #leaderboardHolder .dividerForMe {
     text-align: center;
-    margin-top: 6px;
-    height: 20px;
+    height: 15px;
 }
 
 

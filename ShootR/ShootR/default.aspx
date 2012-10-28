@@ -144,17 +144,21 @@
                 </div>
 
                 <div id="doublePopupHolder">
-                    <div id="deathScreenHolder" class="goLeft">
-                        <div class="bodyHolder">
-                            <div id="DeathNote"><span id="Note">BUH BYE!</span></div>
-                            <img src="" id="KilledByPhotoLarge" onerror="this.src='Images/HUD/KilledBy_Default.png'" width="108" height="108" alt="You got killed by" />
-                            <h1 id="KilledByNameLarge"></h1>
-                            <p id="topLineQuote"></p>
-                            <p id="botLineQuote"></p>
+                    <div id="deathScreenHolder" class="goLeft" >
+                        <div class="popUpScreenBG"></div>
+                        <div class="bodyExtendedHolder">
+                            <div class="bodyHolder">
+                                <div id="DeathNote"></div>
+                                <img src="" id="KilledByPhotoLarge" onerror="this.src='Images/HUD/KilledBy_Default.png'" width="108" height="108" alt="You got killed by" />
+                                <h1 id="KilledByNameLarge"></h1>
+                                <p id="topLineQuote"></p>
+                                <p id="botLineQuote"></p>
+                            </div>
                         </div>
                     </div>
 
                     <div id="leaderboardHolder">
+                        <div class="popUpScreenBG"></div>
                         <div class="offset">
                             <div class="lionHolder">
                                 <div id="Lion"></div>
