@@ -12,6 +12,7 @@
             leaderboardConfig = new LeaderboardConfiguration();
             healthPackConfig = new HealthPackConfiguration();
             abilityConfig = new AbilityConfiguration();
+            shipMovementControllerConfig = new ShipMovementControllerConfiguration();
         }
 
         // Bullet Configurations
@@ -22,6 +23,7 @@
 
         // Ship Configurations
         public ShipConfiguration shipConfig { get; set; }
+        public ShipMovementControllerConfiguration shipMovementControllerConfig { get; set; }
 
         // Map Configurations
         public MapConfiguration mapConfig { get; set; }

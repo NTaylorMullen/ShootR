@@ -3,7 +3,8 @@
     var that = this;
 
     that.AnimationHandler = new ShipAnimationHandler(that);
-    
+    that.MovementController = new ShipMovementController(new Vector2());
+
     that.Vehicle = IMAGE_ASSETS.Ship1;
 
     that.Destroy = function () {
@@ -35,49 +36,6 @@
         that.UpdateFromSecond(PercentOfSecond);
     }
 
-    function Interpolate(axis, ClientPositionPrediction) {
-        if (that.Smoothing[axis]) {
-            var InterpolationPercent = CalculatePO(that.LastUpdated, that.InterpolateOver[axis]);
-
-            that.Target[axis] += ClientPositionPrediction[axis];
-
-            var posDiff = that.Target[axis] - that.MovementController.Position[axis];
-            that.MovementController.Position[axis] += (posDiff * InterpolationPercent);
-
-            if (Math.abs(posDiff) <= that.INTERPOLATE_POSITION_THRESHOLD) {
-                that.Smoothing[axis] = false;
-            }
-        }
-    }
-
-    function InterpolateRotation(RotationIncrementor) {
-        if (that.SmoothingRotation) {
-            var InterpolationPercent = CalculatePO(that.LastUpdated, that.InterpolateRotationOver);
-
-            that.TargetRotation += RotationIncrementor;
-
-            var rotDiff = that.TargetRotation - that.MovementController.Rotation;
-            that.MovementController.Rotation += (rotDiff * InterpolationPercent);
-
-            if (Math.abs(rotDiff) <= that.INTERPOLATE_ROTATION_THRESHOLD) {
-                that.SmoothingRotation = false;
-            }
-        }
-    }
-
-    function TryInterpolation(ClientPositionPrediction) {
-        if (that.InterpolateOver) {
-            Interpolate("X", ClientPositionPrediction);
-            Interpolate("Y", ClientPositionPrediction);
-        }
-    }
-
-    function TryInterpolationRotation(RotationIncrementor) {
-        if (that.InterpolateRotationOver) {
-            InterpolateRotation(RotationIncrementor);
-        }
-    }
-
     that.UpdateFromSecond = function (PercentOfSecond) {
         var ClientPositionPrediction = {
             X: 0,
@@ -86,7 +44,7 @@
 
         var now = new Date(),
             nowMilliseconds = now.getTime();
-
+        /*
         Acceleration = { X: 0, Y: 0 }
 
         Acceleration.X += that.MovementController.Forces.X / that.MovementController.Mass;
@@ -140,7 +98,8 @@
         // Rounding so we doing do alpha transparency on the canvas
         that.MovementController.Position.X = Math.round(that.MovementController.Position.X);
         that.MovementController.Position.Y = Math.round(that.MovementController.Position.Y);
-
+        */
+        that.MovementController.Update(PercentOfSecond, now);
         that.AnimationHandler.Update(now);
         that.ShipAbilityHandler.Update(now);
         that.LastUpdated = now;

@@ -29,8 +29,11 @@
             // Create a GUID on the ship object.  This allows the camera to follow a GUID based object
             currentShip.GUID = currentShip.ID;
 
-            var abilities = currentShip.Abilities;
+            var abilities = currentShip.Abilities,
+                movementController = currentShip.MovementController;
+
             delete currentShip.Abilities;
+            delete currentShip.MovementController;
 
             if (!that.Ships[id]) {
                 that.Ships[id] = new ShipVehicle(currentShip);
@@ -40,6 +43,7 @@
             }
 
             that.Ships[id].ShipAbilityHandler.UpdateAbilities(abilities);
+            that.Ships[id].MovementController.UpdateMovementController(movementController);
 
             // Check if the ship still exists
             if (that.Ships[id].Disposed) {

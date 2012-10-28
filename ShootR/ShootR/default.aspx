@@ -207,6 +207,10 @@
         <script src="signalr/hubs" type="text/javascript"></script>
 
         <script src="Client/Utilities/ValueRef.js" type="text/javascript"></script>
+        <script src="Client/Utilities/ImageAssets.js" type="text/javascript"></script>
+        <script src="Client/Utilities/Vector2.js" type="text/javascript"></script>
+        <script src="Client/Utilities/GameTime.js" type="text/javascript"></script>
+
         <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
         <script src="Client/Space/Screen.js" type="text/javascript"></script>
         <script src="Client/GameGlobals.js" type="text/javascript"></script>
@@ -226,9 +230,8 @@
         <script src="Client/Space/Camera.js" type="text/javascript"></script>
         <script src="Client/Space/CanvasRenderer.js" type="text/javascript"></script>
 
-        <script src="Client/Utilities/ImageAssets.js" type="text/javascript"></script>
-        <script src="Client/Utilities/GameTime.js" type="text/javascript"></script>
-        <script src="Client/Utilities/Collidable.js" type="text/javascript"></script>
+        <script src="Client/Collidable/Collidable.js" type="text/javascript"></script>
+        <script src="Client/Collidable/MovementController.js" type="text/javascript"></script>
 
         <script src="Client/Powerups/Powerup.js" type="text/javascript"></script>
         <script src="Client/Powerups/HealthPack.js" type="text/javascript"></script>
@@ -243,6 +246,7 @@
         <script src="Client/Abilities/Abstractions/MovementAbility.js" type="text/javascript"></script>
         <script src="Client/Abilities/Boost.js"></script>
 
+        <script src="Client/Ship/ShipMovementController.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipManager.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipAnimationHandler.js" type="text/javascript"></script>
         <script src="Client/Ship/ShipVehicle.js" type="text/javascript"></script>

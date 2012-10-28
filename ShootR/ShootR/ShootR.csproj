@@ -84,6 +84,8 @@
     <Content Include="Client\Abilities\Boost.js" />
     <Content Include="Client\Bullet\Bullet.js" />
     <Content Include="Client\Bullet\BulletManager.js" />
+    <Content Include="Client\Collidable\MovementController.js" />
+    <Content Include="Client\Ship\ShipMovementController.js" />
     <Content Include="Client\Configuration\ConfigurationManager.js" />
     <Content Include="Client\GameController\Adapters\IETouchAdapter.js" />
     <Content Include="Client\GameController\Adapters\MouseAdapter.js" />
@@ -120,12 +122,13 @@
     <Content Include="Client\Utilities\ImageAssets.js" />
     <Content Include="Client\Utilities\LatencyResolver.js" />
     <Content Include="Client\Utilities\ClientServerTime.js" />
-    <Content Include="Client\Utilities\Collidable.js" />
+    <Content Include="Client\Collidable\Collidable.js" />
     <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.js" />
     <Content Include="Client\Utilities\GameTime.js" />
     <Content Include="Client\HUD\ShipStatMonitor.js" />
     <Content Include="Client\Utilities\UtilityFunctions.js" />
     <Content Include="Client\Utilities\ValueRef.js" />
+    <Content Include="Client\Utilities\Vector2.js" />
     <Content Include="controller.aspx" />
     <Content Include="default.aspx" />
     <Content Include="Images\bg_stars.png" />
@@ -238,6 +241,7 @@
     <Compile Include="Server\Configuration\LeaderboardConfiguration.cs" />
     <Compile Include="Server\Configuration\MapConfiguration.cs" />
     <Compile Include="Server\Configuration\ScreenConfiguration.cs" />
+    <Compile Include="Server\Configuration\ShipMovementControllerConfiguration.cs" />
     <Compile Include="Server\Game.cs" />
     <Compile Include="Server\GenericManagers\CollisionManager.cs" />
     <Compile Include="Server\Configuration\BulletConfiguration.cs" />

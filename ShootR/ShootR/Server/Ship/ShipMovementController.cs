@@ -24,7 +24,6 @@ namespace ShootR
 
         public MovementFlags Moving { get; set; }
 
-
         /// <summary>
         /// Calculates how far to move based on the current movement.
         /// </summary>
