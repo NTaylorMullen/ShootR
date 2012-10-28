@@ -12,6 +12,7 @@
     that.DeathScreen = new DeathScreen(that.Leaderboard, MyShip);
     that.ShipStatMonitor = new ShipStatMonitor(MyShip);
     that.EnvironmentMonitor = new EnvironmentMonitor(MyShip);
+    that.NotificationManager = new NotificationManager();
 
     function CenterDoublePopup(newViewport) {
         // The left is handled by the css

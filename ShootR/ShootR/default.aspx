@@ -125,6 +125,54 @@
                         </div>
                     </div>
                     <div id="InfoHolder" class="right">
+                        <div id="NotificationHolder">
+                            <div id="Notifications">
+                            </div>
+                            <div id="ControlsNCredits">
+                                <div class="mainBody">
+                                    <div class="bodyBox">
+                                        <div class="ControlsHolder">
+                                            <div id="Controls">
+                                            </div>                                            
+                                        </div>
+                                        <div id="Credits">
+                                            <div class="bodyOffset">
+                                                <h1>THE SHOOTr TEAM</h1>
+                                                <div>
+                                                    <p class="left">Creator</p>
+                                                    <p class="right"><a href="https://twitter.com/ntaylormullen" target="_blank">N. Taylor Mullen</a></p>
+                                                </div>
+                                                <div>
+                                                    <p class="left">Designer</p>
+                                                    <p class="right"><a href="https://twitter.com/jbsterling" target="_blank">Jonah Sterling</a></p>
+                                                </div>
+                                                <div>
+                                                    <p class="left">Developer</p>
+                                                    <p class="right"><a href="https://twitter.com/davidfowl" target="_blank">David Fowler</a></p>
+                                                </div>
+                                                <div>
+                                                    <p class="left">Developer</p>
+                                                    <p class="right"><a href="https://twitter.com/DamianEdwards" target="_blank">Damian Edwards</a></p>
+                                                </div>
+                                                <div>                
+                                                    <p class="left">Developer</p>                                    
+                                                    <p class="right"><a href="https://twitter.com/StephenHaltR" target="_blank">Stephen Halter</a></p>
+                                                </div>
+
+                                                <h1 style="margin-top:24px;">CODE</h1>
+                                                <div>
+                                                    <p class="left"><a href="https://github.com/NTaylorMullen/ShootR" target="_blank">SHOOTr</a></p>
+                                                    <p class="right"><a href="http://signalr.net/" target="_blank">SIGNALr</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bottomArrowHolder">
+                                        <img src="Images/Page/toast_start.png" alt="Toast start" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div id="ShowInfo"></div>
                     </div>
                 </div>
@@ -139,7 +187,7 @@
                 </div>
 
                 <div id="doublePopupHolder">
-                    <div id="deathScreenHolder" class="goLeft" >
+                    <div id="deathScreenHolder" class="goLeft">
                         <div class="popUpScreenBG"></div>
                         <div class="bodyExtendedHolder">
                             <div class="bodyHolder">
@@ -255,6 +303,7 @@
         <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
         <script src="Client/Game.js" type="text/javascript"></script>
 
+        <script src="Client/HUD/NotificationManager.js" type="text/javascript"></script>
         <script src="Client/HUD/EnvironmentMonitor.js" type="text/javascript"></script>
         <script src="Client/HUD/ShipStatMonitor.js" type="text/javascript"></script>
         <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>

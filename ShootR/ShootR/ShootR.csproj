@@ -85,6 +85,10 @@
     <Content Include="Client\Bullet\Bullet.js" />
     <Content Include="Client\Bullet\BulletManager.js" />
     <Content Include="Client\Collidable\MovementController.js" />
+    <TypeScriptCompile Include="Client\HUD\NotificationManager.ts" />
+    <Content Include="Client\HUD\NotificationManager.js">
+      <DependentUpon>NotificationManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Ship\ShipMovementController.js" />
     <Content Include="Client\Configuration\ConfigurationManager.js" />
     <Content Include="Client\GameController\Adapters\IETouchAdapter.js" />
@@ -159,6 +163,9 @@
     <Content Include="Images\Page\leaderboard_divider.png" />
     <Content Include="Images\Page\leaderboard_lion.png" />
     <Content Include="Images\Page\SignalRLogoIdea.png" />
+    <Content Include="Images\Page\toast_controls.png" />
+    <Content Include="Images\Page\toast_start.png" />
+    <Content Include="Images\Page\toast_sysTIM.png" />
     <Content Include="Images\Ships\Damage\damage_1.png" />
     <Content Include="Images\Ships\Damage\damage_2.png" />
     <Content Include="Images\Ships\Damage\damage_3.png" />
@@ -179,6 +186,9 @@
     <Content Include="Fonts\seguisb.eot" />
     <Content Include="Client\Utilities\Vector2.js.map">
       <DependentUpon>Vector2.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\NotificationManager.js.map">
+      <DependentUpon>NotificationManager.ts</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>

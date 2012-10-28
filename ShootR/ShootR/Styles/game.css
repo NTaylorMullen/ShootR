@@ -59,7 +59,8 @@ html, body {
 }
 
 a {
-    color: #13678B;
+    color: white;
+    text-decoration:none;
 }
 
 div.borderless {

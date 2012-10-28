@@ -186,6 +186,8 @@ namespace ShootR
                                 ship.LifeController.HealFull();
                                 user.Connected = true;
                             }
+
+                            user.IdleManager.Idle = false;
                         }
 
                         GameHandler.AddShipToGame(ship);
