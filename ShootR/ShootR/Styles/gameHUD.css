@@ -102,7 +102,7 @@
 
     #HUDBar .offset {
         margin: 10px 0 0 13px;
-        height: 78px;
+        height: 86px;
     }
 
     #HUDBar .pilotHeader {
@@ -166,8 +166,9 @@
     }
 
     #HUDBar .killDeathHolder {
-        height: 43px;
+        height: 51px;
         width: 178px;
+        border-bottom: 1px solid #80868c;
     }
 
     #HUDBar .killHolder, #HUDBar .deathHolder {
@@ -209,8 +210,7 @@
     #HUDBar .ratioHolder {
         float: right!important;
         width: 144px;
-        height: 33px;
-        border-top: 1px solid #80868c;
+        height: 33px;        
     }
 
         #HUDBar .ratioHolder p {
