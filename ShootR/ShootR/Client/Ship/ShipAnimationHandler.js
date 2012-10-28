@@ -29,7 +29,8 @@
         autoPlay: false,
         autoClear: false,
         loop: true,
-        loopFrom: 4
+        loopFrom: 4,
+        finalFrames: 2
     });
 
     thrustBasicAnimation = new spritify({
@@ -82,7 +83,7 @@
         var nowMilliseconds = now.getTime();
 
         if (!MyShip.ShipAbilityHandler.Ability("Boost").Active) {
-            boostAnimation.Stop();
+            boostAnimation.Stop(true);
             if (MyShip.MovementController.Moving.Forward) {
                 if (!movingForwardSince) {
                     movingForwardSince = new Date().getTime();
@@ -104,11 +105,11 @@
         else { // We're boosting
             boostAnimation.Play();
             thrustBasicAnimation.Stop();
-            thrustStartAnimation.Stop();
-            boostAnimation.Update(now);
-            boostAnimation.ClearDrawOnCanvas();
+            thrustStartAnimation.Stop();           
         }
         
+        boostAnimation.Update(now);
+        boostAnimation.ClearDrawOnCanvas();
         thrustStartAnimation.ClearDrawOnCanvas();
     }
 }

@@ -1,6 +1,7 @@
 ﻿function spritify(options) {
     var that = this,
-        lastUpdateFrame = new Date().getTime();
+        lastUpdateFrame = new Date().getTime(),
+        finishingFrames = false;
 
     that.Destroyed = false;
 
@@ -12,7 +13,7 @@
         return { row: row, column: column };
     }
 
-    that.ClearDrawOnCanvas = function() {
+    that.ClearDrawOnCanvas = function () {
         options.drawOn.clearRect(that.MovementController.Position.X, that.MovementController.Position.Y, options.frameSize.width, options.frameSize.height);
     }
 
@@ -29,32 +30,50 @@
         }
     }
 
-    that.Stop = function () {
+    that.Stop = function (finishFrames) {
         if (that.Playing) {
-            that.Playing = false;
-            options.currentFrame = 0;            
-            that.ClearDrawOnCanvas();
-            clearTimeout(options.timeoutID);
+            if (finishFrames) {
+                finishingFrames = true;
+            }
+            else {
+                that.Playing = false;
+                options.currentFrame = 0;
+                that.ClearDrawOnCanvas();
+                clearTimeout(options.timeoutID);
+            }
         }
     }
 
     that.Playing = false;
 
-    function initiateAnimation () {
+    function initiateAnimation() {
         that.Playing = true;
-        nextAnimationFrame();        
+        nextAnimationFrame();
     }
 
     function nextAnimationFrame() {
         // If we've reached the end of the animation
-        if (++options.currentFrame === options.frameCount) {
+        if (++options.currentFrame >= options.frameCount) {
+            if (finishingFrames) {
+                if (options.currentFrame - 1 < options.frameCount + options.finalFrames) {
+                    if (options.autoPlay) {
+                        options.timeoutID = setTimeout(nextAnimationFrame, options.interval);
+                    }
+                }
+                else {
+                    finishingFrames = false;
+                    that.Stop();
+                }
+                return;
+            }
+
             if (options.destroyOncePlayed) {
                 that.Destroyed = true;
                 that.Playing = false;
             }
 
             // Check if we shold not loop the animation
-            if (options.loop) {                
+            if (options.loop) {
                 options.currentFrame = options.loopFrom;
             }
             else {
@@ -83,8 +102,11 @@
             drawOn: false,
             autoPlay: true,
             autoClear: true,
+            finalFrames: 0,
             deferred: $.Deferred()
         }, options);
+
+        that.Options = options;
 
         // destroyOncePlayed can only be true if loop is false
         options.destroyOncePlayed = (options.loop === false) ? options.destroyOncePlayed : false;
@@ -102,6 +124,8 @@
                 options.fps = options.frameCount;
             }
         }
+
+        originalFrameCount = options.frameCount;
 
         // If Centering is turned on then we need to center the target
         if (options.centerOn) {

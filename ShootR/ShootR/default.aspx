@@ -124,13 +124,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="rightSide right">
-                        <div id="ControlsHolder" class="left">
-                            <div id="Controls"></div>
-                        </div>
-                        <div id="HideHUDHolder" class="left">
-                            <div id="HideHUD"></div>
-                        </div>
+                    <div id="InfoHolder" class="right">
+                        <div id="ShowInfo"></div>
                     </div>
                 </div>
             </div>

@@ -129,9 +129,8 @@
         #leaderboardHolder .lionHolder #Lion {
             background-image: url('/Images/Page/leaderboard_lion.png');
             background-repeat: no-repeat;
-            width: 172px;
+            width: 417px;
             height: 105px;
-            float: right;
         }
 
 #leaderboard {

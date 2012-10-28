@@ -329,35 +329,31 @@ p.right {
     width: 173px;
 }
 
-#HUDBar #ControlsHolder {
-    width: 83px;
-}
-
-#HUDBar #Controls {
-    margin-top: 8px;
-    width: 83px;
-    height: 80px;
-    background-image: url('/Images/HUD/keys_def.png');
-    background-repeat: no-repeat;
-}
-
-#HUDBar #HideHUDHolder {
+#HUDBar #InfoHolder {
     width: 90px;
 }
 
-#HUDBar #HideHUD {
+#HUDBar #ShowInfo {
     margin: 24px auto 0;
     width: 48px;
     height: 48px;
-    background-image: url('/Images/HUD/minimize_arrow.png');
+    background-image: url('/Images/HUD/btn_Info_def.png');
     background-repeat: no-repeat;
 }
 
-    #HUDBar #HideHUD:hover {
+    #HUDBar #ShowInfo:hover {
         cursor: pointer;
-        background-image: url('/Images/HUD/minimize_arrow_over.png');
+        background-image: url('/Images/HUD/btn_Info_over.png');
     }
 
+    #HUDBar #ShowInfo.active {
+        background-image: url('/Images/HUD/toast_btn_active.png');
+    }
+    
+    #HUDBar #ShowInfo.active:hover {
+        background-image: url('/Images/HUD/toast_btn_active.png');
+    }
+    
 #HUDBarCover {
     position: absolute;
     top: 0;
