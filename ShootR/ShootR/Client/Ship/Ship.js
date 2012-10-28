@@ -1,7 +1,4 @@
 ﻿function Ship(rotateLeft, forward, rotateRight, backward, fire, bullet_manager, connection) {
-    this.MovementController = {
-        Power: this.ENGINE_POWER
-    }
     ShipVehicle.call(this);
     var that = this,
         lastShot = new Date().getTime(),
@@ -86,7 +83,6 @@
 
     function DetermineInterpolation(serverShip) {
         if (payloadsEvery) {
-
             if (!that.LifeController.Alive) {
                 that.Smoothing.X = false;
                 that.Smoothing.Y = false;
@@ -163,7 +159,7 @@
                 pingBack = true;
                 that.LatencyResolver.RequestedPingBack();
             }
-            commandList.push([++currentCommand, name, false]);
+            commandList.push([++currentCommand, name, false, true]);
             connection.server.registerAbilityStop(name, pingBack, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
@@ -315,7 +311,12 @@
 
             for (var i = serverCommandIndex; i < commandList.length; i++) {
                 if (commandList[i][3]) { // Checking if the command is an ability
-                    that.Abilities[commandList[i][1]] = commandList[i][2];
+                    if (commandList[i][2]) {
+                        that.ShipAbilityHandler.Activate(commandList[i][1])
+                    }
+                    else {
+                        that.ShipAbilityHandler.Deactivate(commandList[i][1])
+                    }
                 }
                 else {
                     that.MovementController.Moving[commandList[i][1]] = commandList[i][2];

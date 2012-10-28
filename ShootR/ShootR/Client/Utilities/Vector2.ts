@@ -1,57 +1,74 @@
-var Vector2 = (function () {
-    function Vector2(X, Y) {
+class Vector2 {
+    X: number;
+    Y: number;
+
+    constructor (X: number, Y: any) {
         if(!isNaN(X) && Y === false) {
             var radians = X * Math.PI / 180;
             this.X = Math.cos(radians);
             this.Y = Math.sin(radians);
-        } else {
+        }
+        else {
             this.X = X || 0;
             this.Y = Y || 0;
         }
     }
-    Vector2.prototype.Length = function () {
+
+    public Length() {
         return Math.sqrt(Math.pow(this.X, 2) + Math.pow(this.Y, 2));
-    };
-    Vector2.prototype.Abs = function () {
+    }
+
+    public Abs() {
         return new Vector2(Math.abs(this.X), Math.abs(this.Y));
-    };
-    Vector2.prototype.DistanceTo = function (to) {
+    }
+
+    // To is a Vector2
+    public DistanceTo(to: Vector2) {
         return Math.sqrt(Math.pow(to.X - this.X, 2) + Math.pow(to.Y - this.Y, 2));
-    };
-    Vector2.prototype.ZeroOut = function () {
+    }
+
+    public ZeroOut() {
         this.X = 0;
         this.Y = 0;
-    };
-    Vector2.MultiplyV = function MultiplyV(v1, v2) {
+    }
+
+    static MultiplyV(v1: Vector2, v2: Vector2) {
         return new Vector2(v1.X * v2.X, v1.Y * v2.Y);
     }
-    Vector2.MultiplyN = function MultiplyN(v1, num) {
+
+    static MultiplyN(v1: Vector2, num: number) {
         return new Vector2(v1.X * num, v1.Y * num);
     }
-    Vector2.AddV = function AddV(v1, v2) {
+
+    static AddV(v1: Vector2, v2: Vector2) {
         return new Vector2(v1.X + v2.X, v1.Y + v2.Y);
     }
-    Vector2.AddN = function AddN(v1, num) {
+
+    static AddN(v1: Vector2, num: number) {
         return new Vector2(v1.X + num, v1.Y + num);
     }
-    Vector2.SubtractV = function SubtractV(v1, v2) {
+
+    static SubtractV(v1: Vector2, v2: Vector2) {
         return new Vector2(v1.X - v2.X, v1.Y - v2.Y);
     }
-    Vector2.SubtractVFromN = function SubtractVFromN(v1, num) {
+
+    static SubtractVFromN(v1: Vector2, num: number) {
         return new Vector2(v1.X - num, v1.Y - num);
     }
-    Vector2.SubtractNFromV = function SubtractNFromV(num, v1) {
+
+    static SubtractNFromV(num: number, v1: Vector2) {
         return new Vector2(num - v1.X, num - v1.Y);
     }
-    Vector2.DivideV = function DivideV(v1, v2) {
+
+    static DivideV (v1: Vector2, v2: Vector2) {
         return new Vector2(v1.X / v2.X, v1.Y / v2.Y);
     }
-    Vector2.DivideVByN = function DivideVByN(v1, num) {
+
+    static DivideVByN (v1: Vector2, num: number) {
         return new Vector2(v1.X / num, v1.Y / num);
     }
-    Vector2.DivideNByV = function DivideNByV(num, v1) {
+
+    static DivideNByV (num: number, v1: Vector2) {
         return new Vector2(num / v1.X, num / v1.Y);
     }
-    return Vector2;
-})();
-//@ sourceMappingURL=Vector2.js.map
+}

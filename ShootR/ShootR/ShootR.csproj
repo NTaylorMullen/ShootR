@@ -128,7 +128,13 @@
     <Content Include="Client\HUD\ShipStatMonitor.js" />
     <Content Include="Client\Utilities\UtilityFunctions.js" />
     <Content Include="Client\Utilities\ValueRef.js" />
-    <Content Include="Client\Utilities\Vector2.js" />
+    <TypeScriptCompile Include="Client\Utilities\Vector2.ts" />
+    <Content Include="Client\Utilities\Vector2.js">
+      <DependentUpon>Vector2.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\Vector2.min.js">
+      <DependentUpon>Vector2.ts</DependentUpon>
+    </Content>
     <Content Include="controller.aspx" />
     <Content Include="default.aspx" />
     <Content Include="Images\bg_stars.png" />
@@ -163,6 +169,9 @@
     <Content Include="Authentication\LoginHandler.ashx" />
     <Content Include="Fonts\seguisb.ttf" />
     <Content Include="Fonts\seguisb.eot" />
+    <Content Include="Client\Utilities\Vector2.js.map">
+      <DependentUpon>Vector2.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
     </None>

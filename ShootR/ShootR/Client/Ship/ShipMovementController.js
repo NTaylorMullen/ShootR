@@ -1,15 +1,15 @@
 ﻿function ShipMovementController(position) {
     if (position) {
-        MovementController.apply(this, [this.MASS,this.ENGINE_POWER]);
+        MovementController.apply(this, [this.MASS, this.ENGINE_POWER]);
         var that = this,
             acceleration = new Vector2(),
-            movingDirections = ["RotatingLeft","RotatingRight","Forward","Backward"];
+            movingDirections = ["RotatingLeft", "RotatingRight", "Forward", "Backward"];
 
         that.Position = position;
         that.Moving = {}
 
-        that.StopMovement = function() {
-            for(var i = movingDirections.length - 1; i >= 0; i--) {
+        that.StopMovement = function () {
+            for (var i = movingDirections.length - 1; i >= 0; i--) {
                 that.Moving[movingDirections[i]] = false;
             }
         }
@@ -60,53 +60,47 @@
             }
         }
 
-        that.Move = function(percentOfSecond, now)
-        {
+        that.Move = function (percentOfSecond, now) {
             var velocityLength,
                 clientPositionPrediction = new Vector2(),
                 nowMilliseconds = now.getTime();
 
-            acceleration = acceleration.Add(that.Forces.DivideBy(that.Mass));
+            acceleration = Vector2.AddV(acceleration, Vector2.DivideVByN(that.Forces, that.Mass));
 
-            clientPositionPrediction = that.Velocity.Multiply(percentOfSecond).Add(acceleration.Multiply(percentOfSecond*percentOfSecond));
+            clientPositionPrediction = Vector2.AddV(Vector2.MultiplyN(that.Velocity,percentOfSecond), Vector2.MultiplyN(acceleration, percentOfSecond * percentOfSecond));
 
-            that.Position = that.Position.Add(clientPositionPrediction);
+            that.Position = Vector2.AddV(that.Position, clientPositionPrediction);
 
-            that.Velocity = that.Velocity.Add(acceleration.Multiply(percentOfSecond));
+            that.Velocity = Vector2.AddV(that.Velocity, Vector2.MultiplyN(acceleration, percentOfSecond));
             velocityLength = that.Velocity.Length();
 
             // Stop moving if the "speed" is less than 10
-            if (velocityLength < 10)
-            {
+            if (velocityLength < 10) {
                 that.Velocity.ZeroOut();
             }
             else if (velocityLength > 3000) // Hack
             {
-                that.Velocity = new Vector2(that.Rotation).Multiply(600);
+                that.Velocity = Vector2.MultiplyN(new Vector2(that.Rotation, false), 600);
             }
 
             acceleration.ZeroOut();
             that.Forces.ZeroOut();
 
             var rotationIncrementor = percentOfSecond * that.ROTATE_SPEED,
-                direction = new Vector2(that.Rotation),
-                dragForce = that.Velocity.Multiply(.5).Multiply(that.Velocity.Abs()).Multiply(that.DRAG_COEFFICIENT * that.DRAG_AREA * -1);
+                direction = new Vector2(that.Rotation, false),
+                dragForce = Vector2.MultiplyN(Vector2.MultiplyV(Vector2.MultiplyN(that.Velocity, .5), that.Velocity.Abs()), that.DRAG_COEFFICIENT * that.DRAG_AREA * -1);
 
-            if (that.Moving.RotatingLeft)
-            {
+            if (that.Moving.RotatingLeft) {
                 that.Rotation -= rotationIncrementor;
             }
-            if (that.Moving.RotatingRight)
-            {
+            if (that.Moving.RotatingRight) {
                 that.Rotation += rotationIncrementor;
             }
-            if (that.Moving.Forward)
-            {
-                that.ApplyForce(direction.Multiply(that.Power));
+            if (that.Moving.Forward) {
+                that.ApplyForce(Vector2.MultiplyN(direction,that.Power));
             }
-            if (that.Moving.Backward)
-            {
-                that.ApplyForce(direction.Multiply(that.Power * -1));
+            if (that.Moving.Backward) {
+                that.ApplyForce(Vector2.MultiplyN(direction,that.Power * -1));
             }
 
             that.ApplyForce(dragForce);
@@ -114,10 +108,9 @@
             // Rounding so we doing do alpha transparency on the canvas
             that.Position.X = Math.round(that.Position.X);
             that.Position.Y = Math.round(that.Position.Y);
-        }        
+        }
 
-        that.Update = function(percentOfSecond, now)
-        {
+        that.Update = function (percentOfSecond, now) {
             that.Move(percentOfSecond, now);
             that.LastUpdated = now;
         }

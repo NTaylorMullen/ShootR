@@ -34,7 +34,6 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
 
     function HandleStart(touch) {
         if (that.Enabled) {
-            console.log("Started touch!");
             if (touch.clientX <= middle) { // leftJoyStick
                 if (!leftJoyStick.InAction) {
                     leftJoyStick.TouchStart(touch);
@@ -50,7 +49,6 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
 
     function HandleMove(touch) {
         if (that.Enabled) {
-            console.log("Moved touch!");
             leftJoyStick.TouchMove(touch);
             rightJoyStick.TouchMove(touch);
         }
@@ -58,7 +56,6 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
 
     function HandleStop(touch) {
         if (that.Enabled) {
-            console.log("Stopped touch!");
             // Check if we need to fire
             if ((leftJoyStick.InAction && leftJoyStick.Traveled() < lengthOffset && leftJoyStick.TimeSinceTouch() <= 1000) ||
                 (rightJoyStick.InAction && rightJoyStick.Traveled() < lengthOffset && rightJoyStick.TimeSinceTouch() <= 1000)) {

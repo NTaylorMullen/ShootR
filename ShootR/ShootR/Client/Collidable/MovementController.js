@@ -15,7 +15,7 @@
         Initialize();
 
         that.ApplyForce = function (force) {
-            that.Forces = that.Forces.Add(force);
+            that.Forces = Vector2.AddV(that.Forces, force);
         }
 
         that.RepositionInBounds = function (objectWidth, objectHeight) {
@@ -37,7 +37,7 @@
 
         function Initialize() {
             // We passed a position
-            if (first.IsVector2) {
+            if (first instanceof Vector2) {
                 that.Position = first;
                 that.Mass = second;
                 that.Power = third;

@@ -17,18 +17,18 @@
                 $(ships[key]).triggerHandler("OnOutOfBounds");
 
                 // Collided with left or right side
-                if (ships[key].MovementController.Position.X <= 0 || (ships[key].MovementController.Position.X + ships[key].WIDTH) >= that.WIDTH) {
+                if (ships[key].MovementController.Position.X < 0 || (ships[key].MovementController.Position.X + ships[key].WIDTH) > that.WIDTH) {
                     bounceMultiplier = new Vector2(-that.BARRIER_DEPRECATION, that.BARRIER_DEPRECATION );
                 }
-                else if (ships[key].MovementController.Position.Y <= 0 || (ships[key].MovementController.Position.Y + ships[key].HEIGHT) >= that.HEIGHT) { // Top or bottom                
+                else if (ships[key].MovementController.Position.Y < 0 || (ships[key].MovementController.Position.Y + ships[key].HEIGHT) > that.HEIGHT) { // Top or bottom                
                     bounceMultiplier = new Vector2(that.BARRIER_DEPRECATION, -that.BARRIER_DEPRECATION );
                 }
 
                 ships[key].MovementController.RepositionInBounds(ships[key].WIDTH, ships[key].HEIGHT);
 
                 // Reverse velocity, aka bounce
-                ships[key].MovementController.Forces = ships[key].MovementController.Forces.Multiply(bounceMultiplier);
-                ships[key].MovementController.Velocity = ships[key].MovementController.Velocity.Multiply(bounceMultiplier);
+                ships[key].MovementController.Forces = Vector2.MultiplyV(ships[key].MovementController.Forces, bounceMultiplier);
+                ships[key].MovementController.Velocity = Vector2.MultiplyV(ships[key].MovementController.Velocity, bounceMultiplier);
             }
         }
 
