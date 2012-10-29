@@ -64,8 +64,7 @@ $(function () {
 
         info.ShipsOnScreen = game.ShipManager.Ships;
 
-        lastPayload = info;
-        gameInfoReceived = true;
+        lastPayload = info;        
 
         if (info.Notification) {
             game.HUDManager.NotificationManager.Notify(info.Notification, false);
@@ -88,6 +87,8 @@ $(function () {
         game.ShipManager.MyShip.ReplayCommands(info.LastCommandProcessed);
 
         game.BulletManager.UpdateBullets(info.Bullets);
+
+        gameInfoReceived = true;
     }
 
     // Small name in order to minimize payload

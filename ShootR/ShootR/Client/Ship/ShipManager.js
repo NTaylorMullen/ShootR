@@ -32,13 +32,15 @@
             var abilities = currentShip.Abilities,
                 movementController = currentShip.MovementController;
 
+            // Remove them from the currentShip so we don't update them as properties
             delete currentShip.Abilities;
             delete currentShip.MovementController;
 
+            // If we don't have a ship by that ID create a new ship
             if (!that.Ships[id]) {
                 that.Ships[id] = new ShipVehicle(currentShip);
             }
-            else {
+            else { // We already have a ship on the screen by that ID, update it
                 that.Ships[id].UpdateProperties(currentShip);
             }
 
@@ -66,25 +68,25 @@
     }
 
     that.Update = function (gameTime) {
+        // Always update "myship" first.  This will get the camera in the right place
+        var myShip = that.Ships[myShipID];
+        if (myShip) {
+            myShip.Update(gameTime);
+            myShip.Draw();
+        }
+
         for (var key in that.Ships) {
             // Ensure that the Ship is in view
-            if (CanvasContext.Camera.InView(that.Ships[key]) || that.MyShip.ID === that.Ships[key].ID) {
+            if (CanvasContext.Camera.InView(that.Ships[key]) && myShipID !== that.Ships[key].ID) {
                 that.Ships[key].Update(gameTime);
-
                 that.Ships[key].Draw();
 
                 if (that.Ships[key].LifeController.Alive && that.DrawDetails) {
-                    if (that.Ships[key].ID !== that.MyShip.ID) {
-                        that.Ships[key].DrawHealthBar();
-                        that.Ships[key].DrawName(10);
-                    }
-                    else {
-                        that.Ships[key].DrawName(0);
-                    }
-
+                    that.Ships[key].DrawHealthBar();
+                    that.Ships[key].DrawName(10);
                 }
             }
-            else { // Ship is not in view, so remove it from our ship list
+            else if (myShipID !== that.Ships[key].ID) { // Ship is not in view, so remove it from our ship list
                 delete that.Ships[key];
             }
         }
