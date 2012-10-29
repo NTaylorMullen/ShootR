@@ -11,7 +11,6 @@ class NotificationManager {
     private notifications = $("#Notifications");
     private initialControlsShowFor = 7000; // Show the controls info for X milliseconds
     private notifyTime = 4000;
-    private wasUp = false;
 
     constructor () {
         var that = this;
