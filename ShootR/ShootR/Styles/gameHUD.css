@@ -351,17 +351,54 @@ p.right {
 
 #NotificationHolder {
     position:absolute;
-    top:-254px;
+    top:10px;
     left:-430px;
     height:auto;
     width:473px;
     display:none;
 }
 
+    #NotificationHolder .Notification {
+        width:100%;
+        height:123px;
+        margin-bottom:20px;
+    }
+
+        #NotificationHolder .Notification .mainBody {
+            width:100%;
+            min-height:103px;
+            background-color:#3FA9F5;
+        }
+
+            #NotificationHolder .Notification .mainBody img {
+                display:block;
+                float:left;
+                width:98px;
+                height:99px;
+                margin:2px;
+                margin-right:20px;
+            }
+            
+            #NotificationHolder .Notification .mainBody p {
+                position:relative;
+                float:left;
+                width:333px;
+                height:auto;
+                color:white;
+                font-size:20px;
+                margin-right:20px;
+            }
+    
+.bottomArrowHolder {
+    height:20px;
+    text-align:right;
+}
+
 #ControlsNCredits {
     display:none;
     height:263px;
     width:100%;
+    margin-bottom:20px;
 }
 
     #ControlsNCredits .mainBody {
@@ -373,12 +410,7 @@ p.right {
     #ControlsNCredits .bodyBox {
         background-color:#3FA9F5;
         height:243px;
-    }
-    
-    #ControlsNCredits .bottomArrowHolder {
-        height:20px;
-        text-align:right;
-    }
+    }       
 
     #ControlsNCredits .ControlsHolder {
         width:161px;

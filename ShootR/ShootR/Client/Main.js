@@ -59,17 +59,6 @@ $(function () {
         })();
     }
 
-    function Notify(msg, stayUp) {
-        notification.html(msg);
-        notification.css({ top: '50%', left: '50%', margin: '-' + (notification.height() / 2) + 'px 0 0 -' + (notification.width() / 2) + 'px' });
-        if (!stayUp) {
-            notification.fadeIn(1000).fadeOut(4000);
-        }
-        else {
-            notification.fadeIn(1000);
-        }
-    }
-
     function LoadMapInfo(info) {
         var myShip = game.ShipManager.MyShip;
 
@@ -79,7 +68,7 @@ $(function () {
         gameInfoReceived = true;
 
         if (info.Notification) {
-            Notify(info.Notification);
+            game.HUDManager.NotificationManager.Notify(info.Notification, false);
         }
 
         if (info.KilledByName) {
@@ -121,13 +110,13 @@ $(function () {
     }
 
     env.client.disconnect = function () {
-        Notify("You have been disconnected for being Idle too long.  Refresh the page to play again.", true);
+        game.HUDManager.NotificationManager.Notify("You have been disconnected for being Idle too long.  Refresh the page to play again.", true);
         
         $.connection.hub.stop();
     }
 
     env.client.controlTransferred = function () {
-        Notify("You have been disconnected!  The control for your ship has been transferred to your other login.", true);
+        game.HUDManager.NotificationManager.Notify("You have been disconnected!  The control for your ship has been transferred to your other login.", true);
         $.connection.hub.stop();
     }
 

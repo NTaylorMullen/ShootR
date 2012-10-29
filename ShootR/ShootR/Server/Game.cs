@@ -187,6 +187,7 @@ namespace ShootR
                                 user.Connected = true;
                             }
 
+                            user.IdleManager.RecordActivity();
                             user.IdleManager.Idle = false;
                         }
 

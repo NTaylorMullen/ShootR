@@ -127,13 +127,22 @@
                     <div id="InfoHolder" class="right">
                         <div id="NotificationHolder">
                             <div id="Notifications">
+                                <div class="Notification" style="display: none">
+                                    <div class="mainBody">
+                                        <img src="Images/Page/toast_sysTIM.png" alt="System Picture" />
+                                        <p>Transfering control to this browser.  You were already logged in.</p>
+                                    </div>
+                                    <div class="bottomArrowHolder">
+                                        <img src="Images/Page/toast_start.png" alt="Toast start" />
+                                    </div>
+                                </div>
                             </div>
                             <div id="ControlsNCredits">
                                 <div class="mainBody">
                                     <div class="bodyBox">
                                         <div class="ControlsHolder">
                                             <div id="Controls">
-                                            </div>                                            
+                                            </div>
                                         </div>
                                         <div id="Credits">
                                             <div class="bodyOffset">
@@ -154,12 +163,12 @@
                                                     <p class="left">Developer</p>
                                                     <p class="right"><a href="https://twitter.com/DamianEdwards" target="_blank">Damian Edwards</a></p>
                                                 </div>
-                                                <div>                
-                                                    <p class="left">Developer</p>                                    
+                                                <div>
+                                                    <p class="left">Developer</p>
                                                     <p class="right"><a href="https://twitter.com/StephenHaltR" target="_blank">Stephen Halter</a></p>
                                                 </div>
 
-                                                <h1 style="margin-top:24px;">CODE</h1>
+                                                <h1 style="margin-top: 24px;">CODE</h1>
                                                 <div>
                                                     <p class="left"><a href="https://github.com/NTaylorMullen/ShootR" target="_blank">SHOOTr</a></p>
                                                     <p class="right"><a href="http://signalr.net/" target="_blank">SIGNALr</a></p>
@@ -176,9 +185,6 @@
                         <div id="ShowInfo"></div>
                     </div>
                 </div>
-            </div>
-
-            <div id="Notification">
             </div>
 
             <div id="popUpHolder">

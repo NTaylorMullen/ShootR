@@ -51,6 +51,10 @@
     that.TryInterpolate = true;
     that.TryInterpolateRotation = false;
 
+    that.LifeController = {
+        Health: that.MaxLife
+    }
+
     function RegisterPayload() {
         // Calculate how often we receive payloads so we can interpolate between them
         var now = new Date().getTime();
