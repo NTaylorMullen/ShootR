@@ -8,11 +8,13 @@
     // Initially set to really high, this will be changed by the configuration
     Screen.prototype.MAX_SCREEN_WIDTH = 10000;
     Screen.prototype.MAX_SCREEN_HEIGHT = 10000;
+    Screen.prototype.MIN_SCREEN_WIDTH = -1;
+    Screen.prototype.MIN_SCREEN_HEIGHT = -1;
 
     that.Initialize = function (gamehud) {
         gameHUD = gamehud;
-        UpdateScreen();
-    }    
+        ScreenResizeEvent();
+    }
 
     that.TopOffset = function () {
         return 0;
@@ -24,8 +26,8 @@
 
     that.UpdateViewport = function () {
         return {
-            Width: Math.max(Math.min($(window).width(), that.MAX_SCREEN_WIDTH),1),
-            Height: Math.max(Math.min($(window).height(), that.MAX_SCREEN_HEIGHT) - that.TopOffset() - that.BottomOffset(), 1)
+            Width: Math.max(Math.min($(window).width(), that.MAX_SCREEN_WIDTH), that.MIN_SCREEN_WIDTH),
+            Height: Math.max(Math.min($(window).height(), that.MAX_SCREEN_HEIGHT) - that.TopOffset() - that.BottomOffset(), that.MIN_SCREEN_HEIGHT)
         };
     }
 
@@ -40,7 +42,7 @@
         if (popUpHolder) {
             popUpHolder.css("width", that.Viewport.Width);
             popUpHolder.css("height", that.Viewport.Height);
-        }        
+        }
     }
 
     function UpdateGameCamera() {
@@ -48,7 +50,7 @@
         CanvasContext.Camera.View.HEIGHT = $(gameCanvas).height() + that.SCREEN_BUFFER_AREA;
     }
 
-    that.SendNewViewportToServer = function() {
+    that.SendNewViewportToServer = function () {
         connection.server.changeViewport(that.Viewport.Width, that.Viewport.Height);
     }
 
@@ -68,10 +70,15 @@
         $(that).triggerHandler("UpdateScreen");
     }
 
+    function ScreenResizeEvent() {
+        UpdateScreen();
+        setTimeout(UpdateScreen, 750); // Re-calculate in-case there were scrollbars
+    }
+
     $(window).resize(function () {
         // Wait till window has officially finished resizing (wait a quarter second).
         delay(function () {
-            UpdateScreen();            
+            ScreenResizeEvent();
         }, 250);
     });
 }

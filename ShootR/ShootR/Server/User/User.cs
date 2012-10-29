@@ -12,6 +12,8 @@ namespace ShootR
     {
         public const int MAX_SCREEN_WIDTH = 2000;
         public const int MAX_SCREEN_HEIGHT = 2000;
+        public const int MIN_SCREEN_WIDTH = 1000;
+        public const int MIN_SCREEN_HEIGHT = 660;
 
         public User(string connectionID, RegisteredClient rc)
             : this(connectionID, null, rc)

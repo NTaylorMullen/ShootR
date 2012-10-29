@@ -2,7 +2,9 @@
     var that = this,
         gameHUD = $("#gameHUD"),
         doublePopupHolder = $("#doublePopupHolder"),
-        gameHUDHeight = gameHUD.height();
+        gameHUDHeight = gameHUD.height(),
+        locationStats = $("#LocationStatisticsHolder"),
+        shipStats = $("#StatisticHolder");
 
     that.GameDetailManager;
     that.HealthMonitor = new HealthMonitor(MyShip);
@@ -23,7 +25,24 @@
         gameHUD.css("width", newViewport.Width);
         gameHUD.css("height", gameHUDHeight);
         gameHUD.css("top", newViewport.Height - gameHUDHeight);
+        that.HealthMonitor.OnScreenResize();
         CenterDoublePopup(newViewport);
+
+        // Remove or Add HUD objects
+        if (newViewport.Width <= 1370) {
+            locationStats.css("display", "none");
+        }
+        else {
+            locationStats.css("display", "block");
+        }
+
+        // Remove or Add HUD objects
+        if (newViewport.Width <= 1177) {
+            shipStats.css("display", "none");
+        }
+        else {
+            shipStats.css("display", "block");
+        }
     }
 
     that.Initialize = function (config) {

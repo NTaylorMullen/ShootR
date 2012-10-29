@@ -12,7 +12,7 @@
 
     <title>SignalR ShootR</title>
 </head>
-<body style="height: 100%; overflow: hidden">
+<body style="height: 100%;">
     <form runat="server">
 
     <asp:Panel runat="server" ID="JanrainScripts" Visible="true">
@@ -78,12 +78,16 @@
                             </div>
                         </div>
                     </div>
-                    <div id="StatisticHolder" class="left">
+                    <div id="LevelHolder" class="left" style="overflow:hidden;">
                         <div class="offset">
                             <div class="mainStatHolder">
                                 <p>LEVEL</p>
                                 <h1 id="Level"></h1>
                             </div>
+                        </div>
+                    </div>
+                    <div id="StatisticHolder" class="left">
+                        <div class="offset">
                             <div class="increasedStatisticsHolder statistics left">
                                 <p class="header">SHIP</p>
                                 <div>
@@ -101,12 +105,16 @@
                             </div>
                         </div>
                     </div>
-                    <div id="LocationStatisticsHolder" class="left">
+                    <div id="AreaHolder" class="left" style="overflow:hidden;">
                         <div class="offset">
                             <div class="mainStatHolder">
                                 <p>AREA</p>
                                 <h1 id="Area"></h1>
                             </div>
+                        </div>
+                    </div>
+                    <div id="LocationStatisticsHolder" class="left">
+                        <div class="offset">
                             <div class="locationStats statistics left">
                                 <p class="header"></p>
                                 <div>

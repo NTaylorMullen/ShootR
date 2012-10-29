@@ -3,7 +3,6 @@
         drawContext = target[0].getContext("2d"),
         canvasBuffer = document.createElement("canvas"),
         canvasBufferContext = canvasBuffer.getContext("2d"),
-        drawBoundary = 707, // Will not draw objects more then X pixels away from the camera    
         textFont = "15px verdana",
         textColor = "rgba(255, 255, 255, 1)";
 

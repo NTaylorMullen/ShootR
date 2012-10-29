@@ -12,14 +12,19 @@
         halfHeartWidth = .5 * currentHealthHeart.width(),
         whiteHeartVisible = true;
 
-    that.Update = function () {
+    that.OnScreenResize = function () {
+        lastHealth = -1;
+        that.Update(true);
+    }
+
+    that.Update = function (supress) {
         if (MyShip.LifeController.Health !== lastHealth) {
             maxHealth = MyShip.MaxLife;
             // If we're taking damage
             if (MyShip.LifeController.Health < lastHealth) {
                 var healthDecrease = MyShip.LifeController.Health - lastHealth;
 
-                if (healthDecrease !== 0) {
+                if (healthDecrease !== 0 && !supress) {
                     GAME_GLOBALS.AnimationManager.Add(new TextAnimation(healthDecrease, MyShip.MovementController.Position.X + .5 * MyShip.WIDTH, MyShip.MovementController.Position.Y - 1.5 * MyShip.HEIGHT, { duration: 2000, color: [237, 30, 121], fontSize: "36px verdana" }));
                 }
 
@@ -35,7 +40,7 @@
                 }
                 else {
                     var healthIncrease = (MyShip.LifeController.Health - lastHealth);
-                    if(healthIncrease > 0) {
+                    if (healthIncrease > 0 && !supress) {
                         GAME_GLOBALS.AnimationManager.Add(new TextAnimation("+" + healthIncrease, MyShip.MovementController.Position.X + .5* MyShip.WIDTH, MyShip.MovementController.Position.Y - 1.5 * MyShip.HEIGHT, { duration: 2000, color: [122, 201, 67], fontSize: "36px verdana" }));
                     }
                 }
