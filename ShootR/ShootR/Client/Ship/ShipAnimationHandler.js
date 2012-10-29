@@ -93,11 +93,15 @@
                     MyShip.AnimationCanvasContext.clearRect(shipStartsAtX, 0, MyShip.WIDTH, MyShip.HEIGHT);
 
                     for (var i = 1; i <= damageImage; i++) {
-                        MyShip.AnimationCanvasContext.drawImage(IMAGE_ASSETS["ShipDamage" + i], shipStartsAtX, 0);
+                        if (IMAGE_ASSETS["ShipDamage" + i]) {
+                            MyShip.AnimationCanvasContext.drawImage(IMAGE_ASSETS["ShipDamage" + i], shipStartsAtX, 0);
+                        }
                     }
                 }
                 else { // We've lost life, just apply another layer
-                    MyShip.AnimationCanvasContext.drawImage(IMAGE_ASSETS["ShipDamage" + damageImage], shipStartsAtX, 0);
+                    if (IMAGE_ASSETS["ShipDamage" + damageImage]) {
+                        MyShip.AnimationCanvasContext.drawImage(IMAGE_ASSETS["ShipDamage" + damageImage], shipStartsAtX, 0);
+                    }
                 }
             }
             else {
