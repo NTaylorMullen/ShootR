@@ -15,6 +15,7 @@
     that.ShipStatMonitor = new ShipStatMonitor(MyShip);
     that.EnvironmentMonitor = new EnvironmentMonitor(MyShip);
     that.NotificationManager = new NotificationManager();
+    that.AreaRenderer = new AreaRenderer(MyShip, Map.prototype.WIDTH);
 
     function CenterDoublePopup(newViewport) {
         // The left is handled by the css

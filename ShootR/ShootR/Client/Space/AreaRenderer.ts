@@ -14,13 +14,14 @@ class AreaRenderer {
 
     public OnMapResize(newSize) {
         // Both are square so height is same as width, don't need to do the extra calculations
-        this._mapSize = newSize.Width;
+        this._mapSize = newSize;
         this._areaSize = Math.max(Math.round( this._mapSize / this._areaLetters.length), 1000);
     }
 
     // Need to take in the camera to determine what we should draw
-    public Draw(camera) {
-        // Draw sector liness
+    public Draw() {
+        // Draw sector lines
+
 
         // Fill out the HUD
         var letterSector = this._areaLetters[Math.max(Math.floor(this._myShip.MovementController.Position.X / this._areaSize), 0)],

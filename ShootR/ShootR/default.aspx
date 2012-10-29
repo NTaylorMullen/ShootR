@@ -274,6 +274,7 @@
 
         <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
         <script src="Client/Space/Screen.js" type="text/javascript"></script>
+        <script src="Client/Space/AreaRenderer.js" type="text/javascript"></script>
         <script src="Client/GameGlobals.js" type="text/javascript"></script>
 
         <script src="Client/Utilities/LatencyResolver.js" type="text/javascript"></script>
