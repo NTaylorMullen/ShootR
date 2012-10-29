@@ -118,6 +118,10 @@
     <Content Include="Client\Ship\ShipManager.js" />
     <Content Include="Client\Ship\ShipVehicle.js" />
     <Content Include="Client\Managers\AnimationManager.js" />
+    <TypeScriptCompile Include="Client\Space\AreaRenderer.ts" />
+    <Content Include="Client\Space\AreaRenderer.js">
+      <DependentUpon>AreaRenderer.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Space\Camera.js" />
     <Content Include="Client\Space\CanvasRenderer.js" />
     <Content Include="Client\Space\Map.js" />

@@ -18,9 +18,6 @@
         targets.html(count);
         worldBullets.html(payload.BulletsInWorld);
         worldTargets.html(payload.ShipsInWorld);
-        var letterSector = areaLetters[Math.max(Math.floor(MyShip.MovementController.Position.X / areaSize), 0)],
-            sectorNumber = Math.max(Math.ceil(MyShip.MovementController.Position.Y / areaSize), 1);
-
-        area.html(letterSector  + sectorNumber);
+        
     }
 }
