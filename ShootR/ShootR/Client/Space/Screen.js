@@ -72,7 +72,7 @@
 
     function ScreenResizeEvent() {
         UpdateScreen();
-        setTimeout(UpdateScreen, 750); // Re-calculate in-case there were scrollbars
+        setTimeout(UpdateScreen, 1500); // Re-calculate in-case there were scrollbars
     }
 
     $(window).resize(function () {
