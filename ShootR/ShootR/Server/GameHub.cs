@@ -307,5 +307,21 @@ namespace ShootR
         }
 
         #endregion
+
+        public void activateLaserCatBomb()
+        {
+            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            {
+                try
+                {
+                    Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+                    ship.AbilityHandler.Activate(LaserCatBomb.NAME);
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        }
     }
 }

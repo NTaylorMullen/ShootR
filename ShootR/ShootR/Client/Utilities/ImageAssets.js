@@ -22,6 +22,8 @@
         this.ShipDamage3.src = "/Images/Ships/Damage/damage_2.png";
         this.ShipDamage5.src = "/Images/Ships/Damage/damage_3.png";
         this.ShipDamage7.src = "/Images/Ships/Damage/damage_4.png";
+
+        this.LaserCatBomb.src = "/Images/Ships/LaserCat.png";
     },
     Explosion: new Image(),
     Laser: new Image(),
@@ -40,7 +42,8 @@
     ThrustBasic: new Image(),
     HealthPack: new Image(),
     Boost: new Image(),
-    ThrustStart: new Image()
+    ThrustStart: new Image(),
+    LaserCatBomb: new Image()
 };
 
 IMAGE_ASSETS.INIT();

@@ -4,6 +4,7 @@
     that.DrawDetails = true;
     that.Ships = {};
     that.MyShip;
+    that.ForcedVehicle = false;
 
     that.InitializeMyShip = function (bulletManager, connection) {
         that.MyShip = new Ship("a", "w", "d", "s", "Space", bulletManager, connection);
@@ -25,7 +26,13 @@
 
             currentShip.Visible = true;
             var shipImage = Math.min(currentShip.Level, 10);
-            currentShip.Vehicle = IMAGE_ASSETS["Ship" + shipImage];
+            if (!that.ForcedVehicle) {
+                currentShip.Vehicle = IMAGE_ASSETS["Ship" + shipImage];
+            }
+            else {
+                currentShip.Vehicle = that.ForcedVehicle;
+            }
+
             // Create a GUID on the ship object.  This allows the camera to follow a GUID based object
             currentShip.GUID = currentShip.ID;
 

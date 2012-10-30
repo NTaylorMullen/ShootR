@@ -122,6 +122,24 @@ $(function () {
         $.connection.hub.stop();
     }
 
+    env.client.bindLaserCat = function () {
+        shortcut.add("1", function () {
+            shortcut.remove("1");
+            env.server.activateLaserCatBomb();
+        });
+    }
+
+    env.client.laserCatBomb = function (enabled) {
+        if (enabled) {
+            game.HUDManager.NotificationManager.Notify("Laser Cat bomb has been triggered!  Will expire in 15 seconds.");
+            game.ShipManager.ForcedVehicle = IMAGE_ASSETS.LaserCatBomb;
+        }
+        else {
+            game.HUDManager.NotificationManager.Notify("Laser Cat bomb has expired!");
+            game.ShipManager.ForcedVehicle = false;
+        }
+    }
+
     env.client.pingBack = latencyResolver.ServerPingBack;    
 
     if (registrationID) {

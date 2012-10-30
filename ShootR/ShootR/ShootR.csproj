@@ -177,6 +177,7 @@
     <Content Include="Images\Ships\Damage\damage_5.png" />
     <Content Include="Images\Ships\Damage\damage_6.png" />
     <Content Include="Images\Ships\Damage\damage_7.png" />
+    <Content Include="Images\Ships\LaserCat.png" />
     <Content Include="Images\Ships\ship_lvl1.png" />
     <Content Include="Images\Ships\ship_lvl10.png" />
     <Content Include="Images\Ships\ship_lvl3.png" />
@@ -260,6 +261,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Abilities\AbilityHandlers\ShipAbilityHandler.cs" />
+    <Compile Include="Server\Abilities\LaserCatBomb.cs" />
     <Compile Include="Server\AI\AIShipStatRecorder.cs" />
     <Compile Include="Server\AI\AIState.cs" />
     <Compile Include="Server\AI\UserAI.cs" />
