@@ -4,7 +4,7 @@
     left: 0;
     background-color: #3c454f;
     height: 123px;
-    font-family: 'Segoe UI Semibold';
+    font-family: 'SegoeUISemibold';
 }
 
 #HealthHolder {
@@ -16,7 +16,7 @@
     color: white;
     font-size: 19px!important;
     text-align: right;
-    font-family: 'Segoe UI Semibold';
+    font-family: 'SegoeUISemibold';
 }
 
 #Health {
@@ -96,7 +96,7 @@
 
     #HUDBar #PlayerInfoHolder {
         width: 285px;
-        font-family: 'Segoe UI Semibold';
+        font-family: 'SegoeUISemibold';
     }
 
     #HUDBar .offset {
@@ -256,7 +256,7 @@
 
     #HUDBar .mainStatHolder {
         text-align: center;
-        width: 85px;
+        width: auto;
         height: 76px;
         float: left;
     }

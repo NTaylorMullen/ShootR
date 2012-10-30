@@ -6,7 +6,7 @@
     options = $.extend({
         duration: 500,
         color: [255, 0, 0],
-        fontSize: "17px verdana"
+        fontSize: "17px SegoeUISemibold"
     }, options);
 
     that.Destroyed = false;

@@ -6,7 +6,7 @@
         requestedPingAt = false;
 
     that.SampleSize = 10; // We want X samples before calculating correct delta time
-    that.Latency = "Calculating...";
+    that.Latency = "...";
 
     function CalculateDeltaTime(sentAt, serverTime) {
         var currentTime = new Date().getTime(),

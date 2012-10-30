@@ -26,6 +26,8 @@ function Game(connection, latencyResolver, myShipID) {
 
         map.CheckBoundaryCollisions(that.ShipManager.Ships, that.BulletManager.Bullets);
 
+        that.HUDManager.Update(payload);
+
         // Move the ships on the client
         that.ShipManager.Update(that.GameTime);
 
@@ -34,14 +36,11 @@ function Game(connection, latencyResolver, myShipID) {
         // Move the bullets on the client
         that.BulletManager.Update(that.GameTime);
 
-        GAME_GLOBALS.AnimationManager.Update(that.GameTime);
+        GAME_GLOBALS.AnimationManager.Update(that.GameTime);        
 
         map.Draw();
-        that.ShipManager.MyShip.DrawHUD();
+        that.ShipManager.MyShip.DrawHUD();        
 
         CanvasContext.Render();
-//        shipStats.Update(payload, latencyResolver.Latency, that.ShipManager.Ships, that.BulletManager.Bullets);
-
-        that.HUDManager.Update(payload);
     }
 }

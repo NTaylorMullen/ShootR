@@ -194,6 +194,9 @@
     <Content Include="Client\HUD\NotificationManager.js.map">
       <DependentUpon>NotificationManager.ts</DependentUpon>
     </Content>
+    <Content Include="Client\Space\AreaRenderer.js.map">
+      <DependentUpon>AreaRenderer.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
     </None>

@@ -24,7 +24,7 @@
         SPEED: config.gameConfig.MAX_CAMERA_SPEED        
     };
 
-    Ship.prototype.REQUEST_PING_EVERY = config.gameConfig.REQUEST_PING_EVERY;
+    ShipVehicle.prototype.REQUEST_PING_EVERY = config.gameConfig.REQUEST_PING_EVERY;
 
     $.extend(that, config);
 

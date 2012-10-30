@@ -80,7 +80,7 @@
                     </div>
                     <div id="LevelHolder" class="left" style="overflow:hidden;">
                         <div class="offset">
-                            <div class="mainStatHolder">
+                            <div class="mainStatHolder" style="min-width:50px;">
                                 <p>LEVEL</p>
                                 <h1 id="Level"></h1>
                             </div>
@@ -92,7 +92,7 @@
                                 <p class="header">SHIP</p>
                                 <div>
                                     <p class="left">SPEED</p>
-                                    <p class="right"><span id="Speed"></span>AU</p>
+                                    <p class="right"><span id="Speed"></span></p>
                                 </div>
                                 <div>
                                     <p class="left">HEALTH BONUS</p>
@@ -107,7 +107,7 @@
                     </div>
                     <div id="AreaHolder" class="left" style="overflow:hidden;">
                         <div class="offset">
-                            <div class="mainStatHolder">
+                            <div class="mainStatHolder" style="min-width:90px;">
                                 <p>AREA</p>
                                 <h1 id="Area"></h1>
                             </div>
@@ -118,8 +118,8 @@
                             <div class="locationStats statistics left">
                                 <p class="header"></p>
                                 <div>
-                                    <p class="left">TARGETS</p>
-                                    <p class="right"><span id="Targets"></span></p>
+                                    <p class="left">LATENCY</p>
+                                    <p class="right"><span id="Latency"></span></p>
                                 </div>
                                 <div>
                                     <p class="left">WORLD TARGETS</p>

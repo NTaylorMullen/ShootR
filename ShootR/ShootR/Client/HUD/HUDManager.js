@@ -22,6 +22,10 @@
         doublePopupHolder.css("top", ((newViewport.Height - gameHUDHeight) / 2) - doublePopupHolder.height() / 2);
     }
 
+    that.OnMapResize = function (newMapSize) {
+        that.AreaRenderer.OnMapResize(newMapSize.Width);
+    }
+    
     that.OnScreenResize = function (newViewport) {
         gameHUD.css("width", newViewport.Width);
         gameHUD.css("height", gameHUDHeight);
@@ -56,5 +60,6 @@
         that.MyRankings.Update(payload.Kills, payload.Deaths);
         that.ShipStatMonitor.Update();
         that.EnvironmentMonitor.Update(payload);
+        that.AreaRenderer.Update();
     }
 }

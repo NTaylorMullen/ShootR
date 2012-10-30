@@ -3,7 +3,7 @@
         drawContext = target[0].getContext("2d"),
         canvasBuffer = document.createElement("canvas"),
         canvasBufferContext = canvasBuffer.getContext("2d"),
-        textFont = "15px verdana",
+        textFont = "15px SegoeUISemibold",
         textColor = "rgba(255, 255, 255, 1)";
 
     var TO_RADIANS = Math.PI / 180;
@@ -35,14 +35,19 @@
 
     }
 
-    that.strokeSquare = function (x, y, width, height) {
+    that.strokeSquare = function (x, y, width, height, customColor) {
         var cameraOffset = { X: x - that.Camera.Position.X + that.CanvasCenter.X, Y: y - that.Camera.Position.Y + that.CanvasCenter.Y };
 
         canvasBufferContext.save();
 
         canvasBufferContext.translate(cameraOffset.X, cameraOffset.Y);
         canvasBufferContext.lineWidth = "1";
-        canvasBufferContext.strokeStyle = "#f00";
+
+        if (!customColor) {
+            customColor = "#f00";            
+        }
+
+        canvasBufferContext.strokeStyle = customColor;
         canvasBufferContext.strokeRect(0, 0, width, height);
 
         canvasBufferContext.restore();
@@ -81,7 +86,7 @@
         canvasBufferContext.restore();
     }
 
-    that.drawText = function (text, x, y, customColor, customFont) {
+    that.drawText = function (text, x, y, customColor, customFont, textAlign, textBaseline) {
         var cameraOffset = { X: -that.Camera.Position.X + that.CanvasCenter.X, Y: -that.Camera.Position.Y + that.CanvasCenter.Y };
 
         if (!customColor) {
@@ -95,7 +100,16 @@
         canvasBufferContext.save();
 
         canvasBufferContext.translate(cameraOffset.X + x, y + cameraOffset.Y);
-        canvasBufferContext.textAlign = "center";
+        if (!textAlign) {
+            textAlign = "center"            
+        }
+
+        canvasBufferContext.textAlign = textAlign;
+
+        if (textBaseline) {
+            canvasBufferContext.textBaseline = textBaseline;
+        }
+
         canvasBufferContext.font = customFont;        
         canvasBufferContext.fillStyle = customColor;
 

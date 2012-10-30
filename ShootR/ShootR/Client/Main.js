@@ -104,6 +104,7 @@ $(function () {
     env.client.mapSizeIncreased = function (size) {
         Map.prototype.WIDTH = size.Width;
         Map.prototype.HEIGHT = size.Height;
+        game.HUDManager.OnMapResize(size);
     }
 
     env.client.notify = function (msg) {

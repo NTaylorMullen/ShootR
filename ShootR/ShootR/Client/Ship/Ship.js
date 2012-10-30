@@ -137,17 +137,8 @@
 
     function StartAbility(name) {
         if (that.Controllable.Value && that.ShipAbilityHandler.Activate(name) && that.LifeController.Alive) {
-            var pingBack = false;
-            movementCount = ++movementCount % that.REQUEST_PING_EVERY;
-
-            // 0 Is when the counter loops over, aka hits max;
-            if (movementCount === 0) {
-                pingBack = true;
-                that.LatencyResolver.RequestedPingBack();
-            }
-
             commandList.push([++currentCommand, name, true, true]);
-            connection.server.registerAbilityStart(name, pingBack, currentCommand);
+            connection.server.registerAbilityStart(name, false, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
         }
@@ -156,15 +147,8 @@
     function StopAbility(name) {
         if (that.Controllable.Value && that.ShipAbilityHandler.Deactivate(name) && that.LifeController.Alive) {
             var pingBack = false;
-            movementCount = ++movementCount % that.REQUEST_PING_EVERY;
-
-            // 0 Is when the counter loops over, aka hits max;
-            if (movementCount === 0) {
-                pingBack = true;
-                that.LatencyResolver.RequestedPingBack();
-            }
             commandList.push([++currentCommand, name, false, true]);
-            connection.server.registerAbilityStop(name, pingBack, currentCommand);
+            connection.server.registerAbilityStop(name, false, currentCommand);
 
             that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
         }
