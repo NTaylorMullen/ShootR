@@ -18,6 +18,7 @@
     <asp:Panel runat="server" ID="JanrainScripts" Visible="true">
         <script src="Scripts/janrain.js" type="text/javascript"></script>
         <div id="janrainEngageEmbed"></div>
+        <a href="default.aspx" id="GuestLogin">GUEST LOGIN</a>
     </asp:Panel>
 
     <asp:Panel runat="server" ID="GameScripts" Visible="false">
@@ -78,9 +79,9 @@
                             </div>
                         </div>
                     </div>
-                    <div id="LevelHolder" class="left" style="overflow:hidden;">
+                    <div id="LevelHolder" class="left" style="overflow: hidden;">
                         <div class="offset">
-                            <div class="mainStatHolder" style="min-width:50px;">
+                            <div class="mainStatHolder" style="min-width: 50px;">
                                 <p>LEVEL</p>
                                 <h1 id="Level"></h1>
                             </div>
@@ -105,9 +106,9 @@
                             </div>
                         </div>
                     </div>
-                    <div id="AreaHolder" class="left" style="overflow:hidden;">
+                    <div id="AreaHolder" class="left" style="overflow: hidden;">
                         <div class="offset">
-                            <div class="mainStatHolder" style="min-width:90px;">
+                            <div class="mainStatHolder" style="min-width: 90px;">
                                 <p>AREA</p>
                                 <h1 id="Area"></h1>
                             </div>
