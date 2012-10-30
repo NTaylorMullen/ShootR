@@ -6,8 +6,12 @@ namespace ShootR
     /// </summary>
     public class ShipWeaponController
     {
-        // Fire once per X milliseconds
-        public const int FIRE_RATE = 190;
+        // Proportion of ships energy used to fire bullet
+        public const double ENERGY_TO_FIRE = .1;
+        // The ships energy will regenerate fully in ENERGY_RECHARGE_RATE milliseconds
+        public const int ENERGY_RECHARGE_RATE = 5000;
+        // At most fire once per MIN_FIRE_RATE milliseconds
+        public const int MIN_FIRE_RATE = 140;
         // Lead the weapon by X pixels
         public const double BULLET_LEAD = 70;
 
@@ -28,12 +32,16 @@ namespace ShootR
         {
             _bulletManager = bm;
             _me = ship;
+            Energy = 1;
             DamageModifier = 1;
             LastFired = DateTime.UtcNow;
+            AutoFire = false;
         }
 
         public double DamageModifier { get; set; }
         public DateTime LastFired { get; set; }
+        public bool AutoFire { get; set; }
+        public double Energy { get; private set; }
 
         /// <summary>
         /// Create's a bullet in the direction of the ship
@@ -41,7 +49,9 @@ namespace ShootR
         /// <returns>Newly created bullet</returns>
         public bool Fire(DateTime now)
         {
-            if ((now - LastFired).TotalMilliseconds >= FIRE_RATE)
+            var timeSinceLastFired = (now - LastFired).TotalMilliseconds;
+            var newEnergy = Math.Min(Energy + timeSinceLastFired / ENERGY_RECHARGE_RATE, 1);
+            if (timeSinceLastFired >= MIN_FIRE_RATE && newEnergy > ENERGY_TO_FIRE)
             {
                 var shipCenter = new Vector2(_me.MovementController.Position.X + HALF_SHIP_WIDTH, _me.MovementController.Position.Y + HALF_SHIP_HEIGHT);
                 var shipDirection = new Vector2(_me.MovementController.Rotation);
@@ -53,6 +63,8 @@ namespace ShootR
                 LastFired = now;
 
                 _me.Fired(spawnedBullet);
+
+                Energy = newEnergy - ENERGY_TO_FIRE;
                 return true;
             }
             return false;
@@ -69,6 +81,14 @@ namespace ShootR
         public void Reset()
         {
             DamageModifier = 1;
+        }
+
+        public void Update(DateTime now)
+        {
+            if (AutoFire)
+            {
+                Fire(now);
+            }
         }
     }
 }

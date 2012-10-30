@@ -64,7 +64,7 @@ function TouchController(StartMovement, StopMovement, StopAndStartMovement, Rese
                     Y: touch.clientY
                 };
                 shootDrawStart = new Date().getTime();
-                ShipFire();
+                ShipFire(shootDrawStart);
             }
 
             leftJoyStick.TouchStop(touch);

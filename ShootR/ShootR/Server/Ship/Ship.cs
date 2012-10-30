@@ -159,6 +159,7 @@ namespace ShootR
 
         public virtual void Update(double PercentOfSecond)
         {
+            WeaponController.Update(GameTime.Now);
             MovementController.Update(PercentOfSecond);
             AbilityHandler.Update(GameTime.Now);
             base.Update();

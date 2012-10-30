@@ -49,7 +49,7 @@ namespace ShootR
         /// <summary>
         /// Called when a ship fire's a bullet
         /// </summary>
-        public void fire()
+        public double fire()
         {
             if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
             {
@@ -61,12 +61,60 @@ namespace ShootR
                     {
                         ship.WeaponController.Fire(DateTime.UtcNow);
                     }
+                    return ship.WeaponController.Energy;
                 }
                 catch (Exception e)
                 {
                     ErrorLog.Instance.Log(e);
                 }
             }
+            throw new Exception();
+        }
+
+        /// <summary>
+        /// Called when a ship starts firing a stream of bullet at the maximum possible rate
+        /// </summary>
+        public void startFire()
+        {
+            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            {
+                try
+                {
+                    Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+                    if (ship.Controllable.Value)
+                    {
+                        ship.WeaponController.AutoFire = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    ErrorLog.Instance.Log(e);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Called when a ship stops firing a stream of bullet
+        /// </summary>
+        public double stopFire()
+        {
+            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            {
+                try
+                {
+                    Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+                    ship.WeaponController.AutoFire = false;
+                    return ship.WeaponController.Energy;
+                }
+                catch (Exception e)
+                {
+                    ErrorLog.Instance.Log(e);
+                }
+            }
+            throw new Exception();
         }
 
         /// <summary>

@@ -261,15 +261,20 @@
         }
     }
 
-    function shoot() {
-        if (that.Controllable.Value && (new Date().getTime() - lastShot) > that.FIRE_RATE) {
-            lastShot = new Date().getTime();
+    function shoot(now) {
+        var timeSinceFired = now - lastShot;
 
+        if (that.Controllable.Value && timeSinceFired > that.MIN_FIRE_RATE) {
+            lastShot = now;
             connection.server.fire();
         }
     }
 
     function ApplyKeyboardMappings() {
+        var timeFirePressed,
+            singleFireMode = true,
+            autoFireTimeout;
+
         // Mapping each hot key to its corresponding movement direction
         for (k = 0; k < keyMapping.length; k++) {
             for (z = 0; z < keyMapping[k].key.length; z++) {
@@ -282,15 +287,38 @@
                 shortcut.add(keyMapping[k].key[z], (function (k) {
                     return function () {
                         StopMovement(keyMapping[k].dir);
-
                     };
                 })(k), { 'disable_in_input': true, 'type': 'keyup' });
             }
         }
 
         shortcut.add(fire, function () {
-            shoot();
-        });
+            timeFirePressed = new Date().getTime();
+
+            if (singleFireMode) {
+                shoot(timeFirePressed);
+                autoFireTimeout = setTimeout(function() {
+                    singleFireMode = false;
+                    connection.server.startFire();
+                }, that.MIN_FIRE_RATE);
+            } else {
+                connection.server.startFire();
+            }
+        },  { 'disable_in_input': true, 'type': 'keydown' });
+
+        shortcut.add(fire, function () {
+            var timeFireReleased;
+            
+            clearTimeout(autoFireTimeout);
+            timeFireReleased = new Date().getTime();
+
+            if (!singleFireMode) {
+                lastShot = timeFireReleased;
+                connection.server.stopFire();
+            }
+           
+            singleFireMode = timeFireReleased - timeFirePressed < that.MIN_FIRE_RATE;
+        }, { 'disable_in_input': true, 'type': 'keyup' });
     }
 
     ApplyKeyboardMappings();
