@@ -16,9 +16,23 @@
     <form runat="server">
 
     <asp:Panel runat="server" ID="JanrainScripts" Visible="true">
+        <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
+        <script src="Scripts/jquery.cookie.js" type="text/javascript"></script>
         <script src="Scripts/janrain.js" type="text/javascript"></script>
         <div id="janrainEngageEmbed"></div>
-        <a href="default.aspx" id="GuestLogin">GUEST LOGIN</a>
+        <a href="" id="GuestLogin">LOGIN AS GUEST</a>
+        <script type="text/javascript">
+            $("#GuestLogin").click(function () {
+                var stateCookie = {
+                    DisplayName: "",
+                    Identity: "Guest",
+                    Photo: "",
+                    RegistrationID: ""
+                };
+                $.cookie('shootr.state', JSON.stringify(stateCookie), { path: '/', expires: 30 });
+                $("form").submit();
+            });
+        </script>
     </asp:Panel>
 
     <asp:Panel runat="server" ID="GameScripts" Visible="false">

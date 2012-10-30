@@ -13,11 +13,10 @@
     <form runat="server">        
     <asp:Panel runat="server" ID="JanrainScripts" Visible="true">
         <script src="Scripts/janrain.js" type="text/javascript"></script>
-
         <div id="janrainEngageEmbed"></div>
     </asp:Panel>
 
-    <asp:Panel runat="server" ID="GameElements" Visible="false">
+    <asp:Panel runat="server" ID="GameScripts" Visible="false">
         <div id="logout">Log Out</div>
 
         <div id="gameWrapper">

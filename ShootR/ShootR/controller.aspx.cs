@@ -20,24 +20,40 @@ namespace ShootR
 
             if (state != null)
             {
-                string decoded = HttpUtility.UrlDecode(state.Value);
-                var rc = JsonConvert.DeserializeObject<RegisteredClient>(decoded);
-
-                // Need to setup registration
-                if (rc.RegistrationID == null)
+                try
                 {
-                    Game.Instance.RegistrationHandler.Register(rc);
+                    string decoded = HttpUtility.UrlDecode(state.Value);
+                    var rc = JsonConvert.DeserializeObject<RegisteredClient>(decoded);
 
-                    LoginHandler.AddOrUpdateState(rc, HttpContext.Current);
+#if !DEBUG
+                    Byte[] encryptedIdentity = HttpServerUtility.UrlTokenDecode(rc.Identity);
+                    Byte[] unprotectedIdentity = MachineKey.Unprotect(encryptedIdentity, "ShootR.Identity");
+                    rc.Identity = Encoding.UTF8.GetString(unprotectedIdentity);
+#endif
+
+                    rc.DisplayName = System.Net.WebUtility.HtmlEncode(rc.DisplayName);
+
+                    // Need to setup registration
+                    if (rc.RegistrationID == null)
+                    {
+                        Game.Instance.RegistrationHandler.Register(rc);
+
+                        LoginHandler.AddOrUpdateState(rc, HttpContext.Current);
+                    }
+
+                    JanrainScripts.Visible = false;
+                    GameScripts.Visible = true;
                 }
-
-                JanrainScripts.Visible = false;
-                GameElements.Visible = true;
+                catch
+                {
+                    JanrainScripts.Visible = true;
+                    GameScripts.Visible = false;
+                }
             }
             else
             {
                 JanrainScripts.Visible = true;
-                GameElements.Visible = false;
+                GameScripts.Visible = false;
             }
         }
     }

@@ -22,12 +22,12 @@ namespace ShootR {
         protected global::System.Web.UI.WebControls.Panel JanrainScripts;
         
         /// <summary>
-        /// GameElements control.
+        /// GameScripts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel GameElements;
+        protected global::System.Web.UI.WebControls.Panel GameScripts;
     }
 }

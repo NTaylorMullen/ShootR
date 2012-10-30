@@ -13,9 +13,11 @@ namespace ShootR
 {
     public partial class _default : System.Web.UI.Page
     {
+        static long GuestID = 0;
+
         protected void Page_Load(object sender, EventArgs e)
-        {            
-#if DEBUG
+        {
+#if !DEBUG
             var state = Request.Cookies["shootr.state"];
 #else
             var state = new HttpCookie("shootr.state", JsonConvert.SerializeObject(new RegisteredClient(null, "ABCDEFGH", "John Doe", "")));
@@ -28,11 +30,21 @@ namespace ShootR
                     string decoded = HttpUtility.UrlDecode(state.Value);
                     var rc = JsonConvert.DeserializeObject<RegisteredClient>(decoded);
 
+                    if (rc.Identity == "Guest")
+                    {
+                        rc.DisplayName = "Guest" + GuestID++;
+                        rc.Identity = "Guest" + Guid.NewGuid().ToString();
+                        rc.RegistrationID = null;
+                        rc.Photo = "";
+                    }
+                    else
+                    {
 #if !DEBUG
                     Byte[] encryptedIdentity = HttpServerUtility.UrlTokenDecode(rc.Identity);
                     Byte[] unprotectedIdentity = MachineKey.Unprotect(encryptedIdentity, "ShootR.Identity");
                     rc.Identity = Encoding.UTF8.GetString(unprotectedIdentity);
 #endif
+                    }
 
                     rc.DisplayName = System.Net.WebUtility.HtmlEncode(rc.DisplayName);
 

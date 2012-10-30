@@ -64,6 +64,16 @@ a {
 }
 
 #GuestLogin {
+    width:392px;
+    height:25px;
+    line-height:25px;
+    text-align:center;
+    margin:0 auto;
+    display:block;
+    color:white;
+    background-color:#1E9AF3;
+    font-family:'SegoeUISemibold';
+    border-radius:3px;
 }
 
 div.borderless {
