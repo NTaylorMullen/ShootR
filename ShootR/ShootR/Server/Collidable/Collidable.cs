@@ -7,7 +7,7 @@ namespace ShootR
     /// <summary>
     /// Base object for all collidable objects which is used to check collisions.  Some examples of usage are through the Ship and Bullet classes.
     /// </summary>
-    public class Collidable : IDisposable
+    public class Collidable
     {
         protected Rectangle _bounds;
         private QuadTreeNode _mapLocation;
@@ -69,6 +69,9 @@ namespace ShootR
             return _height;
         }
 
+        /// <summary>
+        /// Does not null out the object.  Simply used to represent when an object is no longer needed in the game world.
+        /// </summary>
         public void Dispose()
         {
             Disposed = true;
