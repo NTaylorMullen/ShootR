@@ -4,6 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="shortcut icon" type="image/ico" href="Images/favicon.ico" />
     <link href="Styles/game.css" rel="stylesheet" />
     <link href="Styles/jquery-ui-1.9.0.css" rel="stylesheet" />
