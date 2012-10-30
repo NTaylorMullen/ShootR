@@ -76,7 +76,7 @@ class AreaRenderer {
 
                 spos = Vector2.AddV(spos, topLeftSector); // Add the top left sector to normalize it back to the current sector position
 
-                if (spos.X >= 0 && spos.Y >= 0 && spos.X + this._areaSize < this._mapSize && spos.Y + this._areaSize < this._mapSize) { // Ensure we aren't drawing outside the boundary
+                if (spos.X >= 0 && spos.Y >= 0 && spos.X + this._areaSize <= this._mapSize && spos.Y + this._areaSize <= this._mapSize) { // Ensure we aren't drawing outside the boundary
                     cameraCheckObj.MovementController.Position = spos;
                     if (CanvasContext.Camera.InView(cameraCheckObj)) {
                         sectorPositions.push(

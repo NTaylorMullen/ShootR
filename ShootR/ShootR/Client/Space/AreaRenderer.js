@@ -83,7 +83,7 @@ var AreaRenderer = (function () {
                 var spos = Vector2.MultiplyN(boxRelativePosition, this._areaSize);
 
                 spos = Vector2.AddV(spos, topLeftSector);
-                if(spos.X >= 0 && spos.Y >= 0 && spos.X + this._areaSize < this._mapSize && spos.Y + this._areaSize < this._mapSize) {
+                if(spos.X >= 0 && spos.Y >= 0 && spos.X + this._areaSize <= this._mapSize && spos.Y + this._areaSize <= this._mapSize) {
                     cameraCheckObj.MovementController.Position = spos;
                     if(CanvasContext.Camera.InView(cameraCheckObj)) {
                         sectorPositions.push({
