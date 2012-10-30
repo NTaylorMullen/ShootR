@@ -272,18 +272,20 @@
     function ApplyKeyboardMappings() {
         // Mapping each hot key to its corresponding movement direction
         for (k = 0; k < keyMapping.length; k++) {
-            shortcut.add(keyMapping[k].key, (function (k) {
-                return function () {
-                    StartMovement(keyMapping[k].dir);
-                };
-            })(k), { 'disable_in_input': true, 'type': 'keydown' });
+            for (z = 0; z < keyMapping[k].key.length; z++) {
+                shortcut.add(keyMapping[k].key[z], (function (k) {
+                    return function () {
+                        StartMovement(keyMapping[k].dir);
+                    };
+                })(k), { 'disable_in_input': true, 'type': 'keydown' });
 
-            shortcut.add(keyMapping[k].key, (function (k) {
-                return function () {
-                    StopMovement(keyMapping[k].dir);
+                shortcut.add(keyMapping[k].key[z], (function (k) {
+                    return function () {
+                        StopMovement(keyMapping[k].dir);
 
-                };
-            })(k), { 'disable_in_input': true, 'type': 'keyup' });
+                    };
+                })(k), { 'disable_in_input': true, 'type': 'keyup' });
+            }
         }
 
         shortcut.add(fire, function () {

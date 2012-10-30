@@ -7,7 +7,7 @@
     that.ForcedVehicle = false;
 
     that.InitializeMyShip = function (bulletManager, connection) {
-        that.MyShip = new Ship("a", "w", "d", "s", "Space", bulletManager, connection);
+        that.MyShip = new Ship(["a", "left"], ["w", "up"], ["d", "right"], ["s", "down"], "Space", bulletManager, connection);
         that.MyShip.ID = myShipID;
         that.Ships[myShipID] = that.MyShip;
     }

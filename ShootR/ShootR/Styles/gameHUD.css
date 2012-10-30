@@ -139,6 +139,20 @@
         line-height: 15px;
     }
 
+    #HUDBar #ExperienceBarHolder {
+        width:140px;
+        background-color:#7F767D;
+        display:inline-block;
+        margin-right:5px;
+    }
+    
+    #HUDBar #ExperienceBar {
+        width:0%;
+        height:15px;
+        background-color:#7AC943;
+        display:block;
+    }
+
     #HUDBar #ExperienceHolder {
         margin-bottom: 6px;
     }

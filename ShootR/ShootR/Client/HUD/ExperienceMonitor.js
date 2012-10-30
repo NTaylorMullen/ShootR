@@ -4,6 +4,7 @@
         lastLevel = 1,
         lastExperienceToNextLevel = MyShip.ExperienceToNextLevel,
         currentExperience = $("#Experience"),
+        experienceBar = $("#ExperienceBar"),
         experienceAnimateSpeed = 500,
         currentLevel = $("#Level"),
         levelNotification = $("#levelNotification"),
@@ -19,6 +20,7 @@
             if (MyShip.Level !== lastLevel) {
                 experienceIncrease = lastExperienceToNextLevel - lastExperience + MyShip.Experience;
                
+                experienceBar.css('width', '0%'); // Reset to 0 so when we animate we're animating forward, not backward
                 popupHolder.css("display", "block");
                 currentLevelNotification.html(MyShip.Level);
                 levelNotification.animate({top:0},1000).delay(3000).animate({top:-234},1000, function () {
@@ -39,6 +41,8 @@
 
             currentExperience.stop(true);
             currentExperience.animate({ color: "#FFFFFF" }, experienceAnimateSpeed).animate({ color: "#7F7F7F" }, experienceAnimateSpeed);
+            
+            experienceBar.animate({ width: (experiencePercentage) + '%' }, experienceAnimateSpeed, "easeOutExpo");
 
             lastLevel = MyShip.Level;
             lastExperience = MyShip.Experience;

@@ -55,7 +55,7 @@
                         <div class="offset">
                             <p class="pilotHeader">PILOT<img src="Images/HUD/logout.png" alt="Logout" id="logout" /></p>
                             <p id="DisplayName"></p>
-                            <p id="ExperienceHolder">EXP: <span id="Experience"></span></p>
+                            <p id="ExperienceHolder">EXP: <span id="ExperienceBarHolder"><span id="ExperienceBar"></span></span><span id="Experience"></span></p>
                             <p id="GlobalRankingHolder">GLOBAL RANKING: <span id="GlobalRanking"></span></p>
                         </div>
                     </div>
