@@ -247,6 +247,10 @@
                                             <h1># <span class="lbPosition"></span></h1>
                                             <p class="lbName"></p>
                                         </div>
+                                        <div class="leaderboardStatHolder right">
+                                            <h1>Level <span class="lbLevel"></span></h1>
+                                            <p>K: <span class="lbKills"></span> D: <span class="lbDeaths"></span></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

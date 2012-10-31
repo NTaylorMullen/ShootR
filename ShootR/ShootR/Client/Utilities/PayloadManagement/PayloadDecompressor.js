@@ -97,12 +97,11 @@
         return {
             Name: data[LeaderboardEntryContract.Name],
             Photo: data[LeaderboardEntryContract.Photo],
-            ID: data[LeaderboardEntryContract.ID]
-            /*
+            ID: data[LeaderboardEntryContract.ID],
             Level: data[LeaderboardEntryContract.Level],
             Kills: data[LeaderboardEntryContract.Kills],
-            Deaths: data[LeaderboardEntryContract.Deaths],
-            DamageDealt: data[LeaderboardEntryContract.DamageDealt],
+            Deaths: data[LeaderboardEntryContract.Deaths]
+            /*DamageDealt: data[LeaderboardEntryContract.DamageDealt],
             DamageTaken: data[LeaderboardEntryContract.DamageTaken],
             KillDeathRatio: data[LeaderboardEntryContract.KillDeathRatio]*/
 
