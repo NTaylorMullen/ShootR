@@ -52,7 +52,7 @@ namespace ShootR
                     Collidable thisPotential = potentials[j];
 
                     // If the potential object is our outer object then move on
-                    if (thisPotential.Collided || thisPotential.ID == thisObject.ID)
+                    if (thisPotential.Collided || thisPotential.ServerID() == thisObject.ServerID())
                     {
                         continue;
                     }

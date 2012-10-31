@@ -19,8 +19,7 @@ namespace ShootR
             _minWidth = minWidth;
             _minHeight = minHeight;
             MapBoundary = new Rectangle(0, 0, _width, _height);
-            _root = new QuadTreeNode(MapBoundary, _minWidth, _minHeight, null);
-            _root.Partition();
+            _root = new QuadTreeNode(MapBoundary, _minWidth, _minHeight, null);            
         }
 
         public Rectangle MapBoundary { get; set; }
