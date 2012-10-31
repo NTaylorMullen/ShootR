@@ -53,7 +53,7 @@ namespace ShootR
 
             if (user.Connected)
             {
-                Game.GetContext().Client(user.ConnectionID).disconnect();
+                Game.GetContext().Clients.Client(user.ConnectionID).disconnect();
             }
 
             user.Connected = false;

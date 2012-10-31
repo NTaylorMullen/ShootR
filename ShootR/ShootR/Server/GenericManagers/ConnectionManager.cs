@@ -71,7 +71,7 @@ namespace ShootR
                         foreach (User u in user.RemoteControllers)
                         {
                             u.MyShip = null;
-                            context.Client(u.ConnectionID).stopController("Primary account has been stopped!");
+                            context.Clients.Client(u.ConnectionID).stopController("Primary account has been stopped!");
                         }
 
                         user.RemoteControllers.Clear();

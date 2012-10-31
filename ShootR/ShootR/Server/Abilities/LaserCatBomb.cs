@@ -20,7 +20,7 @@ namespace ShootR
             _notificationManager = notificationManager;
             if (!(user is UserAI))
             {
-                Game.GetContext().Client(user.ConnectionID).bindLaserCat();
+                Game.GetContext().Clients.Client(user.ConnectionID).bindLaserCat();
             }
             _notificationManager.Notify("LaserCat bomb has been enabled.  Press '1' to trigger it.  WARNING: You only have one.");
         }
@@ -29,7 +29,7 @@ namespace ShootR
         {
             if (_available)
             {
-                Game.GetContext().Clients.laserCatBomb(true);
+                Game.GetContext().Clients.All.laserCatBomb(true);
 
                 _available = false;
                 base.Activate();
@@ -40,7 +40,7 @@ namespace ShootR
         {
             if (Active)
             {
-                Game.GetContext().Clients.laserCatBomb(false);
+                Game.GetContext().Clients.All.laserCatBomb(false);
                 base.Deactivate();
             }
         }

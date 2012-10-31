@@ -54,7 +54,7 @@ namespace ShootR
 
         public virtual void PushToClient(object[] payload, IHubContext context)
         {
-            context.Client(ConnectionID).d(payload);
+            context.Clients.Client(ConnectionID).d(payload);
         }
 
         private Size _viewport;

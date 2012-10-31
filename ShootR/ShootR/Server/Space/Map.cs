@@ -59,7 +59,7 @@ namespace ShootR
                 IncreaseSize();
                 Game.Instance.Configuration.mapConfig.WIDTH = WIDTH;
                 Game.Instance.Configuration.mapConfig.HEIGHT = HEIGHT;
-                GlobalHost.ConnectionManager.GetHubContext<GameHub>().Clients.mapSizeIncreased(new { Width = WIDTH, Height = HEIGHT });
+                GlobalHost.ConnectionManager.GetHubContext<GameHub>().Clients.All.mapSizeIncreased(new { Width = WIDTH, Height = HEIGHT });
             }
         }
 

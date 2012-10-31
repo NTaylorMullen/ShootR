@@ -140,7 +140,7 @@ namespace ShootR
 
         private void PushLeaderboard(List<object> leaderboard)
         {
-            GetContext().Group(Leaderboard.LEADERBOARD_REQUESTEE_GROUP).l(leaderboard);
+            GetContext().Clients.Client(Leaderboard.LEADERBOARD_REQUESTEE_GROUP).l(leaderboard);
         }
 
         public static IHubContext GetContext()
@@ -178,7 +178,7 @@ namespace ShootR
 
                             if (user.Connected) // Check if it's a duplicate login
                             {
-                                GetContext().Client(previousConnectionID).controlTransferred();
+                                GetContext().Clients.Client(previousConnectionID).controlTransferred();
                                 user.NotificationManager.Notify("Transfering control to this browser.  You were already logged in.");
                             }
                             else
