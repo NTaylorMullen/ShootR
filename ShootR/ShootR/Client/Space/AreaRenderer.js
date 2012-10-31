@@ -5,7 +5,7 @@ var AreaRenderer = (function () {
         this.AREA_TEXT_COLOR = "#3fa9f5";
         this.AREA_TEXT_MARGIN = 13;
         this.KEYBOARD_MAPPING = "m";
-        this._showMap = false;
+        this._showMap = true;
         this._areaLetters = [
             'A', 
             'B', 

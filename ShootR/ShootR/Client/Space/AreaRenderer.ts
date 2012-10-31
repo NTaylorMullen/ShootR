@@ -8,7 +8,7 @@ class AreaRenderer {
     private AREA_TEXT_COLOR: string = "#3fa9f5";
     private AREA_TEXT_MARGIN: number = 13;
     private KEYBOARD_MAPPING: string = "m";
-    private _showMap: bool = false;
+    private _showMap: bool = true;
     private _areaLetters: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     private _mapSize: number;
     private _areaSize: number;

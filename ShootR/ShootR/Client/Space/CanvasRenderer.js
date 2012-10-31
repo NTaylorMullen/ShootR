@@ -28,11 +28,10 @@
 
         canvasBufferContext.translate(cameraOffset.X, cameraOffset.Y);
         canvasBufferContext.lineWidth = "5";
-        canvasBufferContext.strokeStyle = "#f00";
+        canvasBufferContext.strokeStyle = "#3fa9f5";
         canvasBufferContext.strokeRect(0, 0, width, height);
 
         canvasBufferContext.restore();
-
     }
 
     that.strokeSquare = function (x, y, width, height, customColor) {

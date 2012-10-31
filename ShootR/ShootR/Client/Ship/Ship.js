@@ -319,6 +319,11 @@
            
             singleFireMode = timeFireReleased - timeFirePressed < that.MIN_FIRE_RATE;
         }, { 'disable_in_input': true, 'type': 'keyup' });
+
+        $(window).blur(function () {
+            ResetMovement(["Forward", "Backward", "RotatingLeft", "RotatingRight"]);
+            connection.server.stopFire();
+        });
     }
 
     ApplyKeyboardMappings();
