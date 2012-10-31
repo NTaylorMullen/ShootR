@@ -28,7 +28,7 @@ namespace ShootR
             StatRecorder = new ShipStatRecorder(this);
             WeaponController = new ShipWeaponController(this, bm);
             LifeController.OnDeath += new DeathEventHandler(Die);
-            OnDeath += new DeathEventHandler(StatRecorder.ShipDeath);
+            OnDeath += new DeathEventHandler((sender, e) => StatRecorder.ShipDeath(sender, e)); // layer of indirection required since 'StatRecorder' is vurtla and may be changed by subclassed types
             LifeController.Host = this;
 
             LevelManager = new ShipLevelManager(this);
