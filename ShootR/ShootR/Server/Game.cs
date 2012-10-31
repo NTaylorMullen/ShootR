@@ -29,6 +29,7 @@ namespace ShootR
         private object _locker = new object();
 
         public bool blah = false;
+        public static Random GEN = new Random();
 
         private Game()
         {

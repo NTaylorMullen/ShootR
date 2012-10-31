@@ -7,6 +7,7 @@ namespace ShootR
 {
     public class AIShipStatRecorder : ShipStatRecorder
     {
+        private const double CHANCE_TO_SEEK = .5;
         public AIShipStatRecorder(ShipAI me)
             : base(me)
         {
@@ -15,7 +16,11 @@ namespace ShootR
 
         public override void BulletCollision(Bullet bullet)
         {
-            (_me as ShipAI).SeekingShip = bullet.FiredBy.ID;
+            // Only seek those who hit me X% of the time
+            if (Game.GEN.NextDouble() >= CHANCE_TO_SEEK)
+            {
+                (_me as ShipAI).SeekingShip = bullet.FiredBy.ID;
+            }
 
             base.BulletCollision(bullet);
         }
