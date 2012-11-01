@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace ShootR
 {
     public class Game
     {
+        public const int MAX_SERVER_SIZE = 2000;
         public const int AIShipsToSpawn = 35;
         public const int SpawnsPerInterval = 1;
         private int _spawned = 0;
@@ -48,10 +50,12 @@ namespace ShootR
             ConnectionManager = new ConnectionManager(UserHandler, _locker);
 
             RegistrationHandler = new RegistrationHandler();
+            RuntimeConfiguration = new RuntimeConfiguration();
 
             _gameLoop.Start();
         }
 
+        public RuntimeConfiguration RuntimeConfiguration { get; set; }
         public GameConfigurationManager Configuration { get; set; }
         public RegistrationHandler RegistrationHandler { get; private set; }
         public UserHandler UserHandler { get; private set; }
@@ -165,15 +169,25 @@ namespace ShootR
 
                         if (user == null)
                         {
-                            ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
-                            ship.Name = rc.DisplayName;
-                            user = new User(connectionId, ship, rc) { Controller = false };
-                            UserHandler.AddUser(user);
-
-                            if (rc.DisplayName == "shanselman")
+                            if (UserHandler.TotalActiveUsers >= RuntimeConfiguration.MaxServerUsers)
                             {
-                                ship.AbilityHandler.AddAbility(new LaserCatBomb(user.NotificationManager, user));
-                                GetContext().Clients.Client(connectionId).bindLaserCat();
+                                return new
+                                {
+                                    ServerFull = true
+                                };
+                            }
+                            else
+                            {
+                                ship = new Ship(RespawnManager.GetRandomStartPosition(), GameHandler.BulletManager);
+                                ship.Name = rc.DisplayName;
+                                user = new User(connectionId, ship, rc) { Controller = false };
+                                UserHandler.AddUser(user);
+
+                                if (rc.DisplayName == "shanselman")
+                                {
+                                    ship.AbilityHandler.AddAbility(new LaserCatBomb(user.NotificationManager, user));
+                                    GetContext().Clients.Client(connectionId).bindLaserCat();
+                                }
                             }
                         }
                         else
@@ -206,6 +220,7 @@ namespace ShootR
                         Configuration = Configuration,
                         CompressionContracts = new
                         {
+                            ServerFull = false,
                             PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
                             CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
                             ShipContract = _payloadManager.Compressor.ShipCompressionContract,

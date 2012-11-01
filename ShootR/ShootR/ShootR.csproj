@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin.aspx" />
     <Content Include="Client\Abilities\AbilityHandlers\AbilityHandler.js" />
     <Content Include="Client\Abilities\AbilityHandlers\ShipAbilityHandler.js" />
     <Content Include="Client\Abilities\Abstractions\Ability.js" />
@@ -256,6 +257,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="admin.aspx.cs">
+      <DependentUpon>admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin.aspx.designer.cs">
+      <DependentUpon>admin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\RegisterHubs.cs" />
     <Compile Include="Authentication\Rpx.cs" />
     <Compile Include="controller.aspx.cs">
@@ -292,6 +300,7 @@
     <Compile Include="Server\Configuration\HealthPackConfiguration.cs" />
     <Compile Include="Server\Configuration\LeaderboardConfiguration.cs" />
     <Compile Include="Server\Configuration\MapConfiguration.cs" />
+    <Compile Include="Server\Configuration\RuntimeConfiguration.cs" />
     <Compile Include="Server\Configuration\ScreenConfiguration.cs" />
     <Compile Include="Server\Configuration\ShipMovementControllerConfiguration.cs" />
     <Compile Include="Server\Game.cs" />

@@ -20,6 +20,11 @@ $(function () {
 
     function Initialize(init) {
         if (init != null) {
+            if (init.ServerFull) {
+                $.connection.hub.stop();
+                alert("Server is full, try refreshing the page in 5 minutes.");
+                return
+            }
             configurationManager = new ConfigurationManager(init.Configuration);
             game = new Game(env, latencyResolver, init.ShipID);
             GAME_GLOBALS.Game = game;

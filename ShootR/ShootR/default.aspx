@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="ShootR._default" %>
+<%@ Import Namespace="SquishIt.Framework" %>
 
 <!DOCTYPE html>
 
@@ -6,10 +7,14 @@
 <head runat="server">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="shortcut icon" type="image/ico" href="Images/favicon.ico" />
-    <link href="Styles/game.css" rel="stylesheet" />
-    <link href="Styles/jquery-ui-1.9.0.css" rel="stylesheet" />
-    <link href="Styles/gameHUD.css" rel="stylesheet" />
-    <link href="Styles/popups.css" rel="stylesheet" />
+
+    <%= Bundle.Css()
+                  .Add("Styles/game.css")
+                  .Add("Styles/jquery-ui-1.9.0.css")
+                  .Add("Styles/gameHUD.css")
+                  .Add("Styles/popups.css")
+              .Render("Styles/MAIN.css")
+    %>
 
     <title>SignalR ShootR</title>
 </head>
@@ -277,80 +282,73 @@
             </div>
         </div>
 
-        <!-- NOTE: These are not minified so people can see how the game works.  On a larger release I will minify everything -->
-        <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
-        <script src="Scripts/jquery.cookie.js" type="text/javascript"></script>
-        <script src="Scripts/jquery-ui-1.9.0.min.js" type="text/javascript"></script>
-        <script src="Scripts/shortcut.js" type="text/javascript"></script>
-        <script src="Scripts/jquery.signalR-1.0.0.js" type="text/javascript"></script>
-        <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
-        <script src="Scripts/jquery.animate-colors-min.js" type="text/javascript"></script>
-        <script src="signalr/hubs" type="text/javascript"></script>
+        <%= Bundle.JavaScript()
+                      .Add("Scripts/jquery-1.8.2.js")
+                      .Add("Scripts/jquery.cookie.js")
+                      .Add("Scripts/jquery-ui-1.9.0.min.js")
+                      .Add("Scripts/shortcut.js")
+                      .Add("Scripts/jquery.signalR-1.0.0.js")
+                      .Add("Scripts/jquery.spritify-0.0.0.js")
+                      .Add("Scripts/jquery.animate-colors-min.js")
+                  .Render("Scripts/jqueryLIBS.js")
+        %>
 
-        <script src="Client/Utilities/ValueRef.js" type="text/javascript"></script>
-        <script src="Client/Utilities/ImageAssets.js" type="text/javascript"></script>
-        <script src="Client/Utilities/Vector2.js" type="text/javascript"></script>
-        <script src="Client/Utilities/GameTime.js" type="text/javascript"></script>
+        <script src='<%= ResolveClientUrl("~/signalr/hubs") %>' type="text/javascript"></script>
 
-        <script src="Client/Managers/AnimationManager.js" type="text/javascript"></script>
-        <script src="Client/Space/Screen.js" type="text/javascript"></script>
-        <script src="Client/Space/AreaRenderer.js" type="text/javascript"></script>
-        <script src="Client/GameGlobals.js" type="text/javascript"></script>
-
-        <script src="Client/Utilities/LatencyResolver.js" type="text/javascript"></script>
-        <script src="Client/Utilities/UtilityFunctions.js" type="text/javascript"></script>
-
-        <script src="Client/GameController/JoyStick.js" type="text/javascript"></script>
-        <script src="Client/GameController/Adapters/IETouchAdapter.js" type="text/javascript"></script>
-        <script src="Client/GameController/Adapters/MouseAdapter.js" type="text/javascript"></script>
-        <script src="Client/GameController/Adapters/TouchAdapter.js" type="text/javascript"></script>
-        <script src="Client/GameController/TouchController.js" type="text/javascript"></script>
-
-        <script src="Client/Utilities/ClientServerTime.js" type="text/javascript"></script>
-
-        <script src="Client/Space/Map.js" type="text/javascript"></script>
-        <script src="Client/Space/Camera.js" type="text/javascript"></script>
-        <script src="Client/Space/CanvasRenderer.js" type="text/javascript"></script>
-
-        <script src="Client/Collidable/Collidable.js" type="text/javascript"></script>
-        <script src="Client/Collidable/MovementController.js" type="text/javascript"></script>
-
-        <script src="Client/Powerups/Powerup.js" type="text/javascript"></script>
-        <script src="Client/Powerups/HealthPack.js" type="text/javascript"></script>
-        <script src="Client/Powerups/PowerupManager.js" type="text/javascript"></script>
-
-        <script src="Client/Bullet/Bullet.js" type="text/javascript"></script>
-        <script src="Client/Bullet/BulletManager.js" type="text/javascript"></script>
-
-        <script src="Client/Abilities/AbilityHandlers/AbilityHandler.js" type="text/javascript"></script>
-        <script src="Client/Abilities/AbilityHandlers/ShipAbilityHandler.js" type="text/javascript"></script>
-        <script src="Client/Abilities/Abstractions/Ability.js" type="text/javascript"></script>
-        <script src="Client/Abilities/Abstractions/MovementAbility.js" type="text/javascript"></script>
-        <script src="Client/Abilities/Boost.js"></script>
-
-        <script src="Client/Ship/ShipMovementController.js" type="text/javascript"></script>
-        <script src="Client/Ship/ShipManager.js" type="text/javascript"></script>
-        <script src="Client/Ship/ShipAnimationHandler.js" type="text/javascript"></script>
-        <script src="Client/Ship/ShipVehicle.js" type="text/javascript"></script>
-        <script src="Client/Ship/Ship.js" type="text/javascript"></script>
-
-        <script src="Client/Utilities/PayloadManagement/PayloadDecompressor.js" type="text/javascript"></script>
-        <script src="Client/Configuration/ConfigurationManager.js" type="text/javascript"></script>
-        <script src="Client/Game.js" type="text/javascript"></script>
-
-        <script src="Client/HUD/NotificationManager.js" type="text/javascript"></script>
-        <script src="Client/HUD/EnvironmentMonitor.js" type="text/javascript"></script>
-        <script src="Client/HUD/ShipStatMonitor.js" type="text/javascript"></script>
-        <script src="Client/HUD/HealthMonitor.js" type="text/javascript"></script>
-        <script src="Client/HUD/DeathScreen.js" type="text/javascript"></script>
-        <script src="Client/HUD/MyRankings.js" type="text/javascript"></script>
-        <script src="Client/HUD/ExperienceMonitor.js" type="text/javascript"></script>
-        <script src="Client/HUD/Leaderboard.js" type="text/javascript"></script>
-        <script src="Client/HUD/GameDetailManager.js" type="text/javascript"></script>
-        <script src="Client/HUD/HUDManager.js" type="text/javascript"></script>
-        <script src="Client/HUD/Animation/TextAnimation.js" type="text/javascript"></script>
-
-        <script src="Client/Main.js"></script>
+        <%= Bundle.JavaScript()
+                      .Add("Client/Utilities/ValueRef.js")
+                      .Add("Client/Utilities/ImageAssets.js")
+                      .Add("Client/Utilities/Vector2.js")
+                      .Add("Client/Utilities/GameTime.js")
+                      .Add("Client/Managers/AnimationManager.js")
+                      .Add("Client/Space/Screen.js")
+                      .Add("Client/Space/AreaRenderer.js")
+                      .Add("Client/GameGlobals.js")
+                      .Add("Client/Utilities/LatencyResolver.js")
+                      .Add("Client/Utilities/UtilityFunctions.js")
+                      .Add("Client/GameController/JoyStick.js")
+                      .Add("Client/GameController/Adapters/IETouchAdapter.js")
+                      .Add("Client/GameController/Adapters/MouseAdapter.js")
+                      .Add("Client/GameController/Adapters/TouchAdapter.js")
+                      .Add("Client/GameController/TouchController.js")
+                      .Add("Client/Utilities/ClientServerTime.js")
+                      .Add("Client/Space/Map.js")
+                      .Add("Client/Space/Camera.js")
+                      .Add("Client/Space/CanvasRenderer.js")
+                      .Add("Client/Collidable/Collidable.js")
+                      .Add("Client/Collidable/MovementController.js")
+                      .Add("Client/Powerups/Powerup.js")
+                      .Add("Client/Powerups/HealthPack.js")
+                      .Add("Client/Powerups/PowerupManager.js")
+                      .Add("Client/Bullet/Bullet.js")
+                      .Add("Client/Bullet/BulletManager.js")
+                      .Add("Client/Abilities/AbilityHandlers/AbilityHandler.js")
+                      .Add("Client/Abilities/AbilityHandlers/ShipAbilityHandler.js")
+                      .Add("Client/Abilities/Abstractions/Ability.js")
+                      .Add("Client/Abilities/Abstractions/MovementAbility.js")
+                      .Add("Client/Abilities/Boost.js")
+                      .Add("Client/Ship/ShipMovementController.js")
+                      .Add("Client/Ship/ShipManager.js")
+                      .Add("Client/Ship/ShipAnimationHandler.js")
+                      .Add("Client/Ship/ShipVehicle.js")
+                      .Add("Client/Ship/Ship.js")
+                      .Add("Client/Utilities/PayloadManagement/PayloadDecompressor.js")
+                      .Add("Client/Configuration/ConfigurationManager.js")
+                      .Add("Client/Game.js")
+                      .Add("Client/HUD/NotificationManager.js")
+                      .Add("Client/HUD/EnvironmentMonitor.js")
+                      .Add("Client/HUD/ShipStatMonitor.js")
+                      .Add("Client/HUD/HealthMonitor.js")
+                      .Add("Client/HUD/DeathScreen.js")
+                      .Add("Client/HUD/MyRankings.js")
+                      .Add("Client/HUD/ExperienceMonitor.js")
+                      .Add("Client/HUD/Leaderboard.js")
+                      .Add("Client/HUD/GameDetailManager.js")
+                      .Add("Client/HUD/HUDManager.js")
+                      .Add("Client/HUD/Animation/TextAnimation.js")
+                      .Add("Client/Main.js")
+                  .Render("Scripts/CORE.js")
+        %>
     </asp:Panel>
     </form>
 </body>

@@ -17,7 +17,7 @@ namespace ShootR
 
         protected void Page_Load(object sender, EventArgs e)
         {
-#if DEBUG
+#if !DEBUG
             var state = Request.Cookies["shootr.state"];
 #else
             var state = new HttpCookie("shootr.state", JsonConvert.SerializeObject(new RegisteredClient(null, "ABCDEFGH", "John Doe", "")));

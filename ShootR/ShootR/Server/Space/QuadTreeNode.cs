@@ -43,9 +43,15 @@ namespace ShootR
         {
             List<Collidable> results = new List<Collidable>();
 
-            foreach (QuadTreeNode node in Children)
+            try // This will sometime throw via the collision manager
             {
-                results.AddRange(node.GetSubTreeContents());
+                foreach (QuadTreeNode node in Children)
+                {
+                    results.AddRange(node.GetSubTreeContents());
+                }
+            }
+            catch
+            {
             }
 
             results.AddRange(this.Contents);
