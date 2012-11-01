@@ -20,6 +20,7 @@
             if (MyShip.Level !== lastLevel) {
                 experienceIncrease = lastExperienceToNextLevel - lastExperience + MyShip.Experience;
                
+                MyShip.ResetTouchController();
                 experienceBar.css('width', '0%'); // Reset to 0 so when we animate we're animating forward, not backward
                 popupHolder.css("display", "block");
                 currentLevelNotification.html(MyShip.Level);

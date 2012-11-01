@@ -77,6 +77,7 @@
         // screen when we're in the "dead" state.
         if (!leaderboard.hasClass('goLeft')) {
             that.LeaderboardUp = true;
+            MyShip.ResetTouchController();
             leaderboardHolder.css("display", "block");
             popUpHolder.fadeIn(350);
             gameCover.fadeIn(350);

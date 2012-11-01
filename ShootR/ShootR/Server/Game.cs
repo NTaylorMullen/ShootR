@@ -13,10 +13,10 @@ namespace ShootR
     public class Game
     {
         public const int MAX_SERVER_SIZE = 2000;
-        public const int AIShipsToSpawn = 35;
+        public const int AIShipsToSpawn = 5;
         public const int SpawnsPerInterval = 1;
         private int _spawned = 0;
-        private DateTime _lastSpawn = DateTime.UtcNow;
+        private DateTime _lastSpawn = DateTime.UtcNow;        
 
         private readonly static Lazy<Game> _instance = new Lazy<Game>(() => new Game());
         private Timer _leaderboardLoop;
@@ -117,6 +117,7 @@ namespace ShootR
         private void Draw()
         {
             _space.CheckIncreaseMapSize(UserHandler.TotalActiveUsers);
+            UserHandler.Update();
 
             ConcurrentDictionary<string, object[]> payloads = _payloadManager.GetGamePayloads(UserHandler.GetUsers(), UserHandler.TotalActiveUsers, GameHandler.BulletManager.Bullets.Count, _space);
             IHubContext context = GetContext();

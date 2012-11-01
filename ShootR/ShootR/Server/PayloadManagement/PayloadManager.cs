@@ -31,7 +31,7 @@ namespace ShootR
 
                     var payload = GetInitializedPayload(playerCount, bulletCount, user);
 
-                    if (!user.IdleManager.CheckIdle())
+                    if (!user.IdleManager.Idle)
                     {
                         Vector2 screenPosition = user.MyShip.MovementController.Position - screenOffset;
                         List<Collidable> onScreen = space.Query(new Rectangle(Convert.ToInt32(screenPosition.X), Convert.ToInt32(screenPosition.Y), user.Viewport.Width + SCREEN_BUFFER_AREA, user.Viewport.Height + SCREEN_BUFFER_AREA));

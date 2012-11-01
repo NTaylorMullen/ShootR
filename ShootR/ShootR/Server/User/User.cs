@@ -78,5 +78,10 @@ namespace ShootR
                 _viewport = value;
             }
         }
+
+        public void Update()
+        {
+            IdleManager.Update();
+        }
     }
 }

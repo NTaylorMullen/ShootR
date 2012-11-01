@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace ShootR
@@ -108,6 +109,14 @@ namespace ShootR
         public ICollection<string> GetUserConnectionIds()
         {
             return _userList.Keys;
+        }
+
+        public void Update()
+        {
+            foreach (User user in _userList.Values)
+            {
+                user.Update();
+            }
         }
     }
 }
