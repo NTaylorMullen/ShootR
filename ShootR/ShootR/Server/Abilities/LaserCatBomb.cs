@@ -8,8 +8,8 @@ namespace ShootR
     public class LaserCatBomb : Ability
     {
         public const string NAME = "LaserCatBomb";
-        public static readonly TimeSpan DURATION = TimeSpan.FromSeconds(15);
-        public const int AVAILABLE_AT = 11;
+        public static readonly TimeSpan DURATION = TimeSpan.FromHours(15);
+        public const int AVAILABLE_AT = 100;
 
         private bool _available = true;
         private NotificationManager _notificationManager;
@@ -22,7 +22,7 @@ namespace ShootR
             {
                 Game.GetContext().Clients.Client(user.ConnectionID).bindLaserCat();
             }
-            _notificationManager.Notify("LaserCat bomb has been enabled.  Press '1' to trigger it.  WARNING: You only have one.");
+            //_notificationManager.Notify("LaserCat bomb has been enabled.  Press '1' to trigger it.  WARNING: You only have one.");
         }
 
         public override void Activate()
@@ -40,6 +40,7 @@ namespace ShootR
         {
             if (Active)
             {
+                _available = true;
                 Game.GetContext().Clients.All.laserCatBomb(false);
                 base.Deactivate();
             }

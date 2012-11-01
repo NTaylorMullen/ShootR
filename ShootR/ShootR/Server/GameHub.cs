@@ -371,5 +371,21 @@ namespace ShootR
                 }
             }
         }
+
+        public void deactivateLaserCatBomb()
+        {
+            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            {
+                try
+                {
+                    Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+
+                    ship.AbilityHandler.Deactivate(LaserCatBomb.NAME);
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        }
     }
 }

@@ -169,6 +169,12 @@ namespace ShootR
                             ship.Name = rc.DisplayName;
                             user = new User(connectionId, ship, rc) { Controller = false };
                             UserHandler.AddUser(user);
+
+                            if (rc.DisplayName == "shanselman")
+                            {
+                                ship.AbilityHandler.AddAbility(new LaserCatBomb(user.NotificationManager, user));
+                                GetContext().Clients.Client(connectionId).bindLaserCat();
+                            }
                         }
                         else
                         {
