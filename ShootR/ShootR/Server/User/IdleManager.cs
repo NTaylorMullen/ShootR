@@ -8,8 +8,8 @@ namespace ShootR
 {
     public class IdleManager
     {
-        private static readonly TimeSpan IDLE_AFTER = TimeSpan.FromSeconds(12); // Go idle after X seconds with no communication to the server
-        private static readonly TimeSpan DISCONNECT_AFTER = TimeSpan.FromSeconds(10); // Disconnect after X hours of being idle
+        private static readonly TimeSpan IDLE_AFTER = TimeSpan.FromSeconds(120); // Go idle after X seconds with no communication to the server
+        private static readonly TimeSpan DISCONNECT_AFTER = TimeSpan.FromMinutes(15); // Disconnect after X hours of being idle
 
         public event Action<Ship> OnIdle;
         public event Action<User> OnIdleTimeout;
