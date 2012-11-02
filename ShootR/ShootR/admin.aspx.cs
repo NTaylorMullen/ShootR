@@ -62,5 +62,22 @@ namespace ShootR
                 ViewState["Page"] = "Login";
             }
         }
+
+        protected void Broadcast_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<User> userlist = Game.Instance.UserHandler.GetUsers();
+                string notifyText = BroadcastMessage.Text;
+
+                foreach (User user in userlist)
+                {
+                    user.NotificationManager.Notify(notifyText);
+                }
+            }
+            catch
+            {
+            }
+        }
     }
 }

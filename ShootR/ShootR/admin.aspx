@@ -20,6 +20,7 @@
         </asp:Panel>
         <p>Max Users: <asp:TextBox ID="MaxUsers" runat="server"></asp:TextBox></p>
         <p><asp:Button runat="server" ID="UpdateRuntime" Text="Update" OnClick="UpdateRuntime_Click"/></p>
+        <p><asp:TextBox ID="BroadcastMessage" runat="server"></asp:TextBox> <asp:Button ID="Broadcast" Text="Broadcast" runat="server" OnClick="Broadcast_Click"/></p>
     </asp:Panel>
     </form>
 </body>
