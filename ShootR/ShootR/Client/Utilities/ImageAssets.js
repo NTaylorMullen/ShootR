@@ -13,6 +13,10 @@
         this.Ship8.src = "/Images/Ships/ship_lvl8.png";
         this.Ship9.src = "/Images/Ships/ship_lvl9.png";
         this.Ship10.src = "/Images/Ships/ship_lvl10.png";
+        this.Ship11 = this.Ship10;
+        this.Ship12.src = "/Images/Ships/LaserCat.png";
+        this.Ship13 = this.Ship10;
+
         this.ThrustBasic.src = "/Images/SpriteSheets/thrust_basic.png";
         this.HealthPack.src = "/Images/SpriteSheets/health_pack.png";
         this.Boost.src = "/Images/SpriteSheets/thrusters-BOOST.png";
@@ -22,8 +26,6 @@
         this.ShipDamage3.src = "/Images/Ships/Damage/damage_2.png";
         this.ShipDamage5.src = "/Images/Ships/Damage/damage_3.png";
         this.ShipDamage7.src = "/Images/Ships/Damage/damage_4.png";
-
-        this.LaserCatBomb.src = "/Images/Ships/LaserCat.png";
     },
     Explosion: new Image(),
     Laser: new Image(),
@@ -35,6 +37,9 @@
     Ship8: new Image(),
     Ship9: new Image(),
     Ship10: new Image(),
+    Ship11: new Image(),
+    Ship12: new Image(),
+    Ship13: new Image(),
     ShipDamage1: new Image(),
     ShipDamage3: new Image(),
     ShipDamage5: new Image(),
@@ -43,7 +48,7 @@
     HealthPack: new Image(),
     Boost: new Image(),
     ThrustStart: new Image(),
-    LaserCatBomb: new Image()
+    
 };
 
 IMAGE_ASSETS.INIT();

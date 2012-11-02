@@ -285,7 +285,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Abilities\AbilityHandlers\ShipAbilityHandler.cs" />
-    <Compile Include="Server\Abilities\LaserCatBomb.cs" />
     <Compile Include="Server\AI\AIShipStatRecorder.cs" />
     <Compile Include="Server\AI\AIState.cs" />
     <Compile Include="Server\AI\UserAI.cs" />

@@ -44,11 +44,6 @@ namespace ShootR
                     Experience = Experience - ExperienceToNextLevel;
                     ExperienceToNextLevel = Convert.ToInt32(_levelCalculator.NextLevelExperience(Level));
 
-                    if (Level == LaserCatBomb.AVAILABLE_AT)
-                    {
-                        _me.AbilityHandler.AddAbility(new LaserCatBomb(_me.Host.NotificationManager, _me.Host));
-                    }
-
                     if (OnLevel != null)
                     {
                         OnLevel(_me, new LevelUpEventArgs(Level));

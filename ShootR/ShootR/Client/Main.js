@@ -127,32 +127,6 @@ $(function () {
         $.connection.hub.stop();
     }
 
-    var laserCatOn = false;
-    env.client.bindLaserCat = function () {
-        shortcut.add("9", function () {
-            //shortcut.remove("9");
-            if (laserCatOn) {
-                env.server.deactivateLaserCatBomb();
-            }
-            else {
-                env.server.activateLaserCatBomb();
-            }
-        });
-    }
-
-    env.client.laserCatBomb = function (enabled) {
-        if (enabled) {
-            laserCatOn = true;
-            //game.HUDManager.NotificationManager.Notify("Laser Cat bomb has been triggered!  Will expire in 15 seconds.");
-            game.ShipManager.ForcedVehicle = IMAGE_ASSETS.LaserCatBomb;
-        }
-        else {
-            laserCatOn = false;
-            //game.HUDManager.NotificationManager.Notify("Laser Cat bomb has expired!");
-            game.ShipManager.ForcedVehicle = false;
-        }
-    }
-
     env.client.pingBack = latencyResolver.ServerPingBack;    
 
     if (registrationID) {
