@@ -31,7 +31,7 @@ namespace ShootR
         public override void Move(double percentOfSecond)
         {
             double velocityLength;
-            _acceleration += Forces / Mass;
+            _acceleration = Forces / Mass;
 
             Position += Velocity * percentOfSecond + _acceleration * percentOfSecond * percentOfSecond;
             Velocity += _acceleration * percentOfSecond;

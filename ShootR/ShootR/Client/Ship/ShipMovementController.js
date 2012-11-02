@@ -65,7 +65,7 @@
                 clientPositionPrediction = new Vector2(),
                 nowMilliseconds = now.getTime();
 
-            acceleration = Vector2.AddV(acceleration, Vector2.DivideVByN(that.Forces, that.Mass));
+            acceleration = Vector2.DivideVByN(that.Forces, that.Mass);
 
             clientPositionPrediction = Vector2.AddV(Vector2.MultiplyN(that.Velocity,percentOfSecond), Vector2.MultiplyN(acceleration, percentOfSecond * percentOfSecond));
 

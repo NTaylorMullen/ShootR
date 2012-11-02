@@ -180,9 +180,10 @@
                 commandList.push([++currentCommand, dir, true]);
                 connection.server.registerMoveStart(dir, pingBack, currentCommand);
 
-                that.UpdateFromSecond(CalculatePOS(that.LastUpdated));
-                that.MovementController.Moving[dir] = true;
+                that.UpdateFromSecond(CalculatePOS(that.LastUpdated));                
             }
+
+            that.MovementController.Moving[dir] = true;
         }
     }
 
