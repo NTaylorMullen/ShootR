@@ -1,9 +1,11 @@
 ﻿function ShipAbilityHandler(MyShip) {
     if (MyShip.MovementController) {
-        AbilityHandler.apply(this, [[new Boost(MyShip.MovementController, MyShip.Controllable)]]);
-        var that = this;
+        var that = this,
+            boost = new Boost(MyShip.MovementController, MyShip.Controllable);
+        AbilityHandler.apply(this, [[boost]]);
+        
 
-        $(MyShip).on("OnOutOfBounds", that.Ability("Boost").Deactivate);
+        $(MyShip).on("OnOutOfBounds", $.proxy(boost.Deactivate, boost));
     }
 }
 

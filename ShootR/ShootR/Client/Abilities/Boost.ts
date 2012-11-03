@@ -5,7 +5,7 @@ class Boost extends MovementAbility {
     static BOOST_SPEED_INCREASE: number = 3; // Updated by server configuration value
     static BOOST_DURATION: number = 3; // Updated by server configuration value
 
-    constructor (private movementController: any, private Controllable: any) {
+    constructor (private movementController: any, public Controllable: any) {
         super(Boost.NAME, movementController);
     }
 
@@ -15,8 +15,7 @@ class Boost extends MovementAbility {
         this.Controllable.Value = false;        
     }
 
-    public Deactivate(): void {
-        
+    public Deactivate(): void {        
         this.ResetSpeed();
         super.Deactivate();
         this.Controllable.Value = true;
