@@ -20,75 +20,82 @@ namespace ShootR
 
         public void ProcessRequest(HttpContext context)
         {
-            string apiKey = ConfigurationManager.AppSettings["janrainAPIKey"];
-
-            if (String.IsNullOrEmpty(apiKey))
+            try
             {
-                // Do nothing
-                context.Response.Redirect("~/", false);
+                string apiKey = ConfigurationManager.AppSettings["janrainAPIKey"];
+
+                if (String.IsNullOrEmpty(apiKey))
+                {
+                    // Do nothing
+                    context.Response.Redirect("~/", false);
+                    context.ApplicationInstance.CompleteRequest();
+                    return;
+                }
+
+                var registeredClient = GetClientState(context);
+
+                // We have an identifier, we're already authenticated
+                if (registeredClient.Identity != null)
+                {
+                    Game.Instance.RegistrationHandler.Register(registeredClient);
+
+                    AddOrUpdateState(registeredClient, context);
+                }
+                else
+                {
+                    string token = context.Request.Form["token"];
+
+                    if (String.IsNullOrEmpty(token))
+                    {
+                        context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
+                        context.ApplicationInstance.CompleteRequest();
+                        return;
+                    }
+
+                    var response = new WebClient().DownloadString(String.Format(VerifyTokenUrl, apiKey, token));
+
+                    if (String.IsNullOrEmpty(response))
+                    {
+                        context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
+                        context.ApplicationInstance.CompleteRequest();
+                        return;
+                    }
+
+                    dynamic j = JsonConvert.DeserializeObject(response);
+
+                    if (j.stat.ToString() != "ok")
+                    {
+                        context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
+                        context.ApplicationInstance.CompleteRequest();
+                        return;
+                    }
+
+                    string identity = j.profile.identifier.ToString(),
+                        displayName = System.Net.WebUtility.HtmlEncode(j.profile.preferredUsername.ToString()),
+                        photo = "";
+
+                    if (j.profile.photo != null)
+                    {
+                        photo = j.profile.photo;
+                    }
+                    else if (j.profile.email != null)
+                    {
+                        photo = "http://www.gravatar.com/avatar/" + ToMD5(j.profile.email.ToString()) + "?d=404";
+                    }
+
+                    RegisteredClient rc = Game.Instance.RegistrationHandler.Register(identity, displayName, photo);
+
+                    AddOrUpdateState(rc, context);
+                }
+
+                string path = context.Request.QueryString["path"];
+                context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath + path, false);
                 context.ApplicationInstance.CompleteRequest();
-                return;
             }
-
-            var registeredClient = GetClientState(context);
-
-            // We have an identifier, we're already authenticated
-            if (registeredClient.Identity != null)
+            catch (Exception e)
             {
-                Game.Instance.RegistrationHandler.Register(registeredClient);
-
-                AddOrUpdateState(registeredClient, context);
+                ErrorLog.Instance.Log(e, "Crashd in LoginHandler.ashx.cs");
             }
-            else
-            {
-                string token = context.Request.Form["token"];
-
-                if (String.IsNullOrEmpty(token))
-                {
-                    context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
-                    context.ApplicationInstance.CompleteRequest();
-                    return;
-                }
-
-                var response = new WebClient().DownloadString(String.Format(VerifyTokenUrl, apiKey, token));
-
-                if (String.IsNullOrEmpty(response))
-                {
-                    context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
-                    context.ApplicationInstance.CompleteRequest();
-                    return;
-                }
-
-                dynamic j = JsonConvert.DeserializeObject(response);
-
-                if (j.stat.ToString() != "ok")
-                {
-                    context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath, false);
-                    context.ApplicationInstance.CompleteRequest();
-                    return;
-                }
-
-                string identity = j.profile.identifier.ToString(),
-                    displayName = System.Net.WebUtility.HtmlEncode(j.profile.preferredUsername.ToString()),
-                    photo = "";
-
-                if (j.profile.photo != null)
-                {
-                    photo = j.profile.photo;
-                }
-                else if (j.profile.email != null)
-                {
-                    photo = "http://www.gravatar.com/avatar/" + ToMD5(j.profile.email.ToString()) + "?d=404";
-                }
-
-                RegisteredClient rc = Game.Instance.RegistrationHandler.Register(identity, displayName, photo);
-
-                AddOrUpdateState(rc, context);
-            }
-
-            string path = context.Request.QueryString["path"];
-            context.Response.Redirect(HttpRuntime.AppDomainAppVirtualPath + path, false);
-            context.ApplicationInstance.CompleteRequest();
         }
 
         public static void AddOrUpdateState(RegisteredClient rc, HttpContext context)
