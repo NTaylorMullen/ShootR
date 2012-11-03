@@ -42,8 +42,10 @@ namespace ShootR
                 _idleAt = now;
                 Idle = true;
 
-                _me.Name = "(Away) " + _me.Name;
-                _notificationManager.Notify("You are now Away!  You will not see any new ships on screen.");
+                if (_me.Host.Connected)
+                {
+                    _notificationManager.Notify("You are now Away!  You will not see any new ships on screen.");
+                }
 
                 if (OnIdle != null)
                 {
@@ -58,8 +60,10 @@ namespace ShootR
             {
                 Idle = false;
 
-                _me.Name = _me.Name.Replace("(Away) ", "");
-                _notificationManager.Notify("You are Back!");
+                if (_me.Host.Connected)
+                {
+                    _notificationManager.Notify("You are Back!");
+                }
 
                 if (OnComeBack != null)
                 {

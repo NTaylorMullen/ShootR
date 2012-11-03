@@ -98,7 +98,7 @@ namespace ShootR
         public List<User> GetActiveUsers()
         {
             List<User> activeUsers = (from user in _userList.Values
-                                            where !user.Controller && !user.IdleManager.Idle
+                                            where !user.Controller && user.Connected && !user.IdleManager.Idle
                                             select user).ToList();
 
             TotalActiveUsers = activeUsers.Count;

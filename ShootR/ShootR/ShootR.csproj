@@ -234,9 +234,6 @@
     <Content Include="Scripts\jquery-ui-1.9.0.min.js" />
     <Content Include="Scripts\jquery.animate-colors-min.js" />
     <Content Include="Scripts\jquery.signalR-1.0.0.js" />
-    <Content Include="Scripts\jquery.signalR-1.0.0-alpha2-121101.min.js">
-      <DependentUpon>jquery.signalR-1.0.0.js</DependentUpon>
-    </Content>
     <Content Include="Scripts\jquery.spritify-0.0.0.js" />
     <Content Include="Scripts\shortcut.js" />
     <Content Include="Styles\controller.css" />
