@@ -81,7 +81,10 @@ namespace ShootR
 
         public void Update()
         {
-            IdleManager.Update();
+            if (MyShip != null)
+            {
+                IdleManager.Update();
+            }
         }
     }
 }
