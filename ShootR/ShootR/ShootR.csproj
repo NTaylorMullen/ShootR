@@ -98,9 +98,21 @@
     <Content Include="admin.aspx" />
     <Content Include="Client\Abilities\AbilityHandlers\AbilityHandler.js" />
     <Content Include="Client\Abilities\AbilityHandlers\ShipAbilityHandler.js" />
-    <Content Include="Client\Abilities\Abstractions\Ability.js" />
-    <Content Include="Client\Abilities\Abstractions\MovementAbility.js" />
-    <Content Include="Client\Abilities\Boost.js" />
+    <TypeScriptCompile Include="Client\Abilities\Abstractions\Ability.ts" />
+    <Content Include="Client\Abilities\Abstractions\Ability.js">
+      <DependentUpon>Ability.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Abilities\Abstractions\Ability2.js" />
+    <TypeScriptCompile Include="Client\Abilities\Abstractions\MovementAbility.ts" />
+    <Content Include="Client\Abilities\Abstractions\MovementAbility.js">
+      <DependentUpon>MovementAbility.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Abilities\Abstractions\MovementAbility2.js" />
+    <TypeScriptCompile Include="Client\Abilities\Boost.ts" />
+    <Content Include="Client\Abilities\Boost.js">
+      <DependentUpon>Boost.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Abilities\Boost2.js" />
     <Content Include="Client\Bullet\Bullet.js" />
     <Content Include="Client\Bullet\BulletManager.js" />
     <Content Include="Client\Collidable\MovementController.js" />
@@ -218,6 +230,15 @@
       <DependentUpon>AreaRenderer.ts</DependentUpon>
     </Content>
     <Content Include="packages.config" />
+    <Content Include="Client\Abilities\Abstractions\Ability.js.map">
+      <DependentUpon>Ability.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Abilities\Abstractions\MovementAbility.js.map">
+      <DependentUpon>MovementAbility.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Abilities\Boost.js.map">
+      <DependentUpon>Boost.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
     </None>

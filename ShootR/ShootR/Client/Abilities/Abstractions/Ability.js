@@ -1,19 +1,17 @@
-﻿function Ability(Name) {
-    if (Name) {
-        var that = this;
-
-        that.Active = false;
-        that.Name = Name;
-        that.ActivatedAt = false;
-
-        that.Activate = function () {
-            that.Active = true;
-            that.ActivatedAt = new Date().getTime();
-        }
-
-        that.Deactivate = function () {
-            that.ActivatedAt = false;
-            that.Active = false;
-        }
+var Ability = (function () {
+    function Ability(Name) {
+        this.Name = Name;
+        this.Active = false;
+        this.ActivatedAt = null;
     }
-}
+    Ability.prototype.Activate = function () {
+        this.Active = true;
+        this.ActivatedAt = new Date().getTime();
+    };
+    Ability.prototype.Deactivate = function () {
+        this.Active = false;
+        this.ActivatedAt = null;
+    };
+    return Ability;
+})();
+//@ sourceMappingURL=Ability.js.map
