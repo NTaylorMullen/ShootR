@@ -1,11 +1,12 @@
 /// <reference path="Abstractions/MovementAbility.ts" />
+/// <reference path="../Utilities/ValueRef.ts" />
 
 class Boost extends MovementAbility {    
     static NAME: string = "Boost";
     static BOOST_SPEED_INCREASE: number = 3; // Updated by server configuration value
     static BOOST_DURATION: number = 3; // Updated by server configuration value
 
-    constructor (private movementController: any, public Controllable: any) {
+    constructor (private movementController: any, public Controllable: ValueRef) {
         super(Boost.NAME, movementController);
     }
 

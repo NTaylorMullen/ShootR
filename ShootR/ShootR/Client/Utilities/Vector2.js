@@ -52,6 +52,9 @@ var Vector2 = (function () {
     Vector2.DivideNByV = function DivideNByV(num, v1) {
         return new Vector2(num / v1.X, num / v1.Y);
     }
+    Vector2.Zero = function Zero() {
+        return new Vector2(0, 0);
+    }
     return Vector2;
 })();
 //@ sourceMappingURL=Vector2.js.map

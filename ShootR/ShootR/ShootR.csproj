@@ -96,28 +96,62 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin.aspx" />
-    <Content Include="Client\Abilities\AbilityHandlers\AbilityHandler.js" />
-    <Content Include="Client\Abilities\AbilityHandlers\ShipAbilityHandler.js" />
+    <TypeScriptCompile Include="Client\Abilities\AbilityHandlers\AbilityHandler.ts" />
+    <Content Include="Client\Abilities\AbilityHandlers\AbilityHandler.js">
+      <DependentUpon>AbilityHandler.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Abilities\AbilityHandlers\AbilityHandler.min.js">
+      <DependentUpon>AbilityHandler.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\Abilities\AbilityHandlers\ShipAbilityHandler.ts" />
+    <Content Include="Client\Abilities\AbilityHandlers\ShipAbilityHandler.js">
+      <DependentUpon>ShipAbilityHandler.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Abilities\AbilityHandlers\ShipAbilityHandler.min.js">
+      <DependentUpon>ShipAbilityHandler.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Client\Abilities\Abstractions\Ability.ts" />
     <Content Include="Client\Abilities\Abstractions\Ability.js">
       <DependentUpon>Ability.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Abilities\Abstractions\Ability2.js" />
+    <Content Include="Client\Abilities\Abstractions\Ability.min.js">
+      <DependentUpon>Ability.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Client\Abilities\Abstractions\MovementAbility.ts" />
     <Content Include="Client\Abilities\Abstractions\MovementAbility.js">
       <DependentUpon>MovementAbility.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Abilities\Abstractions\MovementAbility2.js" />
+    <Content Include="Client\Abilities\Abstractions\MovementAbility.min.js">
+      <DependentUpon>MovementAbility.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Client\Abilities\Boost.ts" />
     <Content Include="Client\Abilities\Boost.js">
       <DependentUpon>Boost.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Abilities\Boost2.js" />
+    <Content Include="Client\Abilities\Boost.min.js">
+      <DependentUpon>Boost.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Bullet\Bullet.js" />
     <Content Include="Client\Bullet\BulletManager.js" />
-    <Content Include="Client\Collidable\MovementController.js" />
+    <TypeScriptCompile Include="Client\Collidable\MovementController.ts" />
+    <TypeScriptCompile Include="Client\Collidable\Collidable.ts" />
+    <Content Include="Client\Collidable\Collidable.js">
+      <DependentUpon>Collidable.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Collidable\Collidable.min.js">
+      <DependentUpon>Collidable.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Collidable\MovementController.js">
+      <DependentUpon>MovementController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Collidable\MovementController.min.js">
+      <DependentUpon>MovementController.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Client\HUD\NotificationManager.ts" />
     <Content Include="Client\HUD\NotificationManager.js">
+      <DependentUpon>NotificationManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\NotificationManager.min.js">
       <DependentUpon>NotificationManager.ts</DependentUpon>
     </Content>
     <Content Include="Client\Ship\ShipMovementController.js" />
@@ -161,12 +195,24 @@
     <Content Include="Client\Utilities\ImageAssets.js" />
     <Content Include="Client\Utilities\LatencyResolver.js" />
     <Content Include="Client\Utilities\ClientServerTime.js" />
-    <Content Include="Client\Collidable\Collidable.js" />
     <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.js" />
     <Content Include="Client\Utilities\GameTime.js" />
     <Content Include="Client\HUD\ShipStatMonitor.js" />
+    <TypeScriptCompile Include="Client\Utilities\Size.ts" />
+    <Content Include="Client\Utilities\Size.js">
+      <DependentUpon>Size.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\Size.min.js">
+      <DependentUpon>Size.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Utilities\UtilityFunctions.js" />
-    <Content Include="Client\Utilities\ValueRef.js" />
+    <TypeScriptCompile Include="Client\Utilities\ValueRef.ts" />
+    <Content Include="Client\Utilities\ValueRef.js">
+      <DependentUpon>ValueRef.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\ValueRef.min.js">
+      <DependentUpon>ValueRef.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Client\Utilities\Vector2.ts" />
     <Content Include="Client\Utilities\Vector2.js">
       <DependentUpon>Vector2.ts</DependentUpon>
@@ -229,7 +275,9 @@
     <Content Include="Client\Space\AreaRenderer.js.map">
       <DependentUpon>AreaRenderer.ts</DependentUpon>
     </Content>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Client\Abilities\Abstractions\Ability.js.map">
       <DependentUpon>Ability.ts</DependentUpon>
     </Content>
@@ -238,6 +286,24 @@
     </Content>
     <Content Include="Client\Abilities\Boost.js.map">
       <DependentUpon>Boost.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Abilities\AbilityHandlers\AbilityHandler.js.map">
+      <DependentUpon>AbilityHandler.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Abilities\AbilityHandlers\ShipAbilityHandler.js.map">
+      <DependentUpon>ShipAbilityHandler.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Collidable\MovementController.js.map">
+      <DependentUpon>MovementController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Collidable\Collidable.js.map">
+      <DependentUpon>Collidable.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\ValueRef.js.map">
+      <DependentUpon>ValueRef.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\Size.js.map">
+      <DependentUpon>Size.ts</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>

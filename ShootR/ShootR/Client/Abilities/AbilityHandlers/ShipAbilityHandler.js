@@ -1,12 +1,18 @@
-﻿function ShipAbilityHandler(MyShip) {
-    if (MyShip.MovementController) {
-        var that = this,
-            boost = new Boost(MyShip.MovementController, MyShip.Controllable);
-        AbilityHandler.apply(this, [[boost]]);
-        
-
-        $(MyShip).on("OnOutOfBounds", $.proxy(boost.Deactivate, boost));
-    }
+var __extends = this.__extends || function (d, b) {
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
 }
-
-ShipAbilityHandler.prototype = new AbilityHandler();
+var ShipAbilityHandler = (function (_super) {
+    __extends(ShipAbilityHandler, _super);
+    function ShipAbilityHandler(MyShip) {
+        var boost = new Boost(MyShip.MovementController, MyShip.Controllable);
+        _super.call(this, [
+    boost
+]);
+        this.boost = boost;
+        $(MyShip).on("OnOutOfBounds", $.proxy(this.boost.Deactivate, this.boost));
+    }
+    return ShipAbilityHandler;
+})(AbilityHandler);
+//@ sourceMappingURL=ShipAbilityHandler.js.map
