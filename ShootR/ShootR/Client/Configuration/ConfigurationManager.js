@@ -2,12 +2,12 @@
     var that = this;
 
     // Update the prototypes from the config
-    $.extend(ShipVehicle.prototype, config.shipConfig);
+    $.extend(Ship.prototype, config.shipConfig);
     $.extend(ShipMovementController.prototype, config.shipMovementControllerConfig);
 
     $.extend(Ability.prototype, config.abilityConfig);
-    ShipVehicle.prototype.HALF_WIDTH = ShipVehicle.prototype.WIDTH * .5;
-    ShipVehicle.prototype.HALF_HEIGHT = ShipVehicle.prototype.HEIGHT * .5;
+    Ship.prototype.HALF_WIDTH = Ship.prototype.WIDTH * .5;
+    Ship.prototype.HALF_HEIGHT = Ship.prototype.HEIGHT * .5;
 
     Bullet.prototype.BULLET_DIE_AFTER = config.gameConfig.BULLET_DIE_AFTER;
 
@@ -24,7 +24,7 @@
         SPEED: config.gameConfig.MAX_CAMERA_SPEED        
     };
 
-    ShipVehicle.prototype.REQUEST_PING_EVERY = config.gameConfig.REQUEST_PING_EVERY;
+    Ship.prototype.REQUEST_PING_EVERY = config.gameConfig.REQUEST_PING_EVERY;
 
     $.extend(that, config);
 
@@ -32,5 +32,5 @@
 }
 
 function ApplyInheritance() {
-    Ship.prototype = new ShipVehicle();        
+    ShipController.prototype = new Ship();
 }

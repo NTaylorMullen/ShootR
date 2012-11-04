@@ -133,7 +133,7 @@
     </Content>
     <Content Include="Client\Bullet\Bullet.js" />
     <Content Include="Client\Bullet\BulletManager.js" />
-    <TypeScriptCompile Include="Client\Collidable\MovementController.ts" />
+    <TypeScriptCompile Include="Client\Collidable\MovementControllers\MovementController.ts" />
     <TypeScriptCompile Include="Client\Collidable\Collidable.ts" />
     <Content Include="Client\Collidable\Collidable.js">
       <DependentUpon>Collidable.ts</DependentUpon>
@@ -141,10 +141,10 @@
     <Content Include="Client\Collidable\Collidable.min.js">
       <DependentUpon>Collidable.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Collidable\MovementController.js">
+    <Content Include="Client\Collidable\MovementControllers\MovementController.js">
       <DependentUpon>MovementController.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Collidable\MovementController.min.js">
+    <Content Include="Client\Collidable\MovementControllers\MovementController.min.js">
       <DependentUpon>MovementController.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\HUD\NotificationManager.ts" />
@@ -178,10 +178,10 @@
     <Content Include="Client\Powerups\HealthPack.js" />
     <Content Include="Client\Powerups\Powerup.js" />
     <Content Include="Client\Powerups\PowerupManager.js" />
-    <Content Include="Client\Ship\Ship.js" />
+    <Content Include="Client\Ship\ShipController.js" />
     <Content Include="Client\Ship\ShipAnimationHandler.js" />
     <Content Include="Client\Ship\ShipManager.js" />
-    <Content Include="Client\Ship\ShipVehicle.js" />
+    <Content Include="Client\Ship\Ship.js" />
     <Content Include="Client\Managers\AnimationManager.js" />
     <TypeScriptCompile Include="Client\Space\AreaRenderer.ts" />
     <Content Include="Client\Space\AreaRenderer.js">
@@ -293,7 +293,7 @@
     <Content Include="Client\Abilities\AbilityHandlers\ShipAbilityHandler.js.map">
       <DependentUpon>ShipAbilityHandler.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Collidable\MovementController.js.map">
+    <Content Include="Client\Collidable\MovementControllers\MovementController.js.map">
       <DependentUpon>MovementController.ts</DependentUpon>
     </Content>
     <Content Include="Client\Collidable\Collidable.js.map">

@@ -6,7 +6,7 @@
     that.MyShip;
 
     that.InitializeMyShip = function (bulletManager, connection) {
-        that.MyShip = new Ship(["a", "left"], ["w", "up"], ["d", "right"], ["s", "down"], "Space", bulletManager, connection);
+        that.MyShip = new ShipController(["a", "left"], ["w", "up"], ["d", "right"], ["s", "down"], "Space", bulletManager, connection);
         that.MyShip.ID = myShipID;
         that.Ships[myShipID] = that.MyShip;
     }
@@ -40,7 +40,7 @@
 
             // If we don't have a ship by that ID create a new ship
             if (!that.Ships[id]) {
-                that.Ships[id] = new ShipVehicle(currentShip);
+                that.Ships[id] = new Ship(currentShip);
             }
             else { // We already have a ship on the screen by that ID, update it
                 that.Ships[id].UpdateProperties(currentShip);
