@@ -2,12 +2,12 @@
     var that = this;
 
     // Update the prototypes from the config
-    $.extend(Ship.prototype, config.shipConfig);
+    $.extend(Ship, config.shipConfig);
     $.extend(ShipMovementController.prototype, config.shipMovementControllerConfig);
 
     $.extend(Ability.prototype, config.abilityConfig);
-    Ship.prototype.HALF_WIDTH = Ship.prototype.WIDTH * .5;
-    Ship.prototype.HALF_HEIGHT = Ship.prototype.HEIGHT * .5;
+    Ship.HALF_WIDTH = Ship.WIDTH * .5;
+    Ship.HALF_HEIGHT = Ship.HEIGHT * .5;
 
     Bullet.prototype.BULLET_DIE_AFTER = config.gameConfig.BULLET_DIE_AFTER;
 

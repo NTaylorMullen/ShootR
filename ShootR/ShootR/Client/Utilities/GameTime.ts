@@ -1,14 +1,20 @@
-var GameTime = (function () {
-    function GameTime() {
+/// <reference path="UtilityFunctions.js" />
+
+class GameTime {
+    private _lastUpdated: Date;
+    public PercentOfSecond: number;
+    public Now: Date;
+
+    constructor () {
         this._lastUpdated = new Date();
         this.PercentOfSecond = 0;
         this.Now = new Date();
     }
-    GameTime.prototype.Update = function () {
+
+    public Update (): void {
         this.PercentOfSecond = CalculatePOS(this._lastUpdated);
+
         this.Now = new Date();
         this._lastUpdated = this.Now;
-    };
-    return GameTime;
-})();
-//@ sourceMappingURL=GameTime.js.map
+    }
+}

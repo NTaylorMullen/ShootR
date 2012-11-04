@@ -1,7 +1,7 @@
 /// <reference path="../Utilities/Vector2.ts" />
 /// <reference path="../Utilities/Size.ts" />
 /// <reference path="../Utilities/ValueRef.ts" />
-/// <reference path="MovementController.ts" />
+/// <reference path="MovementControllers/MovementController.ts" />
 
 declare var CanvasContext;
 

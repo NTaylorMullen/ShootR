@@ -33,6 +33,8 @@ var MovementController = (function () {
             }
         }
     };
+    MovementController.prototype.Update = function (PercentOfSecond, now) {
+    };
     return MovementController;
 })();
 //@ sourceMappingURL=MovementController.js.map

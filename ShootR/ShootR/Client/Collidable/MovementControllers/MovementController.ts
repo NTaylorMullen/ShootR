@@ -1,5 +1,5 @@
-/// <reference path="../Utilities/Vector2.ts" />
-/// <reference path="../Space/Map.js" />
+/// <reference path="../../Utilities/Vector2.ts" />
+/// <reference path="../../Space/Map.js" />
 
 class MovementController {
     public Position: Vector2;
@@ -48,5 +48,8 @@ class MovementController {
         else if (this.Position.Y + objectHeight > Map.prototype.HEIGHT) {
             this.Position.Y = Map.prototype.HEIGHT - objectHeight;
         }
+    }
+
+    public Update(PercentOfSecond: number, now: Date): void {
     }
 }

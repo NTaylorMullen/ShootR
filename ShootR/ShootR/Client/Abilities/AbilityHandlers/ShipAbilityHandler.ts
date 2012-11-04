@@ -1,11 +1,13 @@
 /// <reference path="../Boost.ts" />
 /// <reference path="AbilityHandler.ts" />
+/// <reference path="../../Ship/Ship.ts" />
+
 declare var $;
 
 class ShipAbilityHandler extends AbilityHandler {
     private boost: Boost;
 
-    constructor (MyShip: any) {
+    constructor (MyShip: Ship) {
         var boost = new Boost(MyShip.MovementController, MyShip.Controllable);
         super([boost]);
 

@@ -154,6 +154,13 @@
     <Content Include="Client\HUD\NotificationManager.min.js">
       <DependentUpon>NotificationManager.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Client\Ship\Ship.ts" />
+    <Content Include="Client\Ship\Ship.js">
+      <DependentUpon>Ship.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\Ship.min.js">
+      <DependentUpon>Ship.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Ship\ShipMovementController.js" />
     <Content Include="Client\Configuration\ConfigurationManager.js" />
     <Content Include="Client\GameController\Adapters\IETouchAdapter.js" />
@@ -181,7 +188,7 @@
     <Content Include="Client\Ship\ShipController.js" />
     <Content Include="Client\Ship\ShipAnimationHandler.js" />
     <Content Include="Client\Ship\ShipManager.js" />
-    <Content Include="Client\Ship\Ship.js" />
+    <Content Include="Client\Ship\Ship2.js" />
     <Content Include="Client\Managers\AnimationManager.js" />
     <TypeScriptCompile Include="Client\Space\AreaRenderer.ts" />
     <Content Include="Client\Space\AreaRenderer.js">
@@ -192,11 +199,18 @@
     <Content Include="Client\Space\Map.js" />
     <Content Include="Client\Space\Screen.js" />
     <Content Include="Client\Space\TileMap.js" />
+    <TypeScriptCompile Include="Client\Utilities\GameTime.ts" />
+    <Content Include="Client\Utilities\GameTime.js">
+      <DependentUpon>GameTime.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\GameTime.min.js">
+      <DependentUpon>GameTime.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Utilities\ImageAssets.js" />
     <Content Include="Client\Utilities\LatencyResolver.js" />
     <Content Include="Client\Utilities\ClientServerTime.js" />
     <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.js" />
-    <Content Include="Client\Utilities\GameTime.js" />
+    <Content Include="Client\Utilities\GameTime2.js" />
     <Content Include="Client\HUD\ShipStatMonitor.js" />
     <TypeScriptCompile Include="Client\Utilities\Size.ts" />
     <Content Include="Client\Utilities\Size.js">
@@ -304,6 +318,12 @@
     </Content>
     <Content Include="Client\Utilities\Size.js.map">
       <DependentUpon>Size.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\Ship.js.map">
+      <DependentUpon>Ship.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\GameTime.js.map">
+      <DependentUpon>GameTime.ts</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
