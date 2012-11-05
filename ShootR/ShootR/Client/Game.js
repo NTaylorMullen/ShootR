@@ -10,8 +10,8 @@ function Game(connection, latencyResolver, myShipID) {
 
     that.GameTime = new GameTime();
     that.BulletManager = new BulletManager();
-    that.ShipManager = new ShipManager(myShipID, that.GameTime);
-    that.ShipManager.InitializeMyShip(that.BulletManager, connection);
+    that.ShipManager = new ShipManager(myShipID);
+    that.ShipManager.InitializeMyShip(connection);
     that.PowerupManager = new PowerupManager();
 
     var myShip = that.ShipManager.MyShip;

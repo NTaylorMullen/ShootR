@@ -1,96 +1,84 @@
-﻿function ShipManager(myShipID) {
-    var that = this;
-
-    that.DrawDetails = true;
-    that.Ships = {};
-    that.MyShip;
-
-    that.InitializeMyShip = function (bulletManager, connection) {
-        that.MyShip = new ShipController(["a", "left"], ["w", "up"], ["d", "right"], ["s", "down"], "Space", bulletManager, connection);
-        that.MyShip.ID = myShipID;
-        that.Ships[myShipID] = that.MyShip;
+var ShipManager = (function () {
+    function ShipManager(myShipID) {
+        this.myShipID = myShipID;
+        this.DrawDetails = true;
+        this.Ships = {
+        };
     }
-
-    that.RemoveShip = function (connectionID) {
-        that.Ships[connectionID].Destroy();
-        delete that.Ships[connectionID];
-    }
-
-    that.UpdateShips = function (shipList) {
+    ShipManager.prototype.InitializeMyShip = function (connection) {
+        this.MyShip = new ShipController([
+            "a", 
+            "left"
+        ], [
+            "w", 
+            "up"
+        ], [
+            "d", 
+            "right"
+        ], [
+            "s", 
+            "down"
+        ], "Space", connection);
+        this.MyShip.ID = this.myShipID;
+        this.Ships[this.myShipID] = this.MyShip;
+    };
+    ShipManager.prototype.RemoveShip = function (connectionID) {
+        this.Ships[connectionID].Destroy();
+        delete this.Ships[connectionID];
+    };
+    ShipManager.prototype.UpdateShips = function (shipList) {
         var shipCount = shipList.length;
-
-        for (var i = 0; i < shipCount; i++) {
-            var currentShip = shipList[i],
-                id = currentShip.ID;
+        for(var i = 0; i < shipCount; i++) {
+            var currentShip = shipList[i];
+            var id = currentShip.ID;
 
             currentShip.Visible = true;
             var shipImage = Math.min(currentShip.Level, 13);
-
             currentShip.Vehicle = IMAGE_ASSETS["Ship" + shipImage];
-
-            // Create a GUID on the ship object.  This allows the camera to follow a GUID based object
             currentShip.GUID = currentShip.ID;
+            var abilities = currentShip.Abilities;
+            var movementController = currentShip.MovementController;
 
-            var abilities = currentShip.Abilities,
-                movementController = currentShip.MovementController;
-
-            // Remove them from the currentShip so we don't update them as properties
             delete currentShip.Abilities;
             delete currentShip.MovementController;
-
-            // If we don't have a ship by that ID create a new ship
-            if (!that.Ships[id]) {
-                that.Ships[id] = new Ship(currentShip);
+            if(!this.Ships[id]) {
+                this.Ships[id] = new Ship(currentShip);
+            } else {
+                this.Ships[id].UpdateProperties(currentShip);
             }
-            else { // We already have a ship on the screen by that ID, update it
-                that.Ships[id].UpdateProperties(currentShip);
-            }
-
-            that.Ships[id].ShipAbilityHandler.UpdateAbilities(abilities);
-            that.Ships[id].MovementController.UpdateMovementController(movementController);
-
-            // Check if the ship still exists
-            if (that.Ships[id].Disposed) {
-                that.Ships[id].Destroy();
-
-                if (id !== that.MyShip.ID) {
-                    that.RemoveShip(id);
+            this.Ships[id].ShipAbilityHandler.UpdateAbilities(abilities);
+            this.Ships[id].MovementController.UpdateMovementController(movementController);
+            if(this.Ships[id].Disposed) {
+                this.Ships[id].Destroy();
+                if(id !== this.MyShip.ID) {
+                    this.RemoveShip(id);
                 }
-                else {
-                    if (!that.Ships[id].LifeController.Alive) {
-                        that.SmoothX = false;
-                        that.SmoothY = false;
-                    }
-                }
-            }
-            else {
-                that.Ships[id].Update();
+            } else {
+                this.Ships[id].Update();
             }
         }
-    }
-
-    that.Update = function (gameTime) {
-        // Always update "myship" first.  This will get the camera in the right place
-        var myShip = that.Ships[myShipID];
-        if (myShip) {
+    };
+    ShipManager.prototype.Update = function (gameTime) {
+        var myShip = this.Ships[this.myShipID];
+        if(myShip) {
             myShip.Update(gameTime);
             myShip.Draw();
         }
-
-        for (var key in that.Ships) {
-            // Ensure that the Ship is in view
-            if (CanvasContext.Camera.InView(that.Ships[key]) && myShipID !== that.Ships[key].ID) {
-                that.Ships[key].Update(gameTime);
-                that.Ships[key].Draw();
-
-                if (that.Ships[key].LifeController.Alive && that.DrawDetails) {
-                    that.Ships[key].DrawHealthBar();
-                    that.Ships[key].DrawName(10);
+        for(var key in this.Ships) {
+            if(CanvasContext.Camera.InView(this.Ships[key]) && this.myShipID !== this.Ships[key].ID) {
+                this.Ships[key].Update(gameTime);
+                this.Ships[key].Draw();
+                if(this.Ships[key].LifeController.Alive && this.DrawDetails) {
+                    this.Ships[key].DrawHealthBar();
+                    this.Ships[key].DrawName(10);
+                }
+            } else {
+                if(this.myShipID !== this.Ships[key].ID) {
+                    delete this.Ships[key];
                 }
             }
-            else if (myShipID !== that.Ships[key].ID) { // Ship is not in view, so remove it from our ship list
-                delete that.Ships[key];
-            }
         }
-    }
-}
+    };
+    return ShipManager;
+})();
+//@ sourceMappingURL=ShipManager.js.map

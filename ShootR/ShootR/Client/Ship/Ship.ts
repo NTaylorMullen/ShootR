@@ -1,22 +1,27 @@
 /// <reference path="../Collidable/Collidable.ts" />
-/// <reference path="ShipAnimationHandler.js" />
+/// <reference path="ShipAnimationHandler.ts" />
 /// <reference path="ShipMovementController.js" />
 /// <reference path="../Abilities/AbilityHandlers/ShipAbilityHandler.ts" />
 /// <reference path="../Utilities/GameTime.ts" />
 /// <reference path="../GameGlobals.ts" />
 /// <reference path="../Managers/spritify.ts" />
+/// <reference path="../Utilities/ImageAssets.ts" />
+/// <reference path="ShipAnimationHandler.ts" />
 
-declare var IMAGE_ASSETS, HealthMonitor;
+declare var HealthMonitor;
 
 class Ship extends Collidable {
     static WIDTH: number = 0;
     static HEIGHT: number = 0;
     static HALF_WIDTH: number = 0;
-    static HALF_HEIGHT: number = 0;    
+    static HALF_HEIGHT: number = 0;
+    static MIN_FIRE_RATE: number = 0;
+    public ID: number = 0;
     public Name: string = "";
     public MaxLife: number = 0;
-    public AnimationHandler: any;
+    public AnimationHandler: ShipAnimationHandler;
     public ShipAbilityHandler: ShipAbilityHandler;
+    public MovementController: ShipMovementController;
 
     private _maxWidth: number;
     private _xOffset: number;
@@ -25,9 +30,9 @@ class Ship extends Collidable {
     private _currentHealthPercentage: number;
     private _miniHealthBarColor: string;
 
-    constructor (properties: any) {
-        super();        
-        this.MovementController = new ShipMovementController(Vector2.Zero());        
+    constructor (properties?: any) {
+        super();
+        this.MovementController = new ShipMovementController(Vector2.Zero());
 
         this.UpdateProperties(properties);
 
@@ -64,18 +69,18 @@ class Ship extends Collidable {
         this.Visible = false;
     }
 
-    public Update (gameTime): void {
+    public Update(gameTime): void {
         var PercentOfSecond = CalculatePOS(this.LastUpdated);
         this.UpdateFromSecond(PercentOfSecond);
     }
 
-    public UpdateFromSecond (PercentOfSecond: number): void {
+    public UpdateFromSecond(PercentOfSecond: number): void {
         var now = new Date();
-        
+
         this.MovementController.Update(PercentOfSecond, now);
         this.AnimationHandler.Update(now);
         this.AnimationHandler.DrawDamage();
-        this.ShipAbilityHandler.Update(now);        
+        this.ShipAbilityHandler.Update(now);
         this.LastUpdated = now;
     }
 
@@ -100,7 +105,7 @@ class Ship extends Collidable {
         CanvasContext.drawRectangle(this.MovementController.Position.X + this._xOffset, this.MovementController.Position.Y + this.HEIGHT + 15, this._currentHealth, 5, this._miniHealthBarColor);
     }
 
-    public DrawName (healthOffset: number): void {
+    public DrawName(healthOffset: number): void {
         CanvasContext.drawText(this.Name, this.MovementController.Position.X + Ship.HALF_WIDTH, this.MovementController.Position.Y + this.HEIGHT + 30 + healthOffset);
     }
 }

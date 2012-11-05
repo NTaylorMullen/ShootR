@@ -3,11 +3,11 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 }
-
 var Ship = (function (_super) {
     __extends(Ship, _super);
     function Ship(properties) {
         _super.call(this);
+        this.ID = 0;
         this.Name = "";
         this.MaxLife = 0;
         this.MovementController = new ShipMovementController(Vector2.Zero());
@@ -23,6 +23,7 @@ var Ship = (function (_super) {
     Ship.HEIGHT = 0;
     Ship.HALF_WIDTH = 0;
     Ship.HALF_HEIGHT = 0;
+    Ship.MIN_FIRE_RATE = 0;
     Ship.prototype.Destroy = function () {
         if(!this.LifeController.Alive) {
             GAME_GLOBALS.AnimationManager.Add(new spritify({

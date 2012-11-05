@@ -1,140 +1,123 @@
-﻿function ShipMovementController(position) {
-    if (position) {
-        MovementController.apply(this, [this.MASS, this.ENGINE_POWER]);
-        var that = this,
-            acceleration = new Vector2(),
-            movingDirections = ["RotatingLeft", "RotatingRight", "Forward", "Backward"];
-
-        that.Position = position;
-        that.Moving = {}
-
-        that.StopMovement = function () {
-            for (var i = movingDirections.length - 1; i >= 0; i--) {
-                that.Moving[movingDirections[i]] = false;
-            }
-        }
-
-        // Initializes the Moving object
-        that.StopMovement();
-
-        function Interpolate(axis, ClientPositionPrediction) {
-            if (that.Smoothing[axis]) {
-                var InterpolationPercent = CalculatePO(that.LastUpdated, that.InterpolateOver[axis]);
-
-                that.Target[axis] += ClientPositionPrediction[axis];
-
-                var posDiff = that.Target[axis] - that.Position[axis];
-                that.Position[axis] += (posDiff * InterpolationPercent);
-
-                if (Math.abs(posDiff) <= that.INTERPOLATE_POSITION_THRESHOLD) {
-                    that.Smoothing[axis] = false;
-                }
-            }
-        }
-
-        function InterpolateRotation(RotationIncrementor) {
-            if (that.SmoothingRotation) {
-                var InterpolationPercent = CalculatePO(that.LastUpdated, that.InterpolateRotationOver);
-
-                that.TargetRotation += RotationIncrementor;
-
-                var rotDiff = that.TargetRotation - that.Rotation;
-                that.Rotation += (rotDiff * InterpolationPercent);
-
-                if (Math.abs(rotDiff) <= that.INTERPOLATE_ROTATION_THRESHOLD) {
-                    that.SmoothingRotation = false;
-                }
-            }
-        }
-
-        function TryInterpolation(ClientPositionPrediction) {
-            if (that.InterpolateOver) {
-                Interpolate("X", ClientPositionPrediction);
-                Interpolate("Y", ClientPositionPrediction);
-            }
-        }
-
-        function TryInterpolationRotation(RotationIncrementor) {
-            if (that.InterpolateRotationOver) {
-                InterpolateRotation(RotationIncrementor);
-            }
-        }
-
-        that.Move = function (percentOfSecond, now) {
-            var velocityLength,
-                clientPositionPrediction = new Vector2(),
-                nowMilliseconds = now.getTime();
-
-            acceleration = Vector2.DivideVByN(that.Forces, that.Mass);
-
-            clientPositionPrediction = Vector2.AddV(Vector2.MultiplyN(that.Velocity,percentOfSecond), Vector2.MultiplyN(acceleration, percentOfSecond * percentOfSecond));
-
-            that.Position = Vector2.AddV(that.Position, clientPositionPrediction);
-
-            TryInterpolation(clientPositionPrediction);
-
-            that.Velocity = Vector2.AddV(that.Velocity, Vector2.MultiplyN(acceleration, percentOfSecond));
-            velocityLength = that.Velocity.Length();
-
-            // Stop moving if the "speed" is less than 10
-            if (velocityLength < 10) {
-                that.Velocity.ZeroOut();
-            }
-            else if (velocityLength > 3000) // Hack
-            {
-                that.Velocity = Vector2.MultiplyN(new Vector2(that.Rotation, false), 600);
-            }
-
-            acceleration.ZeroOut();
-            that.Forces.ZeroOut();
-
-            var rotationIncrementor = percentOfSecond * that.ROTATE_SPEED,
-                direction = new Vector2(that.Rotation, false),
-                dragForce = Vector2.MultiplyN(Vector2.MultiplyV(Vector2.MultiplyN(that.Velocity, .5), that.Velocity.Abs()), that.DRAG_COEFFICIENT * that.DRAG_AREA * -1);
-
-            if (that.Moving.RotatingLeft) {
-                that.Rotation -= rotationIncrementor;
-            }
-            if (that.Moving.RotatingRight) {
-                that.Rotation += rotationIncrementor;
-            }
-            if (that.Moving.Forward) {
-                that.ApplyForce(Vector2.MultiplyN(direction,that.Power));
-            }
-            if (that.Moving.Backward) {
-                that.ApplyForce(Vector2.MultiplyN(direction,that.Power * -1));
-            }
-
-            that.ApplyForce(dragForce);
-
-            // Rounding so we doing do alpha transparency on the canvas
-            that.Position.X = Math.round(that.Position.X);
-            that.Position.Y = Math.round(that.Position.Y);
-        }
-
-        that.Update = function (percentOfSecond, now) {
-            that.Move(percentOfSecond, now);
-            that.LastUpdated = now;
-        }
-
-        that.UpdateMovementController = function (data) {
-            that.Forces.X = data.Forces.X;
-            that.Forces.Y = data.Forces.Y;
-
-            that.Mass = data.Mass;
-            for (var i = movingDirections.length - 1; i >= 0; i--) {
-                that.Moving[movingDirections[i]] = data.Moving[movingDirections[i]];
-            }
-
-            that.Position.X = data.Position.X;
-            that.Position.Y = data.Position.Y;
-
-            that.Rotation = data.Rotation;
-
-            that.Velocity.X = data.Velocity.X;
-            that.Velocity.Y = data.Velocity.Y;
-        }
-    }
+var __extends = this.__extends || function (d, b) {
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
 }
+var ShipMovementController = (function (_super) {
+    __extends(ShipMovementController, _super);
+    function ShipMovementController(position) {
+        _super.call(this, ShipMovementController.MASS, ShipMovementController.ENGINE_POWER);
+        this._acceleration = Vector2.Zero();
+        this.StopMovement();
+    }
+    ShipMovementController.MASS = 0;
+    ShipMovementController.ENGINE_POWER = 0;
+    ShipMovementController.DRAG_AREA = 0;
+    ShipMovementController.DRAG_COEFFICIENT = 0;
+    ShipMovementController.ROTATE_SPEED = 0;
+    ShipMovementController.MOVING_DIRECTIONS = [
+        "RotatingLeft", 
+        "RotatingRight", 
+        "Forward", 
+        "Backward"
+    ];
+    ShipMovementController.INTERPOLATE_POSITION_THRESHOLD = 10;
+    ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD = 15;
+    ShipMovementController.prototype.Interpolate = function (axis, ClientPositionPrediction) {
+        if(this.Smoothing[axis]) {
+            var InterpolationPercent = CalculatePO(this.LastUpdated, this.InterpolateOver[axis]);
+            this.Target[axis] += ClientPositionPrediction[axis];
+            var posDiff = this.Target[axis] - this.Position[axis];
+            this.Position[axis] += (posDiff * InterpolationPercent);
+            if(Math.abs(posDiff) <= ShipMovementController.INTERPOLATE_POSITION_THRESHOLD) {
+                this.Smoothing[axis] = false;
+            }
+        }
+    };
+    ShipMovementController.prototype.InterpolateRotation = function (RotationIncrementor) {
+        if(this.SmoothingRotation) {
+            var InterpolationPercent = CalculatePO(this.LastUpdated, this.InterpolateRotationOver);
+            this.TargetRotation += RotationIncrementor;
+            var rotDiff = this.TargetRotation - this.Rotation;
+            this.Rotation += (rotDiff * InterpolationPercent);
+            if(Math.abs(rotDiff) <= ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD) {
+                this.SmoothingRotation = false;
+            }
+        }
+    };
+    ShipMovementController.prototype.TryInterpolation = function (ClientPositionPrediction) {
+        if(this.InterpolateOver) {
+            this.Interpolate("X", ClientPositionPrediction);
+            this.Interpolate("Y", ClientPositionPrediction);
+        }
+    };
+    ShipMovementController.prototype.TryInterpolationRotation = function (RotationIncrementor) {
+        if(this.InterpolateRotationOver) {
+            this.InterpolateRotation(RotationIncrementor);
+        }
+    };
+    ShipMovementController.prototype.StopMovement = function () {
+        for(var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
+            this.Moving[ShipMovementController.MOVING_DIRECTIONS[i]] = false;
+        }
+    };
+    ShipMovementController.prototype.Move = function (percentOfSecond, now) {
+        var velocityLength;
+        var clientPositionPrediction = Vector2.Zero();
+        var nowMilliseconds = now.getTime();
 
-ShipMovementController.prototype = new MovementController();
+        this._acceleration = Vector2.DivideVByN(this.Forces, this.Mass);
+        clientPositionPrediction = Vector2.AddV(Vector2.MultiplyN(this.Velocity, percentOfSecond), Vector2.MultiplyN(this._acceleration, percentOfSecond * percentOfSecond));
+        this.Position = Vector2.AddV(this.Position, clientPositionPrediction);
+        this.TryInterpolation(clientPositionPrediction);
+        this.Velocity = Vector2.AddV(this.Velocity, Vector2.MultiplyN(this._acceleration, percentOfSecond));
+        velocityLength = this.Velocity.Length();
+        if(velocityLength < 10) {
+            this.Velocity.ZeroOut();
+        } else {
+            if(velocityLength > 3000) {
+                this.Velocity = Vector2.MultiplyN(new Vector2(this.Rotation, false), 600);
+            }
+        }
+        this._acceleration.ZeroOut();
+        this.Forces.ZeroOut();
+        var rotationIncrementor = percentOfSecond * ShipMovementController.ROTATE_SPEED;
+        var direction = new Vector2(this.Rotation, false);
+        var dragForce = Vector2.MultiplyN(Vector2.MultiplyV(Vector2.MultiplyN(this.Velocity, 0.5), this.Velocity.Abs()), ShipMovementController.DRAG_COEFFICIENT * ShipMovementController.DRAG_AREA * -1);
+
+        if(this.Moving.RotatingLeft) {
+            this.Rotation -= rotationIncrementor;
+        }
+        if(this.Moving.RotatingRight) {
+            this.Rotation += rotationIncrementor;
+        }
+        if(this.Moving.Forward) {
+            this.ApplyForce(Vector2.MultiplyN(direction, this.Power));
+        }
+        if(this.Moving.Backward) {
+            this.ApplyForce(Vector2.MultiplyN(direction, this.Power * -1));
+        }
+        this.ApplyForce(dragForce);
+        this.Position.X = Math.round(this.Position.X);
+        this.Position.Y = Math.round(this.Position.Y);
+    };
+    ShipMovementController.prototype.Update = function (percentOfSecond, now) {
+        this.Move(percentOfSecond, now);
+        this.LastUpdated = now;
+    };
+    ShipMovementController.prototype.UpdateMovementController = function (data) {
+        this.Forces.X = data.Forces.X;
+        this.Forces.Y = data.Forces.Y;
+        this.Mass = data.Mass;
+        for(var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
+            this.Moving[ShipMovementController.MOVING_DIRECTIONS[i]] = data.Moving[ShipMovementController.MOVING_DIRECTIONS[i]];
+        }
+        this.Position.X = data.Position.X;
+        this.Position.Y = data.Position.Y;
+        this.Rotation = data.Rotation;
+        this.Velocity.X = data.Velocity.X;
+        this.Velocity.Y = data.Velocity.Y;
+    };
+    return ShipMovementController;
+})(MovementController);
+//@ sourceMappingURL=ShipMovementController.js.map

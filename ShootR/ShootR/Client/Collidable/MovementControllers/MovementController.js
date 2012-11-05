@@ -13,6 +13,8 @@ var MovementController = (function () {
         this.Forces = Vector2.Zero();
         this.Rotation = 0;
         this.LastUpdated = new Date();
+        this.Moving = {
+        };
     }
     MovementController.prototype.ApplyForce = function (force) {
         this.Forces = Vector2.AddV(this.Forces, force);

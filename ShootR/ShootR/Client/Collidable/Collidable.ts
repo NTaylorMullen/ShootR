@@ -25,6 +25,7 @@ class Collidable {
     constructor () {
         this._animationCanvasOffset = Vector2.Zero();
 
+        this.LifeController = {};
         this.AnimationDrawList = [];
         this.Visible = true;
         this.LastUpdated = new Date();

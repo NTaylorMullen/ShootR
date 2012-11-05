@@ -3,9 +3,11 @@
 
     // Update the prototypes from the config
     $.extend(Ship, config.shipConfig);
-    $.extend(ShipMovementController.prototype, config.shipMovementControllerConfig);
+    $.extend(ShipMovementController, config.shipMovementControllerConfig);
 
-    $.extend(Ability.prototype, config.abilityConfig);
+    Boost.DURATION = config.abilityConfig.BOOST_DURATION;
+    Boost.SPEED_INCREASE = config.abilityConfig.BOOST_SPEED_INCREASE;
+
     Ship.HALF_WIDTH = Ship.WIDTH * .5;
     Ship.HALF_HEIGHT = Ship.HEIGHT * .5;
 
@@ -24,13 +26,7 @@
         SPEED: config.gameConfig.MAX_CAMERA_SPEED        
     };
 
-    Ship.prototype.REQUEST_PING_EVERY = config.gameConfig.REQUEST_PING_EVERY;
+    ShipController.REQUEST_PING_EVERY = config.gameConfig.REQUEST_PING_EVERY;
 
     $.extend(that, config);
-
-    ApplyInheritance();
-}
-
-function ApplyInheritance() {
-    ShipController.prototype = new Ship();
 }

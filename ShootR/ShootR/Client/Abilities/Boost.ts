@@ -3,15 +3,15 @@
 
 class Boost extends MovementAbility {    
     static NAME: string = "Boost";
-    static BOOST_SPEED_INCREASE: number = 3; // Updated by server configuration value
-    static BOOST_DURATION: number = 3; // Updated by server configuration value
+    static SPEED_INCREASE: number = 3; // Updated by server configuration value
+    static DURATION: number = 3; // Updated by server configuration value
 
     constructor (private movementController: any, public Controllable: ValueRef) {
         super(Boost.NAME, movementController);
     }
 
     public Activate(): void {
-        this.MultiplySpeedBy(Boost.BOOST_SPEED_INCREASE);
+        this.MultiplySpeedBy(Boost.SPEED_INCREASE);
         super.Activate();
         this.Controllable.Value = false;        
     }
@@ -23,7 +23,7 @@ class Boost extends MovementAbility {
     }
 
     public Update(now: Date): void {
-        if (this.Active && now.getTime() - this.ActivatedAt >= Boost.BOOST_DURATION) {
+        if (this.Active && now.getTime() - this.ActivatedAt >= Boost.DURATION) {
             this.Deactivate();
         }
     }

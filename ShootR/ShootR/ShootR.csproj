@@ -182,7 +182,20 @@
     <Content Include="Client\Ship\Ship.min.js">
       <DependentUpon>Ship.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Ship\ShipMovementController.js" />
+    <TypeScriptCompile Include="Client\Ship\ShipAnimationHandler.ts" />
+    <Content Include="Client\Ship\ShipAnimationHandler.js">
+      <DependentUpon>ShipAnimationHandler.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\ShipAnimationHandler.min.js">
+      <DependentUpon>ShipAnimationHandler.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\Ship\ShipController.ts" />
+    <Content Include="Client\Ship\ShipController.js">
+      <DependentUpon>ShipController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\ShipController.min.js">
+      <DependentUpon>ShipController.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Configuration\ConfigurationManager.js" />
     <Content Include="Client\GameController\Adapters\IETouchAdapter.js" />
     <Content Include="Client\GameController\Adapters\MouseAdapter.js" />
@@ -205,11 +218,18 @@
     <Content Include="Client\Powerups\HealthPack.js" />
     <Content Include="Client\Powerups\Powerup.js" />
     <Content Include="Client\Powerups\PowerupManager.js" />
-    <Content Include="Client\Ship\ShipController.js" />
-    <Content Include="Client\Ship\ShipAnimationHandler.js" />
-    <Content Include="Client\Ship\ShipManager.js" />
-    <Content Include="Client\Ship\Ship2.js" />
+    <TypeScriptCompile Include="Client\Ship\ShipManager.ts" />
+    <Content Include="Client\Ship\ShipManager.js">
+      <DependentUpon>ShipManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\ShipManager.min.js">
+      <DependentUpon>ShipManager.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Client\Space\AreaRenderer.ts" />
+    <TypeScriptCompile Include="Client\Ship\ShipMovementController.ts" />
+    <Content Include="Client\Ship\ShipMovementController.js">
+      <DependentUpon>ShipMovementController.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Space\AreaRenderer.js">
       <DependentUpon>AreaRenderer.ts</DependentUpon>
     </Content>
@@ -225,11 +245,16 @@
     <Content Include="Client\Utilities\GameTime.min.js">
       <DependentUpon>GameTime.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Utilities\ImageAssets.js" />
+    <TypeScriptCompile Include="Client\Utilities\ImageAssets.ts" />
+    <Content Include="Client\Utilities\ImageAssets.js">
+      <DependentUpon>ImageAssets.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\ImageAssets.min.js">
+      <DependentUpon>ImageAssets.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Utilities\LatencyResolver.js" />
     <Content Include="Client\Utilities\ClientServerTime.js" />
     <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.js" />
-    <Content Include="Client\Utilities\GameTime2.js" />
     <Content Include="Client\HUD\ShipStatMonitor.js" />
     <TypeScriptCompile Include="Client\Utilities\Size.ts" />
     <Content Include="Client\Utilities\Size.js">
@@ -355,6 +380,24 @@
     </Content>
     <Content Include="Client\Managers\spritify.min.js.map">
       <DependentUpon>spritify.js</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\ImageAssets.js.map">
+      <DependentUpon>ImageAssets.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\ShipAnimationHandler.js.map">
+      <DependentUpon>ShipAnimationHandler.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\ShipController.js.map">
+      <DependentUpon>ShipController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\ShipMovementController.js.map">
+      <DependentUpon>ShipMovementController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\ShipController.min.js.map">
+      <DependentUpon>ShipController.js</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\ShipManager.js.map">
+      <DependentUpon>ShipManager.ts</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
