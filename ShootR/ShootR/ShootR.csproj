@@ -148,6 +148,13 @@
       <DependentUpon>MovementController.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\HUD\NotificationManager.ts" />
+    <TypeScriptCompile Include="Client\GameGlobals.ts" />
+    <Content Include="Client\GameGlobals.js">
+      <DependentUpon>GameGlobals.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameGlobals.min.js">
+      <DependentUpon>GameGlobals.ts</DependentUpon>
+    </Content>
     <Content Include="Client\HUD\NotificationManager.js">
       <DependentUpon>NotificationManager.ts</DependentUpon>
     </Content>
@@ -155,6 +162,20 @@
       <DependentUpon>NotificationManager.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\Ship\Ship.ts" />
+    <TypeScriptCompile Include="Client\Managers\AnimationManager.ts" />
+    <Content Include="Client\Managers\AnimationManager.js">
+      <DependentUpon>AnimationManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Managers\AnimationManager.min.js">
+      <DependentUpon>AnimationManager.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\Managers\spritify.ts" />
+    <Content Include="Client\Managers\spritify.js">
+      <DependentUpon>spritify.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Managers\spritify.min.js">
+      <DependentUpon>spritify.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Ship\Ship.js">
       <DependentUpon>Ship.ts</DependentUpon>
     </Content>
@@ -171,7 +192,6 @@
     <Content Include="Client\GameController\JoyStick.js" />
     <Content Include="Client\GameController\ShipControllerFunctions.js" />
     <Content Include="Client\GameController\TouchController.js" />
-    <Content Include="Client\GameGlobals.js" />
     <Content Include="Client\HUD\Animation\TextAnimation.js" />
     <Content Include="Client\HUD\DeathScreen.js" />
     <Content Include="Client\HUD\EnvironmentMonitor.js" />
@@ -189,7 +209,6 @@
     <Content Include="Client\Ship\ShipAnimationHandler.js" />
     <Content Include="Client\Ship\ShipManager.js" />
     <Content Include="Client\Ship\Ship2.js" />
-    <Content Include="Client\Managers\AnimationManager.js" />
     <TypeScriptCompile Include="Client\Space\AreaRenderer.ts" />
     <Content Include="Client\Space\AreaRenderer.js">
       <DependentUpon>AreaRenderer.ts</DependentUpon>
@@ -325,6 +344,18 @@
     <Content Include="Client\Utilities\GameTime.js.map">
       <DependentUpon>GameTime.ts</DependentUpon>
     </Content>
+    <Content Include="Client\Managers\AnimationManager.js.map">
+      <DependentUpon>AnimationManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameGlobals.js.map">
+      <DependentUpon>GameGlobals.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Managers\spritify.js.map">
+      <DependentUpon>spritify.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Managers\spritify.min.js.map">
+      <DependentUpon>spritify.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
     </None>
@@ -341,7 +372,6 @@
     <Content Include="Scripts\jquery-ui-1.9.0.min.js" />
     <Content Include="Scripts\jquery.animate-colors-min.js" />
     <Content Include="Scripts\jquery.signalR-1.0.0.js" />
-    <Content Include="Scripts\jquery.spritify-0.0.0.js" />
     <Content Include="Scripts\shortcut.js" />
     <Content Include="Styles\controller.css" />
     <Content Include="Styles\game.css" />

@@ -287,8 +287,7 @@
                       .Add("Scripts/jquery.cookie.js")
                       .Add("Scripts/jquery-ui-1.9.0.min.js")
                       .Add("Scripts/shortcut.js")
-                      .Add("Scripts/jquery.signalR-1.0.0.js")
-                      .Add("Scripts/jquery.spritify-0.0.0.js")
+                      .Add("Scripts/jquery.signalR-1.0.0.js")                      
                       .Add("Scripts/jquery.animate-colors-min.js")
                   .Render("Scripts/jqueryLIBS.js")
         %>
@@ -296,6 +295,7 @@
         <script src='<%= ResolveClientUrl("~/signalr/hubs") %>' type="text/javascript"></script>
 
         <%= Bundle.JavaScript()
+                      .Add("Client/Managers/spritify.js")
                       .Add("Client/Utilities/ValueRef.js")
                       .Add("Client/Utilities/ImageAssets.js")
                       .Add("Client/Utilities/Vector2.js")

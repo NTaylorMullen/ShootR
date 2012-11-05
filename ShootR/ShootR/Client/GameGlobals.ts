@@ -1,3 +1,5 @@
+/// <reference path="Managers/AnimationManager.ts" />
+
 var GAME_GLOBALS = {
     AnimationManager: new AnimationManager(),
     Colors: {
@@ -6,4 +8,3 @@ var GAME_GLOBALS = {
         ShipGood: "#7AC943"
     }
 };
-//@ sourceMappingURL=GameGlobals.js.map

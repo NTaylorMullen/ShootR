@@ -3,8 +3,10 @@
 /// <reference path="ShipMovementController.js" />
 /// <reference path="../Abilities/AbilityHandlers/ShipAbilityHandler.ts" />
 /// <reference path="../Utilities/GameTime.ts" />
+/// <reference path="../GameGlobals.ts" />
+/// <reference path="../Managers/spritify.ts" />
 
-declare var GAME_GLOBALS, spritify, IMAGE_ASSETS, HealthMonitor;
+declare var IMAGE_ASSETS, HealthMonitor;
 
 class Ship extends Collidable {
     static WIDTH: number = 0;
