@@ -1,6 +1,6 @@
 /// <reference path="../Collidable/MovementControllers/MovementController.ts" />
 /// <reference path="../Utilities/Vector2.ts" />
-/// <reference path="../Utilities/UtilityFunctions.js" />
+/// <reference path="../Utilities/UtilityFunctions.ts" />
 
 class ShipMovementController extends MovementController {
     static MASS: number = 0;
@@ -87,11 +87,11 @@ class ShipMovementController extends MovementController {
 
         clientPositionPrediction = Vector2.AddV(Vector2.MultiplyN(this.Velocity, percentOfSecond), Vector2.MultiplyN(this._acceleration, percentOfSecond * percentOfSecond));
 
-        this.Position = Vector2.AddV(this.Position, clientPositionPrediction);
+        this.Position.AddV(clientPositionPrediction);
 
         this.TryInterpolation(clientPositionPrediction);
 
-        this.Velocity = Vector2.AddV(this.Velocity, Vector2.MultiplyN(this._acceleration, percentOfSecond));
+        this.Velocity.AddV(Vector2.MultiplyN(this._acceleration, percentOfSecond));
         velocityLength = this.Velocity.Length();
 
         // Stop moving if the "speed" is less than 10
@@ -124,32 +124,18 @@ class ShipMovementController extends MovementController {
         }
 
         this.ApplyForce(dragForce);
-
-        // Rounding so we doing do alpha transparency on the canvas
-        this.Position.X = Math.round(this.Position.X);
-        this.Position.Y = Math.round(this.Position.Y);
     }
 
     public Update(percentOfSecond: number, now: Date): void {
         this.Move(percentOfSecond, now);
-        this.LastUpdated = now;
+        super.Update(percentOfSecond, now);
     }
 
     public UpdateMovementController(data): void {
-        this.Forces.X = data.Forces.X;
-        this.Forces.Y = data.Forces.Y;
-
-        this.Mass = data.Mass;
         for (var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
             this.Moving[ShipMovementController.MOVING_DIRECTIONS[i]] = data.Moving[ShipMovementController.MOVING_DIRECTIONS[i]];
         }
 
-        this.Position.X = data.Position.X;
-        this.Position.Y = data.Position.Y;
-
-        this.Rotation = data.Rotation;
-
-        this.Velocity.X = data.Velocity.X;
-        this.Velocity.Y = data.Velocity.Y;
+        super.UpdateMovementController(data);
     }
 }

@@ -1,5 +1,6 @@
 /// <reference path="Ship.ts" />
 /// <reference path="ShipMovementController.ts" />
+/// <reference path="../Utilities/LatencyResolver.ts" />
 
 declare var shortcut, TouchController;
 
@@ -9,7 +10,7 @@ class ShipController extends Ship {
 
     public TryInterpolate: bool = true;
     public TryInterpolateRotation: bool = false;
-    public LatencyResolver: any;
+    public LatencyResolver: LatencyResolver;
 
     private _lastShot: number;
     private _keyMapping: any[] = [];

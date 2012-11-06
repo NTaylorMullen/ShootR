@@ -1,7 +1,7 @@
 /// <reference path="spritify.ts" />
 
 class AnimationManager {
-    private _animations: spritify[];
+    private _animations: any[];
     private _animationCount: number;
 
     constructor () { 
@@ -9,7 +9,7 @@ class AnimationManager {
         this._animationCount = 0;
     }
 
-    public Add(animation: spritify): void {
+    public Add(animation: any): void {
         this._animations.push(animation);
         this._animationCount++;
     }

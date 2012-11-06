@@ -11,11 +11,11 @@
     Ship.HALF_WIDTH = Ship.WIDTH * .5;
     Ship.HALF_HEIGHT = Ship.HEIGHT * .5;
 
-    Bullet.prototype.BULLET_DIE_AFTER = config.gameConfig.BULLET_DIE_AFTER;
+    Bullet.BULLET_DIE_AFTER = config.gameConfig.BULLET_DIE_AFTER;
 
     $.extend(Leaderboard.prototype, config.leaderboardConfig);
-    $.extend(Bullet.prototype, config.bulletConfig);
-    $.extend(Map.prototype, config.mapConfig);
+    $.extend(Bullet, config.bulletConfig);
+    $.extend(Map, config.mapConfig);
     $.extend(Screen.prototype, config.screenConfig);
     $.extend(Game.prototype, config.gameConfig);
     $.extend(HealthPack.prototype, config.healthPackConfig);

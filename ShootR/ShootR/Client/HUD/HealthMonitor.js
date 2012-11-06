@@ -25,7 +25,7 @@
                 var healthDecrease = MyShip.LifeController.Health - lastHealth;
 
                 if (healthDecrease !== 0 && !supress) {
-                    GAME_GLOBALS.AnimationManager.Add(new TextAnimation(healthDecrease, MyShip.MovementController.Position.X + .5 * MyShip.WIDTH, MyShip.MovementController.Position.Y - 1.5 * MyShip.HEIGHT, { duration: 2000, color: [237, 30, 121], fontSize: "36px SegoeUISemibold" }));
+                    GAME_GLOBALS.AnimationManager.Add(new TextAnimation(healthDecrease, new Vector2(MyShip.MovementController.Position.X + .5 * MyShip.WIDTH, MyShip.MovementController.Position.Y - 1.5 * MyShip.HEIGHT), { duration: 2000, color: [237, 30, 121], fontSize: "36px SegoeUISemibold" }));
                 }
 
                 if (MyShip.LifeController.Health <= 0) {
@@ -41,7 +41,7 @@
                 else {
                     var healthIncrease = (MyShip.LifeController.Health - lastHealth);
                     if (healthIncrease > 0 && !supress) {
-                        GAME_GLOBALS.AnimationManager.Add(new TextAnimation("+" + healthIncrease, MyShip.MovementController.Position.X + .5 * MyShip.WIDTH, MyShip.MovementController.Position.Y - 1.5 * MyShip.HEIGHT, { duration: 2000, color: [122, 201, 67], fontSize: "36px SegoeUISemibold" }));
+                        GAME_GLOBALS.AnimationManager.Add(new TextAnimation("+" + healthIncrease, new Vector2(MyShip.MovementController.Position.X + .5 * MyShip.WIDTH, MyShip.MovementController.Position.Y - 1.5 * MyShip.HEIGHT), { duration: 2000, color: [122, 201, 67], fontSize: "36px SegoeUISemibold" }));
                     }
                 }
             }

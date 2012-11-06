@@ -37,7 +37,7 @@
             experiencePercentage = (MyShip.Experience / MyShip.ExperienceToNextLevel) * 100;
 
             if (experienceIncrease !== 0 && !isNaN(experienceIncrease)) {
-                GAME_GLOBALS.AnimationManager.Add(new TextAnimation((experienceIncrease > 0) ? "+"+experienceIncrease : experienceIncrease, MyShip.MovementController.Position.X, MyShip.MovementController.Position.Y, { duration: 2000, color: [250, 182, 250] }));
+                GAME_GLOBALS.AnimationManager.Add(new TextAnimation((experienceIncrease > 0) ? "+"+experienceIncrease : experienceIncrease, MyShip.MovementController.Position, { duration: 2000, color: [250, 182, 250] }));
             }
 
             currentExperience.stop(true);

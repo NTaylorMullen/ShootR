@@ -107,8 +107,8 @@ $(function () {
     }
 
     env.client.mapSizeIncreased = function (size) {
-        Map.prototype.WIDTH = size.Width;
-        Map.prototype.HEIGHT = size.Height;
+        Map.WIDTH = size.Width;
+        Map.HEIGHT = size.Height;
         game.HUDManager.OnMapResize(size);
     }
 
@@ -127,7 +127,9 @@ $(function () {
         $.connection.hub.stop();
     }
 
-    env.client.pingBack = latencyResolver.ServerPingBack;    
+    env.client.pingBack = function () {
+        latencyResolver.ServerPingBack();
+    }
 
     if (registrationID) {
         delete state.RegistrationID;

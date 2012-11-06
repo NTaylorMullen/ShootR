@@ -1,90 +1,77 @@
-﻿function LatencyResolver(connection) {
-    var that = this,
-        pingCount = 0,
-        deltas = [],
-        CST = new ClientServerTime(),
-        requestedPingAt = false;
-
-    that.SampleSize = 10; // We want X samples before calculating correct delta time
-    that.Latency = "...";
-
-    function CalculateDeltaTime(sentAt, serverTime) {
-        var currentTime = new Date().getTime(),
-            latency = that.CalculateLatencySince(sentAt);
+var LatencyResolver = (function () {
+    function LatencyResolver(connection) {
+        this.connection = connection;
+        this.SampleSize = 10;
+        this.Latency = "...";
+        this._pingCount = 0;
+        this._deltas = [];
+        this._CST = new ClientServerTime();
+        this._requestedPingAt = false;
+    }
+    LatencyResolver.prototype.CalculateDeltaTime = function (sentAt, serverTime) {
+        var currentTime = new Date().getTime();
+        var latency = this.CalculateLatencySince(sentAt);
 
         return (currentTime - serverTime + latency);
-    }
-
-    function PushPingResults(sentAt, result) {
-        deltas.push(CalculateDeltaTime(sentAt, result));
-    }
-
-    that.RequestedPingBack = function () {
-        if (!requestedPingAt) {
-            requestedPingAt = new Date().getTime();
+    };
+    LatencyResolver.prototype.PushPingResults = function (sentAt, result) {
+        this._deltas.push(this.CalculateDeltaTime(sentAt, result));
+    };
+    LatencyResolver.prototype.RequestedPingBack = function () {
+        if(!this._requestedPingAt) {
+            this._requestedPingAt = new Date().getTime();
         }
-    }
-
-    that.ServerPingBack = function () {
-        if (requestedPingAt) {
-            that.Latency = that.CalculateLatencySince(requestedPingAt) + " ms";
-            requestedPingAt = false;
+    };
+    LatencyResolver.prototype.ServerPingBack = function () {
+        if(this._requestedPingAt) {
+            this.Latency = this.CalculateLatencySince(this._requestedPingAt) + " ms";
+            this._requestedPingAt = false;
         }
-    }
-
-    that.ResolveFromAcknowledgement = function (sentAt, serverAcknowledgedAt) {
-        PushPingResults(sentAt, serverAcknowledgedAt);
-
-        if (deltas.length === that.SampleSize) {
-            CST.Delta = that.GenerateDeltaTime();
-            deltas = [];
+    };
+    LatencyResolver.prototype.ResolveFromAcknowledgement = function (sentAt, serverAcknowledgedAt) {
+        this.PushPingResults(sentAt, serverAcknowledgedAt);
+        if(this._deltas.length === this.SampleSize) {
+            this._CST.Delta = this.GenerateDeltaTime();
+            this._deltas = [];
         }
-    }
-
-    that.CalculateLatencySince = function (sentAt) {
-        return (new Date().getTime() - sentAt) / 2
-    }
-
-    that.Resolve = function (callback) {
-        deltas = [];
-        // Do an initial ping (this clears the network/readies the tunnel).
-        connection.server.ping().done(GetDelta);
-
+    };
+    LatencyResolver.prototype.CalculateLatencySince = function (sentAt) {
+        return (new Date().getTime() - sentAt) / 2;
+    };
+    LatencyResolver.prototype.Resolve = function (callback) {
+        var that = this;
+        this._deltas = [];
+        this.connection.server.ping().done(GetDelta);
         function GetDelta() {
-            // Calculate delta time
             var sentAt = new Date().getTime();
-            connection.server.ping().done(function (result) {
-                PushPingResults(sentAt, CST.GetServerTime(new Date(result).getTime()));
-
-                if (++pingCount < that.SampleSize) {
+            this.connection.server.ping().done(function (result) {
+                that.PushPingResults(sentAt, this._CST.GetServerTime(new Date(result).getTime()));
+                if(++that._pingCount < that.SampleSize) {
                     GetDelta();
-                }
-                else if (pingCount === 1) {
-                    CST.Delta = deltas[0];
-                }
-                else { // Latency Resolving complete
-                    CST.Delta = that.GenerateDeltaTime();
-                    deltas = [];
-                    callback();
+                } else {
+                    if(that._pingCount === 1) {
+                        that._CST.Delta = that._deltas[0];
+                    } else {
+                        that._CST.Delta = that.GenerateDeltaTime();
+                        that._deltas = [];
+                        callback();
+                    }
                 }
             });
         }
-    }
+    };
+    LatencyResolver.prototype.GenerateDeltaTime = function () {
+        this._deltas.sort();
+        var standardDeviation = StandardDeviation(this._deltas);
+        var median = this._deltas[Math.floor(this._deltas.length / 2)];
 
-    that.GenerateDeltaTime = function () {        
-        deltas.sort();
-
-        var standardDeviation = StandardDeviation(deltas),
-            median = deltas[Math.floor(deltas.length / 2)];
-
-        // Remove items 1 standard deviation away from the median
-        for (var i = 0; i < deltas.length; i++) {
-            // Check if the value is at least one standard deviation away from the median
-            if (Math.abs(deltas[i] - median) >= standardDeviation) {
-                deltas.splice(i--, 1);
+        for(var i = 0; i < this._deltas.length; i++) {
+            if(Math.abs(this._deltas[i] - median) >= standardDeviation) {
+                this._deltas.splice(i--, 1);
             }
         }
-
-        return Math.round(Average(deltas));
-    }
-}
+        return Math.round(Average(this._deltas));
+    };
+    return LatencyResolver;
+})();
+//@ sourceMappingURL=LatencyResolver.js.map

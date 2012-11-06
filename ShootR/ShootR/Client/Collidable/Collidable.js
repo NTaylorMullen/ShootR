@@ -7,6 +7,7 @@ var Collidable = (function () {
         this.Visible = true;
         this.LastUpdated = new Date();
         this.Controllable = new ValueRef(true);
+        this.Collided = false;
     }
     Collidable.prototype.InitializeAnimationCanvas = function () {
         this.AnimationCanvas = document.createElement("canvas");

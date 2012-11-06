@@ -1,6 +1,6 @@
 /// <reference path="../Collidable/Collidable.ts" />
 /// <reference path="ShipAnimationHandler.ts" />
-/// <reference path="ShipMovementController.js" />
+/// <reference path="ShipMovementController.ts" />
 /// <reference path="../Abilities/AbilityHandlers/ShipAbilityHandler.ts" />
 /// <reference path="../Utilities/GameTime.ts" />
 /// <reference path="../GameGlobals.ts" />

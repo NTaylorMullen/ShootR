@@ -321,6 +321,7 @@
                       .Add("Client/Powerups/Powerup.js")
                       .Add("Client/Powerups/HealthPack.js")
                       .Add("Client/Powerups/PowerupManager.js")
+                      .Add("Client/Bullet/BulletMovementController.js")
                       .Add("Client/Bullet/Bullet.js")
                       .Add("Client/Bullet/BulletManager.js")
                       .Add("Client/Abilities/AbilityHandlers/AbilityHandler.js")

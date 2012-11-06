@@ -140,17 +140,17 @@
     }
 
     #HUDBar #ExperienceBarHolder {
-        width:140px;
-        background-color:#7F767D;
-        display:inline-block;
-        margin-right:5px;
+        width: 140px;
+        background-color: #7F767D;
+        display: inline-block;
+        margin-right: 5px;
     }
-    
+
     #HUDBar #ExperienceBar {
-        width:0%;
-        height:15px;
-        background-color:#7AC943;
-        display:block;
+        width: 0%;
+        height: 15px;
+        background-color: #7AC943;
+        display: block;
     }
 
     #HUDBar #ExperienceHolder {
@@ -223,7 +223,7 @@
     #HUDBar .ratioHolder {
         float: right!important;
         width: 144px;
-        height: 33px;        
+        height: 33px;
     }
 
         #HUDBar .ratioHolder p {
@@ -337,9 +337,10 @@ p.right {
 #HUDBar #LocationStatisticsHolder .mainStatHolder {
     width: 120px;
 }
+
 #HUDBar #InfoHolder {
     width: 90px;
-    position:relative;
+    position: relative;
 }
 
 #HUDBar #ShowInfo {
@@ -358,119 +359,119 @@ p.right {
     #HUDBar #ShowInfo.active {
         background-image: url('/Images/HUD/toast_btn_active.png');
     }
-    
-    #HUDBar #ShowInfo.active:hover {
-        background-image: url('/Images/HUD/toast_btn_active.png');
-    }
+
+        #HUDBar #ShowInfo.active:hover {
+            background-image: url('/Images/HUD/toast_btn_active.png');
+        }
 
 #NotificationHolder {
-    position:absolute;
-    top:10px;
-    left:-430px;
-    height:auto;
-    width:473px;
-    display:none;
+    position: absolute;
+    top: 10px;
+    left: -430px;
+    height: auto;
+    width: 473px;
+    display: none;
 }
 
     #NotificationHolder .Notification {
-        width:100%;
-        height:123px;
-        margin-bottom:20px;
+        width: 100%;
+        height: 123px;
+        margin-bottom: 20px;
     }
 
         #NotificationHolder .Notification .mainBody {
-            width:100%;
-            min-height:103px;
-            background-color:#3FA9F5;
+            width: 100%;
+            min-height: 103px;
+            background-color: #3FA9F5;
         }
 
             #NotificationHolder .Notification .mainBody img {
-                display:block;
-                float:left;
-                width:98px;
-                height:99px;
-                margin:2px;
-                margin-right:20px;
+                display: block;
+                float: left;
+                width: 98px;
+                height: 99px;
+                margin: 2px;
+                margin-right: 20px;
             }
-            
+
             #NotificationHolder .Notification .mainBody p {
-                position:relative;
-                float:left;
-                width:333px;
-                height:auto;
-                color:white;
-                font-size:20px;
-                margin-right:20px;
+                position: relative;
+                float: left;
+                width: 333px;
+                height: auto;
+                color: white;
+                font-size: 20px;
+                margin-right: 20px;
             }
-    
+
 .bottomArrowHolder {
-    height:20px;
-    text-align:right;
+    height: 20px;
+    text-align: right;
 }
 
 #ControlsNCredits {
-    display:none;
-    height:263px;
-    width:100%;
-    margin-bottom:20px;
+    display: none;
+    height: 263px;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
     #ControlsNCredits .mainBody {
-        height:263px;        
-        width:365px;
-        float:right;
+        height: 263px;
+        width: 365px;
+        float: right;
     }
 
     #ControlsNCredits .bodyBox {
-        background-color:#3FA9F5;
-        height:243px;
-    }       
+        background-color: #3FA9F5;
+        height: 243px;
+    }
 
     #ControlsNCredits .ControlsHolder {
-        width:161px;
-        height:100%;
-        background-color:#1E9AF3;
-        float:left;
+        width: 161px;
+        height: 100%;
+        background-color: #1E9AF3;
+        float: left;
     }
 
         #ControlsNCredits .ControlsHolder #Controls {
-            width:131px;
-            height:178px;
-            background-image:url('/Images/Page/toast_controls.png');
-            background-repeat:no-repeat;
-            margin:43px auto 0;
+            width: 131px;
+            height: 178px;
+            background-image: url('/Images/Page/toast_controls.png');
+            background-repeat: no-repeat;
+            margin: 43px auto 0;
         }
-        
+
     #ControlsNCredits #Credits {
-        width:189px;
-        height:100%;
-        margin-left:14px;        
-        font-size:12px;
-        float:left;
+        width: 189px;
+        height: 100%;
+        margin-left: 14px;
+        font-size: 12px;
+        float: left;
     }
 
         #ControlsNCredits #Credits .bodyOffset {
-            margin-top:24px;
-            width:165px;
-            height:198px;
+            margin-top: 24px;
+            width: 165px;
+            height: 198px;
         }
 
 #Credits .bodyOffset h1 {
-    color:#7ACBF1;
-    margin-bottom:12px;
+    color: #7ACBF1;
+    margin-bottom: 12px;
 }
 
 #Credits .bodyOffset div {
-    color:white;
-    height:12px;
-    margin-bottom:10px;
+    color: white;
+    height: 12px;
+    margin-bottom: 10px;
 }
-    
+
 #HUDBarCover {
     position: absolute;
     top: 0;
     left: 0;
-    z-index:1;
+    z-index: 1;
     width: 100%;
     height: 98px;
     line-height: 98px;
@@ -482,12 +483,11 @@ p.right {
 }
 
 #GameCover {
-    position:absolute;
-    height:100%;
-    width:100%;
-    background-color:black;
-    opacity:.5;
-    z-index:10001;
-    display:none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: .5;
+    z-index: 10001;
+    display: none;
 }
-

@@ -1,21 +1,33 @@
-﻿var Bullet = function (properties) {
-    Collidable.call(this);
-    var that = this,
-        spawnedAt = new Date().getTime();
-
-    that.Visible = true;
-    that.Vehicle = IMAGE_ASSETS.Laser;
-    that.ShouldDispose = function () {
-        return ((new Date().getTime()) - spawnedAt) >= that.BULLET_DIE_AFTER;
+var __extends = this.__extends || function (d, b) {
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+}
+var Bullet = (function (_super) {
+    __extends(Bullet, _super);
+    function Bullet(properties) {
+        _super.call(this);
+        this.WIDTH = Bullet.WIDTH;
+        this.HEIGHT = Bullet.HEIGHT;
+        this.MovementController = new BulletMovementController();
+        this.Vehicle = IMAGE_ASSETS.Laser;
+        this._spawnedAt = this.LastUpdated.getTime();
+        this.UpdateProperties(properties);
     }
-
-    that.Destroy = function () {
-        // Bullet collided into another object
-        if (that.Collided) {
-            // We want to explode
+    Bullet.BULLET_DIE_AFTER = 0;
+    Bullet.WIDTH = 0;
+    Bullet.HEIGHT = 0;
+    Bullet.prototype.ShouldDispose = function () {
+        return ((new Date().getTime()) - this._spawnedAt) >= Bullet.BULLET_DIE_AFTER;
+    };
+    Bullet.prototype.Destroy = function () {
+        if(this.Collided) {
             GAME_GLOBALS.AnimationManager.Add(new spritify({
                 image: IMAGE_ASSETS.Explosion,
-                centerOn: { X: that.CollidedAt.X, Y: that.CollidedAt.Y },
+                centerOn: {
+                    X: this.CollidedAt.X,
+                    Y: this.CollidedAt.Y
+                },
                 frameCount: 24,
                 spriteSheetSize: {
                     width: 320,
@@ -23,38 +35,23 @@
                 },
                 frameSize: {
                     width: 64,
-                    height: 64,
+                    height: 64
                 },
-                Rotation: that.MovementController.Rotation
+                Rotation: this.MovementController.Rotation
             }));
-
-            // Need to draw text
-            if (that.DamageDealt > 0) {
-                GAME_GLOBALS.AnimationManager.Add(new TextAnimation("-" + that.DamageDealt, that.CollidedAt.X, that.CollidedAt.Y, { duration: 750 }));
+            if(this.DamageDealt > 0) {
+                GAME_GLOBALS.AnimationManager.Add(new TextAnimation("-" + this.DamageDealt, this.CollidedAt, {
+                    duration: 750
+                }));
             }
         }
-
-        that.Visible = false;
-    }
-
-    that.Update = function (gameTime) {
-        var PercentOfSecond = CalculatePOS(that.LastUpdated),
-            incrementor = { X: PercentOfSecond * that.MovementController.Velocity.X, Y: PercentOfSecond * that.MovementController.Velocity.Y };
-
-        that.MovementController.Position.X += incrementor.X;
-        that.MovementController.Position.Y += incrementor.Y;
-
-        // Rounding so we doing do alpha transparency on the canvas
-        that.MovementController.Position.X = Math.round(that.MovementController.Position.X);
-        that.MovementController.Position.Y = Math.round(that.MovementController.Position.Y);
-
-        that.LastUpdated = new Date();
-    }
-
-    that.UpdateProperties(properties);
-    that.Draw();
-
-    that.LastUpdated = new Date();
-}
-
-Bullet.prototype = new Collidable();
+        this.Visible = false;
+    };
+    Bullet.prototype.Update = function (gameTime) {
+        var now = new Date();
+        this.MovementController.Update(CalculatePOS(this.LastUpdated), now);
+        this.LastUpdated = now;
+    };
+    return Bullet;
+})(Collidable);
+//@ sourceMappingURL=Bullet.js.map

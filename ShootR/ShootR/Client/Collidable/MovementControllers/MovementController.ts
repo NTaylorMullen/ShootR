@@ -1,5 +1,5 @@
 /// <reference path="../../Utilities/Vector2.ts" />
-/// <reference path="../../Space/Map.js" />
+/// <reference path="../../Space/Map.ts" />
 
 class MovementController {
     public Position: Vector2;
@@ -32,7 +32,7 @@ class MovementController {
     }
 
     public ApplyForce(force: Vector2): void {
-        this.Forces = Vector2.AddV(this.Forces, force);
+        this.Forces.AddV(force);
     }
 
     public RepositionInBounds(objectWidth: number, objectHeight: number): void {
@@ -40,18 +40,37 @@ class MovementController {
         if (this.Position.X < 0) {
             this.Position.X = 0;
         }
-        else if (this.Position.X + objectWidth > Map.prototype.WIDTH) {
-            this.Position.X = Map.prototype.WIDTH - objectWidth;
+        else if (this.Position.X + objectWidth > Map.WIDTH) {
+            this.Position.X = Map.WIDTH - objectWidth;
         }
 
         if (this.Position.Y < 0) {
             this.Position.Y = 0;
         }
-        else if (this.Position.Y + objectHeight > Map.prototype.HEIGHT) {
-            this.Position.Y = Map.prototype.HEIGHT - objectHeight;
+        else if (this.Position.Y + objectHeight > Map.HEIGHT) {
+            this.Position.Y = Map.HEIGHT - objectHeight;
         }
     }
 
-    public Update(PercentOfSecond: number, now: Date): void {
+    public Update(percentOfSecond: number, now: Date): void {
+        // Rounding so we doing do alpha transparency on the canvas
+        this.Position.ApplyFunction(Math.round);
+
+        this.LastUpdated = now;
+    }
+
+    public UpdateMovementController(data): void {
+        this.Forces.X = data.Forces.X;
+        this.Forces.Y = data.Forces.Y;
+
+        this.Mass = data.Mass;
+
+        this.Position.X = data.Position.X;
+        this.Position.Y = data.Position.Y;
+
+        this.Rotation = data.Rotation;
+
+        this.Velocity.X = data.Velocity.X;
+        this.Velocity.Y = data.Velocity.Y;
     }
 }

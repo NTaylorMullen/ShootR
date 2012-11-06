@@ -8,8 +8,8 @@
     function PrepareDraw() {
         for (var i = 0; i < size.width / image.width; i++) {
             for (var j = 0; j < size.height / image.height; j++) {
-                canvasBufferContext.drawImage(image, i*image.width, j*image.height);
-            }            
+                canvasBufferContext.drawImage(image, i * image.width, j * image.height);
+            }
         }
     }
 
@@ -17,6 +17,6 @@
     }
 
     that.Draw = function () {
-        
+
     }
 }

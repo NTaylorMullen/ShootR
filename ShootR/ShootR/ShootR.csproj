@@ -131,10 +131,30 @@
     <Content Include="Client\Abilities\Boost.min.js">
       <DependentUpon>Boost.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Bullet\Bullet.js" />
-    <Content Include="Client\Bullet\BulletManager.js" />
+    <TypeScriptCompile Include="Client\Bullet\Bullet.ts" />
+    <Content Include="Client\Bullet\Bullet.js">
+      <DependentUpon>Bullet.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Bullet\Bullet.min.js">
+      <DependentUpon>Bullet.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\Bullet\BulletManager.ts" />
+    <Content Include="Client\Bullet\BulletManager.js">
+      <DependentUpon>BulletManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Bullet\BulletManager.min.js">
+      <DependentUpon>BulletManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Bullet\BulletManager2.js" />
     <TypeScriptCompile Include="Client\Collidable\MovementControllers\MovementController.ts" />
     <TypeScriptCompile Include="Client\Collidable\Collidable.ts" />
+    <TypeScriptCompile Include="Client\Bullet\BulletMovementController.ts" />
+    <Content Include="Client\Bullet\BulletMovementController.js">
+      <DependentUpon>BulletMovementController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Bullet\BulletMovementController.min.js">
+      <DependentUpon>BulletMovementController.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Collidable\Collidable.js">
       <DependentUpon>Collidable.ts</DependentUpon>
     </Content>
@@ -154,6 +174,13 @@
     </Content>
     <Content Include="Client\GameGlobals.min.js">
       <DependentUpon>GameGlobals.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\HUD\Animation\TextAnimation.ts" />
+    <Content Include="Client\HUD\Animation\TextAnimation.js">
+      <DependentUpon>TextAnimation.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\Animation\TextAnimation.min.js">
+      <DependentUpon>TextAnimation.ts</DependentUpon>
     </Content>
     <Content Include="Client\HUD\NotificationManager.js">
       <DependentUpon>NotificationManager.ts</DependentUpon>
@@ -205,7 +232,6 @@
     <Content Include="Client\GameController\JoyStick.js" />
     <Content Include="Client\GameController\ShipControllerFunctions.js" />
     <Content Include="Client\GameController\TouchController.js" />
-    <Content Include="Client\HUD\Animation\TextAnimation.js" />
     <Content Include="Client\HUD\DeathScreen.js" />
     <Content Include="Client\HUD\EnvironmentMonitor.js" />
     <Content Include="Client\HUD\ExperienceMonitor.js" />
@@ -230,15 +256,31 @@
     <Content Include="Client\Ship\ShipMovementController.js">
       <DependentUpon>ShipMovementController.ts</DependentUpon>
     </Content>
+    <Content Include="Client\Ship\ShipMovementController.min.js">
+      <DependentUpon>ShipMovementController.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Space\AreaRenderer.js">
       <DependentUpon>AreaRenderer.ts</DependentUpon>
     </Content>
     <Content Include="Client\Space\Camera.js" />
     <Content Include="Client\Space\CanvasRenderer.js" />
-    <Content Include="Client\Space\Map.js" />
+    <TypeScriptCompile Include="Client\Space\Map.ts" />
+    <Content Include="Client\Space\Map.js">
+      <DependentUpon>Map.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Space\Map.min.js">
+      <DependentUpon>Map.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Space\Screen.js" />
     <Content Include="Client\Space\TileMap.js" />
     <TypeScriptCompile Include="Client\Utilities\GameTime.ts" />
+    <TypeScriptCompile Include="Client\Utilities\ClientServerTime.ts" />
+    <Content Include="Client\Utilities\ClientServerTime.js">
+      <DependentUpon>ClientServerTime.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\ClientServerTime.min.js">
+      <DependentUpon>ClientServerTime.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Utilities\GameTime.js">
       <DependentUpon>GameTime.ts</DependentUpon>
     </Content>
@@ -252,9 +294,20 @@
     <Content Include="Client\Utilities\ImageAssets.min.js">
       <DependentUpon>ImageAssets.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Utilities\LatencyResolver.js" />
-    <Content Include="Client\Utilities\ClientServerTime.js" />
-    <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.js" />
+    <TypeScriptCompile Include="Client\Utilities\LatencyResolver.ts" />
+    <Content Include="Client\Utilities\LatencyResolver.js">
+      <DependentUpon>LatencyResolver.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\LatencyResolver.min.js">
+      <DependentUpon>LatencyResolver.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\Utilities\PayloadManagement\PayloadDecompressor.ts" />
+    <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.js">
+      <DependentUpon>PayloadDecompressor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.min.js">
+      <DependentUpon>PayloadDecompressor.ts</DependentUpon>
+    </Content>
     <Content Include="Client\HUD\ShipStatMonitor.js" />
     <TypeScriptCompile Include="Client\Utilities\Size.ts" />
     <Content Include="Client\Utilities\Size.js">
@@ -263,7 +316,13 @@
     <Content Include="Client\Utilities\Size.min.js">
       <DependentUpon>Size.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Utilities\UtilityFunctions.js" />
+    <TypeScriptCompile Include="Client\Utilities\UtilityFunctions.ts" />
+    <Content Include="Client\Utilities\UtilityFunctions.js">
+      <DependentUpon>UtilityFunctions.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\UtilityFunctions.min.js">
+      <DependentUpon>UtilityFunctions.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Client\Utilities\ValueRef.ts" />
     <Content Include="Client\Utilities\ValueRef.js">
       <DependentUpon>ValueRef.ts</DependentUpon>
@@ -398,6 +457,39 @@
     </Content>
     <Content Include="Client\Ship\ShipManager.js.map">
       <DependentUpon>ShipManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Space\Map.js.map">
+      <DependentUpon>Map.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\UtilityFunctions.js.map">
+      <DependentUpon>UtilityFunctions.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\ClientServerTime.js.map">
+      <DependentUpon>ClientServerTime.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\LatencyResolver.js.map">
+      <DependentUpon>LatencyResolver.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.js.map">
+      <DependentUpon>PayloadDecompressor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Bullet\Bullet.js.map">
+      <DependentUpon>Bullet.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\Animation\TextAnimation.js.map">
+      <DependentUpon>TextAnimation.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\Animation\TextAnimation.min.js.map">
+      <DependentUpon>TextAnimation.js</DependentUpon>
+    </Content>
+    <Content Include="Client\Bullet\BulletMovementController.js.map">
+      <DependentUpon>BulletMovementController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Bullet\Bullet.min.js.map">
+      <DependentUpon>Bullet.js</DependentUpon>
+    </Content>
+    <Content Include="Client\Bullet\BulletManager.js.map">
+      <DependentUpon>BulletManager.ts</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>

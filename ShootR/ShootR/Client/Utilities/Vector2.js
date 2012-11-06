@@ -9,6 +9,9 @@ var Vector2 = (function () {
             this.Y = Y || 0;
         }
     }
+    Vector2.prototype.ToString = function () {
+        return "( " + this.X + ", " + this.Y + " )";
+    };
     Vector2.prototype.Length = function () {
         return Math.sqrt(Math.pow(this.X, 2) + Math.pow(this.Y, 2));
     };
@@ -17,6 +20,42 @@ var Vector2 = (function () {
     };
     Vector2.prototype.DistanceTo = function (to) {
         return Math.sqrt(Math.pow(to.X - this.X, 2) + Math.pow(to.Y - this.Y, 2));
+    };
+    Vector2.prototype.AddV = function (to) {
+        this.X += to.X;
+        this.Y += to.Y;
+    };
+    Vector2.prototype.AddN = function (to) {
+        this.X += to;
+        this.Y += to;
+    };
+    Vector2.prototype.MultiplyV = function (by) {
+        this.X *= by.X;
+        this.Y *= by.Y;
+    };
+    Vector2.prototype.MultiplyN = function (by) {
+        this.X *= by;
+        this.Y *= by;
+    };
+    Vector2.prototype.SubtractV = function (from) {
+        this.X -= from.X;
+        this.Y -= from.Y;
+    };
+    Vector2.prototype.SubtractN = function (from) {
+        this.X -= from;
+        this.Y -= from;
+    };
+    Vector2.prototype.DivideV = function (from) {
+        this.X /= from.X;
+        this.Y /= from.Y;
+    };
+    Vector2.prototype.DivideN = function (from) {
+        this.X /= from;
+        this.Y /= from;
+    };
+    Vector2.prototype.ApplyFunction = function (fn) {
+        this.X = fn(this.X);
+        this.Y = fn(this.Y);
     };
     Vector2.prototype.ZeroOut = function () {
         this.X = 0;

@@ -14,6 +14,10 @@ class Vector2 {
         }
     }
 
+    public ToString(): string {
+        return "( " + this.X + ", " + this.Y + " )";
+    }
+
     public Length(): number {
         return Math.sqrt(Math.pow(this.X, 2) + Math.pow(this.Y, 2));
     }
@@ -25,6 +29,51 @@ class Vector2 {
     // To is a Vector2
     public DistanceTo(to: Vector2): number {
         return Math.sqrt(Math.pow(to.X - this.X, 2) + Math.pow(to.Y - this.Y, 2));
+    }
+
+    public AddV(to: Vector2): void {
+        this.X += to.X;
+        this.Y += to.Y;
+    }
+
+    public AddN(to: number): void {
+        this.X += to;
+        this.Y += to;
+    }
+
+    public MultiplyV(by: Vector2): void {
+        this.X *= by.X;
+        this.Y *= by.Y;
+    }
+
+    public MultiplyN(by: number): void {
+        this.X *= by;
+        this.Y *= by;
+    }
+
+    public SubtractV(from: Vector2): void {
+        this.X -= from.X;
+        this.Y -= from.Y;
+    }
+
+    public SubtractN(from: number): void {
+        this.X -= from;
+        this.Y -= from;
+    }
+
+    public DivideV(from: Vector2): void {
+        this.X /= from.X;
+        this.Y /= from.Y;
+    }
+
+    public DivideN(from: number): void {
+        this.X /= from;
+        this.Y /= from;
+    }
+
+    public ApplyFunction(fn: Function): void {
+        this.X = fn(this.X);
+        this.Y = fn(this.Y);
     }
 
     public ZeroOut(): void {

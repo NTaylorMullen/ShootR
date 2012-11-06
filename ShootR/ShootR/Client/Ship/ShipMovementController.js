@@ -68,9 +68,9 @@ var ShipMovementController = (function (_super) {
 
         this._acceleration = Vector2.DivideVByN(this.Forces, this.Mass);
         clientPositionPrediction = Vector2.AddV(Vector2.MultiplyN(this.Velocity, percentOfSecond), Vector2.MultiplyN(this._acceleration, percentOfSecond * percentOfSecond));
-        this.Position = Vector2.AddV(this.Position, clientPositionPrediction);
+        this.Position.AddV(clientPositionPrediction);
         this.TryInterpolation(clientPositionPrediction);
-        this.Velocity = Vector2.AddV(this.Velocity, Vector2.MultiplyN(this._acceleration, percentOfSecond));
+        this.Velocity.AddV(Vector2.MultiplyN(this._acceleration, percentOfSecond));
         velocityLength = this.Velocity.Length();
         if(velocityLength < 10) {
             this.Velocity.ZeroOut();
@@ -98,25 +98,16 @@ var ShipMovementController = (function (_super) {
             this.ApplyForce(Vector2.MultiplyN(direction, this.Power * -1));
         }
         this.ApplyForce(dragForce);
-        this.Position.X = Math.round(this.Position.X);
-        this.Position.Y = Math.round(this.Position.Y);
     };
     ShipMovementController.prototype.Update = function (percentOfSecond, now) {
         this.Move(percentOfSecond, now);
-        this.LastUpdated = now;
+        _super.prototype.Update.call(this, percentOfSecond, now);
     };
     ShipMovementController.prototype.UpdateMovementController = function (data) {
-        this.Forces.X = data.Forces.X;
-        this.Forces.Y = data.Forces.Y;
-        this.Mass = data.Mass;
         for(var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
             this.Moving[ShipMovementController.MOVING_DIRECTIONS[i]] = data.Moving[ShipMovementController.MOVING_DIRECTIONS[i]];
         }
-        this.Position.X = data.Position.X;
-        this.Position.Y = data.Position.Y;
-        this.Rotation = data.Rotation;
-        this.Velocity.X = data.Velocity.X;
-        this.Velocity.Y = data.Velocity.Y;
+        _super.prototype.UpdateMovementController.call(this, data);
     };
     return ShipMovementController;
 })(MovementController);

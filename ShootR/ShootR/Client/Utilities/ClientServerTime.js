@@ -1,13 +1,13 @@
-﻿function ClientServerTime() {
-    var that = this;
-
-    that.Delta = 0;
-
-    that.GetServerTime = function (ServerTime) {
-        return ServerTime + that.Delta;
+var ClientServerTime = (function () {
+    function ClientServerTime() {
+        this.Delta = 0;
     }
-
-    that.ToServerTime = function (time) {
-        return time - that.Delta;
-    }
-}
+    ClientServerTime.prototype.GetServerTime = function (serverTime) {
+        return serverTime + this.Delta;
+    };
+    ClientServerTime.prototype.ToServerTime = function (time) {
+        return time - this.Delta;
+    };
+    return ClientServerTime;
+})();
+//@ sourceMappingURL=ClientServerTime.js.map

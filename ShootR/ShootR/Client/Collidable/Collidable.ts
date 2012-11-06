@@ -18,6 +18,8 @@ class Collidable {
     public AnimationCanvasContext: any;
     public Controllable: ValueRef;
     public MovementController: MovementController;
+    public Collided: bool;
+    public CollidedAt: Vector2;
 
     public WIDTH: number;
     public HEIGHT: number;
@@ -30,6 +32,7 @@ class Collidable {
         this.Visible = true;
         this.LastUpdated = new Date();
         this.Controllable = new ValueRef(true);
+        this.Collided = false;        
     }
 
     public InitializeAnimationCanvas(): void {
