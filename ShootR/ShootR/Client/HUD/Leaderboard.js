@@ -1,104 +1,95 @@
-﻿function Leaderboard(gameHUD, MyShip, connection) {
-    var that = this,    
-    leaderboardHolder = $("#leaderboardHolder, #doublePopupHolder"),
-    leaderboard = $("#leaderboard"),
-    popUpHolder = $("#popUpHolder"),
-    gameCover = $("#GameCover"),
-    myRanking = $("#myRanking"),
-    leaderboardRows = [];
-
-    that.LeaderboardUp = false;
-
-    var tempRow = $("#leaderboard .row");
-
-    leaderboardRows.push(tempRow);
-
-    for (var i = 0; i < that.LEADERBOARD_SIZE - 1; i++) {
-        var rowCopy = tempRow.clone();
-        leaderboardRows.push(rowCopy);
-        leaderboard.append(rowCopy);
+var Leaderboard = (function () {
+    function Leaderboard(_gameHUD, _myShip, _connection) {
+        this._gameHUD = _gameHUD;
+        this._myShip = _myShip;
+        this._connection = _connection;
+        this._leaderboardHolder = $("#leaderboardHolder, #doublePopupHolder");
+        this._leaderboard = $("#leaderboard");
+        this._popUpHolder = $("#popUpHolder");
+        this._gameCover = $("#GameCover");
+        this._myRanking = $("#myRanking");
+        this._leaderboardRows = [];
+        this.LeaderboardUp = false;
+        this.InitializeLeaderboardRows();
+        this.ApplyKeyboardShortcuts();
     }
-    
-    function BindToLeaderboard(data) {
-        for (var i = 0; i < data.length; i++) {
-            var row = $(leaderboardRows[i]);
-
-            if (data[i].ID === MyShip.ID) {
-                if (data[i].Photo.length === 0) {
+    Leaderboard.LEADERBOARD_SIZE = 0;
+    Leaderboard.prototype.InitializeLeaderboardRows = function () {
+        var tempRow = $("#leaderboard .row");
+        this._leaderboardRows.push(tempRow);
+        for(var i = 0; i < Leaderboard.LEADERBOARD_SIZE - 1; i++) {
+            var rowCopy = tempRow.clone();
+            this._leaderboardRows.push(rowCopy);
+            this._leaderboard.append(rowCopy);
+        }
+    };
+    Leaderboard.prototype.BindToLeaderboard = function (data) {
+        for(var i = 0; i < data.length; i++) {
+            var row = $(this._leaderboardRows[i]);
+            if(data[i].ID === this._myShip.ID) {
+                if(data[i].Photo.length === 0) {
                     data[i].Photo = "Images/HUD/You_Default.png";
                 }
                 row.addClass("highlight");
-            }
-            else {
+            } else {
                 row.removeClass("highlight");
             }
-
-            // Bind photo separately becase it's bound to the src
             var photoEle = row.find(".lbPhoto");
-            if (data[i].Photo.length === 0) {
+            if(data[i].Photo.length === 0) {
                 data[i].Photo = "Images/HUD/KilledBy_Default.png";
             }
-
-            if (photoEle.attr("src") !== data[i].Photo) {
+            if(photoEle.attr("src") !== data[i].Photo) {
                 photoEle.attr("src", data[i].Photo);
-            }            
-
-            // Delete the photo and ID from the data because we don't want them to be bound with the rest of the data
+            }
             delete data[i].Photo;
             delete data[i].ID;
-
-            for (var key in data[i]) {
+            for(var key in data[i]) {
                 row.find(".lb" + key).html(data[i][key]);
             }
         }
-    }
-
-    // Create shortcuts
-    function ApplyKeyboardShortcuts() {
+    };
+    Leaderboard.prototype.ApplyKeyboardShortcuts = function () {
+        var that = this;
         shortcut.add("Tab", function () {
-            ToggleLeaderboard();
-        }, { 'disable_in_input': true });
-
-        $("#GlobalRanking").click(function () {
-            ToggleLeaderboard();
+            that.ToggleLeaderboard();
+        }, {
+            'disable_in_input': true
         });
-    }
-    function ToggleLeaderboard() {
-        if (!that.LeaderboardUp) {
-            ShowLeaderboard();
+        $("#GlobalRanking").click(function () {
+            that.ToggleLeaderboard();
+        });
+    };
+    Leaderboard.prototype.ToggleLeaderboard = function () {
+        if(!this.LeaderboardUp) {
+            this.ShowLeaderboard();
+        } else {
+            this.HideLeaderboard();
         }
-        else {
-            HideLeaderboard();
+    };
+    Leaderboard.prototype.ShowLeaderboard = function () {
+        if(!this._leaderboard.hasClass('goLeft')) {
+            this.LeaderboardUp = true;
+            this._myShip.ResetTouchController();
+            this._leaderboardHolder.css("display", "block");
+            this._popUpHolder.fadeIn(350);
+            this._gameCover.fadeIn(350);
+            this._connection.server.readyForLeaderboardPayloads();
         }
-    }
-
-    function ShowLeaderboard() {
-        // Go left is turned on when the ship dies.  We want the Leaderboard to float along side the death
-        // screen when we're in the "dead" state.
-        if (!leaderboard.hasClass('goLeft')) {
-            that.LeaderboardUp = true;
-            MyShip.ResetTouchController();
-            leaderboardHolder.css("display", "block");
-            popUpHolder.fadeIn(350);
-            gameCover.fadeIn(350);
-            connection.server.readyForLeaderboardPayloads();
-        }
-    }
-
-    function HideLeaderboard() {
-        if (!leaderboard.hasClass('goLeft')) {
-            that.LeaderboardUp = false;
-            popUpHolder.fadeOut(200, function () {
-                leaderboardHolder.css("display", "none");
+    };
+    Leaderboard.prototype.HideLeaderboard = function () {
+        var that = this;
+        if(!this._leaderboard.hasClass('goLeft')) {
+            this.LeaderboardUp = false;
+            this._popUpHolder.fadeOut(200, function () {
+                that._leaderboardHolder.css("display", "none");
             });
-            gameCover.fadeOut(200);
-            connection.server.stopLeaderboardPayloads();
+            this._gameCover.fadeOut(200);
+            this._connection.server.stopLeaderboardPayloads();
         }
-    }
-
-    ApplyKeyboardShortcuts();
-
-    that.Load = function (data) {
-        BindToLeaderboard(data);
-    }
-}
+    };
+    Leaderboard.prototype.Load = function (data) {
+        this.BindToLeaderboard(data);
+    };
+    return Leaderboard;
+})();
+//@ sourceMappingURL=Leaderboard.js.map

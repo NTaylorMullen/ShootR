@@ -7,14 +7,14 @@ $(window).load(function () {
     var env = $.connection.h,
         game,
         configurationManager,
-        screen = new Screen($("#game"), $("#gameWrapper"), false, env),
+        screen = new GameScreen($("#game"), $("#gameWrapper"), false, env),
         shipControllerFn = new ShipControllerFunctions(env),
         touchController;
 
     screen.SendNewViewportToServer = function () { }; // Don't send viewport updates to the server   
 
     function Initialize(init) {
-        $.extend(Screen.prototype, init.Configuration.screenConfig);
+        $.extend(GameScreen, init.Configuration.screenConfig);
         configurationManager = {
             gameConfig: {
                 UPDATE_INTERVAL: init.Configuration.gameConfig.UPDATE_INTERVAL

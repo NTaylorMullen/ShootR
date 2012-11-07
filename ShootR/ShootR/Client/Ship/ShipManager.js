@@ -62,6 +62,7 @@ var ShipManager = (function () {
         var myShip = this.Ships[this.myShipID];
         if(myShip) {
             myShip.Update(gameTime);
+            CanvasContext.Camera.Move(new Vector2(myShip.MovementController.Position.X + myShip.WIDTH * 0.5, myShip.MovementController.Position.Y + myShip.HEIGHT * 0.5));
             myShip.Draw();
         }
         for(var key in this.Ships) {

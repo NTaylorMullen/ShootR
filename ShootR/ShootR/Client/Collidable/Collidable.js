@@ -8,6 +8,7 @@ var Collidable = (function () {
         this.LastUpdated = new Date();
         this.Controllable = new ValueRef(true);
         this.Collided = false;
+        this.Disposed = false;
     }
     Collidable.prototype.InitializeAnimationCanvas = function () {
         this.AnimationCanvas = document.createElement("canvas");
@@ -27,23 +28,13 @@ var Collidable = (function () {
     Collidable.prototype.Draw = function () {
         if(this.LifeController.Alive && this.Visible) {
             if(this.Vehicle) {
-                CanvasContext.drawRotatedImage.apply(this, [
-                    this.Vehicle, 
-                    this.MovementController.Rotation, 
-                    this.MovementController.Position.X, 
-                    this.MovementController.Position.Y
-                ]);
+                CanvasContext.drawRotatedImage(this.Vehicle, this.MovementController.Rotation, this.MovementController.Position.X, this.MovementController.Position.Y);
             }
             if(this.AnimationCanvas) {
                 for(var i = this.AnimationDrawList.length - 1; i >= 0; i--) {
                     this.AnimationDrawList[i].Draw();
                 }
-                CanvasContext.drawRotatedImage.apply(this, [
-                    this.AnimationCanvas, 
-                    this.MovementController.Rotation, 
-                    this.MovementController.Position.X + this._animationCanvasOffset.X, 
-                    this.MovementController.Position.Y + this._animationCanvasOffset.Y
-                ]);
+                CanvasContext.drawRotatedImage(this.AnimationCanvas, this.MovementController.Rotation, this.MovementController.Position.X + this._animationCanvasOffset.X, this.MovementController.Position.Y + this._animationCanvasOffset.Y);
             }
         }
     };

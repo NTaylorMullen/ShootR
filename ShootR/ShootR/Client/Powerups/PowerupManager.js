@@ -1,48 +1,43 @@
-﻿function PowerupManager() {
-    var that = this;
-
-    that.Powerups = {};
-
-    that.UpdatePowerups = function (powerupList, gameTime) {
+var PowerupManager = (function () {
+    function PowerupManager() {
+        this.Powerups = {
+        };
+    }
+    PowerupManager.prototype.UpdatePowerups = function (powerupList, gameTime) {
         var powerupsCount = powerupList.length;
+        for(var i = 0; i < powerupsCount; i++) {
+            var currentPowerup = powerupList[i];
+            var id = currentPowerup.ID;
 
-        for (var i = 0; i < powerupsCount; i++) {
-            var currentPowerup = powerupList[i],
-                id = currentPowerup.ID;
-
-            // If bullet exists then we need to move it, aka update it.
-            if (that.Powerups[id]) {
-                that.Powerups[id].UpdateProperties(currentPowerup);
-            }
-            else {
-                if (currentPowerup.Type === 1) {
-                    that.Powerups[id] = new HealthPack(currentPowerup);
+            var movementController = currentPowerup.MovementController;
+            delete currentPowerup.MovementController;
+            if(this.Powerups[id]) {
+                this.Powerups[id].UpdateProperties(currentPowerup);
+            } else {
+                if(currentPowerup.Type === 1) {
+                    this.Powerups[id] = new HealthPack(currentPowerup, movementController.Position);
                 }
             }
-
-            // Ensure that the bullet has not yet been disposed
-            if (that.Powerups[id].Disposed) {
-                that.Powerups[id].Destroy();
-                delete that.Powerups[id];
-            }
-            else {
-                that.Powerups[id].Update(gameTime);
-                that.Powerups[id].Draw();
-            }
-        }        
-    }
-
-    that.Update = function (gameTime) {
-        for (var key in that.Powerups) {
-            // Ensure that the Ship is in view
-            if (CanvasContext.Camera.InView(that.Powerups[key]) && !that.Powerups[key].Disposed) {
-                that.Powerups[key].Update(gameTime);
-                that.Powerups[key].Draw();
-            }
-            else { // Bullet is not in view
-                that.Powerups[key].Destroy();
-                delete that.Powerups[key];
+            this.Powerups[id].MovementController.UpdateMovementController(movementController);
+            if(this.Powerups[id].Disposed) {
+                this.Powerups[id].Destroy();
+                delete this.Powerups[id];
+            } else {
+                this.Powerups[id].Update(gameTime);
             }
         }
-    }
-}
+    };
+    PowerupManager.prototype.Update = function (gameTime) {
+        for(var key in this.Powerups) {
+            if(CanvasContext.Camera.InView(this.Powerups[key]) && !this.Powerups[key].Disposed) {
+                this.Powerups[key].Update(gameTime);
+                this.Powerups[key].Draw();
+            } else {
+                this.Powerups[key].Destroy();
+                delete this.Powerups[key];
+            }
+        }
+    };
+    return PowerupManager;
+})();
+//@ sourceMappingURL=PowerupManager.js.map

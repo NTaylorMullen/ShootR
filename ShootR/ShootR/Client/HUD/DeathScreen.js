@@ -1,65 +1,106 @@
-﻿function DeathScreen(leaderboard, MyShip) {
-    var that = this,
-        randomQuotes = [
-            ["HAS LEFT A DENT IN YOUR EGO.", "(HOPE NOBODY SAW THAT)"],
-            ["JUST DOMINATED YOU.", "OUCH!"],
-            ["SUCKS TO BE YOU!", ""],
-            ["...", "REALLY?"],
-            ["YOU ALRIGHT?", "THAT MUST HAVE HURT."],
-            ["SAID TO TELL YOUR MOTHER", "HELLO!"],
-            ["TIS BUT A SCRATCH", ""],
-            ["BOOM...", "HEADSHOT!"],
-            ["CAN'T LET YOU DO THAT STARFOX", ""],
-            ["PLAYTIME IS OVER!", ""],
-            ["YOU MISSED!", "YOU MAY NEED GLASSES"],
-            ["YOU'RE GOOD...", "BUT I'M BETTER."],
-            ["TOO SLOW...", "MY GRAMAH DRIVES FASTER THAN THAT!"],
-            ["TOASTERS...", "BLAME THE TOASTERS!"],
-            ["=(",""]
+var DeathScreen = (function () {
+    function DeathScreen(_leaderboard, _myShip) {
+        this._leaderboard = _leaderboard;
+        this._myShip = _myShip;
+        this._gameCanvas = $("#game");
+        this._fadeIns = $("#HUDBarCover, #GameCover, #popUpHolder");
+        this._respawnTime = $("#RespawnTime");
+        this._killedByName = $("#KilledByNameSmall, #KilledByNameLarge");
+        this._killedByPhoto = $("#KilledByPhotoSmall, #KilledByPhotoLarge");
+        this._doublePopupHolder = $("#doublePopupHolder");
+        this._popupWindows = $("#leaderboardHolder, #deathScreenHolder");
+        this._topLineQuote = $("#topLineQuote");
+        this._botLineQuote = $("#botLineQuote");
+        this._randomQuotes = [
+            [
+                "HAS LEFT A DENT IN YOUR EGO.", 
+                "(HOPE NOBODY SAW THAT)"
+            ], 
+            [
+                "JUST DOMINATED YOU.", 
+                "OUCH!"
+            ], 
+            [
+                "SUCKS TO BE YOU!", 
+                ""
+            ], 
+            [
+                "...", 
+                "REALLY?"
+            ], 
+            [
+                "YOU ALRIGHT?", 
+                "THAT MUST HAVE HURT."
+            ], 
+            [
+                "SAID TO TELL YOUR MOTHER", 
+                "HELLO!"
+            ], 
+            [
+                "TIS BUT A SCRATCH", 
+                ""
+            ], 
+            [
+                "BOOM...", 
+                "HEADSHOT!"
+            ], 
+            [
+                "CAN'T LET YOU DO THAT STARFOX", 
+                ""
+            ], 
+            [
+                "PLAYTIME IS OVER!", 
+                ""
+            ], 
+            [
+                "YOU MISSED!", 
+                "YOU MAY NEED GLASSES"
+            ], 
+            [
+                "YOU'RE GOOD...", 
+                "BUT I'M BETTER."
+            ], 
+            [
+                "TOO SLOW...", 
+                "MY GRAMAH DRIVES FASTER THAN THAT!"
+            ], 
+            [
+                "TOASTERS...", 
+                "BLAME THE TOASTERS!"
+            ], 
+            [
+                "=(", 
+                ""
+            ]
         ];
-
-    var gameCanvas = $("#game"),
-            fadeIns = $("#HUDBarCover, #GameCover, #popUpHolder"),
-            respawnTime = $("#RespawnTime"),
-            killedByName = $("#KilledByNameSmall, #KilledByNameLarge"),
-            killedByPhoto = $("#KilledByPhotoSmall, #KilledByPhotoLarge"),
-            doublePopupHolder = $("#doublePopupHolder"),
-            popupWindows = $("#leaderboardHolder, #deathScreenHolder"),
-            topLineQuote = $("#topLineQuote"),
-            botLineQuote = $("#botLineQuote");
-
-    that.YouDied = function (by, byPhoto) {
-        var quote = Math.floor(Math.random() * randomQuotes.length);
-
-        MyShip.ResetTouchController();
-
-        topLineQuote.html(randomQuotes[quote][0]);
-        botLineQuote.html(randomQuotes[quote][1]);
-
-        killedByName.html(by);
-        killedByPhoto.attr("src", byPhoto);
-
-        popupWindows.css("display", "block");
-        doublePopupHolder.css("display", "block");
-
-        popupWindows.addClass("goLeft");
-
-        fadeIns.fadeIn(1000);
-
-        respawnTime.html(that.RESPAWN_TIMER);
-
+    }
+    DeathScreen.RESPAWN_TIMER = 0;
+    DeathScreen.prototype.YouDied = function (by, byPhoto) {
+        var quote = Math.floor(Math.random() * this._randomQuotes.length);
+        this._myShip.ResetTouchController();
+        this._topLineQuote.html(this._randomQuotes[quote][0]);
+        this._botLineQuote.html(this._randomQuotes[quote][1]);
+        this._killedByName.html(by);
+        this._killedByPhoto.attr("src", byPhoto);
+        this._popupWindows.css("display", "block");
+        this._doublePopupHolder.css("display", "block");
+        this._popupWindows.addClass("goLeft");
+        this._fadeIns.fadeIn(1000);
+        this._respawnTime.html(DeathScreen.RESPAWN_TIMER);
+        var that = this;
         var interval = setInterval(function () {
-            var left = parseInt(respawnTime.html()) - 1;
-            respawnTime.html(left);
-
-            if (left === 0) {
+            var left = parseInt(that._respawnTime.html()) - 1;
+            that._respawnTime.html(left);
+            if(left === 0) {
                 clearInterval(interval);
-                fadeIns.fadeOut(1000, function () {
-                    popupWindows.css("display", "none");
-                    doublePopupHolder.css("display", "none");
-                    popupWindows.removeClass("goLeft");
+                that._fadeIns.fadeOut(1000, function () {
+                    that._popupWindows.css("display", "none");
+                    that._doublePopupHolder.css("display", "none");
+                    that._popupWindows.removeClass("goLeft");
                 });
             }
         }, 1000);
-    }
-}
+    };
+    return DeathScreen;
+})();
+//@ sourceMappingURL=DeathScreen.js.map

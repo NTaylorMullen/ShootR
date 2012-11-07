@@ -9,7 +9,7 @@ $(function () {
         configurationManager,
         payloadDecompressor = new PayloadDecompressor(),
         latencyResolver = new LatencyResolver(env),
-        screen = new Screen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env),
+        screen = new GameScreen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env),
         notification = $("#Notification"),
         gameInfoReceived = false,
         lastPayload = { Ships: {}, Bullets: [] };
@@ -76,7 +76,7 @@ $(function () {
         }
 
         if (info.KilledByName) {
-            game.HUDManager.DeathScreen.YouDied(info.KilledByName, info.KilledByPhoto);
+            game.HUDManager.DeathScreen.YouDied.call(game.HUDManager.DeathScreen, info.KilledByName, info.KilledByPhoto);
         }
 
         myShip.Experience = info.Experience;

@@ -145,7 +145,6 @@
     <Content Include="Client\Bullet\BulletManager.min.js">
       <DependentUpon>BulletManager.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Bullet\BulletManager2.js" />
     <TypeScriptCompile Include="Client\Collidable\MovementControllers\MovementController.ts" />
     <TypeScriptCompile Include="Client\Collidable\Collidable.ts" />
     <TypeScriptCompile Include="Client\Bullet\BulletMovementController.ts" />
@@ -169,6 +168,20 @@
     </Content>
     <TypeScriptCompile Include="Client\HUD\NotificationManager.ts" />
     <TypeScriptCompile Include="Client\GameGlobals.ts" />
+    <TypeScriptCompile Include="Client\Configuration\ConfigurationManager.ts" />
+    <TypeScriptCompile Include="Client\Collidable\MovementControllers\StationaryMovementController.ts" />
+    <Content Include="Client\Collidable\MovementControllers\StationaryMovementController.js">
+      <DependentUpon>StationaryMovementController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Collidable\MovementControllers\StationaryMovementController.min.js">
+      <DependentUpon>StationaryMovementController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Configuration\ConfigurationManager.js">
+      <DependentUpon>ConfigurationManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Configuration\ConfigurationManager.min.js">
+      <DependentUpon>ConfigurationManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client\GameGlobals.js">
       <DependentUpon>GameGlobals.ts</DependentUpon>
     </Content>
@@ -181,6 +194,20 @@
     </Content>
     <Content Include="Client\HUD\Animation\TextAnimation.min.js">
       <DependentUpon>TextAnimation.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\HUD\Leaderboard.ts" />
+    <TypeScriptCompile Include="Client\HUD\DeathScreen.ts" />
+    <Content Include="Client\HUD\DeathScreen.js">
+      <DependentUpon>DeathScreen.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\DeathScreen.min.js">
+      <DependentUpon>DeathScreen.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\Leaderboard.js">
+      <DependentUpon>Leaderboard.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\Leaderboard.min.js">
+      <DependentUpon>Leaderboard.ts</DependentUpon>
     </Content>
     <Content Include="Client\HUD\NotificationManager.js">
       <DependentUpon>NotificationManager.ts</DependentUpon>
@@ -203,6 +230,24 @@
     <Content Include="Client\Managers\spritify.min.js">
       <DependentUpon>spritify.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Client\Powerups\Powerup.ts" />
+    <TypeScriptCompile Include="Client\Powerups\HealthPack.ts" />
+    <Content Include="Client\Powerups\HealthPack.js">
+      <DependentUpon>HealthPack.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Powerups\HealthPack.min.js">
+      <DependentUpon>HealthPack.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Powerups\Powerup.js">
+      <DependentUpon>Powerup.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Powerups\Powerup.min.js">
+      <DependentUpon>Powerup.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\Powerups\PowerupManager.ts" />
+    <Content Include="Client\Powerups\PowerupManager.js">
+      <DependentUpon>PowerupManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Ship\Ship.js">
       <DependentUpon>Ship.ts</DependentUpon>
     </Content>
@@ -223,7 +268,6 @@
     <Content Include="Client\Ship\ShipController.min.js">
       <DependentUpon>ShipController.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Configuration\ConfigurationManager.js" />
     <Content Include="Client\GameController\Adapters\IETouchAdapter.js" />
     <Content Include="Client\GameController\Adapters\MouseAdapter.js" />
     <Content Include="Client\GameController\Adapters\TouchAdapter.js" />
@@ -232,18 +276,15 @@
     <Content Include="Client\GameController\JoyStick.js" />
     <Content Include="Client\GameController\ShipControllerFunctions.js" />
     <Content Include="Client\GameController\TouchController.js" />
-    <Content Include="Client\HUD\DeathScreen.js" />
+    <Content Include="Client\HUD\DeathScreen2.js" />
     <Content Include="Client\HUD\EnvironmentMonitor.js" />
     <Content Include="Client\HUD\ExperienceMonitor.js" />
     <Content Include="Client\HUD\GameDetailManager.js" />
     <Content Include="Client\HUD\HealthMonitor.js" />
     <Content Include="Client\HUD\HUDManager.js" />
-    <Content Include="Client\HUD\Leaderboard.js" />
     <Content Include="Client\HUD\MyRankings.js" />
     <Content Include="Client\Main.js" />
-    <Content Include="Client\Powerups\HealthPack.js" />
-    <Content Include="Client\Powerups\Powerup.js" />
-    <Content Include="Client\Powerups\PowerupManager.js" />
+    <Content Include="Client\Powerups\PowerupManager2.js" />
     <TypeScriptCompile Include="Client\Ship\ShipManager.ts" />
     <Content Include="Client\Ship\ShipManager.js">
       <DependentUpon>ShipManager.ts</DependentUpon>
@@ -262,17 +303,34 @@
     <Content Include="Client\Space\AreaRenderer.js">
       <DependentUpon>AreaRenderer.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Space\Camera.js" />
-    <Content Include="Client\Space\CanvasRenderer.js" />
+    <TypeScriptCompile Include="Client\Space\Camera.ts" />
+    <Content Include="Client\Space\Camera.js">
+      <DependentUpon>Camera.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Space\Camera.min.js">
+      <DependentUpon>Camera.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\Space\CanvasRenderer.ts" />
+    <Content Include="Client\Space\CanvasRenderer.js">
+      <DependentUpon>CanvasRenderer.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Space\CanvasRenderer.min.js">
+      <DependentUpon>CanvasRenderer.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Client\Space\Map.ts" />
+    <Content Include="Client\Space\GameScreen.js">
+      <DependentUpon>GameScreen.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Space\GameScreen.min.js">
+      <DependentUpon>GameScreen.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Space\Map.js">
       <DependentUpon>Map.ts</DependentUpon>
     </Content>
     <Content Include="Client\Space\Map.min.js">
       <DependentUpon>Map.ts</DependentUpon>
     </Content>
-    <Content Include="Client\Space\Screen.js" />
-    <Content Include="Client\Space\TileMap.js" />
+    <TypeScriptCompile Include="Client\Space\GameScreen.ts" />
     <TypeScriptCompile Include="Client\Utilities\GameTime.ts" />
     <TypeScriptCompile Include="Client\Utilities\ClientServerTime.ts" />
     <Content Include="Client\Utilities\ClientServerTime.js">
@@ -490,6 +548,36 @@
     </Content>
     <Content Include="Client\Bullet\BulletManager.js.map">
       <DependentUpon>BulletManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Configuration\ConfigurationManager.js.map">
+      <DependentUpon>ConfigurationManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\Leaderboard.js.map">
+      <DependentUpon>Leaderboard.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\DeathScreen.js.map">
+      <DependentUpon>DeathScreen.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\DeathScreen.min.js.map">
+      <DependentUpon>DeathScreen.js</DependentUpon>
+    </Content>
+    <Content Include="Client\Space\Camera.js.map">
+      <DependentUpon>Camera.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Space\CanvasRenderer.js.map">
+      <DependentUpon>CanvasRenderer.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Space\GameScreen.js.map">
+      <DependentUpon>GameScreen.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Powerups\HealthPack.js.map">
+      <DependentUpon>HealthPack.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Powerups\Powerup.js.map">
+      <DependentUpon>Powerup.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Collidable\MovementControllers\StationaryMovementController.js.map">
+      <DependentUpon>StationaryMovementController.ts</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>

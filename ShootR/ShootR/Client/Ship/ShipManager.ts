@@ -73,7 +73,8 @@ class ShipManager {
         var myShip = this.Ships[this.myShipID];
         if (myShip) {
             myShip.Update(gameTime);
-            myShip.Draw();
+            CanvasContext.Camera.Move(new Vector2(myShip.MovementController.Position.X + myShip.WIDTH * .5, myShip.MovementController.Position.Y + myShip.HEIGHT * .5))
+            myShip.Draw();            
         }
 
         for (var key in this.Ships) {
