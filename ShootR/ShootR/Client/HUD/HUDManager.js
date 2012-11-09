@@ -1,65 +1,57 @@
-﻿function HUDManager(MyShip, connection) {
-    var that = this,
-        gameHUD = $("#gameHUD"),
-        doublePopupHolder = $("#doublePopupHolder"),
-        gameHUDHeight = gameHUD.height(),
-        locationStats = $("#LocationStatisticsHolder"),
-        shipStats = $("#StatisticHolder");
-
-    that.GameDetailManager;
-    that.HealthMonitor = new HealthMonitor(MyShip);
-    that.ExperienceMonitor = new ExperienceMonitor(gameHUD, MyShip);
-    that.MyRankings = new MyRankings();
-    that.Leaderboard = new Leaderboard(gameHUD, MyShip, connection);
-    that.DeathScreen = new DeathScreen(that.Leaderboard, MyShip);
-    that.ShipStatMonitor = new ShipStatMonitor(MyShip);
-    that.EnvironmentMonitor = new EnvironmentMonitor(MyShip);
-    that.NotificationManager = new NotificationManager();
-    that.AreaRenderer = new AreaRenderer(MyShip, Map.WIDTH);
-
-    function CenterDoublePopup(newViewport) {
-        // The left is handled by the css
-        doublePopupHolder.css("top", ((newViewport.Height - gameHUDHeight) / 2) - doublePopupHolder.height() / 2);
+var HUDManager = (function () {
+    function HUDManager(MyShip, _connection) {
+        this.MyShip = MyShip;
+        this._connection = _connection;
+        this._gameHUD = $("#gameHUD");
+        this._doublePopupHolder = $("#doublePopupHolder");
+        this._locationStats = $("#LocationStatisticsHolder");
+        this._shipStats = $("#StatisticHolder");
+        this.GameDetailManager;
+        this.HealthMonitor = new HealthMonitor(MyShip);
+        this.ExperienceMonitor = new ExperienceMonitor(this._gameHUD, this.MyShip);
+        this.MyRankings = new MyRankings();
+        this.Leaderboard = new Leaderboard(this._gameHUD, this.MyShip, this._connection);
+        this.DeathScreen = new DeathScreen(this.Leaderboard, this.MyShip);
+        this.ShipStatMonitor = new ShipStatMonitor(this.MyShip);
+        this.EnvironmentMonitor = new EnvironmentMonitor(this.MyShip);
+        this.NotificationManager = new NotificationManager();
+        this.AreaRenderer = new AreaRenderer(this.MyShip, Map.WIDTH);
+        this._gameHUDHeight = this._gameHUD.height();
     }
-
-    that.OnMapResize = function (newMapSize) {
-        that.AreaRenderer.OnMapResize(newMapSize.Width);
-    }
-    
-    that.OnScreenResize = function (newViewport) {
-        gameHUD.css("width", newViewport.Width);
-        gameHUD.css("height", gameHUDHeight);
-        gameHUD.css("top", newViewport.Height - gameHUDHeight);
-        that.HealthMonitor.OnScreenResize();
-        CenterDoublePopup(newViewport);
-
-        // Remove or Add HUD objects
-        if (newViewport.Width <= 1370) {
-            locationStats.css("display", "none");
+    HUDManager.prototype.CenterDoublePopup = function (newViewport) {
+        this._doublePopupHolder.css("top", ((newViewport.Height - this._gameHUDHeight) / 2) - this._doublePopupHolder.height() / 2);
+    };
+    HUDManager.prototype.OnMapResize = function (newMapSize) {
+        this.AreaRenderer.OnMapResize(newMapSize.Width);
+    };
+    HUDManager.prototype.OnScreenResize = function (newViewport) {
+        this._gameHUD.css("width", newViewport.Width);
+        this._gameHUD.css("height", this._gameHUDHeight);
+        this._gameHUD.css("top", newViewport.Height - this._gameHUDHeight);
+        this.HealthMonitor.OnScreenResize();
+        this.CenterDoublePopup(newViewport);
+        if(newViewport.Width <= 1370) {
+            this._locationStats.css("display", "none");
+        } else {
+            this._locationStats.css("display", "block");
         }
-        else {
-            locationStats.css("display", "block");
+        if(newViewport.Width <= 1177) {
+            this._shipStats.css("display", "none");
+        } else {
+            this._shipStats.css("display", "block");
         }
-
-        // Remove or Add HUD objects
-        if (newViewport.Width <= 1177) {
-            shipStats.css("display", "none");
-        }
-        else {
-            shipStats.css("display", "block");
-        }
-    }
-
-    that.Initialize = function (config) {
-        that.GameDetailManager = new GameDetailManager();
-    }
-
-    that.Update = function (payload) {
-        that.HealthMonitor.Update();
-        that.ExperienceMonitor.Update();
-        that.MyRankings.Update(payload.Kills, payload.Deaths);
-        that.ShipStatMonitor.Update();
-        that.EnvironmentMonitor.Update(payload);
-        that.AreaRenderer.Update();
-    }
-}
+    };
+    HUDManager.prototype.Initialize = function (config) {
+        this.GameDetailManager = new GameDetailManager();
+    };
+    HUDManager.prototype.Update = function (payload) {
+        this.HealthMonitor.Update();
+        this.ExperienceMonitor.Update();
+        this.MyRankings.Update(payload.Kills, payload.Deaths);
+        this.ShipStatMonitor.Update();
+        this.EnvironmentMonitor.Update(payload);
+        this.AreaRenderer.Update();
+    };
+    return HUDManager;
+})();
+//@ sourceMappingURL=HUDManager.js.map

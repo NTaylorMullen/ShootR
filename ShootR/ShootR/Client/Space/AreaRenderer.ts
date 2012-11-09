@@ -1,5 +1,5 @@
 /// <reference path="../Utilities/Vector2.ts" />
-/// <reference path="CanvasRenderer.js" />
+/// <reference path="CanvasRenderer.ts" />
 
 declare var $, shortcut;
 

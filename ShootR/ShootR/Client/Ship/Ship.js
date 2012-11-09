@@ -1,15 +1,7 @@
-var __extends = this.__extends || function (d, b) {
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-}
 var Ship = (function (_super) {
     __extends(Ship, _super);
     function Ship(properties) {
         _super.call(this);
-        this.ID = 0;
-        this.Name = "";
-        this.MaxLife = 0;
         this.MovementController = new ShipMovementController(Vector2.Zero());
         this.UpdateProperties(properties);
         this.WIDTH = Ship.WIDTH;
@@ -24,6 +16,8 @@ var Ship = (function (_super) {
     Ship.HALF_WIDTH = 0;
     Ship.HALF_HEIGHT = 0;
     Ship.MIN_FIRE_RATE = 0;
+    Ship.START_LIFE = 0;
+    Ship.DAMAGE_INCREASE_RATE = 0;
     Ship.prototype.Destroy = function () {
         if(!this.LifeController.Alive) {
             GAME_GLOBALS.AnimationManager.Add(new spritify({
@@ -63,10 +57,10 @@ var Ship = (function (_super) {
         if(this._lastHealth !== this.LifeController.Health) {
             this._currentHealthPercentage = this.LifeController.Health / this.MaxLife , this._currentHealth = this._maxWidth * this._currentHealthPercentage;
             this._lastHealth = this.LifeController.Health;
-            if(this._currentHealthPercentage <= HealthMonitor.prototype.BadThreshold) {
+            if(this._currentHealthPercentage <= HealthMonitor.BadThreshold) {
                 this._miniHealthBarColor = GAME_GLOBALS.Colors.ShipBad;
             } else {
-                if(this._currentHealthPercentage <= HealthMonitor.prototype.HurtThreshold) {
+                if(this._currentHealthPercentage <= HealthMonitor.HurtThreshold) {
                     this._miniHealthBarColor = GAME_GLOBALS.Colors.ShipHurt;
                 } else {
                     this._miniHealthBarColor = GAME_GLOBALS.Colors.ShipGood;

@@ -14,8 +14,6 @@ class Camera {
     // Is set by the prototype
     public View: Size;
 
-    public Following: number;
-
     constructor () {
     }
 
@@ -25,10 +23,6 @@ class Camera {
         // Update background position based on camera
         this._gameWrapper.css("background-position", -this.Position.X + "px " + -this.Position.Y + "px");
     };
-
-    public Follow(obj: Collidable): void {
-        this.Following = obj.ID;
-    }
 
     public InView(obj: any) {
         var halfObj = new Size(obj.WIDTH * .5, obj.HEIGHT * .5),

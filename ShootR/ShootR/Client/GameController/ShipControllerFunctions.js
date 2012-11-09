@@ -1,24 +1,24 @@
-﻿function ShipControllerFunctions(connection) {
-    var that = this,
-        currentCommand = 0;
-
-    that.StartMovement = function(dir) {
-        connection.server.registerMoveStart(dir, false, ++currentCommand);
+var ShipControllerFunctions = (function () {
+    function ShipControllerFunctions(connection) {
+        ShipControllerFunctions._connection = connection;
     }
-
-    that.StopMovement = function(dir) {
-        connection.server.registerMoveStop(dir, false, ++currentCommand);
-    }
-
-    that.StopAndStartMovement = function(toStop, toStart) {
-        connection.server.startAndStopMovement(toStop, toStart, false, ++currentCommand);
-    }
-
-    that.ResetMovement = function(MovementList) {
-        connection.server.resetMovement(MovementList, false, ++currentCommand);
-    }
-
-    that.shoot = function() {
-        connection.server.fire();
-    }
-}
+    ShipControllerFunctions._connection = undefined;
+    ShipControllerFunctions._currentCommand = 0;
+    ShipControllerFunctions.prototype.StartMovement = function (dir) {
+        ShipControllerFunctions._connection.server.registerMoveStart(dir, false, ++ShipControllerFunctions._currentCommand);
+    };
+    ShipControllerFunctions.prototype.StopMovement = function (dir) {
+        ShipControllerFunctions._connection.server.registerMoveStop(dir, false, ++ShipControllerFunctions._currentCommand);
+    };
+    ShipControllerFunctions.prototype.StopAndStartMovement = function (toStop, toStart) {
+        ShipControllerFunctions._connection.server.startAndStopMovement(toStop, toStart, false, ++ShipControllerFunctions._currentCommand);
+    };
+    ShipControllerFunctions.prototype.ResetMovement = function (MovementList) {
+        ShipControllerFunctions._connection.server.resetMovement(MovementList, false, ++ShipControllerFunctions._currentCommand);
+    };
+    ShipControllerFunctions.prototype.shoot = function () {
+        ShipControllerFunctions._connection.server.fire();
+    };
+    return ShipControllerFunctions;
+})();
+//@ sourceMappingURL=ShipControllerFunctions.js.map

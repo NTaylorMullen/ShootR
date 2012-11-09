@@ -1,0 +1,1 @@
+{"version":3,"file":"GameDetailManager.js","sources":["GameDetailManager.ts"],"names":[],"mappings":"AAIA;IACI;QACI,KAAK;AACR;IAED,qDAAA;QACI,SAAS,IAAI,KAAK;YACd,aAAa,KAAK,YAAY,cAAc,CAAC,aAAa,KAAK,YAAY;AAC9E,WAAE;YAAE,oBAAoB;YAAM,QAAQ;;AAC1C;IATL"}

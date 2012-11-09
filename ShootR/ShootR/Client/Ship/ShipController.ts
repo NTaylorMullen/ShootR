@@ -11,6 +11,9 @@ class ShipController extends Ship {
     public TryInterpolate: bool = true;
     public TryInterpolateRotation: bool = false;
     public LatencyResolver: LatencyResolver;
+    public Experience: number;
+    public ExperienceToNextLevel: number;
+    public Level: number;
 
     private _lastShot: number;
     private _keyMapping: any[] = [];

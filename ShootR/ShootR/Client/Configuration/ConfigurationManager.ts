@@ -9,6 +9,16 @@
 declare var $;
 
 class ConfigurationManager {
+    public bulletConfig: any;
+    public gameConfig: any;
+    public shipConfig: any;
+    public mapConfig: any;
+    public screenConfig: any;
+    public leaderboardConfig: any;
+    public healthPackConfig: any;
+    public abilityConfig: any;
+    public shipMovementControllerConfig: any;    
+
     constructor (config) {
         // Update the prototypes from the config
         $.extend(Ship, config.shipConfig);

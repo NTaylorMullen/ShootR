@@ -1,72 +1,73 @@
-﻿function MyRankings() {
-    var that = this,
-        myPosition = false, // Initially set to a very high value so we flash green on leaderboard position first update
-        globalRanking = $("#GlobalRanking"),
-        globalRankingLB = $("#GlobalRankingLB"),
-        killsEle = $("#Kills"),
-        deathsEle = $("#Deaths"),
-        kdRatioEle = $("#KDRatio"),
-        lastKills,
-        lastDeaths,
-        lastOutOf;
-
-    that.LoadPosition = function (newPosition, outOf) {
-        if (myPosition != newPosition || outOf !== lastOutOf) {
-            if (myPosition && myPosition != newPosition) {
-                globalRanking.stop(true);
-                globalRanking.animate({ color: "#FFFFFF" }, 500).animate({ color: "#7F7F7F" }, 500);
-            }
-
-            myPosition = newPosition;
-            lastOutOf = outOf;
-
-            globalRanking.html(myPosition);
-            globalRankingLB.html(myPosition + " of " + outOf);
-        }
+var MyRankings = (function () {
+    function MyRankings() {
+        this._myPosition = 0;
+        this._globalRanking = $("#GlobalRanking");
+        this._globalRankingLB = $("#GlobalRankingLB");
+        this._killsEle = $("#Kills");
+        this._deathsEle = $("#Deaths");
+        this._kdRatioEle = $("#KDRatio");
     }
-
-    that.Update = function (kills, deaths) {
-        if (kills != lastKills || deaths != lastDeaths) {
-
-            if (kills != lastKills) {
-                killsEle.stop(true);
-                killsEle.animate({ color: "#7F7F7F" }, 500).animate({ color: "#FFFFFF" }, 500);
-                killsEle.html(kills);
+    MyRankings.prototype.LoadPosition = function (newPosition, outOf) {
+        if(this._myPosition != newPosition || outOf !== this._lastOutOf) {
+            if(this._myPosition && this._myPosition != newPosition) {
+                this._globalRanking.stop(true);
+                this._globalRanking.animate({
+                    color: "#FFFFFF"
+                }, 500).animate({
+                    color: "#7F7F7F"
+                }, 500);
             }
-
-            if (deaths != lastDeaths) {
-                deathsEle.stop(true);
-                deathsEle.animate({ color: "#7F7F7F" }, 500).animate({ color: "#FFFFFF" }, 500);
-                deathsEle.html(deaths);
-            }                       
-
+            this._myPosition = newPosition;
+            this._lastOutOf = outOf;
+            this._globalRanking.html(this._myPosition);
+            this._globalRankingLB.html(this._myPosition + " of " + outOf);
+        }
+    };
+    MyRankings.prototype.Update = function (kills, deaths) {
+        if(kills != this._lastKills || deaths != this._lastDeaths) {
+            if(kills != this._lastKills) {
+                this._killsEle.stop(true);
+                this._killsEle.animate({
+                    color: "#7F7F7F"
+                }, 500).animate({
+                    color: "#FFFFFF"
+                }, 500);
+                this._killsEle.html(kills);
+            }
+            if(deaths != this._lastDeaths) {
+                this._deathsEle.stop(true);
+                this._deathsEle.animate({
+                    color: "#7F7F7F"
+                }, 500).animate({
+                    color: "#FFFFFF"
+                }, 500);
+                this._deathsEle.html(deaths);
+            }
             var finalRatio;
-
-            if (deaths === 0 && kills !== 0) {
+            if(deaths === 0 && kills !== 0) {
                 finalRatio = "∞";
-            }
-            else if (deaths === 0 && kills === 0) {
-                finalRatio = "";
-            }
-            else {
-                var kRatio, dRatio;
+            } else {
+                if(deaths === 0 && kills === 0) {
+                    finalRatio = "";
+                } else {
+                    var kRatio;
+                    var dRatio;
 
-                if (kills <= deaths && kills !== 0) {
-                    kRatio = 1;
-                    dRatio = Math.round((deaths / kills) * 10) / 10
+                    if(kills <= deaths && kills !== 0) {
+                        kRatio = 1;
+                        dRatio = Math.round((deaths / kills) * 10) / 10;
+                    } else {
+                        kRatio = Math.round((kills / deaths) * 10) / 10;
+                        dRatio = 1;
+                    }
+                    finalRatio = kRatio + ":" + dRatio;
                 }
-                else {
-                    kRatio = Math.round((kills / deaths) * 10) / 10;
-                    dRatio = 1;
-                }
-
-                finalRatio = kRatio + ":" + dRatio;
             }
-
-            kdRatioEle.html(finalRatio);
-
-            lastKills = kills;
-            lastDeaths = deaths;
+            this._kdRatioEle.html(finalRatio);
+            this._lastKills = kills;
+            this._lastDeaths = deaths;
         }
-    }
-}
+    };
+    return MyRankings;
+})();
+//@ sourceMappingURL=MyRankings.js.map

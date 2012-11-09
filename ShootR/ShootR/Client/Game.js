@@ -1,46 +1,29 @@
-﻿/// <reference path="lib/jquery-1.6.4.js" />
-/// <reference path="Ship.js" />
-/// <reference path="lib/shortcut.js" />
-/// <reference path="BulletManager.js" />
-/// <reference path="Configuration/CanvasRenderer.js" />
-
-function Game(connection, latencyResolver, myShipID) {
-    var that = this,
-        map = new Map();
-
-    that.GameTime = new GameTime();
-    that.BulletManager = new BulletManager();
-    that.ShipManager = new ShipManager(myShipID);
-    that.ShipManager.InitializeMyShip(connection);
-    that.PowerupManager = new PowerupManager();
-
-    var myShip = that.ShipManager.MyShip;
-
-    CanvasContext.Camera.Follow(myShip);
-
-    that.HUDManager = new HUDManager(myShip, connection);
-
-    that.Update = function (payload) {
-        that.GameTime.Update();
-        CanvasContext.clear();
-
-        map.CheckBoundaryCollisions(that.ShipManager.Ships, that.BulletManager.Bullets);
-
-        that.HUDManager.Update(payload);
-
-        // Move the ships on the client
-        that.ShipManager.Update(that.GameTime);
-
-        that.PowerupManager.Update(that.GameTime);
-
-        // Move the bullets on the client
-        that.BulletManager.Update(that.GameTime);
-
-        GAME_GLOBALS.AnimationManager.Update(that.GameTime);        
-
-        map.Draw();
-        that.ShipManager.MyShip.DrawHUD();        
-
-        CanvasContext.Render();
+var Game = (function () {
+    function Game(_connection, _latencyResolver, myShipID) {
+        this._connection = _connection;
+        this._latencyResolver = _latencyResolver;
+        this.GameTime = new GameTime();
+        this.BulletManager = new BulletManager();
+        this.ShipManager = new ShipManager(myShipID);
+        this.PowerupManager = new PowerupManager();
+        this.ShipManager.InitializeMyShip(this._connection);
+        this._map = new Map();
+        this._myShip = this.ShipManager.MyShip;
+        this.HUDManager = new HUDManager(this._myShip, this._connection);
     }
-}
+    Game.prototype.Update = function (payload) {
+        this.GameTime.Update();
+        CanvasContext.clear();
+        this._map.CheckBoundaryCollisions(this.ShipManager.Ships, this.BulletManager.Bullets);
+        this.HUDManager.Update(payload);
+        this.ShipManager.Update(this.GameTime);
+        this.PowerupManager.Update(this.GameTime);
+        this.BulletManager.Update(this.GameTime);
+        GAME_GLOBALS.AnimationManager.Update();
+        this._map.Draw();
+        this.ShipManager.MyShip.DrawHUD();
+        CanvasContext.Render();
+    };
+    return Game;
+})();
+//@ sourceMappingURL=Game.js.map

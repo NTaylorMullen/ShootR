@@ -67,7 +67,7 @@ class PayloadDecompressor {
         return result;
     }
 
-    private DecompressPayload(data: any): any {
+    public DecompressPayload(data: any): any {
         return {
             Ships: data[this.PayloadContract.Ships],
             LeaderboardPosition: data[this.PayloadContract.LeaderboardPosition],
@@ -115,7 +115,7 @@ class PayloadDecompressor {
         };
     }
 
-    private DecompressLeaderboard (data: any): any {
+    public DecompressLeaderboard (data: any): any {
         var payload = [],
             leaderboardEntryCount = data.length;
 

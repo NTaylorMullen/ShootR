@@ -7,9 +7,6 @@ var Camera = (function () {
         this.Position = position;
         this._gameWrapper.css("background-position", -this.Position.X + "px " + -this.Position.Y + "px");
     };
-    Camera.prototype.Follow = function (obj) {
-        this.Following = obj.ID;
-    };
     Camera.prototype.InView = function (obj) {
         var halfObj = new Size(obj.WIDTH * 0.5, obj.HEIGHT * 0.5);
         var halfView = this.View.Half();

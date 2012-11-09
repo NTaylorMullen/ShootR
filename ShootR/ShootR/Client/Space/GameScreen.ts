@@ -27,7 +27,7 @@ class GameScreen {
         });
     }
     
-    public Initialize(gamehud): void {
+    public Initialize(gamehud?: any): void {
         this._gameHUD = gamehud;
         this.ScreenResizeEvent();
     }

@@ -182,6 +182,59 @@
     <Content Include="Client\Configuration\ConfigurationManager.min.js">
       <DependentUpon>ConfigurationManager.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Client\Game.ts" />
+    <Content Include="Client\Game.js">
+      <DependentUpon>Game.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Game.min.js">
+      <DependentUpon>Game.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\GameController\Adapters\IETouchAdapter.ts" />
+    <TypeScriptCompile Include="Client\GameController\Adapters\MouseAdapter.ts" />
+    <Content Include="Client\GameController\Adapters\IETouchAdapter.js">
+      <DependentUpon>IETouchAdapter.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\Adapters\IETouchAdapter.min.js">
+      <DependentUpon>IETouchAdapter.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\Adapters\MouseAdapter.js">
+      <DependentUpon>MouseAdapter.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\Adapters\MouseAdapter.min.js">
+      <DependentUpon>MouseAdapter.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\GameController\Adapters\TouchAdapter.ts" />
+    <Content Include="Client\GameController\Adapters\TouchAdapter.js">
+      <DependentUpon>TouchAdapter.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\Adapters\TouchAdapter.min.js">
+      <DependentUpon>TouchAdapter.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\GameController\TouchController.ts" />
+    <TypeScriptCompile Include="Client\GameController\JoyStick.ts" />
+    <TypeScriptCompile Include="Client\GameController\controllerMain.ts" />
+    <Content Include="Client\GameController\controllerMain.js">
+      <DependentUpon>controllerMain.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\controllerMain.min.js">
+      <DependentUpon>controllerMain.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\JoyStick.js">
+      <DependentUpon>JoyStick.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\GameController\ShipControllerFunctions.ts" />
+    <Content Include="Client\GameController\ShipControllerFunctions.js">
+      <DependentUpon>ShipControllerFunctions.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\ShipControllerFunctions.min.js">
+      <DependentUpon>ShipControllerFunctions.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\TouchController.js">
+      <DependentUpon>TouchController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\TouchController.min.js">
+      <DependentUpon>TouchController.ts</DependentUpon>
+    </Content>
     <Content Include="Client\GameGlobals.js">
       <DependentUpon>GameGlobals.ts</DependentUpon>
     </Content>
@@ -203,11 +256,50 @@
     <Content Include="Client\HUD\DeathScreen.min.js">
       <DependentUpon>DeathScreen.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Client\HUD\HUDManager.ts" />
+    <TypeScriptCompile Include="Client\HUD\GameDetailManager.ts" />
+    <TypeScriptCompile Include="Client\HUD\ExperienceMonitor.ts" />
+    <TypeScriptCompile Include="Client\HUD\EnvironmentMonitor.ts" />
+    <Content Include="Client\HUD\EnvironmentMonitor.js">
+      <DependentUpon>EnvironmentMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\ExperienceMonitor.js">
+      <DependentUpon>ExperienceMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\ExperienceMonitor.min.js">
+      <DependentUpon>ExperienceMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\GameDetailManager.js">
+      <DependentUpon>GameDetailManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\GameDetailManager.min.js">
+      <DependentUpon>GameDetailManager.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\HUD\HealthMonitor.ts" />
+    <Content Include="Client\HUD\HealthMonitor.js">
+      <DependentUpon>HealthMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\HealthMonitor.min.js">
+      <DependentUpon>HealthMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\HUDManager.js">
+      <DependentUpon>HUDManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\HUDManager.min.js">
+      <DependentUpon>HUDManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client\HUD\Leaderboard.js">
       <DependentUpon>Leaderboard.ts</DependentUpon>
     </Content>
     <Content Include="Client\HUD\Leaderboard.min.js">
       <DependentUpon>Leaderboard.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\HUD\MyRankings.ts" />
+    <Content Include="Client\HUD\MyRankings.js">
+      <DependentUpon>MyRankings.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\MyRankings.min.js">
+      <DependentUpon>MyRankings.ts</DependentUpon>
     </Content>
     <Content Include="Client\HUD\NotificationManager.js">
       <DependentUpon>NotificationManager.ts</DependentUpon>
@@ -217,6 +309,20 @@
     </Content>
     <TypeScriptCompile Include="Client\Ship\Ship.ts" />
     <TypeScriptCompile Include="Client\Managers\AnimationManager.ts" />
+    <TypeScriptCompile Include="Client\HUD\ShipStatMonitor.ts" />
+    <Content Include="Client\HUD\ShipStatMonitor.js">
+      <DependentUpon>ShipStatMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\ShipStatMonitor.min.js">
+      <DependentUpon>ShipStatMonitor.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client\Main.ts" />
+    <Content Include="Client\Main.js">
+      <DependentUpon>Main.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Main.min.js">
+      <DependentUpon>Main.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Managers\AnimationManager.js">
       <DependentUpon>AnimationManager.ts</DependentUpon>
     </Content>
@@ -268,23 +374,6 @@
     <Content Include="Client\Ship\ShipController.min.js">
       <DependentUpon>ShipController.ts</DependentUpon>
     </Content>
-    <Content Include="Client\GameController\Adapters\IETouchAdapter.js" />
-    <Content Include="Client\GameController\Adapters\MouseAdapter.js" />
-    <Content Include="Client\GameController\Adapters\TouchAdapter.js" />
-    <Content Include="Client\GameController\controllerMain.js" />
-    <Content Include="Client\Game.js" />
-    <Content Include="Client\GameController\JoyStick.js" />
-    <Content Include="Client\GameController\ShipControllerFunctions.js" />
-    <Content Include="Client\GameController\TouchController.js" />
-    <Content Include="Client\HUD\DeathScreen2.js" />
-    <Content Include="Client\HUD\EnvironmentMonitor.js" />
-    <Content Include="Client\HUD\ExperienceMonitor.js" />
-    <Content Include="Client\HUD\GameDetailManager.js" />
-    <Content Include="Client\HUD\HealthMonitor.js" />
-    <Content Include="Client\HUD\HUDManager.js" />
-    <Content Include="Client\HUD\MyRankings.js" />
-    <Content Include="Client\Main.js" />
-    <Content Include="Client\Powerups\PowerupManager2.js" />
     <TypeScriptCompile Include="Client\Ship\ShipManager.ts" />
     <Content Include="Client\Ship\ShipManager.js">
       <DependentUpon>ShipManager.ts</DependentUpon>
@@ -366,7 +455,6 @@
     <Content Include="Client\Utilities\PayloadManagement\PayloadDecompressor.min.js">
       <DependentUpon>PayloadDecompressor.ts</DependentUpon>
     </Content>
-    <Content Include="Client\HUD\ShipStatMonitor.js" />
     <TypeScriptCompile Include="Client\Utilities\Size.ts" />
     <Content Include="Client\Utilities\Size.js">
       <DependentUpon>Size.ts</DependentUpon>
@@ -578,6 +666,63 @@
     </Content>
     <Content Include="Client\Collidable\MovementControllers\StationaryMovementController.js.map">
       <DependentUpon>StationaryMovementController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Powerups\PowerupManager.js.map">
+      <DependentUpon>PowerupManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\GameDetailManager.js.map">
+      <DependentUpon>GameDetailManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\HealthMonitor.js.map">
+      <DependentUpon>HealthMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Ship\Ship.min.js.map">
+      <DependentUpon>Ship.js</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\ExperienceMonitor.js.map">
+      <DependentUpon>ExperienceMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\HUDManager.js.map">
+      <DependentUpon>HUDManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\MyRankings.js.map">
+      <DependentUpon>MyRankings.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\ShipStatMonitor.js.map">
+      <DependentUpon>ShipStatMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\EnvironmentMonitor.js.map">
+      <DependentUpon>EnvironmentMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Game.js.map">
+      <DependentUpon>Game.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Main.js.map">
+      <DependentUpon>Main.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\Adapters\MouseAdapter.js.map">
+      <DependentUpon>MouseAdapter.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\Adapters\IETouchAdapter.js.map">
+      <DependentUpon>IETouchAdapter.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\Adapters\TouchAdapter.js.map">
+      <DependentUpon>TouchAdapter.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\TouchController.js.map">
+      <DependentUpon>TouchController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\JoyStick.js.map">
+      <DependentUpon>JoyStick.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\ShipControllerFunctions.js.map">
+      <DependentUpon>ShipControllerFunctions.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\controllerMain.js.map">
+      <DependentUpon>controllerMain.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\GameController\controllerMain.min.js.map">
+      <DependentUpon>controllerMain.js</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>

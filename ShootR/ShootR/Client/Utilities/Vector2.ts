@@ -14,6 +14,10 @@ class Vector2 {
         }
     }
 
+    public Clone(): Vector2 {
+        return new Vector2(this.X, this.Y);
+    }
+
     public ToString(): string {
         return "( " + this.X + ", " + this.Y + " )";
     }

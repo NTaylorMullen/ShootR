@@ -19,7 +19,7 @@ function CalculateDistance(A, B) {
 }
 
 function CalculateAngle(A, B) {
-    var deltas = SubtractVectors(B, A),
+    var deltas = Vector2.SubtractV(A, B),
         angle = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
 
     if (angle < 0) {
@@ -60,10 +60,6 @@ var delay = (function () {
 
 function HeightOffset(obj) {
     return $(obj).height() + parseInt($(obj).css("margin-top")) + parseInt($(obj).css("margin-bottom"));
-}
-
-function SubtractVectors(A, B) {
-    return { X: B.X - A.X, Y: B.Y - A.Y };
 }
 
 jQuery.fn.flash = function (color, duration) {

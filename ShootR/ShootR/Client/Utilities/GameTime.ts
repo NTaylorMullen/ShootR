@@ -1,4 +1,4 @@
-/// <reference path="UtilityFunctions.js" />
+/// <reference path="UtilityFunctions.ts" />
 
 class GameTime {
     private _lastUpdated: Date;

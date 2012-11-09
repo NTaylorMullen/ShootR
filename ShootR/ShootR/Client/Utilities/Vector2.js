@@ -9,6 +9,9 @@ var Vector2 = (function () {
             this.Y = Y || 0;
         }
     }
+    Vector2.prototype.Clone = function () {
+        return new Vector2(this.X, this.Y);
+    };
     Vector2.prototype.ToString = function () {
         return "( " + this.X + ", " + this.Y + " )";
     };

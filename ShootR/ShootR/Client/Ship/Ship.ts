@@ -7,18 +7,19 @@
 /// <reference path="../Managers/spritify.ts" />
 /// <reference path="../Utilities/ImageAssets.ts" />
 /// <reference path="ShipAnimationHandler.ts" />
-
-declare var HealthMonitor;
+/// <reference path="../HUD/HealthMonitor.ts" />
 
 class Ship extends Collidable {
-    static WIDTH: number = 0;
-    static HEIGHT: number = 0;
-    static HALF_WIDTH: number = 0;
-    static HALF_HEIGHT: number = 0;
-    static MIN_FIRE_RATE: number = 0;
-    public ID: number = 0;
-    public Name: string = "";
-    public MaxLife: number = 0;
+    static WIDTH: number;
+    static HEIGHT: number;
+    static HALF_WIDTH: number;
+    static HALF_HEIGHT: number;
+    static MIN_FIRE_RATE: number;
+    static START_LIFE: number;
+    static DAMAGE_INCREASE_RATE: number;
+    public ID: number;
+    public Name: string;
+    public MaxLife: number;
     public AnimationHandler: ShipAnimationHandler;
     public ShipAbilityHandler: ShipAbilityHandler;
     public MovementController: ShipMovementController;
@@ -90,10 +91,10 @@ class Ship extends Collidable {
             this._currentHealth = this._maxWidth * this._currentHealthPercentage;
             this._lastHealth = this.LifeController.Health;
 
-            if (this._currentHealthPercentage <= HealthMonitor.prototype.BadThreshold) {
+            if (this._currentHealthPercentage <= HealthMonitor.BadThreshold) {
                 this._miniHealthBarColor = GAME_GLOBALS.Colors.ShipBad;
             }
-            else if (this._currentHealthPercentage <= HealthMonitor.prototype.HurtThreshold) {
+            else if (this._currentHealthPercentage <= HealthMonitor.HurtThreshold) {
                 this._miniHealthBarColor = GAME_GLOBALS.Colors.ShipHurt;
             }
             else {
