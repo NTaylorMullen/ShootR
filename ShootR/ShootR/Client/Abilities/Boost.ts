@@ -1,4 +1,5 @@
 /// <reference path="Abstractions/MovementAbility.ts" />
+/// <reference path="../Collidable/MovementControllers/MovementController.ts" />
 /// <reference path="../Utilities/ValueRef.ts" />
 
 class Boost extends MovementAbility {    
@@ -6,8 +7,8 @@ class Boost extends MovementAbility {
     static SPEED_INCREASE: number = 3; // Updated by server configuration value
     static DURATION: number = 3; // Updated by server configuration value
 
-    constructor (private movementController: any, public Controllable: ValueRef) {
-        super(Boost.NAME, movementController);
+    constructor (private _movementController: MovementController, public Controllable: ValueRef) {
+        super(Boost.NAME, _movementController);
     }
 
     public Activate(): void {

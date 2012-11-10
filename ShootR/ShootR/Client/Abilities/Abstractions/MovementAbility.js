@@ -8,7 +8,7 @@ var MovementAbility = (function (_super) {
     function MovementAbility(name, MovementController) {
         _super.call(this, name);
         this.MovementController = MovementController;
-        this.initialPower = MovementController.Power;
+        this._initialPower = MovementController.Power;
     }
     MovementAbility.prototype.IncreaseSpeedBy = function (amount) {
         this.MovementController.Power += amount;
@@ -20,7 +20,7 @@ var MovementAbility = (function (_super) {
         this.MovementController.Power -= amount;
     };
     MovementAbility.prototype.ResetSpeed = function () {
-        this.MovementController.Power = this.initialPower;
+        this.MovementController.Power = this._initialPower;
     };
     return MovementAbility;
 })(Ability);

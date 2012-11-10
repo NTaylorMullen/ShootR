@@ -5,9 +5,9 @@ var __extends = this.__extends || function (d, b) {
 }
 var Boost = (function (_super) {
     __extends(Boost, _super);
-    function Boost(movementController, Controllable) {
-        _super.call(this, Boost.NAME, movementController);
-        this.movementController = movementController;
+    function Boost(_movementController, Controllable) {
+        _super.call(this, Boost.NAME, _movementController);
+        this._movementController = _movementController;
         this.Controllable = Controllable;
     }
     Boost.NAME = "Boost";

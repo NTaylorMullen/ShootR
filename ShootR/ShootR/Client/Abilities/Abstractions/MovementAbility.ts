@@ -1,12 +1,12 @@
 /// <reference path="Ability.ts" />
 
 class MovementAbility extends Ability {
-    private initialPower: number;
+    private _initialPower: number;
 
     constructor (name: string, public MovementController: any) {
         super(name);
 
-        this.initialPower = MovementController.Power;
+        this._initialPower = MovementController.Power;
     }
 
     public IncreaseSpeedBy (amount: number):void {
@@ -22,6 +22,6 @@ class MovementAbility extends Ability {
     }
 
     public ResetSpeed ():void {
-        this.MovementController.Power = this.initialPower;
+        this.MovementController.Power = this._initialPower;
     }
 }
