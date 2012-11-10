@@ -12,6 +12,8 @@ var Ability = (function () {
         this.Active = false;
         this.ActivatedAt = null;
     };
+    Ability.prototype.Update = function (now) {
+    };
     return Ability;
 })();
 //@ sourceMappingURL=Ability.js.map
