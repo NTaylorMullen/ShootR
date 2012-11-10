@@ -7,9 +7,9 @@
 /// <reference path="BulletMovementController.ts" />
 
 class Bullet extends Collidable {
-    static BULLET_DIE_AFTER: number;
-    static WIDTH: number;
-    static HEIGHT: number;
+    static BULLET_DIE_AFTER: number; // Updated from server configuration value
+    static WIDTH: number; // Updated from server configuration value
+    static HEIGHT: number; // Updated from server configuration value
 
     private _spawnedAt: number;
 
@@ -61,7 +61,7 @@ class Bullet extends Collidable {
         this.Visible = false;
     }
 
-    public Update(gameTime: GameTime) {
+    public Update(gameTime: GameTime): void {
         var now = new Date();
 
         this.MovementController.Update(CalculatePOS(this.LastUpdated), now);

@@ -4,8 +4,7 @@ var BulletManager = (function () {
         };
     }
     BulletManager.prototype.UpdateBullets = function (bulletList) {
-        var bulletCount = bulletList.length;
-        for(var i = 0; i < bulletCount; i++) {
+        for(var i = 0; i < bulletList.length; i++) {
             var currentBullet = bulletList[i];
             var id = currentBullet.ID;
 

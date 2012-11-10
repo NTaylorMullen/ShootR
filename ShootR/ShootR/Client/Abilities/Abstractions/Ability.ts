@@ -7,12 +7,12 @@ class Ability {
         this.ActivatedAt = null;
     }
 
-    public Activate():void {
+    public Activate(): void {
         this.Active = true;
         this.ActivatedAt = new Date().getTime();
     }
 
-    public Deactivate():void {
+    public Deactivate(): void {
         this.Active = false;
         this.ActivatedAt = null;
     }

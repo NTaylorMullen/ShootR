@@ -9,19 +9,19 @@ class MovementAbility extends Ability {
         this._initialPower = MovementController.Power;
     }
 
-    public IncreaseSpeedBy (amount: number):void {
+    public IncreaseSpeedBy(amount: number): void {
         this.MovementController.Power += amount;
     }
 
-    public MultiplySpeedBy (amount: number):void {
+    public MultiplySpeedBy(amount: number): void {
         this.MovementController.Power *= amount;
     }
 
-    public DecreaseSpeedBy (amount: number):void {
+    public DecreaseSpeedBy(amount: number): void {
         this.MovementController.Power -= amount;
     }
 
-    public ResetSpeed ():void {
+    public ResetSpeed(): void {
         this.MovementController.Power = this._initialPower;
     }
 }

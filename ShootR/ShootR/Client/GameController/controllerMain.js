@@ -59,16 +59,11 @@ $(window).load(function () {
         });
         $.connection.hub.start(function () {
             env.server.initializeController(registrationID).done(function (val) {
-                if (val) {
-                    if (!val.FailureMessage) {
-                        Initialize(val);
-                    } else {
-                        alert(val.FailureMessage);
-                        $.connection.hub.stop();
-                    }
-                }
-                else {
-                    alert("Refresh your page.");
+                if(!val.FailureMessage) {
+                    Initialize(val);
+                } else {
+                    alert(val.FailureMessage);
+                    $.connection.hub.stop();
                 }
             });
         });

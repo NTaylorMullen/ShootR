@@ -2,7 +2,7 @@
 /// <reference path="../Collidable/MovementControllers/MovementController.ts" />
 /// <reference path="../Utilities/ValueRef.ts" />
 
-class Boost extends MovementAbility {    
+class Boost extends MovementAbility {
     static NAME: string = "Boost";
     static SPEED_INCREASE: number = 3; // Updated by server configuration value
     static DURATION: number = 3; // Updated by server configuration value
@@ -14,10 +14,10 @@ class Boost extends MovementAbility {
     public Activate(): void {
         this.MultiplySpeedBy(Boost.SPEED_INCREASE);
         super.Activate();
-        this.Controllable.Value = false;        
+        this.Controllable.Value = false;
     }
 
-    public Deactivate(): void {        
+    public Deactivate(): void {
         this.ResetSpeed();
         super.Deactivate();
         this.Controllable.Value = true;

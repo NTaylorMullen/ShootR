@@ -7,20 +7,18 @@ class BulletManager {
         this.Bullets = {};
     }
 
-    public UpdateBullets (bulletList:any[]): void {
-        var bulletCount = bulletList.length;
+    public UpdateBullets(bulletList: any[]): void {
+        for (var i = 0; i < bulletList.length; i++) {
+            var currentBullet: any = bulletList[i],
+            id: number = currentBullet.ID;
 
-        for (var i = 0; i < bulletCount; i++) {
-            var currentBullet = bulletList[i],
-                id = currentBullet.ID;
-            
             var movementController = currentBullet.MovementController;
 
-            delete currentBullet.MovementController;            
+            delete currentBullet.MovementController;
 
             // If bullet exists then we need to move it, aka update it.
             if (this.Bullets[id]) {
-                this.Bullets[id].UpdateProperties(currentBullet);                
+                this.Bullets[id].UpdateProperties(currentBullet);
             }
             else {
                 this.Bullets[id] = new Bullet(currentBullet);
@@ -35,11 +33,11 @@ class BulletManager {
             }
             else {
                 this.Bullets[id].Update();
-            }            
+            }
         }
     }
 
-    public Update (gameTime: GameTime): void {
+    public Update(gameTime: GameTime): void {
         for (var key in this.Bullets) {
             // Ensure that the Ship is in view
             if (CanvasContext.Camera.InView(this.Bullets[key]) && !this.Bullets[key].Disposed && !this.Bullets[key].ShouldDispose()) {
