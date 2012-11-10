@@ -10,11 +10,11 @@ class Collidable {
     public AnimationDrawList: any[];
     public Visible: bool;
     public LastUpdated: Date;
-    public Vehicle: any;
+    public Vehicle: HTMLImageElement;
     public FollowID: number;
-    public AnimationCanvas: any;
+    public AnimationCanvas: HTMLCanvasElement;
     public LifeController: any;
-    public AnimationCanvasContext: any;
+    public AnimationCanvasContext: CanvasRenderingContext2D;
     public Controllable: ValueRef;
     public MovementController: MovementController;
     public Collided: bool;
@@ -38,7 +38,7 @@ class Collidable {
     }
 
     public InitializeAnimationCanvas(): void {
-        this.AnimationCanvas = document.createElement("canvas");
+        this.AnimationCanvas = <HTMLCanvasElement>document.createElement("canvas");
         this.AnimationCanvasContext = this.AnimationCanvas.getContext("2d");
     }
 

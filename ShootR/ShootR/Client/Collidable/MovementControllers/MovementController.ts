@@ -59,7 +59,7 @@ class MovementController {
         this.LastUpdated = now;
     }
 
-    public UpdateMovementController(data): void {
+    public UpdateMovementController(data: any): void {
         this.Forces.X = data.Forces.X;
         this.Forces.Y = data.Forces.Y;
 
