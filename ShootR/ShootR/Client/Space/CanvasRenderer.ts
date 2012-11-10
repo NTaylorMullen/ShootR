@@ -91,7 +91,7 @@ class CanvasRenderer {
         this._canvasBufferContext.restore();
     }
 
-    public drawText (text: string, x: number, y: number, customColor: string, customFont: string, textAlign: string, textBaseline: string): void {
+    public drawText (text: string, x: number, y: number, customColor?: string, customFont?: string, textAlign?: string, textBaseline?: string): void {
         var cameraOffset = new Vector2(-this.Camera.Position.X + this.CanvasCenter.X, -this.Camera.Position.Y + this.CanvasCenter.Y );
 
         if (!customColor) {
@@ -123,7 +123,7 @@ class CanvasRenderer {
         this._canvasBufferContext.restore();
     }
 
-    public drawRotatedImage (image: any, angle: number, sx: number, sy: number, swidth: number, sheight: number, x: number, y: number, width: number, height: number): void {
+    public drawRotatedImage (image: any, angle: number, sx: number, sy: number, swidth?: number, sheight?: number, x?: number, y?: number, width?: number, height?: number): void {
         this._canvasBufferContext.save();
 
         var halfSize,

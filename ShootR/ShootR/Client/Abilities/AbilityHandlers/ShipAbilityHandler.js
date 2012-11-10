@@ -5,13 +5,13 @@ var __extends = this.__extends || function (d, b) {
 }
 var ShipAbilityHandler = (function (_super) {
     __extends(ShipAbilityHandler, _super);
-    function ShipAbilityHandler(MyShip) {
-        var boost = new Boost(MyShip.MovementController, MyShip.Controllable);
+    function ShipAbilityHandler(myShip) {
+        var boost = new Boost(myShip.MovementController, myShip.Controllable);
         _super.call(this, [
     boost
 ]);
         this.boost = boost;
-        $(MyShip).on("OnOutOfBounds", $.proxy(this.boost.Deactivate, this.boost));
+        $(myShip).on("OnOutOfBounds", $.proxy(this.boost.Deactivate, this.boost));
     }
     return ShipAbilityHandler;
 })(AbilityHandler);

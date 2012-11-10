@@ -1,4 +1,3 @@
-
 var Map = (function () {
     function Map() {
     }

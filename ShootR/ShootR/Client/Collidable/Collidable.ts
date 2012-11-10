@@ -2,8 +2,7 @@
 /// <reference path="../Utilities/Size.ts" />
 /// <reference path="../Utilities/ValueRef.ts" />
 /// <reference path="MovementControllers/MovementController.ts" />
-
-declare var CanvasContext;
+/// <reference path="../Space/CanvasRenderer.ts" />
 
 class Collidable {
     private _animationCanvasOffset: Vector2;

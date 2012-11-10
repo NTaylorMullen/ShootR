@@ -1,7 +1,8 @@
 /// <reference path="../Utilities/Size.ts" />
 /// <reference path="../Utilities/Vector2.ts" />
+/// <reference path="../Space/CanvasRenderer.ts" />
 
-declare var $, CanvasContext;
+declare var $;
 
 class spritify {
     private _lastUpdateFrame: number;

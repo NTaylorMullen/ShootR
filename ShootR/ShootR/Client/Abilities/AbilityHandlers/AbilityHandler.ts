@@ -1,37 +1,37 @@
 /// <reference path="../Abstractions/Ability.ts" />
 
 class AbilityHandler {
-    private abilityList: any = {};
+    private _abilityList: any = {};
 
     constructor (aList: Ability[]) {
         for (var i = aList.length - 1; i >= 0; i--) {
-            this.abilityList[aList[i].Name] = aList[i];
+            this._abilityList[aList[i].Name] = aList[i];
         }
     }
 
     public Abilities(): any {
-        return this.abilityList;
+        return this._abilityList;
     }
 
     public Ability(abilityName: string): Ability {
-        return this.abilityList[abilityName];
+        return this._abilityList[abilityName];
     }
 
     public AddAbility(ability: Ability): void {
-        this.abilityList[ability.Name] = ability;
+        this._abilityList[ability.Name] = ability;
     }
 
     public Activate(abilityName: string): bool {
-        if (this.abilityList[abilityName] && !this.abilityList[abilityName].Active) {
-            this.abilityList[abilityName].Activate();
+        if (this._abilityList[abilityName] && !this._abilityList[abilityName].Active) {
+            this._abilityList[abilityName].Activate();
             return true;
         }
         return false;
     }
 
     public Deactivate(abilityName: string): bool {
-        if (this.abilityList[abilityName] && this.abilityList[abilityName].Active) {
-            this.abilityList[abilityName].Deactivate();
+        if (this._abilityList[abilityName] && this._abilityList[abilityName].Active) {
+            this._abilityList[abilityName].Deactivate();
             return true;
         }
         return false;
@@ -40,7 +40,7 @@ class AbilityHandler {
     public UpdateAbilities(aList: any): void {
         for (var abilityName in aList) {
             var dataActive = aList[abilityName],
-                myActive = this.abilityList[abilityName].Active;
+                myActive = this._abilityList[abilityName].Active;
 
             if (dataActive && !myActive) {
                 this.Activate(abilityName);
@@ -52,8 +52,8 @@ class AbilityHandler {
     }
 
     public Update(now: Date): void {
-        for (var key in this.abilityList) {
-            this.abilityList[key].Update(now);
+        for (var key in this._abilityList) {
+            this._abilityList[key].Update(now);
         }
     }
 }

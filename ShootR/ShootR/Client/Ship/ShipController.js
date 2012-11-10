@@ -3,7 +3,6 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 }
-
 var ShipController = (function (_super) {
     __extends(ShipController, _super);
     function ShipController(rotateLeft, forward, rotateRight, backward, fire, connection) {

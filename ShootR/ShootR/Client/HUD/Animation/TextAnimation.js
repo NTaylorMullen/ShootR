@@ -1,4 +1,3 @@
-
 var TextAnimation = (function () {
     function TextAnimation(_text, _position, _options) {
         this._text = _text;

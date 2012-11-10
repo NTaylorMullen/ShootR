@@ -1,6 +1,7 @@
-///<reference path="../Utilities/Vector2.ts" />
+/// <reference path="../Utilities/Vector2.ts" />
+/// <reference path="CanvasRenderer.ts" />
 
-declare var $, CanvasContext;
+declare var $;
 
 class Map {
     static WIDTH: number;

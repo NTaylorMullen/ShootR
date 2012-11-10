@@ -1,30 +1,30 @@
 var AbilityHandler = (function () {
     function AbilityHandler(aList) {
-        this.abilityList = {
+        this._abilityList = {
         };
         for(var i = aList.length - 1; i >= 0; i--) {
-            this.abilityList[aList[i].Name] = aList[i];
+            this._abilityList[aList[i].Name] = aList[i];
         }
     }
     AbilityHandler.prototype.Abilities = function () {
-        return this.abilityList;
+        return this._abilityList;
     };
     AbilityHandler.prototype.Ability = function (abilityName) {
-        return this.abilityList[abilityName];
+        return this._abilityList[abilityName];
     };
     AbilityHandler.prototype.AddAbility = function (ability) {
-        this.abilityList[ability.Name] = ability;
+        this._abilityList[ability.Name] = ability;
     };
     AbilityHandler.prototype.Activate = function (abilityName) {
-        if(this.abilityList[abilityName] && !this.abilityList[abilityName].Active) {
-            this.abilityList[abilityName].Activate();
+        if(this._abilityList[abilityName] && !this._abilityList[abilityName].Active) {
+            this._abilityList[abilityName].Activate();
             return true;
         }
         return false;
     };
     AbilityHandler.prototype.Deactivate = function (abilityName) {
-        if(this.abilityList[abilityName] && this.abilityList[abilityName].Active) {
-            this.abilityList[abilityName].Deactivate();
+        if(this._abilityList[abilityName] && this._abilityList[abilityName].Active) {
+            this._abilityList[abilityName].Deactivate();
             return true;
         }
         return false;
@@ -32,7 +32,7 @@ var AbilityHandler = (function () {
     AbilityHandler.prototype.UpdateAbilities = function (aList) {
         for(var abilityName in aList) {
             var dataActive = aList[abilityName];
-            var myActive = this.abilityList[abilityName].Active;
+            var myActive = this._abilityList[abilityName].Active;
 
             if(dataActive && !myActive) {
                 this.Activate(abilityName);
@@ -44,8 +44,8 @@ var AbilityHandler = (function () {
         }
     };
     AbilityHandler.prototype.Update = function (now) {
-        for(var key in this.abilityList) {
-            this.abilityList[key].Update(now);
+        for(var key in this._abilityList) {
+            this._abilityList[key].Update(now);
         }
     };
     return AbilityHandler;

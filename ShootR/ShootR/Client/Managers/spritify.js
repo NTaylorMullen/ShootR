@@ -1,4 +1,3 @@
-
 var spritify = (function () {
     function spritify(options) {
         this.options = options;
