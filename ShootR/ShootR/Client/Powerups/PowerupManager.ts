@@ -2,18 +2,18 @@
 /// <reference path="../Utilities/GameTime.ts" />
 
 class PowerupManager {
-    public Powerups: any;
+    public Powerups: { [s: string]: Powerup; };
 
     constructor () {
         this.Powerups = {};
     }
 
-    public UpdatePowerups (powerupList: any[], gameTime: GameTime): void {
+    public UpdatePowerups (powerupList: Powerup[], gameTime: GameTime): void {
         var powerupsCount = powerupList.length;
 
         for (var i = 0; i < powerupsCount; i++) {
-            var currentPowerup = powerupList[i],
-                id = currentPowerup.ID;
+            var currentPowerup: any = powerupList[i],
+                id: string = currentPowerup.ID;
 
             var movementController = currentPowerup.MovementController;
 
