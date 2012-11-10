@@ -22,13 +22,12 @@ var ShipManager = (function () {
         this.MyShip.ID = this.myShipID;
         this.Ships[this.myShipID] = this.MyShip;
     };
-    ShipManager.prototype.RemoveShip = function (connectionID) {
-        this.Ships[connectionID].Destroy();
-        delete this.Ships[connectionID];
+    ShipManager.prototype.RemoveShip = function (shipID) {
+        this.Ships[shipID].Destroy();
+        delete this.Ships[shipID];
     };
     ShipManager.prototype.UpdateShips = function (shipList) {
-        var shipCount = shipList.length;
-        for(var i = 0; i < shipCount; i++) {
+        for(var i = 0; i < shipList.length; i++) {
             var currentShip = shipList[i];
             var id = currentShip.ID;
 

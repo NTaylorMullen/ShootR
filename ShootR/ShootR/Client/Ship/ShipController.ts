@@ -17,9 +17,9 @@ class ShipController extends Ship {
     public Level: number;
 
     private _lastShot: number;
-    private _keyMapping: any[] = [];
+    private _keyMapping: KeyMapping[];
     private _movementCount: number = 0;
-    private _touchController: any;
+    private _touchController: TouchController;
     private _commandList: any[][] = [];
     private _currentCommand: number = 0;
     private _lastPayloadReceivedAt: number;
@@ -28,13 +28,14 @@ class ShipController extends Ship {
     private _lastCommandStart: string;
     private _wasDead: bool = false;
 
-    constructor (rotateLeft: string[], forward: string[], rotateRight: string[], backward: string[], private fire: string, private connection: any) {
+    constructor (rotateLeft: string[], forward: string[], rotateRight: string[], backward: string[], private fire: string, private connection: any) {       
         super();
 
+        this._keyMapping = [];
         this._keyMapping.push({ key: rotateLeft, dir: "RotatingLeft" });
         this._keyMapping.push({ key: rotateRight, dir: "RotatingRight" });
         this._keyMapping.push({ key: forward, dir: "Forward" });
-        this._keyMapping.push({ key: backward, dir: "Backward" });
+        this._keyMapping.push({ key: backward, dir: "Backward" });        
 
         this.LifeController.Health = this.MaxLife;        
 
@@ -43,6 +44,7 @@ class ShipController extends Ship {
             X: false,
             Y: false
         };
+
         this.MovementController.Target = Vector2.Zero();
         this.MovementController.InterpolateOver = Vector2.Zero();
         this.MovementController.InterpolateRotationOver = 0;
@@ -50,9 +52,9 @@ class ShipController extends Ship {
         this.MovementController.TargetRotation = 0;
     }
 
-    private RegisterPayload(): void {
+    private registerPayload(): void {
         // Calculate how often we receive payloads so we can interpolate between them
-        var now = new Date().getTime();
+        var now: number = new Date().getTime();
         if (this._lastPayloadReceivedAt) {
             this._payloadsEvery = now - this._lastPayloadReceivedAt
         }
@@ -60,7 +62,7 @@ class ShipController extends Ship {
         this._lastPayloadReceivedAt = now;
     }
 
-    private CheckInterpolation(serverShip: any, axis: string, distance: any): void {
+    private checkInterpolation(serverShip: any, axis: string, distance: Vector2): void {
         if (distance[axis] > ShipMovementController.INTERPOLATE_POSITION_THRESHOLD) {
             this.MovementController.InterpolateOver[axis] = Math.max(this._payloadsEvery, 50);
             this.MovementController.Smoothing[axis] = true;
@@ -69,10 +71,10 @@ class ShipController extends Ship {
         }
     }
 
-    private CheckRotationInterpolation(serverShip: any): void {
-        var distance = Math.abs(this.MovementController.Rotation - serverShip.MovementController.Rotation);
+    private checkRotationInterpolation(serverShip: any): void {
+        var rotationDistance: number = Math.abs(this.MovementController.Rotation - serverShip.MovementController.Rotation);
 
-        if (distance > ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD) {
+        if (rotationDistance > ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD) {
             this.MovementController.InterpolateRotationOver = Math.max(this._payloadsEvery, 35);
             this.MovementController.SmoothingRotation = true;
             this.MovementController.TargetRotation = serverShip.MovementController.Rotation;
@@ -80,7 +82,7 @@ class ShipController extends Ship {
         }
     }
 
-    private DetermineInterpolation(serverShip: any): void {
+    private determineInterpolation(serverShip: any): void {
         if (this._payloadsEvery) {
             if (!this.LifeController.Alive) {
                 this.MovementController.Smoothing.X = false;
@@ -91,14 +93,14 @@ class ShipController extends Ship {
             if (!this._wasDead) {
                 if (this.TryInterpolate) {
                     super.Update(null);
-                    var distance = CalculateDistance(this.MovementController.Position, serverShip.MovementController.Position);
+                    var distance: Vector2 = CalculateDistance(this.MovementController.Position, serverShip.MovementController.Position);
 
-                    this.CheckInterpolation(serverShip, "X", distance);
-                    this.CheckInterpolation(serverShip, "Y", distance);
+                    this.checkInterpolation(serverShip, "X", distance);
+                    this.checkInterpolation(serverShip, "Y", distance);
                 }
 
                 if (this.TryInterpolateRotation) {
-                    this.CheckRotationInterpolation(serverShip);
+                    this.checkRotationInterpolation(serverShip);
                 }
             }
 
@@ -108,16 +110,16 @@ class ShipController extends Ship {
         }
     }
 
-    private DoubleTap(dir: string): bool {
+    private doubleTap(dir: string): bool {
         if (dir === "Forward") {
-            this.StartAbility("Boost");
+            this.startAbility("Boost");
             return true;
         }
 
         return false;
     }
 
-    private StartAbility(name: string): void {
+    private startAbility(name: string): void {
         if (this.Controllable.Value && this.ShipAbilityHandler.Activate(name) && this.LifeController.Alive) {           
             this._commandList.push([++this._currentCommand, name, true, true]);
             this.connection.server.registerAbilityStart(name, false, this._currentCommand);
@@ -126,9 +128,9 @@ class ShipController extends Ship {
         }
     }
 
-    private StopAbility(name: string): void {
+    private stopAbility(name: string): void {
         if (this.Controllable.Value && this.ShipAbilityHandler.Deactivate(name) && this.LifeController.Alive) {
-            var pingBack = false;
+            var pingBack: bool = false;
 
             this._commandList.push([++this._currentCommand, name, false, true]);
             this.connection.server.registerAbilityStop(name, false, this._currentCommand);
@@ -137,10 +139,10 @@ class ShipController extends Ship {
         }
     }
 
-    private StartMovement(dir: string): void {
+    private startMovement(dir: string): void {
         if (this.Controllable.Value && !this.MovementController.Moving[dir] && this.LifeController.Alive) {
-            var pingBack = false,
-                now = new Date().getTime();
+            var pingBack: bool = false,
+                now: number = new Date().getTime();
 
             this._movementCount = ++this._movementCount % ShipController.REQUEST_PING_EVERY;
 
@@ -150,10 +152,10 @@ class ShipController extends Ship {
                 this.LatencyResolver.RequestedPingBack();
             }
 
-            var successfulDoubleTap = false;
+            var successfulDoubleTap: bool = false;
             // Double tap
             if (now - this._lastCommandStartAt <= ShipController.DOUBLE_TAP_AFTER && this._lastCommandStart === dir) {
-                successfulDoubleTap = this.DoubleTap(dir);
+                successfulDoubleTap = this.doubleTap(dir);
             }
             
             if(!successfulDoubleTap) {
@@ -170,9 +172,9 @@ class ShipController extends Ship {
         }
     }
 
-    private StopMovement(dir: string): void {
+    private stopMovement(dir: string): void {
         if (this.Controllable.Value && this.LifeController.Alive) {
-            var pingBack = false;
+            var pingBack: bool = false;
             this._movementCount = ++this._movementCount % ShipController.REQUEST_PING_EVERY;
 
             // 0 Is when the counter loops over, aka hits max;
@@ -188,10 +190,10 @@ class ShipController extends Ship {
         }
     }
 
-    private StopAndStartMovement(toStop: string, toStart: string): void {
+    private stopAndStartMovement(toStop: string, toStart: string): void {
         if (this.Controllable.Value && this.LifeController.Alive) {
-            var pingBack = false,
-                now = new Date().getTime();
+            var pingBack: bool = false,
+                now: number = new Date().getTime();
 
             this._movementCount = ++this._movementCount % ShipController.REQUEST_PING_EVERY;
 
@@ -201,10 +203,10 @@ class ShipController extends Ship {
                 this.LatencyResolver.RequestedPingBack();
             }
 
-            var successfulDoubleTap = false;
+            var successfulDoubleTap: bool = false;
             // Double tap
             if (now - this._lastCommandStartAt <= ShipController.DOUBLE_TAP_AFTER && this._lastCommandStart === toStart) {
-                successfulDoubleTap = this.DoubleTap(toStart);
+                successfulDoubleTap = this.doubleTap(toStart);
             }
 
             if (!successfulDoubleTap) {
@@ -223,9 +225,9 @@ class ShipController extends Ship {
         }
     }
 
-    private ResetMovement(MovementList: string[]): void {
+    private resetMovement(MovementList: string[]): void {
         if (this.Controllable.Value && this.LifeController.Alive) {
-            var pingBack = false;
+            var pingBack: bool = false;
             this._movementCount = ++this._movementCount % ShipController.REQUEST_PING_EVERY;
 
             // 0 Is when the counter loops over, aka hits max;
@@ -254,24 +256,24 @@ class ShipController extends Ship {
         }
     }
 
-    private ApplyKeyboardMappings(): void {
-        var timeFirePressed,
-            singleFireMode = true,
-            autoFireTimeout,
-            that = this;
+    private applyKeyboardMappings(): void {
+        var timeFirePressed: number,
+            singleFireMode: bool = true,
+            autoFireTimeout: number,
+            that: ShipController = this;
 
         // Mapping each hot key to its corresponding movement direction
         for (var k = 0; k < this._keyMapping.length; k++) {
             for (var z = 0; z < this._keyMapping[k].key.length; z++) {
                 shortcut.add(that._keyMapping[k].key[z], (function (k) {
                     return function () {
-                        that.StartMovement(that._keyMapping[k].dir);
+                        that.startMovement(that._keyMapping[k].dir);
                     };
                 })(k), { 'disable_in_input': true, 'type': 'keydown' });
 
                 shortcut.add(that._keyMapping[k].key[z], (function (k) {
                     return function () {
-                        that.StopMovement(that._keyMapping[k].dir);
+                        that.stopMovement(that._keyMapping[k].dir);
                     };
                 })(k), { 'disable_in_input': true, 'type': 'keyup' });
             }
@@ -292,7 +294,7 @@ class ShipController extends Ship {
         },  { 'disable_in_input': true, 'type': 'keydown' });
 
         shortcut.add(this.fire, function () {
-            var timeFireReleased;
+            var timeFireReleased: number;
             
             clearTimeout(autoFireTimeout);
             timeFireReleased = new Date().getTime();
@@ -306,19 +308,19 @@ class ShipController extends Ship {
         }, { 'disable_in_input': true, 'type': 'keyup' });
 
         $(window).blur(function () {
-            that.ResetMovement(["Forward", "Backward", "RotatingLeft", "RotatingRight"]);
+            that.resetMovement(["Forward", "Backward", "RotatingLeft", "RotatingRight"]);
             that.connection.server.stopFire();
         });
     }
 
     public PayloadReceived (info: any): void {
-        this.RegisterPayload();
+        this.registerPayload();
 
         // Find my ship in the payload
         for (var i = 0; i < info.Ships.length; i++) {
             // Found my ship
             if (this.ID === info.Ships[i].ID) {
-                this.DetermineInterpolation(info.Ships[i]);
+                this.determineInterpolation(info.Ships[i]);
                 break;
             }
         }
@@ -326,7 +328,7 @@ class ShipController extends Ship {
 
     public ReplayCommands (serverCommand: number): void {
         if (this._commandList.length >= 1) {
-            var serverCommandIndex = this._commandList.length - (this._currentCommand - serverCommand);
+            var serverCommandIndex: number = this._commandList.length - (this._currentCommand - serverCommand);
 
             for (var i = serverCommandIndex; i < this._commandList.length; i++) {
                 if (this._commandList[i][3]) { // Checking if the command is an ability
@@ -346,14 +348,14 @@ class ShipController extends Ship {
         }
     }
 
-    public Initialize (screen: any): void {
+    public Initialize (screen: GameScreen): void {
         // Touch is enabled
         if ('createTouch' in document || navigator.msMaxTouchPoints) {
-            this._touchController = new TouchController(this.StartMovement, this.StopMovement, this.StopAndStartMovement, this.ResetMovement, this.shoot);
+            this._touchController = new TouchController(this.startMovement, this.stopMovement, this.stopAndStartMovement, this.resetMovement, this.shoot);
             this._touchController.Initialize(screen);
         }
 
-        this.ApplyKeyboardMappings();
+        this.applyKeyboardMappings();
     }
 
     public DrawHUD (): void {
@@ -367,4 +369,9 @@ class ShipController extends Ship {
             this._touchController.Reset();
         }
     }
+}
+
+interface KeyMapping {
+    key: string[];
+    dir: string;
 }

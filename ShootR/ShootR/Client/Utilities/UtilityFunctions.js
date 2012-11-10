@@ -1,8 +1,5 @@
-
 function CalculatePO(from, time) {
-    var diff = new Date();
-    diff.setTime(diff - from);
-    return (diff.getTime() / time);
+    return ((new Date().getTime() - from.getTime()) / time);
 }
 function CalculatePOS(from) {
     return CalculatePO(from, 1000);
@@ -11,10 +8,7 @@ function CalculateLength(A, B) {
     return Math.sqrt(Math.pow(A.X - B.X, 2) + Math.pow(A.Y - B.Y, 2));
 }
 function CalculateDistance(A, B) {
-    return {
-        X: Math.abs(B.X - A.X),
-        Y: Math.abs(B.Y - A.Y)
-    };
+    return new Vector2(Math.abs(B.X - A.X), Math.abs(B.Y - A.Y));
 }
 function CalculateAngle(A, B) {
     var deltas = Vector2.SubtractV(A, B);
@@ -27,22 +21,19 @@ function CalculateAngle(A, B) {
 }
 function StandardDeviation(arr) {
     var average = Average(arr);
-    var size = arr.length;
     var sum = 0;
 
-    for(var i = 0; i < size; i++) {
+    for(var i = 0; i < arr.length; i++) {
         sum += Math.pow(arr[i] - average, 2);
     }
-    return Math.sqrt(sum / (size - 1));
+    return Math.sqrt(sum / (arr.length - 1));
 }
 function Average(arr) {
     var sum = 0;
-    var size = arr.length;
-
-    for(var i = 0; i < size; i++) {
+    for(var i = 0; i < arr.length; i++) {
         sum += arr[i];
     }
-    return sum / size;
+    return sum / arr.length;
 }
 var delay = (function () {
     var timer = 0;
@@ -51,9 +42,6 @@ var delay = (function () {
         timer = setTimeout(callback, ms);
     }
 })();
-function HeightOffset(obj) {
-    return $(obj).height() + parseInt($(obj).css("margin-top")) + parseInt($(obj).css("margin-bottom"));
-}
 jQuery.fn.flash = function (color, duration) {
     this.stop(true);
     var current = this.css('backgroundColor');

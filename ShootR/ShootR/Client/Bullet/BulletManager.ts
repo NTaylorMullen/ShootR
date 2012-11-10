@@ -1,7 +1,7 @@
 ///<reference path="Bullet.ts" />
 
 class BulletManager {
-    public Bullets: { [s: string]: Bullet; };
+    public Bullets: { [s: any]: Bullet; };
 
     constructor () {
         this.Bullets = {};
@@ -10,7 +10,7 @@ class BulletManager {
     public UpdateBullets(bulletList: any[]): void {
         for (var i = 0; i < bulletList.length; i++) {
             var currentBullet: any = bulletList[i],
-            id: string = currentBullet.ID;
+            id: number = currentBullet.ID;
 
             var movementController: any = currentBullet.MovementController;
 

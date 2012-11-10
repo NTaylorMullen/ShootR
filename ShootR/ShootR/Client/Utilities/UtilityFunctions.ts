@@ -1,26 +1,25 @@
-declare var $, jQuery;
+/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../Utilities/Vector2.ts" />
 
-function CalculatePO(from, time) {
-    var diff = new Date();
-    diff.setTime(diff - from);
-    return (diff.getTime() / time);
+function CalculatePO(from: Date, time: number): number {
+    return ((new Date().getTime() - from.getTime()) / time);
 }
 
-function CalculatePOS(from) {
+function CalculatePOS(from: Date): number {
     return CalculatePO(from, 1000);
 }
 
-function CalculateLength(A, B) {
+function CalculateLength(A: Vector2, B: Vector2): number {
     return Math.sqrt(Math.pow(A.X - B.X, 2) + Math.pow(A.Y - B.Y, 2));
 }
 
-function CalculateDistance(A, B) {
-    return { X: Math.abs(B.X - A.X), Y: Math.abs(B.Y - A.Y) };
+function CalculateDistance(A: Vector2, B: Vector2): Vector2 {
+    return new Vector2(Math.abs(B.X - A.X), Math.abs(B.Y - A.Y));
 }
 
-function CalculateAngle(A, B) {
-    var deltas = Vector2.SubtractV(A, B),
-        angle = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
+function CalculateAngle(A: Vector2, B: Vector2): number {
+    var deltas: Vector2 = Vector2.SubtractV(A, B),
+        angle: number = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
 
     if (angle < 0) {
         angle += 360;
@@ -29,40 +28,35 @@ function CalculateAngle(A, B) {
     return angle;
 }
 
-function StandardDeviation(arr) {
-    var average = Average(arr),
-        size = arr.length,
-        sum = 0;
+function StandardDeviation(arr: number[]): number {
+    var average: number = Average(arr),
+        sum: number = 0;
 
-    for (var i = 0; i < size; i++) {
+    for (var i = 0; i < arr.length; i++) {
         sum += Math.pow(arr[i] - average, 2);
     }
 
-    return Math.sqrt(sum / (size - 1));
+    return Math.sqrt(sum / (arr.length - 1));
 }
 
-function Average(arr) {
-    var sum = 0, size = arr.length;
-    for (var i = 0; i < size; i++) {
+function Average(arr: number[]): number {
+    var sum: number = 0;
+    for (var i = 0; i < arr.length; i++) {
         sum += arr[i];
     }
 
-    return sum / size;
+    return sum / arr.length;
 }
 
 var delay = (function () {
-    var timer = 0;
-    return function (callback, ms) {
+    var timer: number = 0;
+    return function (callback: Function, ms: number) {
         clearTimeout(timer);
         timer = setTimeout(callback, ms);
     };
 })();
 
-function HeightOffset(obj) {
-    return $(obj).height() + parseInt($(obj).css("margin-top")) + parseInt($(obj).css("margin-bottom"));
-}
-
-jQuery.fn.flash = function (color, duration) {
+jQuery.fn.flash = function (color: string, duration: number) {
     this.stop(true);
     var current = this.css('backgroundColor');
     this.animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2)

@@ -11,11 +11,11 @@ var ShipController = (function (_super) {
         this.connection = connection;
         this.TryInterpolate = true;
         this.TryInterpolateRotation = false;
-        this._keyMapping = [];
         this._movementCount = 0;
         this._commandList = [];
         this._currentCommand = 0;
         this._wasDead = false;
+        this._keyMapping = [];
         this._keyMapping.push({
             key: rotateLeft,
             dir: "RotatingLeft"
@@ -45,14 +45,14 @@ var ShipController = (function (_super) {
     }
     ShipController.REQUEST_PING_EVERY = 5;
     ShipController.DOUBLE_TAP_AFTER = 175;
-    ShipController.prototype.RegisterPayload = function () {
+    ShipController.prototype.registerPayload = function () {
         var now = new Date().getTime();
         if(this._lastPayloadReceivedAt) {
             this._payloadsEvery = now - this._lastPayloadReceivedAt;
         }
         this._lastPayloadReceivedAt = now;
     };
-    ShipController.prototype.CheckInterpolation = function (serverShip, axis, distance) {
+    ShipController.prototype.checkInterpolation = function (serverShip, axis, distance) {
         if(distance[axis] > ShipMovementController.INTERPOLATE_POSITION_THRESHOLD) {
             this.MovementController.InterpolateOver[axis] = Math.max(this._payloadsEvery, 50);
             this.MovementController.Smoothing[axis] = true;
@@ -60,16 +60,16 @@ var ShipController = (function (_super) {
             serverShip.MovementController.Position[axis] = this.MovementController.Position[axis];
         }
     };
-    ShipController.prototype.CheckRotationInterpolation = function (serverShip) {
-        var distance = Math.abs(this.MovementController.Rotation - serverShip.MovementController.Rotation);
-        if(distance > ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD) {
+    ShipController.prototype.checkRotationInterpolation = function (serverShip) {
+        var rotationDistance = Math.abs(this.MovementController.Rotation - serverShip.MovementController.Rotation);
+        if(rotationDistance > ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD) {
             this.MovementController.InterpolateRotationOver = Math.max(this._payloadsEvery, 35);
             this.MovementController.SmoothingRotation = true;
             this.MovementController.TargetRotation = serverShip.MovementController.Rotation;
             serverShip.MovementController.Rotation = this.MovementController.Rotation;
         }
     };
-    ShipController.prototype.DetermineInterpolation = function (serverShip) {
+    ShipController.prototype.determineInterpolation = function (serverShip) {
         if(this._payloadsEvery) {
             if(!this.LifeController.Alive) {
                 this.MovementController.Smoothing.X = false;
@@ -80,11 +80,11 @@ var ShipController = (function (_super) {
                 if(this.TryInterpolate) {
                     _super.prototype.Update.call(this, null);
                     var distance = CalculateDistance(this.MovementController.Position, serverShip.MovementController.Position);
-                    this.CheckInterpolation(serverShip, "X", distance);
-                    this.CheckInterpolation(serverShip, "Y", distance);
+                    this.checkInterpolation(serverShip, "X", distance);
+                    this.checkInterpolation(serverShip, "Y", distance);
                 }
                 if(this.TryInterpolateRotation) {
-                    this.CheckRotationInterpolation(serverShip);
+                    this.checkRotationInterpolation(serverShip);
                 }
             }
             if(this.LifeController.Alive) {
@@ -92,14 +92,14 @@ var ShipController = (function (_super) {
             }
         }
     };
-    ShipController.prototype.DoubleTap = function (dir) {
+    ShipController.prototype.doubleTap = function (dir) {
         if(dir === "Forward") {
-            this.StartAbility("Boost");
+            this.startAbility("Boost");
             return true;
         }
         return false;
     };
-    ShipController.prototype.StartAbility = function (name) {
+    ShipController.prototype.startAbility = function (name) {
         if(this.Controllable.Value && this.ShipAbilityHandler.Activate(name) && this.LifeController.Alive) {
             this._commandList.push([
                 ++this._currentCommand, 
@@ -111,7 +111,7 @@ var ShipController = (function (_super) {
             this.UpdateFromSecond(CalculatePOS(this.LastUpdated));
         }
     };
-    ShipController.prototype.StopAbility = function (name) {
+    ShipController.prototype.stopAbility = function (name) {
         if(this.Controllable.Value && this.ShipAbilityHandler.Deactivate(name) && this.LifeController.Alive) {
             var pingBack = false;
             this._commandList.push([
@@ -124,7 +124,7 @@ var ShipController = (function (_super) {
             this.UpdateFromSecond(CalculatePOS(this.LastUpdated));
         }
     };
-    ShipController.prototype.StartMovement = function (dir) {
+    ShipController.prototype.startMovement = function (dir) {
         if(this.Controllable.Value && !this.MovementController.Moving[dir] && this.LifeController.Alive) {
             var pingBack = false;
             var now = new Date().getTime();
@@ -136,7 +136,7 @@ var ShipController = (function (_super) {
             }
             var successfulDoubleTap = false;
             if(now - this._lastCommandStartAt <= ShipController.DOUBLE_TAP_AFTER && this._lastCommandStart === dir) {
-                successfulDoubleTap = this.DoubleTap(dir);
+                successfulDoubleTap = this.doubleTap(dir);
             }
             if(!successfulDoubleTap) {
                 this._lastCommandStartAt = now;
@@ -152,7 +152,7 @@ var ShipController = (function (_super) {
             this.MovementController.Moving[dir] = true;
         }
     };
-    ShipController.prototype.StopMovement = function (dir) {
+    ShipController.prototype.stopMovement = function (dir) {
         if(this.Controllable.Value && this.LifeController.Alive) {
             var pingBack = false;
             this._movementCount = ++this._movementCount % ShipController.REQUEST_PING_EVERY;
@@ -170,7 +170,7 @@ var ShipController = (function (_super) {
             this.MovementController.Moving[dir] = false;
         }
     };
-    ShipController.prototype.StopAndStartMovement = function (toStop, toStart) {
+    ShipController.prototype.stopAndStartMovement = function (toStop, toStart) {
         if(this.Controllable.Value && this.LifeController.Alive) {
             var pingBack = false;
             var now = new Date().getTime();
@@ -182,7 +182,7 @@ var ShipController = (function (_super) {
             }
             var successfulDoubleTap = false;
             if(now - this._lastCommandStartAt <= ShipController.DOUBLE_TAP_AFTER && this._lastCommandStart === toStart) {
-                successfulDoubleTap = this.DoubleTap(toStart);
+                successfulDoubleTap = this.doubleTap(toStart);
             }
             if(!successfulDoubleTap) {
                 this._lastCommandStartAt = now;
@@ -204,7 +204,7 @@ var ShipController = (function (_super) {
             }
         }
     };
-    ShipController.prototype.ResetMovement = function (MovementList) {
+    ShipController.prototype.resetMovement = function (MovementList) {
         if(this.Controllable.Value && this.LifeController.Alive) {
             var pingBack = false;
             this._movementCount = ++this._movementCount % ShipController.REQUEST_PING_EVERY;
@@ -230,7 +230,7 @@ var ShipController = (function (_super) {
             this.connection.server.fire();
         }
     };
-    ShipController.prototype.ApplyKeyboardMappings = function () {
+    ShipController.prototype.applyKeyboardMappings = function () {
         var timeFirePressed;
         var singleFireMode = true;
         var autoFireTimeout;
@@ -240,7 +240,7 @@ var ShipController = (function (_super) {
             for(var z = 0; z < this._keyMapping[k].key.length; z++) {
                 shortcut.add(that._keyMapping[k].key[z], (function (k) {
                     return function () {
-                        that.StartMovement(that._keyMapping[k].dir);
+                        that.startMovement(that._keyMapping[k].dir);
                     }
                 })(k), {
                     'disable_in_input': true,
@@ -248,7 +248,7 @@ var ShipController = (function (_super) {
                 });
                 shortcut.add(that._keyMapping[k].key[z], (function (k) {
                     return function () {
-                        that.StopMovement(that._keyMapping[k].dir);
+                        that.stopMovement(that._keyMapping[k].dir);
                     }
                 })(k), {
                     'disable_in_input': true,
@@ -285,7 +285,7 @@ var ShipController = (function (_super) {
             'type': 'keyup'
         });
         $(window).blur(function () {
-            that.ResetMovement([
+            that.resetMovement([
                 "Forward", 
                 "Backward", 
                 "RotatingLeft", 
@@ -295,10 +295,10 @@ var ShipController = (function (_super) {
         });
     };
     ShipController.prototype.PayloadReceived = function (info) {
-        this.RegisterPayload();
+        this.registerPayload();
         for(var i = 0; i < info.Ships.length; i++) {
             if(this.ID === info.Ships[i].ID) {
-                this.DetermineInterpolation(info.Ships[i]);
+                this.determineInterpolation(info.Ships[i]);
                 break;
             }
         }
@@ -322,10 +322,10 @@ var ShipController = (function (_super) {
     };
     ShipController.prototype.Initialize = function (screen) {
         if('createTouch' in document || navigator.msMaxTouchPoints) {
-            this._touchController = new TouchController(this.StartMovement, this.StopMovement, this.StopAndStartMovement, this.ResetMovement, this.shoot);
+            this._touchController = new TouchController(this.startMovement, this.stopMovement, this.stopAndStartMovement, this.resetMovement, this.shoot);
             this._touchController.Initialize(screen);
         }
-        this.ApplyKeyboardMappings();
+        this.applyKeyboardMappings();
     };
     ShipController.prototype.DrawHUD = function () {
         if(this._touchController) {

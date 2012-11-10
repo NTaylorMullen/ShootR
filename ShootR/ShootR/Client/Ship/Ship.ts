@@ -17,6 +17,7 @@ class Ship extends Collidable {
     static MIN_FIRE_RATE: number;
     static START_LIFE: number;
     static DAMAGE_INCREASE_RATE: number;
+
     public ID: number;
     public Name: string;
     public MaxLife: number;
@@ -64,13 +65,13 @@ class Ship extends Collidable {
         this.Visible = false;
     }
 
-    public Update(gameTime): void {
-        var PercentOfSecond = CalculatePOS(this.LastUpdated);
+    public Update(gameTime?: GameTime): void {
+        var PercentOfSecond: number = CalculatePOS(this.LastUpdated);
         this.UpdateFromSecond(PercentOfSecond);
     }
 
     public UpdateFromSecond(PercentOfSecond: number): void {
-        var now = new Date();
+        var now: Date = new Date();
 
         this.MovementController.Update(PercentOfSecond, now);
         this.AnimationHandler.Update(now);

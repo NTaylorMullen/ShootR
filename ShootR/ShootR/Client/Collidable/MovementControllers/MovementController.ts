@@ -9,7 +9,6 @@ class MovementController {
     public Forces: Vector2;
     public Rotation: number;
     public LastUpdated: Date;
-    public Moving: { [s: string]: bool; };
 
     constructor (first: any, second: number, third?: number) {
         // (position, mass, power)
@@ -28,7 +27,6 @@ class MovementController {
         this.Forces = Vector2.Zero();
         this.Rotation = 0;
         this.LastUpdated = new Date();
-        this.Moving = {};
     }
 
     public ApplyForce(force: Vector2): void {

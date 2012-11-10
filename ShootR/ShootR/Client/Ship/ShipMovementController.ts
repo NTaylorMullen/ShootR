@@ -2,6 +2,13 @@
 /// <reference path="../Utilities/Vector2.ts" />
 /// <reference path="../Utilities/UtilityFunctions.ts" />
 
+interface IMoving {
+    Forward: bool;
+    Backward: bool;
+    RotatingLeft: bool;
+    RotatingRight: bool;
+}
+
 class ShipMovementController extends MovementController {
     static MASS: number = 0;
     static ENGINE_POWER: number = 0;
@@ -20,16 +27,24 @@ class ShipMovementController extends MovementController {
     public InterpolateRotationOver: number;
     public SmoothingRotation: bool;
     public TargetRotation: number;
+    public Moving: IMoving;
 
     constructor (position: Vector2) {
         super(ShipMovementController.MASS, ShipMovementController.ENGINE_POWER);
 
         this._acceleration = Vector2.Zero();
+        
+        this.Moving = {
+            Forward: false,
+            Backward: false,
+            RotatingLeft: false,
+            RotatingRight: false
+        };
 
         this.StopMovement();
     }
 
-    private Interpolate(axis: string, ClientPositionPrediction: Vector2): void {
+    private interpolate(axis: string, ClientPositionPrediction: Vector2): void {
         if (this.Smoothing[axis]) {
             var InterpolationPercent = CalculatePO(this.LastUpdated, this.InterpolateOver[axis]);
 
@@ -44,7 +59,7 @@ class ShipMovementController extends MovementController {
         }
     }
 
-    private InterpolateRotation(RotationIncrementor): void {
+    private interpolateRotation(RotationIncrementor: number): void {
         if (this.SmoothingRotation) {
             var InterpolationPercent = CalculatePO(this.LastUpdated, this.InterpolateRotationOver);
 
@@ -59,16 +74,16 @@ class ShipMovementController extends MovementController {
         }
     }
 
-    private TryInterpolation(ClientPositionPrediction): void {
+    private tryInterpolation(ClientPositionPrediction: Vector2): void {
         if (this.InterpolateOver) {
-            this.Interpolate("X", ClientPositionPrediction);
-            this.Interpolate("Y", ClientPositionPrediction);
+            this.interpolate("X", ClientPositionPrediction);
+            this.interpolate("Y", ClientPositionPrediction);
         }
     }
 
-    private TryInterpolationRotation(RotationIncrementor): void {
+    private tryInterpolationRotation(RotationIncrementor: number): void {
         if (this.InterpolateRotationOver) {
-            this.InterpolateRotation(RotationIncrementor);
+            this.interpolateRotation(RotationIncrementor);
         }
     }
 
@@ -79,9 +94,9 @@ class ShipMovementController extends MovementController {
     }
 
     public Move(percentOfSecond: number, now: Date): void {
-        var velocityLength,
-            clientPositionPrediction = Vector2.Zero(),
-            nowMilliseconds = now.getTime();
+        var velocityLength: number,
+            clientPositionPrediction: Vector2 = Vector2.Zero(),
+            nowMilliseconds: number = now.getTime();
 
         this._acceleration = Vector2.DivideVByN(this.Forces, this.Mass);
 
@@ -89,7 +104,7 @@ class ShipMovementController extends MovementController {
 
         this.Position.AddV(clientPositionPrediction);
 
-        this.TryInterpolation(clientPositionPrediction);
+        this.tryInterpolation(clientPositionPrediction);
 
         this.Velocity.AddV(Vector2.MultiplyN(this._acceleration, percentOfSecond));
         velocityLength = this.Velocity.Length();
@@ -106,9 +121,9 @@ class ShipMovementController extends MovementController {
         this._acceleration.ZeroOut();
         this.Forces.ZeroOut();
 
-        var rotationIncrementor = percentOfSecond * ShipMovementController.ROTATE_SPEED,
-            direction = new Vector2(this.Rotation, false),
-            dragForce = Vector2.MultiplyN(Vector2.MultiplyV(Vector2.MultiplyN(this.Velocity, .5), this.Velocity.Abs()), ShipMovementController.DRAG_COEFFICIENT * ShipMovementController.DRAG_AREA * -1);
+        var rotationIncrementor: number = percentOfSecond * ShipMovementController.ROTATE_SPEED,
+            direction: Vector2 = new Vector2(this.Rotation, false),
+            dragForce: Vector2 = Vector2.MultiplyN(Vector2.MultiplyV(Vector2.MultiplyN(this.Velocity, .5), this.Velocity.Abs()), ShipMovementController.DRAG_COEFFICIENT * ShipMovementController.DRAG_AREA * -1);
 
         if (this.Moving.RotatingLeft) {
             this.Rotation -= rotationIncrementor;
@@ -131,7 +146,7 @@ class ShipMovementController extends MovementController {
         super.Update(percentOfSecond, now);
     }
 
-    public UpdateMovementController(data): void {
+    public UpdateMovementController(data: any): void {
         for (var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
             this.Moving[ShipMovementController.MOVING_DIRECTIONS[i]] = data.Moving[ShipMovementController.MOVING_DIRECTIONS[i]];
         }

@@ -72,10 +72,10 @@ class ShipAnimationHandler {
     }
 
     public DrawDamage(): void {
-        var healthDiff = this._lastHealth - this.MyShip.LifeController.Health;
+        var healthDiff: number = this._lastHealth - this.MyShip.LifeController.Health;
         if (healthDiff !== 0) { // If the health has changed
             this._lastHealth = this.MyShip.LifeController.Health;
-            var damageImage = (Math.floor((1 - (this.MyShip.LifeController.Health / this.MyShip.MaxLife)) * 10)) - 2;
+            var damageImage: number = (Math.floor((1 - (this.MyShip.LifeController.Health / this.MyShip.MaxLife)) * 10)) - 2;
 
             if (damageImage > 0 && damageImage < 8) {
                 // We've gained life, need to clear canvas and re-apply all pre-existing images
@@ -101,7 +101,7 @@ class ShipAnimationHandler {
     }
 
     public Update (now: Date): void {
-        var nowMilliseconds = now.getTime();
+        var nowMilliseconds: number = now.getTime();
 
         if (!this.MyShip.ShipAbilityHandler.Ability("Boost").Active) {
             this._boostAnimation.Stop(true);

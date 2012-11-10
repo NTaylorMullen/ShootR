@@ -8,6 +8,12 @@ var ShipMovementController = (function (_super) {
     function ShipMovementController(position) {
         _super.call(this, ShipMovementController.MASS, ShipMovementController.ENGINE_POWER);
         this._acceleration = Vector2.Zero();
+        this.Moving = {
+            Forward: false,
+            Backward: false,
+            RotatingLeft: false,
+            RotatingRight: false
+        };
         this.StopMovement();
     }
     ShipMovementController.MASS = 0;
@@ -23,7 +29,7 @@ var ShipMovementController = (function (_super) {
     ];
     ShipMovementController.INTERPOLATE_POSITION_THRESHOLD = 10;
     ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD = 15;
-    ShipMovementController.prototype.Interpolate = function (axis, ClientPositionPrediction) {
+    ShipMovementController.prototype.interpolate = function (axis, ClientPositionPrediction) {
         if(this.Smoothing[axis]) {
             var InterpolationPercent = CalculatePO(this.LastUpdated, this.InterpolateOver[axis]);
             this.Target[axis] += ClientPositionPrediction[axis];
@@ -34,7 +40,7 @@ var ShipMovementController = (function (_super) {
             }
         }
     };
-    ShipMovementController.prototype.InterpolateRotation = function (RotationIncrementor) {
+    ShipMovementController.prototype.interpolateRotation = function (RotationIncrementor) {
         if(this.SmoothingRotation) {
             var InterpolationPercent = CalculatePO(this.LastUpdated, this.InterpolateRotationOver);
             this.TargetRotation += RotationIncrementor;
@@ -45,15 +51,15 @@ var ShipMovementController = (function (_super) {
             }
         }
     };
-    ShipMovementController.prototype.TryInterpolation = function (ClientPositionPrediction) {
+    ShipMovementController.prototype.tryInterpolation = function (ClientPositionPrediction) {
         if(this.InterpolateOver) {
-            this.Interpolate("X", ClientPositionPrediction);
-            this.Interpolate("Y", ClientPositionPrediction);
+            this.interpolate("X", ClientPositionPrediction);
+            this.interpolate("Y", ClientPositionPrediction);
         }
     };
-    ShipMovementController.prototype.TryInterpolationRotation = function (RotationIncrementor) {
+    ShipMovementController.prototype.tryInterpolationRotation = function (RotationIncrementor) {
         if(this.InterpolateRotationOver) {
-            this.InterpolateRotation(RotationIncrementor);
+            this.interpolateRotation(RotationIncrementor);
         }
     };
     ShipMovementController.prototype.StopMovement = function () {
@@ -69,7 +75,7 @@ var ShipMovementController = (function (_super) {
         this._acceleration = Vector2.DivideVByN(this.Forces, this.Mass);
         clientPositionPrediction = Vector2.AddV(Vector2.MultiplyN(this.Velocity, percentOfSecond), Vector2.MultiplyN(this._acceleration, percentOfSecond * percentOfSecond));
         this.Position.AddV(clientPositionPrediction);
-        this.TryInterpolation(clientPositionPrediction);
+        this.tryInterpolation(clientPositionPrediction);
         this.Velocity.AddV(Vector2.MultiplyN(this._acceleration, percentOfSecond));
         velocityLength = this.Velocity.Length();
         if(velocityLength < 10) {

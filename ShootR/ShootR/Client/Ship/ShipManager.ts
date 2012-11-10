@@ -2,7 +2,7 @@
 
 class ShipManager {
     public DrawDetails: bool;
-    public Ships: any;
+    public Ships: { [s: any]: Ship; };
     public MyShip: ShipController;
 
     constructor (private myShipID: number) {
@@ -16,17 +16,15 @@ class ShipManager {
         this.Ships[this.myShipID] = this.MyShip;
     }
 
-    public RemoveShip (connectionID: string): void {
-        this.Ships[connectionID].Destroy();
-        delete this.Ships[connectionID];
+    public RemoveShip (shipID: number): void {
+        this.Ships[shipID].Destroy();
+        delete this.Ships[shipID];
     }
 
     public UpdateShips (shipList: any[]): void {
-        var shipCount = shipList.length;
-
-        for (var i = 0; i < shipCount; i++) {
-            var currentShip = shipList[i],
-                id = currentShip.ID;
+        for (var i = 0; i < shipList.length; i++) {
+            var currentShip: any = shipList[i],
+                id: number = currentShip.ID;
 
             currentShip.Visible = true;
             var shipImage = Math.min(currentShip.Level, 13);

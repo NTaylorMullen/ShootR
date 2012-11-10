@@ -357,6 +357,9 @@
     <Content Include="Client\Powerups\PowerupManager.js">
       <DependentUpon>PowerupManager.ts</DependentUpon>
     </Content>
+    <Content Include="Client\Powerups\PowerupManager.min.js">
+      <DependentUpon>PowerupManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Ship\Ship.js">
       <DependentUpon>Ship.ts</DependentUpon>
     </Content>
@@ -742,6 +745,9 @@
     </Content>
     <Content Include="Scripts\jquery-ui-1.9.0.min.js" />
     <Content Include="Scripts\jquery.animate-colors-min.js" />
+    <Content Include="Scripts\jquery.d.min.js">
+      <DependentUpon>jquery.d.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery.signalR-1.0.0.js" />
     <TypeScriptCompile Include="Scripts\jquery.d.ts" />
     <Content Include="Scripts\shortcut.js" />
