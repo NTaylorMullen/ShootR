@@ -22,7 +22,7 @@ var ExperienceMonitor = (function () {
                 this._myShip.ResetTouchController();
                 this._experienceBar.css('width', '0%');
                 this._popupHolder.css("display", "block");
-                this._currentLevelNotification.html(this._myShip.Level);
+                this._currentLevelNotification.html(this._myShip.Level.toString());
                 this._levelNotification.animate({
                     top: 0
                 }, 1000).delay(3000).animate({
@@ -57,7 +57,7 @@ var ExperienceMonitor = (function () {
             this._lastLevel = this._myShip.Level;
             this._lastExperience = this._myShip.Experience;
             this._lastExperienceToNextLevel = this._myShip.ExperienceToNextLevel;
-            this._currentLevel.html(this._myShip.Level);
+            this._currentLevel.html(this._myShip.Level.toString());
         }
     };
     return ExperienceMonitor;

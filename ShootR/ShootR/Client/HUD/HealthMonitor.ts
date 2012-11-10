@@ -8,14 +8,14 @@ class HealthMonitor {
 
     private _maxHealth: number = Ship.START_LIFE;
     private _lastHealth: number;
-    private _currentHealthBar: any = $("#Health");
-    private _currentHealthHeart: any = $("#HealthHeart");
-    private _whiteHeartIndicator: any = $("#WhiteHealthHeart");
-    private _healthHolder: any = $("#HealthHolder");
-    private _healthText: any = $("#HealthText");
-    private _gameWrapper: any = $("#gameWrapper");
+    private _currentHealthBar: JQuery = $("#Health");
+    private _currentHealthHeart: JQuery = $("#HealthHeart");
+    private _whiteHeartIndicator: JQuery = $("#WhiteHealthHeart");
+    private _healthHolder: JQuery = $("#HealthHolder");
+    private _healthText: JQuery = $("#HealthText");
+    private _gameWrapper: JQuery = $("#gameWrapper");
     private _halfHeartWidth: number;
-    private _whiteHeartVisible:bool = true;
+    private _whiteHeartVisible: bool = true;
 
     constructor (private _myShip: ShipController) {
         this._lastHealth = this._myShip.LifeController.Health;
@@ -61,10 +61,10 @@ class HealthMonitor {
             this._currentHealthBar.stop(true);
             this._currentHealthHeart.stop(true);
 
-            var lifePercentage = (this._lastHealth / this._maxHealth),
-                holderWidth = this._healthHolder.width(),
-                heartLeft = Math.min(Math.max((holderWidth * lifePercentage) - this._halfHeartWidth, 0), holderWidth - 2 * this._halfHeartWidth),
-                barColor;
+            var lifePercentage: number = (this._lastHealth / this._maxHealth),
+            holderWidth: number = this._healthHolder.width(),
+            heartLeft: number = Math.min(Math.max((holderWidth * lifePercentage) - this._halfHeartWidth, 0), holderWidth - 2 * this._halfHeartWidth),
+            barColor: string;
 
             this._currentHealthHeart.removeClass("good hurt bad")
             if (lifePercentage <= HealthMonitor.BadThreshold) {

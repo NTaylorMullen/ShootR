@@ -19,7 +19,7 @@ var MyRankings = (function () {
             }
             this._myPosition = newPosition;
             this._lastOutOf = outOf;
-            this._globalRanking.html(this._myPosition);
+            this._globalRanking.html(this._myPosition.toString());
             this._globalRankingLB.html(this._myPosition + " of " + outOf);
         }
     };
@@ -32,7 +32,7 @@ var MyRankings = (function () {
                 }, 500).animate({
                     color: "#FFFFFF"
                 }, 500);
-                this._killsEle.html(kills);
+                this._killsEle.html(kills.toString());
             }
             if(deaths != this._lastDeaths) {
                 this._deathsEle.stop(true);
@@ -41,7 +41,7 @@ var MyRankings = (function () {
                 }, 500).animate({
                     color: "#FFFFFF"
                 }, 500);
-                this._deathsEle.html(deaths);
+                this._deathsEle.html(deaths.toString());
             }
             var finalRatio;
             if(deaths === 0 && kills !== 0) {

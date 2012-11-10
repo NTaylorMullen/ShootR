@@ -22,11 +22,11 @@ class HUDManager {
     public NotificationManager: NotificationManager;
     public AreaRenderer: AreaRenderer;
 
-    private _gameHUD: any = $("#gameHUD");
-    private _doublePopupHolder: any = $("#doublePopupHolder");
+    private _gameHUD: JQuery = $("#gameHUD");
+    private _doublePopupHolder: JQuery = $("#doublePopupHolder");
     private _gameHUDHeight: number;
-    private _locationStats: any = $("#LocationStatisticsHolder");
-    private _shipStats: any = $("#StatisticHolder");
+    private _locationStats: JQuery = $("#LocationStatisticsHolder");
+    private _shipStats: JQuery = $("#StatisticHolder");
 
     constructor (public MyShip: ShipController, private _connection: any) {
         this.GameDetailManager;
@@ -77,7 +77,7 @@ class HUDManager {
         }
     }
 
-    public Initialize (config: any) {
+    public Initialize () {
         this.GameDetailManager = new GameDetailManager();
     }
 

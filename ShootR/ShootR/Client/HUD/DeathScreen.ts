@@ -1,20 +1,19 @@
 /// <reference path="Leaderboard.ts" />
-
-declare var $;
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class DeathScreen {
     static RESPAWN_TIMER: number;
 
     private _randomQuotes: string[][];
-    private _gameCanvas = $("#game");
-    private _fadeIns = $("#HUDBarCover, #GameCover, #popUpHolder");
-    private _respawnTime = $("#RespawnTime");
-    private _killedByName = $("#KilledByNameSmall, #KilledByNameLarge");
-    private _killedByPhoto = $("#KilledByPhotoSmall, #KilledByPhotoLarge");
-    private _doublePopupHolder = $("#doublePopupHolder");
-    private _popupWindows = $("#leaderboardHolder, #deathScreenHolder");
-    private _topLineQuote = $("#topLineQuote");
-    private _botLineQuote = $("#botLineQuote");
+    private _gameCanvas: JQuery = $("#game");
+    private _fadeIns: JQuery = $("#HUDBarCover, #GameCover, #popUpHolder");
+    private _respawnTime: JQuery = $("#RespawnTime");
+    private _killedByName: JQuery = $("#KilledByNameSmall, #KilledByNameLarge");
+    private _killedByPhoto: JQuery = $("#KilledByPhotoSmall, #KilledByPhotoLarge");
+    private _doublePopupHolder: JQuery = $("#doublePopupHolder");
+    private _popupWindows: JQuery = $("#leaderboardHolder, #deathScreenHolder");
+    private _topLineQuote: JQuery = $("#topLineQuote");
+    private _botLineQuote: JQuery = $("#botLineQuote");
 
     constructor (private _leaderboard: Leaderboard, private _myShip: ShipController) {
         this._randomQuotes = [
@@ -32,12 +31,12 @@ class DeathScreen {
             ["YOU'RE GOOD...", "BUT I'M BETTER."],
             ["TOO SLOW...", "MY GRAMAH DRIVES FASTER THAN THAT!"],
             ["TOASTERS...", "BLAME THE TOASTERS!"],
-            ["=(",""]
+            ["=(", ""]
         ];
-    }   
-        
-    public YouDied (by: string, byPhoto: string) {
-        var quote = Math.floor(Math.random() * this._randomQuotes.length);
+    }
+
+    public YouDied(by: string, byPhoto: string): void {
+        var quote: number = Math.floor(Math.random() * this._randomQuotes.length);
 
         this._myShip.ResetTouchController();
 
@@ -53,13 +52,13 @@ class DeathScreen {
         this._popupWindows.addClass("goLeft");
 
         this._fadeIns.fadeIn(1000);
+        this._respawnTime
+        this._respawnTime.html(DeathScreen.RESPAWN_TIMER.toString());
 
-        this._respawnTime.html(DeathScreen.RESPAWN_TIMER);
-
-        var that = this;
+        var that: DeathScreen = this;
         var interval = setInterval(function () {
-            var left = parseInt(that._respawnTime.html()) - 1;
-            that._respawnTime.html(left);
+            var left: number = parseInt(that._respawnTime.html()) - 1;
+            that._respawnTime.html(left.toString());
 
             if (left === 0) {
                 clearInterval(interval);

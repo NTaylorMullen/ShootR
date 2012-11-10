@@ -1,8 +1,7 @@
 /// <reference path="../Boost.ts" />
 /// <reference path="AbilityHandler.ts" />
 /// <reference path="../../Ship/Ship.ts" />
-
-declare var $;
+/// <reference path="../../../Scripts/jquery.d.ts" />
 
 class ShipAbilityHandler extends AbilityHandler {
     private boost: Boost;

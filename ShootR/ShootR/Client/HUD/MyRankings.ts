@@ -1,12 +1,12 @@
-﻿declare var $;
+﻿/// <reference path="../../Scripts/jquery.d.ts" />
 
 class MyRankings {
     private _myPosition: number = 0; // Initially set to a very high value so we flash green on leaderboard position first update
-    private _globalRanking: any = $("#GlobalRanking");
-    private _globalRankingLB: any = $("#GlobalRankingLB");
-    private _killsEle: any = $("#Kills");
-    private _deathsEle: any = $("#Deaths");
-    private _kdRatioEle: any = $("#KDRatio");
+    private _globalRanking: JQuery = $("#GlobalRanking");
+    private _globalRankingLB: JQuery = $("#GlobalRankingLB");
+    private _killsEle: JQuery = $("#Kills");
+    private _deathsEle: JQuery = $("#Deaths");
+    private _kdRatioEle: JQuery = $("#KDRatio");
     private _lastKills: number;
     private _lastDeaths: number;
     private _lastOutOf: number;
@@ -24,7 +24,7 @@ class MyRankings {
             this._myPosition = newPosition;
             this._lastOutOf = outOf;
 
-            this._globalRanking.html(this._myPosition);
+            this._globalRanking.html(this._myPosition.toString());
             this._globalRankingLB.html(this._myPosition + " of " + outOf);
         }
     }
@@ -35,16 +35,16 @@ class MyRankings {
             if (kills != this._lastKills) {
                 this._killsEle.stop(true);
                 this._killsEle.animate({ color: "#7F7F7F" }, 500).animate({ color: "#FFFFFF" }, 500);
-                this._killsEle.html(kills);
+                this._killsEle.html(kills.toString());
             }
 
             if (deaths != this._lastDeaths) {
                 this._deathsEle.stop(true);
                 this._deathsEle.animate({ color: "#7F7F7F" }, 500).animate({ color: "#FFFFFF" }, 500);
-                this._deathsEle.html(deaths);
+                this._deathsEle.html(deaths.toString());
             }
 
-            var finalRatio;
+            var finalRatio: string;
 
             if (deaths === 0 && kills !== 0) {
                 finalRatio = "∞";
@@ -52,8 +52,9 @@ class MyRankings {
             else if (deaths === 0 && kills === 0) {
                 finalRatio = "";
             }
-            else { 
-                var kRatio, dRatio;
+            else {
+                var kRatio: number,
+                dRatio: number;
 
                 if (kills <= deaths && kills !== 0) {
                     kRatio = 1;
@@ -64,7 +65,7 @@ class MyRankings {
                     dRatio = 1;
                 }
 
-                finalRatio = kRatio + ":" + dRatio; 
+                finalRatio = kRatio + ":" + dRatio;
             }
 
             this._kdRatioEle.html(finalRatio);

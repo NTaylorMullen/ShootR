@@ -3,9 +3,9 @@ var TextAnimation = (function () {
         this._text = _text;
         this._position = _position;
         this._options = _options;
+        this.Destroyed = false;
         this._currentOpacity = 1;
         this._lastUpdated = new Date().getTime();
-        this.Destroyed = false;
         this._options = $.extend({
             duration: 500,
             color: [

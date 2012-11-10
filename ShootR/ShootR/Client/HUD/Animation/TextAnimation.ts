@@ -1,13 +1,14 @@
 /// <reference path="../../Utilities/Vector2.ts" />
 /// <reference path="../../Space/CanvasRenderer.ts" />
+/// <reference path="../../../Scripts/jquery.d.ts" />
 
 declare var $;
 
 class TextAnimation {
+    public Destroyed: bool = false;
+
     private _currentOpacity: number = 1;
     private _lastUpdated: number = new Date().getTime();
-
-    public Destroyed: bool = false;
 
     constructor (private _text: string, private _position: Vector2, private _options: any) {
         this._options = $.extend({
@@ -16,7 +17,7 @@ class TextAnimation {
             fontSize: "17px SegoeUISemibold"
         }, this._options);
     }
-        
+
     public Draw(): void {
         this._currentOpacity = 1 - (new Date().getTime() - this._lastUpdated) / this._options.duration;
 

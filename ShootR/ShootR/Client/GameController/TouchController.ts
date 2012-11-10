@@ -4,8 +4,7 @@
 /// <reference path="JoyStick.ts" />
 /// <reference path="../Utilities/Vector2.ts" />
 /// <reference path="../Space/GameScreen.ts" />
-
-declare var $;
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class Movement {
     public Active: bool;

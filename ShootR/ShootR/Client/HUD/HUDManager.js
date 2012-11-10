@@ -41,7 +41,7 @@ var HUDManager = (function () {
             this._shipStats.css("display", "block");
         }
     };
-    HUDManager.prototype.Initialize = function (config) {
+    HUDManager.prototype.Initialize = function () {
         this.GameDetailManager = new GameDetailManager();
     };
     HUDManager.prototype.Update = function (payload) {

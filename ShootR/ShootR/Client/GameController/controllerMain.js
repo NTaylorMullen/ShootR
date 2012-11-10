@@ -1,4 +1,3 @@
-
 $(window).load(function () {
     var env = $.connection.h;
     var configurationManager = {

@@ -2,12 +2,12 @@ var NotificationManager = (function () {
     function NotificationManager() {
         this.controlsNCredits = $("#ControlsNCredits");
         this.showInfoButton = $("#ShowInfo");
-        this.controlsNCreditsHeight = $("#ControlsNCredits").height();
         this.notificationHolder = $("#NotificationHolder");
-        this.notificationHalfHeight = 50;
         this.notificationBase = $(".Notification");
-        this.notificationBaseHeight = $(".Notification").height() + parseInt($(".Notification").css("margin-bottom"));
         this.notifications = $("#Notifications");
+        this.notificationBaseHeight = $(".Notification").height() + parseInt($(".Notification").css("margin-bottom"));
+        this.controlsNCreditsHeight = $("#ControlsNCredits").height();
+        this.notificationHalfHeight = 50;
         this.initialControlsShowFor = 7000;
         this.notifyTime = 4000;
         var that = this;

@@ -6,8 +6,7 @@
 /// <reference path="../Space/GameScreen.ts" />
 /// <reference path="../Powerups/HealthPack.ts" />
 /// <reference path="../Game.ts" />
-
-declare var $;
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class ConfigurationManager {
     public bulletConfig: BulletConfiguration;

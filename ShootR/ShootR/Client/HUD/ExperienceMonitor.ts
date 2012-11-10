@@ -6,14 +6,14 @@ class ExperienceMonitor {
     private _lastExperience: number;
     private _lastLevel: number;
     private _lastExperienceToNextLevel: number;
-    private _currentExperience: any = $("#Experience");
-    private _experienceBar: any = $("#ExperienceBar");
-    private _currentLevel: any = $("#Level");
-    private _levelNotification: any = $("#levelNotification");
-    private _currentLevelNotification: any = $("#CurrentLevel_Notification");
-    private _popupHolder: any = $("#popUpHolder");
+    private _currentExperience: JQuery = $("#Experience");
+    private _experienceBar: JQuery = $("#ExperienceBar");
+    private _currentLevel: JQuery = $("#Level");
+    private _levelNotification: JQuery = $("#levelNotification");
+    private _currentLevelNotification: JQuery = $("#CurrentLevel_Notification");
+    private _popupHolder: JQuery = $("#popUpHolder");
 
-    constructor (private _gameHUD: any, private _myShip: ShipController) {
+    constructor (private _gameHUD: JQuery, private _myShip: ShipController) {
         this._lastExperience = this._myShip.Experience,
         this._lastLevel = 1,
         this._lastExperienceToNextLevel = this._myShip.ExperienceToNextLevel,
@@ -27,7 +27,7 @@ class ExperienceMonitor {
         
 
     public Update(): void {
-        var that = this;
+        var that: ExperienceMonitor = this;
 
         if (this._myShip.Experience !== this._lastExperience || this._myShip.Level !== this._lastLevel ) {
             var experienceIncrease,
@@ -40,7 +40,7 @@ class ExperienceMonitor {
                 this._myShip.ResetTouchController();
                 this._experienceBar.css('width', '0%'); // Reset to 0 so when we animate we're animating forward, not backward
                 this._popupHolder.css("display", "block");
-                this._currentLevelNotification.html(this._myShip.Level);
+                this._currentLevelNotification.html(this._myShip.Level.toString());
                 this._levelNotification.animate({top:0},1000).delay(3000).animate({top:-234},1000, function () {
                     that._popupHolder.css("display", "none");
                 });
@@ -66,7 +66,7 @@ class ExperienceMonitor {
             this._lastExperience = this._myShip.Experience;
             this._lastExperienceToNextLevel = this._myShip.ExperienceToNextLevel;           
 
-            this._currentLevel.html(this._myShip.Level);
+            this._currentLevel.html(this._myShip.Level.toString());
         }
     }
 }

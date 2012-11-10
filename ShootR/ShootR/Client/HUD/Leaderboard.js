@@ -10,11 +10,11 @@ var Leaderboard = (function () {
         this._myRanking = $("#myRanking");
         this._leaderboardRows = [];
         this.LeaderboardUp = false;
-        this.InitializeLeaderboardRows();
-        this.ApplyKeyboardShortcuts();
+        this.initializeLeaderboardRows();
+        this.applyKeyboardShortcuts();
     }
     Leaderboard.LEADERBOARD_SIZE = 0;
-    Leaderboard.prototype.InitializeLeaderboardRows = function () {
+    Leaderboard.prototype.initializeLeaderboardRows = function () {
         var tempRow = $("#leaderboard .row");
         this._leaderboardRows.push(tempRow);
         for(var i = 0; i < Leaderboard.LEADERBOARD_SIZE - 1; i++) {
@@ -23,7 +23,7 @@ var Leaderboard = (function () {
             this._leaderboard.append(rowCopy);
         }
     };
-    Leaderboard.prototype.BindToLeaderboard = function (data) {
+    Leaderboard.prototype.bindToLeaderboard = function (data) {
         for(var i = 0; i < data.length; i++) {
             var row = $(this._leaderboardRows[i]);
             if(data[i].ID === this._myShip.ID) {
@@ -48,25 +48,25 @@ var Leaderboard = (function () {
             }
         }
     };
-    Leaderboard.prototype.ApplyKeyboardShortcuts = function () {
+    Leaderboard.prototype.applyKeyboardShortcuts = function () {
         var that = this;
         shortcut.add("Tab", function () {
-            that.ToggleLeaderboard();
+            that.toggleLeaderboard();
         }, {
             'disable_in_input': true
         });
         $("#GlobalRanking").click(function () {
-            that.ToggleLeaderboard();
+            that.toggleLeaderboard();
         });
     };
-    Leaderboard.prototype.ToggleLeaderboard = function () {
+    Leaderboard.prototype.toggleLeaderboard = function () {
         if(!this.LeaderboardUp) {
-            this.ShowLeaderboard();
+            this.showLeaderboard();
         } else {
-            this.HideLeaderboard();
+            this.hideLeaderboard();
         }
     };
-    Leaderboard.prototype.ShowLeaderboard = function () {
+    Leaderboard.prototype.showLeaderboard = function () {
         if(!this._leaderboard.hasClass('goLeft')) {
             this.LeaderboardUp = true;
             this._myShip.ResetTouchController();
@@ -76,7 +76,7 @@ var Leaderboard = (function () {
             this._connection.server.readyForLeaderboardPayloads();
         }
     };
-    Leaderboard.prototype.HideLeaderboard = function () {
+    Leaderboard.prototype.hideLeaderboard = function () {
         var that = this;
         if(!this._leaderboard.hasClass('goLeft')) {
             this.LeaderboardUp = false;
@@ -88,7 +88,7 @@ var Leaderboard = (function () {
         }
     };
     Leaderboard.prototype.Load = function (data) {
-        this.BindToLeaderboard(data);
+        this.bindToLeaderboard(data);
     };
     return Leaderboard;
 })();

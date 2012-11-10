@@ -86,11 +86,12 @@ var DeathScreen = (function () {
         this._doublePopupHolder.css("display", "block");
         this._popupWindows.addClass("goLeft");
         this._fadeIns.fadeIn(1000);
-        this._respawnTime.html(DeathScreen.RESPAWN_TIMER);
+        this._respawnTime;
+        this._respawnTime.html(DeathScreen.RESPAWN_TIMER.toString());
         var that = this;
         var interval = setInterval(function () {
             var left = parseInt(that._respawnTime.html()) - 1;
-            that._respawnTime.html(left);
+            that._respawnTime.html(left.toString());
             if(left === 0) {
                 clearInterval(interval);
                 that._fadeIns.fadeOut(1000, function () {

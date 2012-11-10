@@ -3,8 +3,9 @@
 /// <reference path="TouchController.ts" />
 /// <reference path="../Game.ts" />
 /// <reference path="../Configuration/ConfigurationManager.ts" />
+/// <reference path="../../Scripts/jquery.d.ts" />
 
-declare var $, animloop;
+declare var animloop;
 
 $(window).load(function () {
     // The hub name is a single letter in order to reduce payload size
@@ -57,7 +58,7 @@ $(window).load(function () {
 
         CanvasContext.Render();
     }
-
+    
     var stateCookie = $.cookie('shootr.state'),
         state = stateCookie ? JSON.parse(stateCookie) : {},
         registrationID = state.RegistrationID;

@@ -4,12 +4,12 @@ declare var shortcut;
 
 class GameDetailManager {
     constructor () {
-        this.ApplyKeyboardShortcuts();
+        this.applyKeyboardShortcuts();
     }
 
-    private ApplyKeyboardShortcuts() {
+    private applyKeyboardShortcuts() {
         shortcut.add("X", function () {
             GAME_GLOBALS.Game.ShipManager.DrawDetails = !GAME_GLOBALS.Game.ShipManager.DrawDetails;
         }, { 'disable_in_input': true, 'type': 'keyup' });
-    }    
+    }
 }

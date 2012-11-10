@@ -1,40 +1,39 @@
 /// <reference path="../Ship/ShipController.ts" />
-
-declare var $;
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class Leaderboard {
     static LEADERBOARD_SIZE: number;
 
-    private _leaderboardHolder: any = $("#leaderboardHolder, #doublePopupHolder");
-    private _leaderboard: any = $("#leaderboard");
-    private _popUpHolder: any = $("#popUpHolder");
-    private _gameCover: any = $("#GameCover");
-    private _myRanking: any = $("#myRanking");
-    private _leaderboardRows: any[] = [];
+    private _leaderboardHolder: JQuery = $("#leaderboardHolder, #doublePopupHolder");
+    private _leaderboard: JQuery = $("#leaderboard");
+    private _popUpHolder: JQuery = $("#popUpHolder");
+    private _gameCover: JQuery = $("#GameCover");
+    private _myRanking: JQuery = $("#myRanking");
+    private _leaderboardRows: JQuery[] = [];
 
     public LeaderboardUp: bool = false;
 
-    constructor (private _gameHUD: any, private _myShip: ShipController, private _connection: any) {
-        this.InitializeLeaderboardRows();
-        this.ApplyKeyboardShortcuts();
+    constructor (private _gameHUD: JQuery, private _myShip: ShipController, private _connection: any) {
+        this.initializeLeaderboardRows();
+        this.applyKeyboardShortcuts();
     }
 
-    private InitializeLeaderboardRows(): void {
-        var tempRow = $("#leaderboard .row");
+    private initializeLeaderboardRows(): void {
+        var tempRow: JQuery = $("#leaderboard .row");
 
         this._leaderboardRows.push(tempRow);
 
         for (var i = 0; i < Leaderboard.LEADERBOARD_SIZE - 1; i++) {
-            var rowCopy = tempRow.clone();
+            var rowCopy: JQuery = tempRow.clone();
             this._leaderboardRows.push(rowCopy);
             this._leaderboard.append(rowCopy);
         }
     }
-    
-    
-    private BindToLeaderboard(data: any): void {
+
+
+    private bindToLeaderboard(data: any): void {
         for (var i = 0; i < data.length; i++) {
-            var row = $(this._leaderboardRows[i]);
+            var row: JQuery = $(this._leaderboardRows[i]);
 
             if (data[i].ID === this._myShip.ID) {
                 if (data[i].Photo.length === 0) {
@@ -47,14 +46,14 @@ class Leaderboard {
             }
 
             // Bind photo separately becase it's bound to the src
-            var photoEle = row.find(".lbPhoto");
+            var photoEle: JQuery = row.find(".lbPhoto");
             if (data[i].Photo.length === 0) {
                 data[i].Photo = "Images/HUD/KilledBy_Default.png";
             }
 
             if (photoEle.attr("src") !== data[i].Photo) {
                 photoEle.attr("src", data[i].Photo);
-            }            
+            }
 
             // Delete the photo and ID from the data because we don't want them to be bound with the rest of the data
             delete data[i].Photo;
@@ -67,28 +66,28 @@ class Leaderboard {
     }
 
     // Create shortcuts
-    private ApplyKeyboardShortcuts(): void {
+    private applyKeyboardShortcuts(): void {
         var that = this;
 
         shortcut.add("Tab", function () {
-            that.ToggleLeaderboard();
+            that.toggleLeaderboard();
         }, { 'disable_in_input': true });
 
         $("#GlobalRanking").click(function () {
-            that.ToggleLeaderboard();
+            that.toggleLeaderboard();
         });
     }
 
-    private ToggleLeaderboard(): void {
+    private toggleLeaderboard(): void {
         if (!this.LeaderboardUp) {
-            this.ShowLeaderboard();
+            this.showLeaderboard();
         }
         else {
-            this.HideLeaderboard();
+            this.hideLeaderboard();
         }
     }
 
-    private ShowLeaderboard(): void {
+    private showLeaderboard(): void {
         // Go left is turned on when the ship dies.  We want the Leaderboard to float along side the death
         // screen when we're in the "dead" state.
         if (!this._leaderboard.hasClass('goLeft')) {
@@ -101,8 +100,8 @@ class Leaderboard {
         }
     }
 
-    private HideLeaderboard(): void {
-        var that = this;
+    private hideLeaderboard(): void {
+        var that: Leaderboard = this;
 
         if (!this._leaderboard.hasClass('goLeft')) {
             this.LeaderboardUp = false;
@@ -114,7 +113,7 @@ class Leaderboard {
         }
     }
 
-    public Load (data: any): void {
-        this.BindToLeaderboard(data);
+    public Load(data: any): void {
+        this.bindToLeaderboard(data);
     }
 }

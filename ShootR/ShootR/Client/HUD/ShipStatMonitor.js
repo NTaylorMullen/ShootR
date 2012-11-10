@@ -10,9 +10,9 @@ var ShipStatMonitor = (function () {
         var increasedLife = this._myShip.MaxLife - Ship.START_LIFE;
         var increasedDamage = Math.round((this._myShip.Level - 1) * Ship.DAMAGE_INCREASE_RATE * 10) / 10;
 
-        this._speedHolder.html(speed);
-        this._healthHolder.html(increasedLife);
-        this._damageHolder.html(increasedDamage);
+        this._speedHolder.html(speed.toString());
+        this._healthHolder.html(increasedLife.toString());
+        this._damageHolder.html(increasedDamage.toString());
     };
     return ShipStatMonitor;
 })();
