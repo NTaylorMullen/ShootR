@@ -37,19 +37,19 @@ class TouchController {
     private _mouseAdapter: MouseAdapter;
     private _touchAdapter: TouchAdapter;
     private _ieTouchAdapter: IETouchAdapter;
-    private _canvas: any;
+    private _canvas: HTMLCanvasElement;
     private _shootPosition: any;
     private _shootDrawStart: any;
     private _middle: number;
-    private _leftJoyStick: any; // TODO
-    private _rightJoyStick: any; // TODO
+    private _leftJoyStick: JoyStick;
+    private _rightJoyStick: JoyStick;
 
     constructor (private _startMovement: Function, private _stopMovement: Function, private _stopAndStartMovement: Function, private _resetMovement: Function, private _shipFire: Function) {
         this._mouseAdapter = new MouseAdapter(this, this.handleStart, this.handleMove, this.handleStop);
         this._touchAdapter = new TouchAdapter(this, this.handleStart, this.handleMove, this.handleStop);
         this._ieTouchAdapter = new IETouchAdapter(this, this.handleStart, this.handleMove, this.handleStop);
 
-        this._canvas = document.getElementById("game");
+        this._canvas = <HTMLCanvasElement>document.getElementById("game");
         this._shootPosition = false;
         this._shootDrawStart = false;
 
@@ -107,24 +107,24 @@ class TouchController {
             $(this._canvas).css("-ms-touch-action", "none");
 
             // Initialize regular touch movements
-            this._canvas.addEventListener('MSPointerDown', function (e) { that._ieTouchAdapter.Start(e); }, false);
-            this._canvas.addEventListener('MSPointerMove', function (e) { that._ieTouchAdapter.Move(e); }, false);
-            this._canvas.addEventListener('MSPointerUp', function (e) { that._ieTouchAdapter.Stop(e); }, false);
+            this._canvas.addEventListener('MSPointerDown', function (e: any) { that._ieTouchAdapter.Start(e); }, false);
+            this._canvas.addEventListener('MSPointerMove', function (e: any) { that._ieTouchAdapter.Move(e); }, false);
+            this._canvas.addEventListener('MSPointerUp', function (e: any) { that._ieTouchAdapter.Stop(e); }, false);
 
             // Initialize gesture touches
-            this._canvas.addEventListener("MSPointerCancel", function (e) { e.preventDefault(); }, false);
-            this._canvas.addEventListener("MSGestureInit", function (e) { if (e.preventManipulation) e.preventManipulation(); }, false);
-            this._canvas.addEventListener("MSHoldVisual", function (e) { e.preventDefault(); }, false);
+            this._canvas.addEventListener("MSPointerCancel", function (e: any) { e.preventDefault(); }, false);
+            this._canvas.addEventListener("MSGestureInit", function (e: any) { if (e.preventManipulation) e.preventManipulation(); }, false);
+            this._canvas.addEventListener("MSHoldVisual", function (e: any) { e.preventDefault(); }, false);
         }
         else if ('createTouch' in document) {
-            this._canvas.addEventListener('touchstart', function (e) { that._touchAdapter.Start(e); }, false);
-            this._canvas.addEventListener('touchmove', function (e) { that._touchAdapter.Move(e); }, false);
-            this._canvas.addEventListener('touchend', function (e) { that._touchAdapter.Stop(e); }, false);
+            this._canvas.addEventListener('touchstart', function (e: any) { that._touchAdapter.Start(e); }, false);
+            this._canvas.addEventListener('touchmove', function (e: any) { that._touchAdapter.Move(e); }, false);
+            this._canvas.addEventListener('touchend', function (e: any) { that._touchAdapter.Stop(e); }, false);
         }
         else {
-            this._canvas.addEventListener('mousedown', function (e) { that._mouseAdapter.Start(e); }, false);
-            this._canvas.addEventListener('mousemove', function (e) { that._mouseAdapter.Move(e); }, false);
-            this._canvas.addEventListener('mouseup', function (e) { that._mouseAdapter.Stop(e); }, false);
+            this._canvas.addEventListener('mousedown', function (e: any) { that._mouseAdapter.Start(e); }, false);
+            this._canvas.addEventListener('mousemove', function (e: any) { that._mouseAdapter.Move(e); }, false);
+            this._canvas.addEventListener('mouseup', function (e: any) { that._mouseAdapter.Stop(e); }, false);
         }   
 
         this._middle = screen.Viewport.Width / 2;

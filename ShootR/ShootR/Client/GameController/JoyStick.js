@@ -66,7 +66,7 @@ var JoyStick = (function () {
             }
         }
     };
-    JoyStick.prototype.PerformReset = function () {
+    JoyStick.prototype.performReset = function () {
         if(this._controlling) {
             this._controlling = false;
             var arr = [];
@@ -106,7 +106,7 @@ var JoyStick = (function () {
                     this.moveShip(changes.toStop, changes.toStart);
                 }
             } else {
-                this.PerformReset();
+                this.performReset();
             }
             return true;
         }
@@ -117,7 +117,7 @@ var JoyStick = (function () {
             this.InAction = false;
             this.TouchID = false;
             this.InActionAt = false;
-            this.PerformReset();
+            this.performReset();
             return true;
         }
         return false;

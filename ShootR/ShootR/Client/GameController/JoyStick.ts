@@ -21,17 +21,19 @@ class JoyStick {
     private getAlteredMovements(): any {
         if (this.Traveled() > this._activeJoystickDistance) {
             this._controlling = true;
-            var deltas = Vector2.SubtractV(this.Position, this.PositionStart),
-                angle = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
+            var deltas: Vector2 = Vector2.SubtractV(this.Position, this.PositionStart),
+                angle: number = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
 
             if (angle < 0) {
                 angle += 360;
             }
 
-            var toStop, toStart, changed = false;
+            var toStop: Movement, 
+                toStart: Movement, 
+                changed: bool = false;
 
             for (var i = 0; i < this._movementList.length; i++) {
-                var validMove = this._movementList[i].ValidMove(angle);
+                var validMove: bool = this._movementList[i].ValidMove(angle);
 
                 // This is a change
                 if (!validMove && this._movementList[i].Active) {
@@ -71,10 +73,10 @@ class JoyStick {
         }
     }
 
-    private PerformReset(): void {
+    private performReset(): void {
         if (this._controlling) {
             this._controlling = false;
-            var arr = [];
+            var arr: string[] = [];
 
             for (var i = 0; i < this._movementList.length; i++) {
                 this._movementList[i].Active = false;
@@ -121,7 +123,7 @@ class JoyStick {
                 }
             }
             else { // Need to reset movement
-                this.PerformReset();
+                this.performReset();
             }
 
             return true;
@@ -136,7 +138,7 @@ class JoyStick {
             this.TouchID = false;
             this.InActionAt = false;
 
-            this.PerformReset();
+            this.performReset();
 
             return true;
         }

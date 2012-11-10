@@ -9,8 +9,7 @@ declare var $, animloop;
 $(window).load(function () {
     // The hub name is a single letter in order to reduce payload size
     var env = $.connection.h,
-        game,
-        configurationManager: any = {},
+        configurationManager: any = {}, // Hack
         screen: GameScreen = new GameScreen($("#game"), $("#gameWrapper"), false, env),
         shipControllerFn: ShipControllerFunctions = new ShipControllerFunctions(env),
         touchController: TouchController;

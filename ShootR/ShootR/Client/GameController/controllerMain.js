@@ -1,7 +1,6 @@
 
 $(window).load(function () {
     var env = $.connection.h;
-    var game;
     var configurationManager = {
     };
     var screen = new GameScreen($("#game"), $("#gameWrapper"), false, env);
