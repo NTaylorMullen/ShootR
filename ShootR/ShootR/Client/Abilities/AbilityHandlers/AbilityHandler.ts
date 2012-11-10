@@ -1,7 +1,7 @@
 /// <reference path="../Abstractions/Ability.ts" />
 
 class AbilityHandler {
-    private _abilityList: any = {};
+    private _abilityList: { [s: string]: Ability; } = {};
 
     constructor (aList: Ability[]) {
         for (var i = aList.length - 1; i >= 0; i--) {
@@ -9,7 +9,7 @@ class AbilityHandler {
         }
     }
 
-    public Abilities(): any {
+    public Abilities(): { [s: string]: Ability; } {
         return this._abilityList;
     }
 

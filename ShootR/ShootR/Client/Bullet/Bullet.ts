@@ -61,8 +61,8 @@ class Bullet extends Collidable {
         this.Visible = false;
     }
 
-    public Update(gameTime: GameTime): void {
-        var now = new Date();
+    public Update(gameTime?: GameTime): void {
+        var now: Date = new Date();
 
         this.MovementController.Update(CalculatePOS(this.LastUpdated), now);
 

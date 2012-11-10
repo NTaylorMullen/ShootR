@@ -16,4 +16,7 @@ class Ability {
         this.Active = false;
         this.ActivatedAt = null;
     }
+
+    // Meant to be overriden
+    public Update(now: Date): void { }
 }

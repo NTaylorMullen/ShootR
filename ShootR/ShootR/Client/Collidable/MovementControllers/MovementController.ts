@@ -9,7 +9,7 @@ class MovementController {
     public Forces: Vector2;
     public Rotation: number;
     public LastUpdated: Date;
-    public Moving: any;
+    public Moving: { [s: string]: bool; };
 
     constructor (first: any, second: number, third?: number) {
         // (position, mass, power)
