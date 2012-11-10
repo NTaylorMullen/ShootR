@@ -1,8 +1,7 @@
 /// <reference path="../Utilities/Size.ts" />
 /// <reference path="../Utilities/Vector2.ts" />
 /// <reference path="../Space/CanvasRenderer.ts" />
-
-declare var $;
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class spritify {
     private _lastUpdateFrame: number;
@@ -27,21 +26,21 @@ class spritify {
         this.Rotation = this.options.Rotation;
     }
 
-    private getFramePosition(currentFrame: number, frameSize: any, spriteSheetSize: any): any {
-        var columns = spriteSheetSize.width / frameSize.width,
-            rows = spriteSheetSize.height / frameSize.height,
+    private getFramePosition(currentFrame: number, frameSize: Size, spriteSheetSize: Size): any {
+        var columns = spriteSheetSize.Width / frameSize.Width,
+            rows = spriteSheetSize.Height / frameSize.Height,
             row = Math.floor(currentFrame / columns),
             column = Math.ceil(currentFrame % columns);
 
         return { row: row, column: column };
     }
 
-    private initiateAnimation() {
+    private initiateAnimation(): void {
         this.Playing = true;
         this.nextAnimationFrame();
     }
 
-    private nextAnimationFrame() {
+    private nextAnimationFrame(): void {
         // If we've reached the end of the animation
         if (++this.options.currentFrame >= this.options.frameCount) {
             if (this._finishingFrames) {
@@ -78,7 +77,7 @@ class spritify {
     }
 
     public ClearDrawOnCanvas(): void {
-        this.options.drawOn.clearRect(this.Position.X, this.Position.Y, this.options.frameSize.width, this.options.frameSize.height);
+        this.options.drawOn.clearRect(this.Position.X, this.Position.Y, this.options.frameSize.Width, this.options.frameSize.Height);
     }
 
     public Play(): void {
@@ -95,7 +94,7 @@ class spritify {
         }
     }
 
-    public Stop (finishFrames?:bool) {
+    public Stop(finishFrames?: bool) {
         if (this.Playing) {
             if (finishFrames) {
                 this._finishingFrames = true;
@@ -138,7 +137,7 @@ class spritify {
 
         // Check if we have a frame count set, if not then we need to calculate the frames
         if (!this.options.frameCount) {
-            this.options.frameCount = (this.options.spriteSheetSize.width / this.options.frameSize.width) * (this.options.spriteSheetSize.height / this.options.frameSize.height);
+            this.options.frameCount = (this.options.spriteSheetSize.Width / this.options.frameSize.Width) * (this.options.spriteSheetSize.Height / this.options.frameSize.Height);
 
             if (!this.options.fps) {
                 this.options.fps = this.options.frameCount;
@@ -147,8 +146,8 @@ class spritify {
 
         // If Centering is turned on then we need to center the target
         if (this.options.centerOn) {
-            this.options.X = this.options.centerOn.X - .5 * this.options.frameSize.width;
-            this.options.Y = this.options.centerOn.Y - .5 * this.options.frameSize.height;
+            this.options.X = this.options.centerOn.X - .5 * this.options.frameSize.Width;
+            this.options.Y = this.options.centerOn.Y - .5 * this.options.frameSize.Height;
         }
 
         if (this.options.autoPlay) {
@@ -157,9 +156,9 @@ class spritify {
     }
 
     // Only need to update if we're not auto playing, auto play is dealt with via a timeout.
-    public Update (now: Date) {
+    public Update(now: Date): void {
         if (!this.options.autoPlay && this.Playing) {
-            var nowMilliseconds = now.getTime();
+            var nowMilliseconds: number = now.getTime();
             // Check if time for next frame
             if (this.Playing && (nowMilliseconds - this._lastUpdateFrame) >= this.options.interval) {
                 this.nextAnimationFrame();
@@ -168,18 +167,18 @@ class spritify {
         }
     }
 
-    public Draw () {
+    public Draw(): void {
         if (this.Playing && !this.Destroyed) {
-            var framePosition = this.getFramePosition(this.options.currentFrame, this.options.frameSize, this.options.spriteSheetSize);
+            var framePosition: any = this.getFramePosition(this.options.currentFrame, this.options.frameSize, this.options.spriteSheetSize);
 
             if (!this.options.drawOn) {
-                CanvasContext.drawRotatedImage(this.options.image, this.Rotation, framePosition.column * this.options.frameSize.width, framePosition.row * this.options.frameSize.height, this.options.frameSize.width, this.options.frameSize.height, this.Position.X, this.Position.Y, this.options.frameSize.width, this.options.frameSize.height);
+                CanvasContext.drawRotatedImage(this.options.image, this.Rotation, framePosition.column * this.options.frameSize.Width, framePosition.row * this.options.frameSize.Height, this.options.frameSize.Width, this.options.frameSize.Height, this.Position.X, this.Position.Y, this.options.frameSize.Width, this.options.frameSize.Height);
             }
             else {
                 if (this.options.autoClear) {
                     this.ClearDrawOnCanvas();
                 }
-                this.options.drawOn.drawImage(this.options.image, framePosition.column * this.options.frameSize.width, framePosition.row * this.options.frameSize.height, this.options.frameSize.width, this.options.frameSize.height, this.Position.X, this.Position.Y, this.options.frameSize.width, this.options.frameSize.height);
+                this.options.drawOn.drawImage(this.options.image, framePosition.column * this.options.frameSize.Width, framePosition.row * this.options.frameSize.Height, this.options.frameSize.Width, this.options.frameSize.Height, this.Position.X, this.Position.Y, this.options.frameSize.Width, this.options.frameSize.Height);
             }
         }
     }

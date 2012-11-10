@@ -10,14 +10,8 @@ var ShipAnimationHandler = (function () {
             Y: (this.MyShip.HEIGHT / 2) - 26,
             frameCount: 10,
             fps: 12,
-            spriteSheetSize: {
-                width: 400,
-                height: 150
-            },
-            frameSize: {
-                width: 100,
-                height: 50
-            },
+            spriteSheetSize: new Size(400, 150),
+            frameSize: new Size(100, 50),
             Rotation: 0,
             autoPlay: false,
             autoClear: false,
@@ -32,14 +26,8 @@ var ShipAnimationHandler = (function () {
             Y: (this.MyShip.HEIGHT / 2) - 25,
             frameCount: 18,
             fps: 18,
-            spriteSheetSize: {
-                width: 450,
-                height: 100
-            },
-            frameSize: {
-                width: 50,
-                height: 50
-            },
+            spriteSheetSize: new Size(450, 100),
+            frameSize: new Size(50, 50),
             Rotation: 0,
             autoPlay: false,
             autoClear: false,
@@ -52,14 +40,8 @@ var ShipAnimationHandler = (function () {
             Y: (this.MyShip.HEIGHT / 2) - 25,
             frameCount: 18,
             fps: 18,
-            spriteSheetSize: {
-                width: 450,
-                height: 100
-            },
-            frameSize: {
-                width: 50,
-                height: 50
-            },
+            spriteSheetSize: new Size(450, 100),
+            frameSize: new Size(50, 50),
             Rotation: 0,
             autoPlay: false,
             autoClear: false,

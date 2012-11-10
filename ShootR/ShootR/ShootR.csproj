@@ -223,6 +223,9 @@
       <DependentUpon>JoyStick.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\GameController\ShipControllerFunctions.ts" />
+    <Content Include="Client\GameController\JoyStick.min.js">
+      <DependentUpon>JoyStick.ts</DependentUpon>
+    </Content>
     <Content Include="Client\GameController\ShipControllerFunctions.js">
       <DependentUpon>ShipControllerFunctions.ts</DependentUpon>
     </Content>
@@ -740,6 +743,7 @@
     <Content Include="Scripts\jquery-ui-1.9.0.min.js" />
     <Content Include="Scripts\jquery.animate-colors-min.js" />
     <Content Include="Scripts\jquery.signalR-1.0.0.js" />
+    <TypeScriptCompile Include="Scripts\jquery.d.ts" />
     <Content Include="Scripts\shortcut.js" />
     <Content Include="Styles\controller.css" />
     <Content Include="Styles\game.css" />

@@ -29,14 +29,8 @@ var Bullet = (function (_super) {
                     Y: this.CollidedAt.Y
                 },
                 frameCount: 24,
-                spriteSheetSize: {
-                    width: 320,
-                    height: 320
-                },
-                frameSize: {
-                    width: 64,
-                    height: 64
-                },
+                spriteSheetSize: new Size(320, 320),
+                frameSize: new Size(64, 64),
                 Rotation: this.MovementController.Rotation
             }));
             if(this.DamageDealt > 0) {

@@ -55,14 +55,8 @@ class Ship extends Collidable {
                 centerOn: { X: this.MovementController.Position.X + Ship.HALF_WIDTH, Y: this.MovementController.Position.Y + Ship.HALF_HEIGHT },
                 frameCount: 30,
                 fps: 25,
-                spriteSheetSize: {
-                    width: 768,
-                    height: 640
-                },
-                frameSize: {
-                    width: 128,
-                    height: 128,
-                },
+                spriteSheetSize: new Size(768, 640),
+                frameSize: new Size(128, 128),
                 Rotation: this.MovementController.Rotation
             }));
         }

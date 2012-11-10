@@ -10,8 +10,8 @@ var spritify = (function () {
         this.Rotation = this.options.Rotation;
     }
     spritify.prototype.getFramePosition = function (currentFrame, frameSize, spriteSheetSize) {
-        var columns = spriteSheetSize.width / frameSize.width;
-        var rows = spriteSheetSize.height / frameSize.height;
+        var columns = spriteSheetSize.Width / frameSize.Width;
+        var rows = spriteSheetSize.Height / frameSize.Height;
         var row = Math.floor(currentFrame / columns);
         var column = Math.ceil(currentFrame % columns);
 
@@ -56,7 +56,7 @@ var spritify = (function () {
         }
     };
     spritify.prototype.ClearDrawOnCanvas = function () {
-        this.options.drawOn.clearRect(this.Position.X, this.Position.Y, this.options.frameSize.width, this.options.frameSize.height);
+        this.options.drawOn.clearRect(this.Position.X, this.Position.Y, this.options.frameSize.Width, this.options.frameSize.Height);
     };
     spritify.prototype.Play = function () {
         if(!this.Playing) {
@@ -103,14 +103,14 @@ var spritify = (function () {
         this.options.currentFrame = this.options.startFrame;
         this.options.interval = 1000 / this.options.fps;
         if(!this.options.frameCount) {
-            this.options.frameCount = (this.options.spriteSheetSize.width / this.options.frameSize.width) * (this.options.spriteSheetSize.height / this.options.frameSize.height);
+            this.options.frameCount = (this.options.spriteSheetSize.Width / this.options.frameSize.Width) * (this.options.spriteSheetSize.Height / this.options.frameSize.Height);
             if(!this.options.fps) {
                 this.options.fps = this.options.frameCount;
             }
         }
         if(this.options.centerOn) {
-            this.options.X = this.options.centerOn.X - 0.5 * this.options.frameSize.width;
-            this.options.Y = this.options.centerOn.Y - 0.5 * this.options.frameSize.height;
+            this.options.X = this.options.centerOn.X - 0.5 * this.options.frameSize.Width;
+            this.options.Y = this.options.centerOn.Y - 0.5 * this.options.frameSize.Height;
         }
         if(this.options.autoPlay) {
             this.initiateAnimation();
@@ -129,12 +129,12 @@ var spritify = (function () {
         if(this.Playing && !this.Destroyed) {
             var framePosition = this.getFramePosition(this.options.currentFrame, this.options.frameSize, this.options.spriteSheetSize);
             if(!this.options.drawOn) {
-                CanvasContext.drawRotatedImage(this.options.image, this.Rotation, framePosition.column * this.options.frameSize.width, framePosition.row * this.options.frameSize.height, this.options.frameSize.width, this.options.frameSize.height, this.Position.X, this.Position.Y, this.options.frameSize.width, this.options.frameSize.height);
+                CanvasContext.drawRotatedImage(this.options.image, this.Rotation, framePosition.column * this.options.frameSize.Width, framePosition.row * this.options.frameSize.Height, this.options.frameSize.Width, this.options.frameSize.Height, this.Position.X, this.Position.Y, this.options.frameSize.Width, this.options.frameSize.Height);
             } else {
                 if(this.options.autoClear) {
                     this.ClearDrawOnCanvas();
                 }
-                this.options.drawOn.drawImage(this.options.image, framePosition.column * this.options.frameSize.width, framePosition.row * this.options.frameSize.height, this.options.frameSize.width, this.options.frameSize.height, this.Position.X, this.Position.Y, this.options.frameSize.width, this.options.frameSize.height);
+                this.options.drawOn.drawImage(this.options.image, framePosition.column * this.options.frameSize.Width, framePosition.row * this.options.frameSize.Height, this.options.frameSize.Width, this.options.frameSize.Height, this.Position.X, this.Position.Y, this.options.frameSize.Width, this.options.frameSize.Height);
             }
         }
     };

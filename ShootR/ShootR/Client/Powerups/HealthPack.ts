@@ -31,14 +31,8 @@ class HealthPack extends Powerup {
             Y: 0,
             frameCount: 18,
             fps: 18,
-            spriteSheetSize: {
-                width: 450,
-                height: 100
-            },
-            frameSize: {
-                width: this.WIDTH,
-                height: this.HEIGHT,
-            },
+            spriteSheetSize: new Size(450, 100),
+            frameSize: new Size(this.WIDTH, this.HEIGHT),
             Rotation: 0,
             autoPlay: false,
             loop: true

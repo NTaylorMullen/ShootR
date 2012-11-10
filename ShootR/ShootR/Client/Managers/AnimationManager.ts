@@ -4,7 +4,7 @@ class AnimationManager {
     private _animations: any[];
     private _animationCount: number;
 
-    constructor () { 
+    constructor () {
         this._animations = [];
         this._animationCount = 0;
     }

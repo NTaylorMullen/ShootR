@@ -41,14 +41,8 @@ class Bullet extends Collidable {
                 image: IMAGE_ASSETS.Explosion,
                 centerOn: { X: this.CollidedAt.X, Y: this.CollidedAt.Y },
                 frameCount: 24,
-                spriteSheetSize: {
-                    width: 320,
-                    height: 320
-                },
-                frameSize: {
-                    width: 64,
-                    height: 64,
-                },
+                spriteSheetSize: new Size(320, 320),
+                frameSize: new Size(64, 64),
                 Rotation: this.MovementController.Rotation
             }));
 
