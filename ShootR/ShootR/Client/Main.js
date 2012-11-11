@@ -1,5 +1,5 @@
 $(function () {
-    var env = $.connection.h;
+    var env = ($).connection.h;
     var game;
     var configurationManager;
     var payloadDecompressor = new PayloadDecompressor();
@@ -13,7 +13,7 @@ $(function () {
         Bullets: []
     };
 
-    var stateCookie = $.cookie('shootr.state');
+    var stateCookie = ($).cookie('shootr.state');
     var state = stateCookie ? JSON.parse(stateCookie) : {
     };
     var registrationID = state.RegistrationID;
@@ -21,7 +21,7 @@ $(function () {
     function Initialize(init) {
         if(init != null) {
             if(init.ServerFull) {
-                $.connection.hub.stop();
+                ($).connection.hub.stop();
                 alert("Server is full, try refreshing the page in 5 minutes.");
                 return;
             }
@@ -29,7 +29,7 @@ $(function () {
             game = new Game(env, latencyResolver, init.ShipID);
             GAME_GLOBALS.Game = game;
             payloadDecompressor.LoadContracts(init.CompressionContracts);
-            game.HUDManager.Initialize(init);
+            game.HUDManager.Initialize();
             screen.Initialize(game.HUDManager);
             game.ShipManager.MyShip.LatencyResolver = latencyResolver;
             game.ShipManager.MyShip.Initialize(screen);
@@ -88,11 +88,11 @@ $(function () {
     };
     env.client.disconnect = function () {
         game.HUDManager.NotificationManager.Notify("You have been disconnected for being Idle too long.  Refresh the page to play again.", true);
-        $.connection.hub.stop();
+        ($).connection.hub.stop();
     };
     env.client.controlTransferred = function () {
         game.HUDManager.NotificationManager.Notify("You have been disconnected!  The control for your ship has been transferred to your other login.", true);
-        $.connection.hub.stop();
+        ($).connection.hub.stop();
     };
     env.client.pingBack = function () {
         latencyResolver.ServerPingBack();
@@ -103,11 +103,11 @@ $(function () {
         $("#DisplayNameLB").html(state.DisplayName);
         $("#You").attr("src", state.Photo);
         $("#YouLB").attr("src", state.Photo);
-        $.cookie('shootr.state', JSON.stringify(state), {
+        ($).cookie('shootr.state', JSON.stringify(state), {
             path: '/',
             expires: 30
         });
-        $.connection.hub.start(function () {
+        ($).connection.hub.start(function () {
             env.server.initializeClient(registrationID).done(function (value) {
                 Initialize(value);
             });

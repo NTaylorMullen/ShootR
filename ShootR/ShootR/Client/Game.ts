@@ -7,8 +7,6 @@
 /// <reference path="Space/Map.ts" />
 /// <reference path="Ship/ShipController.ts" />
 
-declare var $;
-
 class Game {
     public GameTime: GameTime;
     public BulletManager: BulletManager;
@@ -32,7 +30,7 @@ class Game {
         this.HUDManager = new HUDManager(this._myShip, this._connection);
     }
 
-    public Update(payload: any): void {
+    public Update(payload: IPayloadData): void {
         this.GameTime.Update();
         CanvasContext.clear();
 

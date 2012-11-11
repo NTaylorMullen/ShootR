@@ -7,24 +7,24 @@ declare var animloop;
 
 $(function () {
     // The hub name is a single letter in order to reduce payload size
-    var env = $.connection.h,
+    var env = (<any>$).connection.h,
         game: Game,
         configurationManager: ConfigurationManager,
         payloadDecompressor: PayloadDecompressor = new PayloadDecompressor(),
         latencyResolver: LatencyResolver = new LatencyResolver(env),
         screen: GameScreen = new GameScreen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env),
-        notification: any = $("#Notification"),
+        notification: JQuery = $("#Notification"),
         gameInfoReceived:bool = false,
         lastPayload: any = { Ships: {}, Bullets: [] };
 
-    var stateCookie: any = $.cookie('shootr.state'),
+    var stateCookie: any = (<any>$).cookie('shootr.state'),
         state: any = stateCookie ? JSON.parse(stateCookie) : {},
         registrationID: any = state.RegistrationID;
 
     function Initialize(init) {
         if (init != null) {
             if (init.ServerFull) {
-                $.connection.hub.stop();
+                (<any>$).connection.hub.stop();
                 alert("Server is full, try refreshing the page in 5 minutes.");
                 return
             }
@@ -32,7 +32,7 @@ $(function () {
             game = new Game(env, latencyResolver, init.ShipID);
             GAME_GLOBALS.Game = game;
             payloadDecompressor.LoadContracts(init.CompressionContracts);
-            game.HUDManager.Initialize(init);
+            game.HUDManager.Initialize();
             screen.Initialize(game.HUDManager);
 
             game.ShipManager.MyShip.LatencyResolver = latencyResolver;
@@ -122,12 +122,12 @@ $(function () {
     env.client.disconnect = function () {
         game.HUDManager.NotificationManager.Notify("You have been disconnected for being Idle too long.  Refresh the page to play again.", true);
         
-        $.connection.hub.stop();
+        (<any>$).connection.hub.stop();
     }
 
     env.client.controlTransferred = function () {
         game.HUDManager.NotificationManager.Notify("You have been disconnected!  The control for your ship has been transferred to your other login.", true);
-        $.connection.hub.stop();
+        (<any>$).connection.hub.stop();
     }
 
     env.client.pingBack = function () {
@@ -142,9 +142,9 @@ $(function () {
         $("#You").attr("src", state.Photo);
         $("#YouLB").attr("src", state.Photo);
 
-        $.cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });
+        (<any>$).cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });
 
-        $.connection.hub.start(function () {
+        (<any>$).connection.hub.start(function () {
             env.server.initializeClient(registrationID).done(function (value) {
                 Initialize(value);
             });
