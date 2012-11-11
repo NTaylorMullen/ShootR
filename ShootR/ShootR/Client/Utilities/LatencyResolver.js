@@ -1,6 +1,6 @@
 var LatencyResolver = (function () {
-    function LatencyResolver(connection) {
-        this.connection = connection;
+    function LatencyResolver(_connection) {
+        this._connection = _connection;
         this.SampleSize = 10;
         this.Latency = "...";
         this._pingCount = 0;
@@ -8,14 +8,14 @@ var LatencyResolver = (function () {
         this._CST = new ClientServerTime();
         this._requestedPingAt = false;
     }
-    LatencyResolver.prototype.CalculateDeltaTime = function (sentAt, serverTime) {
+    LatencyResolver.prototype.calculateDeltaTime = function (sentAt, serverTime) {
         var currentTime = new Date().getTime();
         var latency = this.CalculateLatencySince(sentAt);
 
         return (currentTime - serverTime + latency);
     };
-    LatencyResolver.prototype.PushPingResults = function (sentAt, result) {
-        this._deltas.push(this.CalculateDeltaTime(sentAt, result));
+    LatencyResolver.prototype.pushPingResults = function (sentAt, result) {
+        this._deltas.push(this.calculateDeltaTime(sentAt, result));
     };
     LatencyResolver.prototype.RequestedPingBack = function () {
         if(!this._requestedPingAt) {
@@ -29,7 +29,7 @@ var LatencyResolver = (function () {
         }
     };
     LatencyResolver.prototype.ResolveFromAcknowledgement = function (sentAt, serverAcknowledgedAt) {
-        this.PushPingResults(sentAt, serverAcknowledgedAt);
+        this.pushPingResults(sentAt, serverAcknowledgedAt);
         if(this._deltas.length === this.SampleSize) {
             this._CST.Delta = this.GenerateDeltaTime();
             this._deltas = [];
@@ -41,11 +41,11 @@ var LatencyResolver = (function () {
     LatencyResolver.prototype.Resolve = function (callback) {
         var that = this;
         this._deltas = [];
-        this.connection.server.ping().done(GetDelta);
+        this._connection.server.ping().done(GetDelta);
         function GetDelta() {
             var sentAt = new Date().getTime();
             this.connection.server.ping().done(function (result) {
-                that.PushPingResults(sentAt, this._CST.GetServerTime(new Date(result).getTime()));
+                that.pushPingResults(sentAt, this._CST.GetServerTime(new Date(result).getTime()));
                 if(++that._pingCount < that.SampleSize) {
                     GetDelta();
                 } else {

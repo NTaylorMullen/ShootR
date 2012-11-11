@@ -43,11 +43,11 @@ var IMAGE_ASSETS = {
     ShipDamage1: new Image(),
     ShipDamage3: new Image(),
     ShipDamage5: new Image(),
-    ShipDamage7: new Image(),    
+    ShipDamage7: new Image(),
     ThrustBasic: new Image(),
     HealthPack: new Image(),
     Boost: new Image(),
-    ThrustStart: new Image()    
+    ThrustStart: new Image()
 };
 
 IMAGE_ASSETS.INIT();

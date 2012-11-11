@@ -1,6 +1,6 @@
 class Vector2 {
-    X: number;
-    Y: number;
+    public X: number;
+    public Y: number;
 
     constructor (X: number, Y: any) {
         if (!isNaN(X) && Y === false) {

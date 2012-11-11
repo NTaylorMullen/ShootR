@@ -10,17 +10,17 @@ class LatencyResolver {
     private _CST: ClientServerTime = new ClientServerTime();
     private _requestedPingAt: any = false;
 
-    constructor (private connection: any) { }
+    constructor (private _connection: any) { }
 
-    private CalculateDeltaTime(sentAt: number, serverTime: number): number {
-        var currentTime = new Date().getTime(),
-            latency = this.CalculateLatencySince(sentAt);
+    private calculateDeltaTime(sentAt: number, serverTime: number): number {
+        var currentTime: number = new Date().getTime(),
+            latency: number = this.CalculateLatencySince(sentAt);
 
         return (currentTime - serverTime + latency);
     }
 
-    private PushPingResults(sentAt: number, result: number): void {
-        this._deltas.push(this.CalculateDeltaTime(sentAt, result));
+    private pushPingResults(sentAt: number, result: number): void {
+        this._deltas.push(this.calculateDeltaTime(sentAt, result));
     }
 
     public RequestedPingBack(): void {
@@ -29,15 +29,15 @@ class LatencyResolver {
         }
     }
 
-    public ServerPingBack (): void {
+    public ServerPingBack(): void {
         if (this._requestedPingAt) {
             this.Latency = this.CalculateLatencySince(this._requestedPingAt) + " ms";
             this._requestedPingAt = false;
         }
     }
 
-    public ResolveFromAcknowledgement (sentAt: number, serverAcknowledgedAt: number): void {
-        this.PushPingResults(sentAt, serverAcknowledgedAt);
+    public ResolveFromAcknowledgement(sentAt: number, serverAcknowledgedAt: number): void {
+        this.pushPingResults(sentAt, serverAcknowledgedAt);
 
         if (this._deltas.length === this.SampleSize) {
             this._CST.Delta = this.GenerateDeltaTime();
@@ -45,22 +45,22 @@ class LatencyResolver {
         }
     }
 
-    public CalculateLatencySince (sentAt: number): number {
+    public CalculateLatencySince(sentAt: number): number {
         return (new Date().getTime() - sentAt) / 2
     }
 
-    public Resolve (callback: Function) {
-        var that = this;
+    public Resolve(callback: Function) {
+        var that: LatencyResolver = this;
 
         this._deltas = [];
         // Do an initial ping (this clears the network/readies the tunnel).
-        this.connection.server.ping().done(GetDelta);
+        this._connection.server.ping().done(GetDelta);
 
         function GetDelta() {
             // Calculate delta time
-            var sentAt = new Date().getTime();
+            var sentAt: number = new Date().getTime();
             this.connection.server.ping().done(function (result) {
-                that.PushPingResults(sentAt, this._CST.GetServerTime(new Date(result).getTime()));
+                that.pushPingResults(sentAt, this._CST.GetServerTime(new Date(result).getTime()));
 
                 if (++that._pingCount < that.SampleSize) {
                     GetDelta();
@@ -77,11 +77,11 @@ class LatencyResolver {
         }
     }
 
-    public GenerateDeltaTime (): number {        
+    public GenerateDeltaTime(): number {
         this._deltas.sort();
 
-        var standardDeviation = StandardDeviation(this._deltas),
-            median = this._deltas[Math.floor(this._deltas.length / 2)];
+        var standardDeviation: number = StandardDeviation(this._deltas),
+        median: number = this._deltas[Math.floor(this._deltas.length / 2)];
 
         // Remove items 1 standard deviation away from the median
         for (var i = 0; i < this._deltas.length; i++) {

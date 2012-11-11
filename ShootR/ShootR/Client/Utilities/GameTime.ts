@@ -11,7 +11,7 @@ class GameTime {
         this.Now = new Date();
     }
 
-    public Update (): void {
+    public Update(): void {
         this.PercentOfSecond = CalculatePOS(this._lastUpdated);
 
         this.Now = new Date();
