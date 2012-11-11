@@ -10,9 +10,6 @@ class Map {
     static HEIGHT: number;
     static BARRIER_DEPRECATION: number = .75;
 
-    constructor () {
-    }
-
     private mapContains(position: Vector2, width: number, height: number): bool {
         return (position.X >= 0 && position.X + width <= Map.WIDTH &&
             position.Y >= 0 && position.Y + height <= Map.HEIGHT);

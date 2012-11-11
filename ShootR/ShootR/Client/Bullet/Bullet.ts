@@ -1,5 +1,6 @@
 /// <reference path="../Collidable/Collidable.ts" />
 /// <reference path="../Utilities/ImageAssets.ts" />
+/// <reference path="../Managers/spritify.ts" />
 /// <reference path="../GameGlobals.ts" />
 /// <reference path="../HUD/Animation/TextAnimation.ts" />
 /// <reference path="../Utilities/UtilityFunctions.ts" />

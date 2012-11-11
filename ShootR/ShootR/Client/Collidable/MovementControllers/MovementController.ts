@@ -1,6 +1,7 @@
-/// <reference path="../../Space/Map.ts" />
 /// <referene path="../../Utilities/Vector2.ts" />
 /// <reference path="../../Interfaces/PayloadDefinitions.d.ts" />
+
+declare var Map; // For some reason the compiler barfs if I include the Map.ts file
 
 class MovementController {
     public Position: Vector2;
