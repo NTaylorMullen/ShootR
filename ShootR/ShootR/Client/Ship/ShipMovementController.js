@@ -27,7 +27,7 @@ var ShipMovementController = (function (_super) {
         "Forward", 
         "Backward"
     ];
-    ShipMovementController.INTERPOLATE_POSITION_THRESHOLD = 13;
+    ShipMovementController.INTERPOLATE_POSITION_THRESHOLD = 10;
     ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD = 15;
     ShipMovementController.prototype.interpolate = function (axis, ClientPositionPrediction) {
         if(this.Smoothing[axis]) {
