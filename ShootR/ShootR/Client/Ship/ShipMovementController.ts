@@ -11,7 +11,7 @@ class ShipMovementController extends MovementController {
     static DRAG_COEFFICIENT: number = 0;
     static ROTATE_SPEED: number = 0;
     static MOVING_DIRECTIONS: string[] = ["RotatingLeft", "RotatingRight", "Forward", "Backward"];
-    static INTERPOLATE_POSITION_THRESHOLD: number = 10;
+    static INTERPOLATE_POSITION_THRESHOLD: number = 13;
     static INTERPOLATE_ROTATION_THRESHOLD: number = 15;
 
     private _acceleration: Vector2;
