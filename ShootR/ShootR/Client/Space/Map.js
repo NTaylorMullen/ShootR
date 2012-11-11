@@ -1,6 +1,5 @@
 var Map = (function () {
-    function Map() {
-    }
+    function Map() { }
     Map.WIDTH = 0;
     Map.HEIGHT = 0;
     Map.BARRIER_DEPRECATION = 0.75;

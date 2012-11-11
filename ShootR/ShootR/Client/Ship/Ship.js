@@ -1,3 +1,8 @@
+var __extends = this.__extends || function (d, b) {
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+}
 var Ship = (function (_super) {
     __extends(Ship, _super);
     function Ship(properties) {
@@ -39,9 +44,9 @@ var Ship = (function (_super) {
         var PercentOfSecond = CalculatePOS(this.LastUpdated);
         this.UpdateFromSecond(PercentOfSecond);
     };
-    Ship.prototype.UpdateFromSecond = function (PercentOfSecond) {
+    Ship.prototype.UpdateFromSecond = function (percentOfSecond) {
         var now = new Date();
-        this.MovementController.Update(PercentOfSecond, now);
+        this.MovementController.Update(percentOfSecond, now);
         this.AnimationHandler.Update(now);
         this.AnimationHandler.DrawDamage();
         this.ShipAbilityHandler.Update(now);
