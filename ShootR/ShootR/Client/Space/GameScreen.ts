@@ -1,4 +1,5 @@
 /// <reference path="../Space/CanvasRenderer.ts" />
+/// <reference path="../Utilities/Size.ts" />
 /// <reference path="../Utilities/UtilityFunctions.ts" />
 /// <reference path="../../Scripts/jquery.d.ts" />
 /// <reference path="../HUD/HUDManager.ts" />
@@ -15,7 +16,7 @@ class GameScreen {
 
     private _gameHUD: HUDManager;
 
-    constructor (private _gameCanvas: JQuery, private _gameWrapper: JQuery, private _popUpHolder: JQuery, private _connection: any) {
+    constructor (private _gameCanvas: JQuery, private _gameWrapper: JQuery, private _popUpHolder: any, private _connection: any) {
         this.Viewport = this.UpdateViewport();
 
         var that: GameScreen = this;

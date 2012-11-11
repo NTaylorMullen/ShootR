@@ -1,5 +1,8 @@
 /// <reference path="../Powerups/HealthPack.ts" />
+/// <reference path="../Powerups/Powerup.ts" />
 /// <reference path="../Utilities/GameTime.ts" />
+/// <reference path="../Interfaces/PayloadDefinitions.d.ts" />
+/// <reference path="../Space/CanvasRenderer.ts" />
 
 class PowerupManager {
     public Powerups: { [s: any]: Powerup; };

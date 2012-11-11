@@ -1,4 +1,7 @@
 /// <reference path="TouchController.ts" />
+/// <reference path="../Utilities/Vector2.ts" />
+/// <reference path="../Utilities/UtilityFunctions.ts" />
+/// <reference path="../Space/CanvasRenderer.ts" />
 
 class JoyStick {
     private _controlling: bool;

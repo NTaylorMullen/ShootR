@@ -1,4 +1,6 @@
 /// <reference path="../Managers/spritify.ts" />
+/// <reference path="../Utilities/ImageAssets.ts" />
+/// <reference path="../Utilities/Size.ts" />
 /// <reference path="Ship.ts" />
 
 class ShipAnimationHandler {

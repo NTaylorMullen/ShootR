@@ -1,4 +1,9 @@
 /// <reference path="ShipController.ts" />
+/// <reference path="Ship.ts" />
+/// <reference path="../Interfaces/PayloadDefinitions.d.ts" />
+/// <reference path="../Utilities/ImageAssets.ts" />
+/// <reference path="../Utilities/GameTime.ts" />
+/// <reference path="../Space/CanvasRenderer.ts" />
 
 class ShipManager {
     public DrawDetails: bool;

@@ -1,4 +1,5 @@
 /// <reference path="Leaderboard.ts" />
+/// <reference path="../Ship/ShipController.ts" />
 /// <reference path="../../Scripts/jquery.d.ts" />
 
 class DeathScreen {

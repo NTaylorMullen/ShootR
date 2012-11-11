@@ -1,13 +1,8 @@
 /// <reference path="../Collidable/MovementControllers/MovementController.ts" />
 /// <reference path="../Utilities/Vector2.ts" />
 /// <reference path="../Utilities/UtilityFunctions.ts" />
-
-interface IMoving {
-    Forward: bool;
-    Backward: bool;
-    RotatingLeft: bool;
-    RotatingRight: bool;
-}
+/// <reference path="../Interfaces/IMoving.d.ts" />
+/// <reference path="../Interfaces/PayloadDefinitions.d.ts" />
 
 class ShipMovementController extends MovementController {
     static MASS: number = 0;

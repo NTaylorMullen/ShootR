@@ -1,3 +1,6 @@
+/// <reference path="IMoving.d.ts" />
+/// <reference path="../Utilities/Vector2.ts" />
+
 interface IMovementControllerData {
     Forces: Vector2;
     Mass: number;

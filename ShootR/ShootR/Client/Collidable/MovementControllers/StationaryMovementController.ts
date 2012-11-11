@@ -1,4 +1,6 @@
 /// <reference path="MovementController.ts" />
+/// <reference path="../../Utilities/Vector2.ts" />
+/// <reference path="../../Interfaces/PayloadDefinitions.d.ts" />
 
 class StationaryMovementController extends MovementController {
     constructor (position: Vector2) {

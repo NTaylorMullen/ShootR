@@ -1,6 +1,8 @@
 /// <reference path="Powerup.ts" />
 /// <reference path="../Managers/spritify.ts" />
 /// <reference path="../Utilities/ImageAssets.ts" />
+/// <reference path="../Utilities/Vector2.ts" />
+/// <reference path="../Utilities/GameTime.ts" />
 /// <reference path="../Collidable/MovementControllers/StationaryMovementController.ts" />
 
 class HealthPack extends Powerup {

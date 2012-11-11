@@ -1,4 +1,7 @@
 /// <reference path="../Ship/ShipController.ts" />
+/// <reference path="../HUD/Animation/TextAnimation.ts" />
+/// <reference path="../GameGlobals.ts" />
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class ExperienceMonitor {
     static ANIMATE_SPEED: number = 500;

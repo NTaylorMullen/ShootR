@@ -1,5 +1,6 @@
 /// <reference path="../../Space/Map.ts" />
-/// <reference path="../../Utilities/PayloadManagement/PayloadDefinitions.ts" />
+/// <referene path="../../Utilities/Vector2.ts" />
+/// <reference path="../../Interfaces/PayloadDefinitions.d.ts" />
 
 class MovementController {
     public Position: Vector2;

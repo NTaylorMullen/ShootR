@@ -1,5 +1,3 @@
-/// <reference path="spritify.ts" />
-
 class AnimationManager {
     private _animations: any[];
     private _animationCount: number;

@@ -8,6 +8,8 @@
 /// <reference path="../Utilities/ImageAssets.ts" />
 /// <reference path="ShipAnimationHandler.ts" />
 /// <reference path="../HUD/HealthMonitor.ts" />
+/// <reference path="../Space/CanvasRenderer.ts" />
+
 
 class Ship extends Collidable {
     static WIDTH: number;
@@ -70,10 +72,10 @@ class Ship extends Collidable {
         this.UpdateFromSecond(PercentOfSecond);
     }
 
-    public UpdateFromSecond(PercentOfSecond: number): void {
+    public UpdateFromSecond(percentOfSecond: number): void {
         var now: Date = new Date();
 
-        this.MovementController.Update(PercentOfSecond, now);
+        this.MovementController.Update(percentOfSecond, now);
         this.AnimationHandler.Update(now);
         this.AnimationHandler.DrawDamage();
         this.ShipAbilityHandler.Update(now);

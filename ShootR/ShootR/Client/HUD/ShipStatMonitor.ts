@@ -1,4 +1,6 @@
 /// <reference path="../Ship/ShipController.ts" />
+/// <reference path="../Ship/Ship.ts" />
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class ShipStatMonitor {
     private _speedHolder: JQuery = $("#Speed");

@@ -1,9 +1,11 @@
 /// <reference path="Ship.ts" />
 /// <reference path="ShipMovementController.ts" />
 /// <reference path="../Utilities/LatencyResolver.ts" />
+/// <reference path="../Utilities/Vector2.ts" />
+/// <reference path="../Utilities/UtilityFunctions.ts" />
 /// <reference path="../GameController/TouchController.ts" />
-
-declare var shortcut;
+/// <reference path="../Space/GameScreen.ts" />
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class ShipController extends Ship {
     static REQUEST_PING_EVERY: number = 5;

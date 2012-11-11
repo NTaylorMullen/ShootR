@@ -320,6 +320,17 @@
       <DependentUpon>ShipStatMonitor.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\Main.ts" />
+    <TypeScriptCompile Include="Client\Interfaces\IConfigurations.ts" />
+    <TypeScriptCompile Include="Client\Interfaces\IGameColors.ts" />
+    <Content Include="Client\Interfaces\IConfigurations.min.js">
+      <DependentUpon>IConfigurations.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Interfaces\IGameColors.min.js">
+      <DependentUpon>IGameColors.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Interfaces\IMoving.d.min.js">
+      <DependentUpon>IMoving.d.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Main.js">
       <DependentUpon>Main.ts</DependentUpon>
     </Content>
@@ -360,6 +371,7 @@
     <Content Include="Client\Powerups\PowerupManager.min.js">
       <DependentUpon>PowerupManager.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Client\Interfaces\IMoving.d.ts" />
     <Content Include="Client\Ship\Ship.js">
       <DependentUpon>Ship.ts</DependentUpon>
     </Content>
@@ -465,7 +477,7 @@
       <DependentUpon>PayloadDecompressor.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\Utilities\Size.ts" />
-    <TypeScriptCompile Include="Client\Utilities\PayloadManagement\PayloadDefinitions.ts" />
+    <TypeScriptCompile Include="Client\Interfaces\PayloadDefinitions.d.ts" />
     <Content Include="Client\Utilities\Size.js">
       <DependentUpon>Size.ts</DependentUpon>
     </Content>

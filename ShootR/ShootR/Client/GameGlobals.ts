@@ -1,10 +1,5 @@
 /// <reference path="Managers/AnimationManager.ts" />
-
-interface GameColors {
-    ShipBad: string;
-    ShipHurt: string;
-    ShipGood: string;
-}
+/// <reference path="Interfaces/IGameColors.ts" />
 
 class GameGlobals {
     constructor (public AnimationManager: AnimationManager, public Colors: GameColors, public Game: any) {

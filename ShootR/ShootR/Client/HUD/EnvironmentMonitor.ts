@@ -1,6 +1,6 @@
 /// <reference path="../Ship/ShipController.ts" />
-
-declare var $;
+/// <reference path="../Space/Map.ts" />
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class EnvironmentMonitor {
     private _latency: JQuery = $("#Latency");

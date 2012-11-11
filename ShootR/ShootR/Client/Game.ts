@@ -1,11 +1,15 @@
-/// <reference path="Utilities/GameTime.ts" />
 /// <reference path="Bullet/BulletManager.ts" />
 /// <reference path="Powerups/PowerupManager.ts" />
 /// <reference path="HUD/HUDManager.ts" />
 /// <reference path="Ship/ShipManager.ts" />
+/// <reference path="Powerups/PowerupManager.ts" />
 /// <reference path="Utilities/LatencyResolver.ts" />
 /// <reference path="Space/Map.ts" />
+/// <reference path="Space/CanvasRenderer.ts" />
 /// <reference path="Ship/ShipController.ts" />
+/// <reference path="Interfaces/PayloadDefinitions.d.ts" />
+/// <reference path="Utilities/GameTime.ts" />
+/// <reference path="GameGlobals.ts" />
 
 class Game {
     public GameTime: GameTime;

@@ -2,8 +2,6 @@
 /// <reference path="../../Space/CanvasRenderer.ts" />
 /// <reference path="../../../Scripts/jquery.d.ts" />
 
-declare var $;
-
 class TextAnimation {
     public Destroyed: bool = false;
 

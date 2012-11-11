@@ -8,7 +8,10 @@
 /// <reference path="MyRankings.ts" />
 /// <reference path="EnvironmentMonitor.ts" />
 /// <reference path="../Space/AreaRenderer.ts" />
+/// <reference path="../Space/Map.ts" />
 /// <reference path="ShipStatMonitor.ts" />
+/// <reference path="../Utilities/Size.ts" />
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class HUDManager {
     public GameDetailManager: GameDetailManager;

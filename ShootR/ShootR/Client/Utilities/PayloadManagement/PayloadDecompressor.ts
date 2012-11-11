@@ -1,6 +1,6 @@
 /// <reference path="../Vector2.ts" />
-/// <reference path="../../Ship/ShipMovementController.ts" />
-/// <reference path="PayloadDefinitions.ts" />
+/// <reference path="../../Interfaces/IMoving.d.ts" />
+/// <reference path="../../Interfaces/PayloadDefinitions.d.ts" />
 
 class PayloadDecompressor {
     public PayloadContract: any;

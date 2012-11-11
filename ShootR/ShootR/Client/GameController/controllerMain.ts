@@ -7,9 +7,9 @@
 
 declare var animloop;
 
-$(window).load(function () {
+(<any>$)(window).load(function () {
     // The hub name is a single letter in order to reduce payload size
-    var env = $.connection.h,
+    var env = (<any>$).connection.h,
         configurationManager: any = {}, // Hack
         screen: GameScreen = new GameScreen($("#game"), $("#gameWrapper"), false, env),
         shipControllerFn: ShipControllerFunctions = new ShipControllerFunctions(env),
@@ -59,33 +59,33 @@ $(window).load(function () {
         CanvasContext.Render();
     }
     
-    var stateCookie = $.cookie('shootr.state'),
+    var stateCookie = (<any>$).cookie('shootr.state'),
         state = stateCookie ? JSON.parse(stateCookie) : {},
         registrationID = state.RegistrationID;
 
     env.client.stopController = function (msg) {
-        $.connection.hub.stop();
+        (<any>$).connection.hub.stop();
         alert(msg);        
     }
 
     env.client.disconnect = function () {
-        $.connection.hub.stop();
+        (<any>$).connection.hub.stop();
         alert("You have been disconnected for being Idle for too long.");        
     }
 
     if (registrationID) {
         delete state.RegistrationID;
 
-        $.cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });
+        (<any>$).cookie('shootr.state', JSON.stringify(state), { path: '/', expires: 30 });
 
-        $.connection.hub.start(function () {
+        (<any>$).connection.hub.start(function () {
             env.server.initializeController(registrationID).done(function (val) {
                 if (!val.FailureMessage) {
                     Initialize(val);
                 }
                 else {
                     alert(val.FailureMessage);
-                    $.connection.hub.stop();
+                    (<any>$).connection.hub.stop();
                 }
             });
         });

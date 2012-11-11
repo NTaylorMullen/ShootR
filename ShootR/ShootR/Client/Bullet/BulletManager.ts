@@ -1,4 +1,7 @@
-///<reference path="Bullet.ts" />
+/// <reference path="Bullet.ts" />
+/// <reference path="../Utilities/GameTime.ts" />
+/// <reference path="../Space/CanvasRenderer.ts" />
+/// <reference path="../Interfaces/PayloadDefinitions.d.ts" />
 
 class BulletManager {
     public Bullets: { [s: any]: Bullet; };

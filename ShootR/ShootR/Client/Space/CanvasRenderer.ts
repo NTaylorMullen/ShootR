@@ -1,4 +1,7 @@
+/// <reference path="../Utilities/Size.ts" />
+/// <reference path="../Utilities/Vector2.ts" />
 /// <reference path="Camera.ts" />
+/// <reference path="../../Scripts/jquery.d.ts" />
 
 class CanvasRenderer {
     static TO_RADIANS: number = Math.PI / 180;

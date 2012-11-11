@@ -1,1 +1,1 @@
-{"version":3,"file":"GameGlobals.js","sources":["GameGlobals.ts"],"names":[],"mappings":"AAQA;IACI,qBAAa,kBAA2C,QAA2B;QAA/D,wBAAA;QAA2C,cAAA;QAA2B,YAAA;AACzF;IAFL;;AAKA,IAAI,eAAmB,IAAA,YACf,IAAA,oBACJ;IACI,SAAS;IACT,UAAU;IACV,UAAU;GAEd"}
+{"version":3,"file":"GameGlobals.js","sources":["GameGlobals.ts"],"names":[],"mappings":"AAGA;IACI,qBAAa,kBAA2C,QAA2B;QAA/D,wBAAA;QAA2C,cAAA;QAA2B,YAAA;AACzF;IAFL;;AAKA,IAAI,eAAmB,IAAA,YACf,IAAA,oBACJ;IACI,SAAS;IACT,UAAU;IACV,UAAU;GAEd"}

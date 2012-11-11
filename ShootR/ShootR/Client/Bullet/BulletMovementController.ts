@@ -1,4 +1,5 @@
 /// <reference path="../Collidable/MovementControllers/MovementController.ts" />
+/// <reference path="../Utilities/Vector2.ts" />
 
 class BulletMovementController extends MovementController {
     static MAX_SPEED: number = 1100; // Updated from server configuration value

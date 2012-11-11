@@ -1,7 +1,11 @@
 /// <reference path="Game.ts" />
+/// <reference path="GameGlobals.ts" />
 /// <reference path="Utilities/PayloadManagement/PayloadDecompressor.ts" />
+/// <reference path="Utilities/LatencyResolver.ts" />
 /// <reference path="Space/GameScreen.ts" />
+/// <reference path="Space/Map.ts" />
 /// <reference path="Configuration/ConfigurationManager.ts" />
+/// <reference path="../Scripts/jquery.d.ts" />
 
 declare var animloop;
 
