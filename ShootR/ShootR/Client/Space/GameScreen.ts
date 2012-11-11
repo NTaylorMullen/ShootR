@@ -1,7 +1,7 @@
 /// <reference path="../Space/CanvasRenderer.ts" />
 /// <reference path="../Utilities/UtilityFunctions.ts" />
-
-declare var $;
+/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../HUD/HUDManager.ts" />
 
 class GameScreen {
     // Initially set to really high, this will be changed by the configuration
@@ -13,41 +13,21 @@ class GameScreen {
 
     public Viewport: Size;
 
-    private _gameHUD: any;
+    private _gameHUD: HUDManager;
 
-    constructor (private _gameCanvas: any, private _gameWrapper: any, private _popUpHolder: any, private _connection: any) {
+    constructor (private _gameCanvas: JQuery, private _gameWrapper: JQuery, private _popUpHolder: JQuery, private _connection: any) {
         this.Viewport = this.UpdateViewport();
 
-        var that = this;
+        var that: GameScreen = this;
         $(window).resize(function () {
             // Wait till window has officially finished resizing (wait a quarter second).
             delay(function () {
-                that.ScreenResizeEvent();
+                that.screenResizeEvent();
             }, 250);
         });
     }
-    
-    public Initialize(gamehud?: any): void {
-        this._gameHUD = gamehud;
-        this.ScreenResizeEvent();
-    }
 
-    public TopOffset(): number {
-        return 0;
-    }
-
-    public BottomOffset(): number {
-        return 0;
-    }
-
-    public UpdateViewport(): Size {
-        return new Size(
-            Math.max(Math.min($(window).width(), GameScreen.MAX_SCREEN_WIDTH), GameScreen.MIN_SCREEN_WIDTH),
-            Math.max(Math.min($(window).height(), GameScreen.MAX_SCREEN_HEIGHT) - this.TopOffset() - this.BottomOffset(), GameScreen.MIN_SCREEN_HEIGHT)
-        );
-    }
-
-    private UpdateGameCanvas(): void {
+    private updateGameCanvas(): void {
         this._gameCanvas.attr("width", this.Viewport.Width);
         this._gameCanvas.attr("height", this.Viewport.Height);
         this._gameWrapper.css("width", this.Viewport.Width);
@@ -63,17 +43,13 @@ class GameScreen {
         CanvasContext.Camera.View = new Size($(this._gameCanvas).width() + GameScreen.SCREEN_BUFFER_AREA);
     }
 
-    public SendNewViewportToServer(): void {
-        this._connection.server.changeViewport(this.Viewport.Width, this.Viewport.Height);
-    }
-
-    private UpdateScreen() {
+    private updateScreen(): void {
         this.Viewport = this.UpdateViewport();
 
-        this.UpdateGameCanvas();
+        this.updateGameCanvas();
         this.UpdateGameCamera();
-        CanvasContext.UpdateSize(this.Viewport);
 
+        CanvasContext.UpdateSize(this.Viewport);
         this.SendNewViewportToServer();
 
         if (this._gameHUD) {
@@ -83,11 +59,27 @@ class GameScreen {
         $(this).triggerHandler("UpdateScreen");
     }
 
-    private ScreenResizeEvent(): void {
+    private screenResizeEvent(): void {
         var that = this;
-        this.UpdateScreen();
+        this.updateScreen();
         setTimeout(function () {
-            that.UpdateScreen();
+            that.updateScreen();
         }, 1500); // Re-calculate in-case there were scrollbars
+    }
+
+    public Initialize(gamehud?: HUDManager): void {
+        this._gameHUD = gamehud;
+        this.screenResizeEvent();
+    }
+
+    public UpdateViewport(): Size {
+        return new Size(
+            Math.max(Math.min($(window).width(), GameScreen.MAX_SCREEN_WIDTH), GameScreen.MIN_SCREEN_WIDTH),
+            Math.max(Math.min($(window).height(), GameScreen.MAX_SCREEN_HEIGHT), GameScreen.MIN_SCREEN_HEIGHT)
+        );
+    }
+
+    public SendNewViewportToServer(): void {
+        this._connection.server.changeViewport(this.Viewport.Width, this.Viewport.Height);
     }
 }

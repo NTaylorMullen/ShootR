@@ -3,9 +3,9 @@
 class CanvasRenderer {
     static TO_RADIANS: number = Math.PI / 180;
 
-    private _drawContext: any;
-    private _canvasBuffer: any;
-    private _canvasBufferContext: any;
+    private _drawContext: CanvasRenderingContext2D;
+    private _canvasBuffer: HTMLCanvasElement;
+    private _canvasBufferContext: CanvasRenderingContext2D;
     private _textFont: string = "15px SegoeUISemibold";
     private _textColor: string = "rgba(255, 255, 255, 1)";
 
@@ -13,13 +13,13 @@ class CanvasRenderer {
     public CanvasCenter: Vector2;
     public Camera: Camera = new Camera();
 
-    constructor (target: any) {
-        this._drawContext = target[0].getContext("2d");
-        this._canvasBuffer = document.createElement("canvas");
+    constructor (target: JQuery) {
+        this._drawContext = (<HTMLCanvasElement>target[0]).getContext("2d");
+        this._canvasBuffer = <HTMLCanvasElement>document.createElement("canvas");
         this._canvasBufferContext = this._canvasBuffer.getContext("2d");
     }
 
-    public UpdateSize (size: Size): void {
+    public UpdateSize(size: Size): void {
         this.CanvasSize = size;
         this.CanvasCenter = new Vector2(.5 * this.CanvasSize.Width, .5 * this.CanvasSize.Height);
 
@@ -27,39 +27,39 @@ class CanvasRenderer {
         this._canvasBuffer.height = this.CanvasSize.Height;
     }
 
-    public drawMapBoundary (width: number, height: number): void {
+    public drawMapBoundary(boundarySize: Size): void {
         var cameraOffset = { X: -this.Camera.Position.X + this.CanvasCenter.X, Y: -this.Camera.Position.Y + this.CanvasCenter.Y };
 
         this._canvasBufferContext.save();
 
         this._canvasBufferContext.translate(cameraOffset.X, cameraOffset.Y);
-        this._canvasBufferContext.lineWidth = "5";
+        this._canvasBufferContext.lineWidth = 5;
         this._canvasBufferContext.strokeStyle = "#3fa9f5";
-        this._canvasBufferContext.strokeRect(0, 0, width, height);
+        this._canvasBufferContext.strokeRect(0, 0, boundarySize.Width, boundarySize.Height);
 
         this._canvasBufferContext.restore();
     }
 
-    public strokeSquare (x: number, y: number, width: number, height: number, customColor: string): void {
-        var cameraOffset = new Vector2(x - this.Camera.Position.X + this.CanvasCenter.X, y - this.Camera.Position.Y + this.CanvasCenter.Y);
+    public strokeSquare(position: Vector2, size: Size, customColor: string): void {
+        var cameraOffset = new Vector2(position.X - this.Camera.Position.X + this.CanvasCenter.X, position.Y - this.Camera.Position.Y + this.CanvasCenter.Y);
 
         this._canvasBufferContext.save();
 
         this._canvasBufferContext.translate(cameraOffset.X, cameraOffset.Y);
-        this._canvasBufferContext.lineWidth = "1";
+        this._canvasBufferContext.lineWidth = 1;
 
         if (!customColor) {
-            customColor = "#f00";            
+            customColor = "#f00";
         }
 
         this._canvasBufferContext.strokeStyle = customColor;
-        this._canvasBufferContext.strokeRect(0, 0, width, height);
+        this._canvasBufferContext.strokeRect(0, 0, size.Width, size.Height);
 
         this._canvasBufferContext.restore();
     }
 
-    public drawRectangle (x: number, y: number, width: number, height: number, color: string): void {
-        var cameraOffset = new Vector2(x - this.Camera.Position.X + this.CanvasCenter.X, y - this.Camera.Position.Y + this.CanvasCenter.Y );
+    public drawRectangle(x: number, y: number, width: number, height: number, color: string): void {
+        var cameraOffset = new Vector2(x - this.Camera.Position.X + this.CanvasCenter.X, y - this.Camera.Position.Y + this.CanvasCenter.Y);
 
         this._canvasBufferContext.save();
 
@@ -70,7 +70,7 @@ class CanvasRenderer {
         this._canvasBufferContext.restore();
     }
 
-    public drawCircle (x: number, y: number, radius: number, lineWidth: number, color: string): void {
+    public drawCircle(x: number, y: number, radius: number, lineWidth: number, color: string): void {
         this._canvasBufferContext.beginPath();
         this._canvasBufferContext.strokeStyle = color;
         this._canvasBufferContext.lineWidth = lineWidth;
@@ -78,7 +78,7 @@ class CanvasRenderer {
         this._canvasBufferContext.stroke();
     }
 
-    public drawLine (fromX: number, fromY: number, toX: number, toY: number, lineWidth: number, color: string): void {
+    public drawLine(fromX: number, fromY: number, toX: number, toY: number, lineWidth: number, color: string): void {
         this._canvasBufferContext.save();
 
         this._canvasBufferContext.beginPath();
@@ -91,8 +91,8 @@ class CanvasRenderer {
         this._canvasBufferContext.restore();
     }
 
-    public drawText (text: string, x: number, y: number, customColor?: string, customFont?: string, textAlign?: string, textBaseline?: string): void {
-        var cameraOffset = new Vector2(-this.Camera.Position.X + this.CanvasCenter.X, -this.Camera.Position.Y + this.CanvasCenter.Y );
+    public drawText(text: string, x: number, y: number, customColor?: any, customFont?: any, textAlign?: any, textBaseline?: any): void {
+        var cameraOffset = new Vector2(-this.Camera.Position.X + this.CanvasCenter.X, -this.Camera.Position.Y + this.CanvasCenter.Y);
 
         if (!customColor) {
             customColor = this._textColor;
@@ -106,7 +106,7 @@ class CanvasRenderer {
 
         this._canvasBufferContext.translate(cameraOffset.X + x, y + cameraOffset.Y);
         if (!textAlign) {
-            textAlign = "center"            
+            textAlign = "center"
         }
 
         this._canvasBufferContext.textAlign = textAlign;
@@ -115,7 +115,7 @@ class CanvasRenderer {
             this._canvasBufferContext.textBaseline = textBaseline;
         }
 
-        this._canvasBufferContext.font = customFont;        
+        this._canvasBufferContext.font = customFont;
         this._canvasBufferContext.fillStyle = customColor;
 
         this._canvasBufferContext.fillText(text, 0, 0);
@@ -123,11 +123,11 @@ class CanvasRenderer {
         this._canvasBufferContext.restore();
     }
 
-    public drawRotatedImage (image: any, angle: number, sx: number, sy: number, swidth?: number, sheight?: number, x?: number, y?: number, width?: number, height?: number): void {
+    public drawRotatedImage(image: any, angle: number, sx: number, sy: number, swidth?: number, sheight?: number, x?: number, y?: number, width?: number, height?: number): void {
         this._canvasBufferContext.save();
 
         var halfSize,
-            cameraOffset = new Vector2( -this.Camera.Position.X + this.CanvasCenter.X, -this.Camera.Position.Y + this.CanvasCenter.Y );
+            cameraOffset = new Vector2(-this.Camera.Position.X + this.CanvasCenter.X, -this.Camera.Position.Y + this.CanvasCenter.Y);
 
         if (!swidth) {
             halfSize = { width: image.width * .5, height: image.height * .5 };

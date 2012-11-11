@@ -97,7 +97,7 @@ var spritify = (function () {
             autoPlay: true,
             autoClear: true,
             finalFrames: 0,
-            deferred: $.Deferred()
+            deferred: ($).Deferred()
         }, this.options);
         this.options.destroyOncePlayed = (this.options.loop === false) ? this.options.destroyOncePlayed : false;
         this.options.currentFrame = this.options.startFrame;

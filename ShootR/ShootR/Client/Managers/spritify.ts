@@ -124,7 +124,7 @@ class spritify {
             autoPlay: true,
             autoClear: true,
             finalFrames: 0,
-            deferred: $.Deferred()
+            deferred: (<any>$).Deferred()
         }, this.options);
 
         // destroyOncePlayed can only be true if loop is false

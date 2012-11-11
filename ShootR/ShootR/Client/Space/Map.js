@@ -4,12 +4,12 @@ var Map = (function () {
     Map.WIDTH = 0;
     Map.HEIGHT = 0;
     Map.BARRIER_DEPRECATION = 0.75;
-    Map.prototype.MapContains = function (position, width, height) {
+    Map.prototype.mapContains = function (position, width, height) {
         return (position.X >= 0 && position.X + width <= Map.WIDTH && position.Y >= 0 && position.Y + height <= Map.HEIGHT);
     };
     Map.prototype.CheckBoundaryCollisions = function (ships, bullets) {
         for(var key in ships) {
-            if(!this.MapContains(ships[key].MovementController.Position, ships[key].WIDTH, ships[key].HEIGHT)) {
+            if(!this.mapContains(ships[key].MovementController.Position, ships[key].WIDTH, ships[key].HEIGHT)) {
                 var bounceMultiplier;
                 $(ships[key]).triggerHandler("OnOutOfBounds");
                 if(ships[key].MovementController.Position.X < 0 || (ships[key].MovementController.Position.X + ships[key].WIDTH) > Map.WIDTH) {
@@ -25,7 +25,7 @@ var Map = (function () {
             }
         }
         for(var key in bullets) {
-            if(!this.MapContains(bullets[key].MovementController.Position, bullets[key].WIDTH, bullets[key].HEIGHT)) {
+            if(!this.mapContains(bullets[key].MovementController.Position, bullets[key].WIDTH, bullets[key].HEIGHT)) {
                 bullets[key].Visible = false;
                 bullets[key].MovementController.Velocity.X = 0;
                 bullets[key].MovementController.Velocity.Y = 0;
@@ -33,7 +33,7 @@ var Map = (function () {
         }
     };
     Map.prototype.Draw = function () {
-        CanvasContext.drawMapBoundary(Map.WIDTH, Map.HEIGHT);
+        CanvasContext.drawMapBoundary(new Size(Map.WIDTH, Map.HEIGHT));
     };
     return Map;
 })();

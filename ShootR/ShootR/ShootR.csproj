@@ -399,6 +399,9 @@
       <DependentUpon>AreaRenderer.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\Space\Camera.ts" />
+    <Content Include="Client\Space\AreaRenderer.min.js">
+      <DependentUpon>AreaRenderer.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Space\Camera.js">
       <DependentUpon>Camera.ts</DependentUpon>
     </Content>
@@ -729,6 +732,9 @@
     </Content>
     <Content Include="Client\GameController\controllerMain.min.js.map">
       <DependentUpon>controllerMain.js</DependentUpon>
+    </Content>
+    <Content Include="Client\Space\AreaRenderer.min.js.map">
+      <DependentUpon>AreaRenderer.js</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>

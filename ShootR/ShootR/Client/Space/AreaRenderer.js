@@ -1,10 +1,5 @@
-
 var AreaRenderer = (function () {
     function AreaRenderer(myShip, mapSize) {
-        this.AREA_BOX_COLOR = "#304665";
-        this.AREA_TEXT_COLOR = "#3fa9f5";
-        this.AREA_TEXT_MARGIN = 13;
-        this.KEYBOARD_MAPPING = "m";
         this._showMap = true;
         this._areaLetters = [
             'A', 
@@ -37,33 +32,37 @@ var AreaRenderer = (function () {
         this._hudArea = $("#Area");
         this.OnMapResize(mapSize);
         this._myShip = myShip;
-        this.ApplyKeyboardMappings();
+        this.applyKeyboardMappings();
     }
-    AreaRenderer.prototype.ApplyKeyboardMappings = function () {
+    AreaRenderer.AREA_BOX_COLOR = "#304665";
+    AreaRenderer.AREA_TEXT_COLOR = "#3fa9f5";
+    AreaRenderer.AREA_TEXT_MARGIN = 13;
+    AreaRenderer.KEYBOARD_MAPPING = "m";
+    AreaRenderer.prototype.applyKeyboardMappings = function () {
         var that = this;
-        shortcut.add(this.KEYBOARD_MAPPING, function () {
+        shortcut.add(AreaRenderer.KEYBOARD_MAPPING, function () {
             that._showMap = !that._showMap;
         });
     };
-    AreaRenderer.prototype.DrawSectorMap = function (sectorPosition, letterIndex, sectorNumber) {
-        var sectors = this.GetBoxPositions(sectorPosition, letterIndex, sectorNumber);
+    AreaRenderer.prototype.drawSectorMap = function (sectorPosition, letterIndex, sectorNumber) {
+        var sectors = this.getBoxPositions(sectorPosition, letterIndex, sectorNumber);
         for(var i = sectors.length - 1; i >= 0; i--) {
-            this.DrawAreaBox(sectors[i]);
+            this.drawAreaBox(sectors[i]);
         }
     };
-    AreaRenderer.prototype.DrawAreaBox = function (where) {
-        CanvasContext.strokeSquare(where.Position.X, where.Position.Y, this._areaSize, this._areaSize, this.AREA_BOX_COLOR);
-        CanvasContext.drawText(where.Sector, where.Position.X + this.AREA_TEXT_MARGIN, where.Position.Y + this.AREA_TEXT_MARGIN, this.AREA_TEXT_COLOR, false, "start", "top");
-        CanvasContext.drawText(where.Sector, where.Position.X + this.AREA_TEXT_MARGIN, where.Position.Y + this._areaSize - this.AREA_TEXT_MARGIN, this.AREA_TEXT_COLOR, false, "start", "bottom");
-        CanvasContext.drawText(where.Sector, where.Position.X + this._areaSize - this.AREA_TEXT_MARGIN, where.Position.Y + this.AREA_TEXT_MARGIN, this.AREA_TEXT_COLOR, false, "end", "top");
-        CanvasContext.drawText(where.Sector, where.Position.X + this._areaSize - this.AREA_TEXT_MARGIN, where.Position.Y + this._areaSize - this.AREA_TEXT_MARGIN, this.AREA_TEXT_COLOR, false, "end", "bottom");
+    AreaRenderer.prototype.drawAreaBox = function (where) {
+        CanvasContext.strokeSquare(where.Position, this._areaSize, AreaRenderer.AREA_BOX_COLOR);
+        CanvasContext.drawText(where.Sector, where.Position.X + AreaRenderer.AREA_TEXT_MARGIN, where.Position.Y + AreaRenderer.AREA_TEXT_MARGIN, AreaRenderer.AREA_TEXT_COLOR, false, "start", "top");
+        CanvasContext.drawText(where.Sector, where.Position.X + AreaRenderer.AREA_TEXT_MARGIN, where.Position.Y + this._areaSize.Width - AreaRenderer.AREA_TEXT_MARGIN, AreaRenderer.AREA_TEXT_COLOR, false, "start", "bottom");
+        CanvasContext.drawText(where.Sector, where.Position.X + this._areaSize.Width - AreaRenderer.AREA_TEXT_MARGIN, where.Position.Y + AreaRenderer.AREA_TEXT_MARGIN, AreaRenderer.AREA_TEXT_COLOR, false, "end", "top");
+        CanvasContext.drawText(where.Sector, where.Position.X + this._areaSize.Width - AreaRenderer.AREA_TEXT_MARGIN, where.Position.Y + this._areaSize.Width - AreaRenderer.AREA_TEXT_MARGIN, AreaRenderer.AREA_TEXT_COLOR, false, "end", "bottom");
     };
-    AreaRenderer.prototype.GetBoxPosition = function (boxIndex) {
+    AreaRenderer.prototype.getBoxPosition = function (boxIndex) {
         return new Vector2(Math.ceil(boxIndex % 3), Math.floor(boxIndex / 3));
     };
-    AreaRenderer.prototype.GetBoxPositions = function (currentSector, letterIndex, sectorNumber) {
+    AreaRenderer.prototype.getBoxPositions = function (currentSector, letterIndex, sectorNumber) {
         var sectorPositions = [];
-        var topLeftSector = Vector2.SubtractVFromN(currentSector, this._areaSize);
+        var topLeftSector = Vector2.SubtractVFromN(currentSector, this._areaSize.Width);
         var that = this;
 
         sectorPositions.push({
@@ -74,16 +73,16 @@ var AreaRenderer = (function () {
             MovementController: {
                 Position: topLeftSector
             },
-            WIDTH: this._areaSize,
-            HEIGHT: this._areaSize
+            WIDTH: this._areaSize.Width,
+            HEIGHT: this._areaSize.Height
         };
         for(var i = 0; i < 9; i++) {
             if(i !== 4) {
-                var boxRelativePosition = this.GetBoxPosition(i);
-                var spos = Vector2.MultiplyN(boxRelativePosition, this._areaSize);
+                var boxRelativePosition = this.getBoxPosition(i);
+                var spos = Vector2.MultiplyN(boxRelativePosition, this._areaSize.Width);
 
                 spos = Vector2.AddV(spos, topLeftSector);
-                if(spos.X >= 0 && spos.Y >= 0 && spos.X + this._areaSize <= this._mapSize && spos.Y + this._areaSize <= this._mapSize) {
+                if(spos.X >= 0 && spos.Y >= 0 && spos.X + this._areaSize.Width <= this._mapSize && spos.Y + this._areaSize.Width <= this._mapSize) {
                     cameraCheckObj.MovementController.Position = spos;
                     if(CanvasContext.Camera.InView(cameraCheckObj)) {
                         sectorPositions.push({
@@ -98,16 +97,17 @@ var AreaRenderer = (function () {
     };
     AreaRenderer.prototype.OnMapResize = function (newSize) {
         this._mapSize = newSize;
-        this._areaSize = Math.max(Math.round(this._mapSize / this._areaLetters.length), 1000);
+        var temp = Math.max(Math.round(this._mapSize / this._areaLetters.length), 1000);
+        this._areaSize = new Size(temp);
     };
     AreaRenderer.prototype.Draw = function () {
-        var letterIndex = Math.max(Math.floor(this._myShip.MovementController.Position.X / this._areaSize), 0);
+        var letterIndex = Math.max(Math.floor(this._myShip.MovementController.Position.X / this._areaSize.Width), 0);
         var letterSector = this._areaLetters[letterIndex];
-        var sectorNumber = Math.max(Math.ceil(this._myShip.MovementController.Position.Y / this._areaSize), 1);
-        var sectorPosition = new Vector2(letterIndex * this._areaSize, (sectorNumber - 1) * this._areaSize);
+        var sectorNumber = Math.max(Math.ceil(this._myShip.MovementController.Position.Y / this._areaSize.Height), 1);
+        var sectorPosition = new Vector2(letterIndex * this._areaSize.Width, (sectorNumber - 1) * this._areaSize.Width);
 
         if(this._showMap) {
-            this.DrawSectorMap(sectorPosition, letterIndex, sectorNumber);
+            this.drawSectorMap(sectorPosition, letterIndex, sectorNumber);
         }
         this._hudArea.html(letterSector + sectorNumber);
     };

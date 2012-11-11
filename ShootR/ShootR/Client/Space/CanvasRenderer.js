@@ -3,7 +3,7 @@ var CanvasRenderer = (function () {
         this._textFont = "15px SegoeUISemibold";
         this._textColor = "rgba(255, 255, 255, 1)";
         this.Camera = new Camera();
-        this._drawContext = target[0].getContext("2d");
+        this._drawContext = (target[0]).getContext("2d");
         this._canvasBuffer = document.createElement("canvas");
         this._canvasBufferContext = this._canvasBuffer.getContext("2d");
     }
@@ -14,28 +14,28 @@ var CanvasRenderer = (function () {
         this._canvasBuffer.width = this.CanvasSize.Width;
         this._canvasBuffer.height = this.CanvasSize.Height;
     };
-    CanvasRenderer.prototype.drawMapBoundary = function (width, height) {
+    CanvasRenderer.prototype.drawMapBoundary = function (boundarySize) {
         var cameraOffset = {
             X: -this.Camera.Position.X + this.CanvasCenter.X,
             Y: -this.Camera.Position.Y + this.CanvasCenter.Y
         };
         this._canvasBufferContext.save();
         this._canvasBufferContext.translate(cameraOffset.X, cameraOffset.Y);
-        this._canvasBufferContext.lineWidth = "5";
+        this._canvasBufferContext.lineWidth = 5;
         this._canvasBufferContext.strokeStyle = "#3fa9f5";
-        this._canvasBufferContext.strokeRect(0, 0, width, height);
+        this._canvasBufferContext.strokeRect(0, 0, boundarySize.Width, boundarySize.Height);
         this._canvasBufferContext.restore();
     };
-    CanvasRenderer.prototype.strokeSquare = function (x, y, width, height, customColor) {
-        var cameraOffset = new Vector2(x - this.Camera.Position.X + this.CanvasCenter.X, y - this.Camera.Position.Y + this.CanvasCenter.Y);
+    CanvasRenderer.prototype.strokeSquare = function (position, size, customColor) {
+        var cameraOffset = new Vector2(position.X - this.Camera.Position.X + this.CanvasCenter.X, position.Y - this.Camera.Position.Y + this.CanvasCenter.Y);
         this._canvasBufferContext.save();
         this._canvasBufferContext.translate(cameraOffset.X, cameraOffset.Y);
-        this._canvasBufferContext.lineWidth = "1";
+        this._canvasBufferContext.lineWidth = 1;
         if(!customColor) {
             customColor = "#f00";
         }
         this._canvasBufferContext.strokeStyle = customColor;
-        this._canvasBufferContext.strokeRect(0, 0, width, height);
+        this._canvasBufferContext.strokeRect(0, 0, size.Width, size.Height);
         this._canvasBufferContext.restore();
     };
     CanvasRenderer.prototype.drawRectangle = function (x, y, width, height, color) {

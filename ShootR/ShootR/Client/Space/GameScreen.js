@@ -8,7 +8,7 @@ var GameScreen = (function () {
         var that = this;
         $(window).resize(function () {
             delay(function () {
-                that.ScreenResizeEvent();
+                that.screenResizeEvent();
             }, 250);
         });
     }
@@ -17,20 +17,7 @@ var GameScreen = (function () {
     GameScreen.MIN_SCREEN_WIDTH = -1;
     GameScreen.MIN_SCREEN_HEIGHT = -1;
     GameScreen.SCREEN_BUFFER_AREA = 0;
-    GameScreen.prototype.Initialize = function (gamehud) {
-        this._gameHUD = gamehud;
-        this.ScreenResizeEvent();
-    };
-    GameScreen.prototype.TopOffset = function () {
-        return 0;
-    };
-    GameScreen.prototype.BottomOffset = function () {
-        return 0;
-    };
-    GameScreen.prototype.UpdateViewport = function () {
-        return new Size(Math.max(Math.min($(window).width(), GameScreen.MAX_SCREEN_WIDTH), GameScreen.MIN_SCREEN_WIDTH), Math.max(Math.min($(window).height(), GameScreen.MAX_SCREEN_HEIGHT) - this.TopOffset() - this.BottomOffset(), GameScreen.MIN_SCREEN_HEIGHT));
-    };
-    GameScreen.prototype.UpdateGameCanvas = function () {
+    GameScreen.prototype.updateGameCanvas = function () {
         this._gameCanvas.attr("width", this.Viewport.Width);
         this._gameCanvas.attr("height", this.Viewport.Height);
         this._gameWrapper.css("width", this.Viewport.Width);
@@ -43,12 +30,9 @@ var GameScreen = (function () {
     GameScreen.prototype.UpdateGameCamera = function () {
         CanvasContext.Camera.View = new Size($(this._gameCanvas).width() + GameScreen.SCREEN_BUFFER_AREA);
     };
-    GameScreen.prototype.SendNewViewportToServer = function () {
-        this._connection.server.changeViewport(this.Viewport.Width, this.Viewport.Height);
-    };
-    GameScreen.prototype.UpdateScreen = function () {
+    GameScreen.prototype.updateScreen = function () {
         this.Viewport = this.UpdateViewport();
-        this.UpdateGameCanvas();
+        this.updateGameCanvas();
         this.UpdateGameCamera();
         CanvasContext.UpdateSize(this.Viewport);
         this.SendNewViewportToServer();
@@ -57,12 +41,22 @@ var GameScreen = (function () {
         }
         $(this).triggerHandler("UpdateScreen");
     };
-    GameScreen.prototype.ScreenResizeEvent = function () {
+    GameScreen.prototype.screenResizeEvent = function () {
         var that = this;
-        this.UpdateScreen();
+        this.updateScreen();
         setTimeout(function () {
-            that.UpdateScreen();
+            that.updateScreen();
         }, 1500);
+    };
+    GameScreen.prototype.Initialize = function (gamehud) {
+        this._gameHUD = gamehud;
+        this.screenResizeEvent();
+    };
+    GameScreen.prototype.UpdateViewport = function () {
+        return new Size(Math.max(Math.min($(window).width(), GameScreen.MAX_SCREEN_WIDTH), GameScreen.MIN_SCREEN_WIDTH), Math.max(Math.min($(window).height(), GameScreen.MAX_SCREEN_HEIGHT), GameScreen.MIN_SCREEN_HEIGHT));
+    };
+    GameScreen.prototype.SendNewViewportToServer = function () {
+        this._connection.server.changeViewport(this.Viewport.Width, this.Viewport.Height);
     };
     return GameScreen;
 })();
