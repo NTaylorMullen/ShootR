@@ -1,5 +1,5 @@
-/// <reference path="../../Utilities/Vector2.ts" />
 /// <reference path="../../Space/Map.ts" />
+/// <reference path="../../Utilities/PayloadManagement/PayloadDefinitions.ts" />
 
 class MovementController {
     public Position: Vector2;
@@ -57,18 +57,9 @@ class MovementController {
         this.LastUpdated = now;
     }
 
-    public UpdateMovementController(data: any): void {
-        this.Forces.X = data.Forces.X;
-        this.Forces.Y = data.Forces.Y;
-
-        this.Mass = data.Mass;
-
-        this.Position.X = data.Position.X;
-        this.Position.Y = data.Position.Y;
-
-        this.Rotation = data.Rotation;
-
-        this.Velocity.X = data.Velocity.X;
-        this.Velocity.Y = data.Velocity.Y;
+    public UpdateMovementController(data: IMovementControllerData): void {
+        for (var key in data) {
+            this[key] = data[key];
+        };
     }
 }

@@ -465,6 +465,7 @@
       <DependentUpon>PayloadDecompressor.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\Utilities\Size.ts" />
+    <TypeScriptCompile Include="Client\Utilities\PayloadManagement\PayloadDefinitions.ts" />
     <Content Include="Client\Utilities\Size.js">
       <DependentUpon>Size.ts</DependentUpon>
     </Content>

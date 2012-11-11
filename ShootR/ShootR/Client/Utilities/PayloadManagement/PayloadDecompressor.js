@@ -4,25 +4,13 @@ var PayloadDecompressor = (function () {
     PayloadDecompressor.prototype.DecompressCollidable = function (obj) {
         return {
             Collided: !!obj[this.CollidableContract.Collided],
-            CollidedAt: {
-                X: obj[this.CollidableContract.CollidedAtX],
-                Y: obj[this.CollidableContract.CollidedAtY]
-            },
+            CollidedAt: new Vector2(obj[this.CollidableContract.CollidedAtX], obj[this.CollidableContract.CollidedAtY]),
             MovementController: {
-                Forces: {
-                    X: obj[this.CollidableContract.ForcesX],
-                    Y: obj[this.CollidableContract.ForcesY]
-                },
+                Forces: new Vector2(obj[this.CollidableContract.ForcesX], obj[this.CollidableContract.ForcesY]),
                 Mass: obj[this.CollidableContract.Mass],
-                Position: {
-                    X: obj[this.CollidableContract.PositionX],
-                    Y: obj[this.CollidableContract.PositionY]
-                },
+                Position: new Vector2(obj[this.CollidableContract.PositionX], obj[this.CollidableContract.PositionY]),
                 Rotation: obj[this.CollidableContract.Rotation],
-                Velocity: {
-                    X: obj[this.CollidableContract.VelocityX],
-                    Y: obj[this.CollidableContract.VelocityY]
-                }
+                Velocity: new Vector2(obj[this.CollidableContract.VelocityX], obj[this.CollidableContract.VelocityY])
             },
             LifeController: {
                 Alive: obj[this.CollidableContract.Alive],
@@ -53,6 +41,32 @@ var PayloadDecompressor = (function () {
         result.DamageDealt = bullet[this.BulletContract.DamageDealt];
         return result;
     };
+    PayloadDecompressor.prototype.DecompressLeaderboardEntry = function (data) {
+        return {
+            Name: data[this.LeaderboardEntryContract.Name],
+            Photo: data[this.LeaderboardEntryContract.Photo],
+            ID: data[this.LeaderboardEntryContract.ID],
+            Level: data[this.LeaderboardEntryContract.Level],
+            Kills: data[this.LeaderboardEntryContract.Kills],
+            Deaths: data[this.LeaderboardEntryContract.Deaths],
+            Position: 0
+        };
+    };
+    PayloadDecompressor.prototype.DecompressPowerup = function (data) {
+        return {
+            MovementController: {
+                Position: new Vector2(data[this.PowerupContract.PositionX], data[this.PowerupContract.PositionY]),
+                Rotation: 0
+            },
+            ID: data[this.PowerupContract.ID],
+            Disposed: data[this.PowerupContract.Disposed],
+            Type: data[this.PowerupContract.Type],
+            LifeController: {
+                Alive: true,
+                Health: 0
+            }
+        };
+    };
     PayloadDecompressor.prototype.DecompressPayload = function (data) {
         return {
             Ships: data[this.PayloadContract.Ships],
@@ -71,38 +85,9 @@ var PayloadDecompressor = (function () {
             KilledByPhoto: data[this.PayloadContract.KilledByPhoto]
         };
     };
-    PayloadDecompressor.prototype.DecompressLeaderboardEntry = function (data) {
-        return {
-            Name: data[this.LeaderboardEntryContract.Name],
-            Photo: data[this.LeaderboardEntryContract.Photo],
-            ID: data[this.LeaderboardEntryContract.ID],
-            Level: data[this.LeaderboardEntryContract.Level],
-            Kills: data[this.LeaderboardEntryContract.Kills],
-            Deaths: data[this.LeaderboardEntryContract.Deaths]
-        };
-    };
-    PayloadDecompressor.prototype.DecompressPowerup = function (data) {
-        return {
-            MovementController: {
-                Position: {
-                    X: data[this.PowerupContract.PositionX],
-                    Y: data[this.PowerupContract.PositionY]
-                },
-                Rotation: 0
-            },
-            ID: data[this.PowerupContract.ID],
-            Disposed: data[this.PowerupContract.Disposed],
-            Type: data[this.PowerupContract.Type],
-            LifeController: {
-                Alive: true
-            }
-        };
-    };
     PayloadDecompressor.prototype.DecompressLeaderboard = function (data) {
         var payload = [];
-        var leaderboardEntryCount = data.length;
-
-        for(var i = 0; i < leaderboardEntryCount; i++) {
+        for(var i = 0; i < data.length; i++) {
             var item = this.DecompressLeaderboardEntry(data[i]);
             item.Position = i + 1;
             payload.push(item);
@@ -119,18 +104,15 @@ var PayloadDecompressor = (function () {
     };
     PayloadDecompressor.prototype.Decompress = function (data) {
         var payload = this.DecompressPayload(data);
-        var shipCount = payload.Ships.length;
-        var bulletCount = payload.Bullets.length;
-        var powerupCount = payload.Powerups.length;
         var i = 0;
 
-        for(i = 0; i < shipCount; i++) {
+        for(i = 0; i < payload.Ships.length; i++) {
             payload.Ships[i] = this.DecompressShip(payload.Ships[i]);
         }
-        for(i = 0; i < bulletCount; i++) {
+        for(i = 0; i < payload.Bullets.length; i++) {
             payload.Bullets[i] = this.DecompressBullet(payload.Bullets[i]);
         }
-        for(i = 0; i < powerupCount; i++) {
+        for(i = 0; i < payload.Powerups.length; i++) {
             payload.Powerups[i] = this.DecompressPowerup(payload.Powerups[i]);
         }
         return payload;

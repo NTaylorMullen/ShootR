@@ -146,11 +146,7 @@ class ShipMovementController extends MovementController {
         super.Update(percentOfSecond, now);
     }
 
-    public UpdateMovementController(data: any): void {
-        for (var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
-            this.Moving[ShipMovementController.MOVING_DIRECTIONS[i]] = data.Moving[ShipMovementController.MOVING_DIRECTIONS[i]];
-        }
-
+    public UpdateMovementController(data: IShipMovementControllerData): void {
         super.UpdateMovementController(data);
     }
 }

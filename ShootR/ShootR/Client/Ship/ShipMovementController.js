@@ -110,9 +110,6 @@ var ShipMovementController = (function (_super) {
         _super.prototype.Update.call(this, percentOfSecond, now);
     };
     ShipMovementController.prototype.UpdateMovementController = function (data) {
-        for(var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
-            this.Moving[ShipMovementController.MOVING_DIRECTIONS[i]] = data.Moving[ShipMovementController.MOVING_DIRECTIONS[i]];
-        }
         _super.prototype.UpdateMovementController.call(this, data);
     };
     return ShipMovementController;

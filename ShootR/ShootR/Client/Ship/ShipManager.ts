@@ -21,7 +21,7 @@ class ShipManager {
         delete this.Ships[shipID];
     }
 
-    public UpdateShips (shipList: any[]): void {
+    public UpdateShips (shipList: IShipData[]): void {
         for (var i = 0; i < shipList.length; i++) {
             var currentShip: any = shipList[i],
                 id: number = currentShip.ID;

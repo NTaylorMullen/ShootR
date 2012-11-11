@@ -5,7 +5,7 @@ class StationaryMovementController extends MovementController {
         super(position, 0, 0);
     }
 
-    public UpdateMovementController(data: any): void {
+    public UpdateMovementController(data: IMovementControllerData): void {
         // Empty so we don't waste execution time updating the movement controller
     }
 }

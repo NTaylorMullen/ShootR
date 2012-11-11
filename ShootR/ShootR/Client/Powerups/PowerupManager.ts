@@ -8,7 +8,7 @@ class PowerupManager {
         this.Powerups = {};
     }
 
-    public UpdatePowerups (powerupList: Powerup[], gameTime: GameTime): void {
+    public UpdatePowerups (powerupList: IPowerupData[], gameTime: GameTime): void {
         var powerupsCount = powerupList.length;
 
         for (var i = 0; i < powerupsCount; i++) {

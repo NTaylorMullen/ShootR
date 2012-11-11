@@ -7,7 +7,7 @@ class BulletManager {
         this.Bullets = {};
     }
 
-    public UpdateBullets(bulletList: any[]): void {
+    public UpdateBullets(bulletList: IBulletData[]): void {
         for (var i = 0; i < bulletList.length; i++) {
             var currentBullet: any = bulletList[i],
             id: number = currentBullet.ID;

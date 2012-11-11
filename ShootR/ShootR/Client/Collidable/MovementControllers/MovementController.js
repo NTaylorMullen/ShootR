@@ -38,14 +38,10 @@ var MovementController = (function () {
         this.LastUpdated = now;
     };
     MovementController.prototype.UpdateMovementController = function (data) {
-        this.Forces.X = data.Forces.X;
-        this.Forces.Y = data.Forces.Y;
-        this.Mass = data.Mass;
-        this.Position.X = data.Position.X;
-        this.Position.Y = data.Position.Y;
-        this.Rotation = data.Rotation;
-        this.Velocity.X = data.Velocity.X;
-        this.Velocity.Y = data.Velocity.Y;
+        for(var key in data) {
+            this[key] = data[key];
+        }
+        ; ;
     };
     return MovementController;
 })();
