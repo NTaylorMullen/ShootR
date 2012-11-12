@@ -27,10 +27,7 @@ namespace ShootR
 
         private DateTime _lastDraw = DateTime.UtcNow;
         private TimeSpan DRAW_AFTER;
-        private int _fps;
         private object _locker = new object();
-
-        public bool blah = false;
         public static Random GEN = new Random();
 
         private Game()

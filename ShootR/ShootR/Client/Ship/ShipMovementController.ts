@@ -11,7 +11,7 @@ class ShipMovementController extends MovementController {
     static DRAG_COEFFICIENT: number = 0;
     static ROTATE_SPEED: number = 0;
     static MOVING_DIRECTIONS: string[] = ["RotatingLeft", "RotatingRight", "Forward", "Backward"];
-    static INTERPOLATE_POSITION_THRESHOLD: number = 8;
+    static INTERPOLATE_POSITION_THRESHOLD: number = 7;
     static INTERPOLATE_ROTATION_THRESHOLD: number = 15;
 
     private _acceleration: Vector2;
@@ -28,7 +28,7 @@ class ShipMovementController extends MovementController {
         super(ShipMovementController.MASS, ShipMovementController.ENGINE_POWER);
 
         this._acceleration = Vector2.Zero();
-        
+
         this.Moving = {
             Forward: false,
             Backward: false,
@@ -42,14 +42,13 @@ class ShipMovementController extends MovementController {
     private interpolate(axis: string, ClientPositionPrediction: Vector2): void {
         if (this.Smoothing[axis]) {
             var InterpolationPercent = CalculatePO(this.LastUpdated, this.InterpolateOver[axis]);
-
-            this.Target[axis] += ClientPositionPrediction[axis];
-
             var posDiff = this.Target[axis] - this.Position[axis];
-            this.Position[axis] += (posDiff * InterpolationPercent);
-
             if (Math.abs(posDiff) <= ShipMovementController.INTERPOLATE_POSITION_THRESHOLD) {
                 this.Smoothing[axis] = false;
+            }
+            else {
+                this.Target[axis] += ClientPositionPrediction[axis];
+                this.Position[axis] += (posDiff * InterpolationPercent);
             }
         }
     }

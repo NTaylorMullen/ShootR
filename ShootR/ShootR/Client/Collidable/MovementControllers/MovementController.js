@@ -34,7 +34,6 @@ var MovementController = (function () {
         }
     };
     MovementController.prototype.Update = function (percentOfSecond, now) {
-        this.Position.ApplyFunction(Math.round);
         this.LastUpdated = now;
     };
     MovementController.prototype.UpdateMovementController = function (data) {

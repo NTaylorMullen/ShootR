@@ -27,16 +27,17 @@ var ShipMovementController = (function (_super) {
         "Forward", 
         "Backward"
     ];
-    ShipMovementController.INTERPOLATE_POSITION_THRESHOLD = 8;
+    ShipMovementController.INTERPOLATE_POSITION_THRESHOLD = 7;
     ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD = 15;
     ShipMovementController.prototype.interpolate = function (axis, ClientPositionPrediction) {
         if(this.Smoothing[axis]) {
             var InterpolationPercent = CalculatePO(this.LastUpdated, this.InterpolateOver[axis]);
-            this.Target[axis] += ClientPositionPrediction[axis];
             var posDiff = this.Target[axis] - this.Position[axis];
-            this.Position[axis] += (posDiff * InterpolationPercent);
             if(Math.abs(posDiff) <= ShipMovementController.INTERPOLATE_POSITION_THRESHOLD) {
                 this.Smoothing[axis] = false;
+            } else {
+                this.Target[axis] += ClientPositionPrediction[axis];
+                this.Position[axis] += (posDiff * InterpolationPercent);
             }
         }
     };

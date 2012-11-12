@@ -53,9 +53,6 @@ class MovementController {
     }
 
     public Update(percentOfSecond: number, now: Date): void {
-        // Rounding so we doing do alpha transparency on the canvas
-        this.Position.ApplyFunction(Math.round);
-
         this.LastUpdated = now;
     }
 
