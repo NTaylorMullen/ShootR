@@ -295,11 +295,11 @@
         <script src='<%= ResolveClientUrl("~/signalr/hubs") %>' type="text/javascript"></script>
 
         <%= Bundle.JavaScript()
-                      .Add("Client/Managers/spritify.js")
+                      .Add("Client/Utilities/Vector2.js")                      
                       .Add("Client/Utilities/ValueRef.js")
-                      .Add("Client/Utilities/ImageAssets.js")
-                      .Add("Client/Utilities/Vector2.js")
+                      .Add("Client/Utilities/ImageAssets.js")                      
                       .Add("Client/Utilities/Size.js")
+                      .Add("Client/Managers/spritify.js")
                       .Add("Client/Utilities/GameTime.js")
                       .Add("Client/Managers/AnimationManager.js")
                       .Add("Client/Space/GameScreen.js")
