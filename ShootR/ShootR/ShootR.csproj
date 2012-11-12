@@ -108,6 +108,9 @@
     <Content Include="Client\HUD\NotificationManager.js">
       <DependentUpon>NotificationManager.ts</DependentUpon>
     </Content>
+    <Content Include="Client\HUD\NotificationManager.min.js">
+      <DependentUpon>NotificationManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Ship\ShipMovementController.js" />
     <Content Include="Client\Configuration\ConfigurationManager.js" />
     <Content Include="Client\GameController\Adapters\IETouchAdapter.js" />
