@@ -11,11 +11,11 @@ var Game = (function () {
         this._myShip = this.ShipManager.MyShip;
         this.HUDManager = new HUDManager(this._myShip, this._connection);
     }
-    Game.prototype.Update = function (payload) {
+    Game.prototype.Update = function (lastPayload) {
         this.GameTime.Update();
         CanvasContext.clear();
         this._map.CheckBoundaryCollisions(this.ShipManager.Ships, this.BulletManager.Bullets);
-        this.HUDManager.Update(payload);
+        this.HUDManager.Update(lastPayload);
         this.ShipManager.Update(this.GameTime);
         this.PowerupManager.Update(this.GameTime);
         this.BulletManager.Update(this.GameTime);

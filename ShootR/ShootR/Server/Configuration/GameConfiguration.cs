@@ -6,8 +6,8 @@ namespace ShootR
         public GameConfiguration()
         {
             // How frequently the Update loop is executed
-            UPDATE_INTERVAL = 20; // Must evenly divide into DRAW_INTERVAL
-            // How frequently the Draw loop is executed.  Draw is what triggers the client side pings, it must be larger than UPDATE_INTERVAL but
+            UPDATE_INTERVAL = 20;
+            // How frequently the Draw loop is executed.  Draw is what triggers the client side pings
             DRAW_INTERVAL = 40;
             LEADERBOARD_PUSH_INTERVAL = 1000; // 1 time per second push leaderboard
 

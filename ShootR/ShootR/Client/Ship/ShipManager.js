@@ -34,7 +34,6 @@ var ShipManager = (function () {
             currentShip.Visible = true;
             var shipImage = Math.min(currentShip.Level, 13);
             currentShip.Vehicle = IMAGE_ASSETS["Ship" + shipImage];
-            currentShip.GUID = currentShip.ID;
             var abilities = currentShip.Abilities;
             var movementController = currentShip.MovementController;
 
@@ -45,8 +44,6 @@ var ShipManager = (function () {
             } else {
                 this.Ships[id].UpdateProperties(currentShip);
             }
-            this.Ships[id].ShipAbilityHandler.UpdateAbilities(abilities);
-            this.Ships[id].MovementController.UpdateMovementController(movementController);
             if(this.Ships[id].Disposed) {
                 this.Ships[id].Destroy();
                 if(id !== this.MyShip.ID) {
@@ -54,6 +51,8 @@ var ShipManager = (function () {
                 }
             } else {
                 this.Ships[id].Update();
+                this.Ships[id].ShipAbilityHandler.UpdateAbilities(abilities);
+                this.Ships[id].MovementController.UpdateMovementController(movementController);
             }
         }
     };

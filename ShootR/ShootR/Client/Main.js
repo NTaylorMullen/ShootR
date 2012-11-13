@@ -61,10 +61,12 @@ $(function () {
         }
         if(info.KilledByName) {
             game.HUDManager.DeathScreen.YouDied.call(game.HUDManager.DeathScreen, info.KilledByName, info.KilledByPhoto);
+            game.ShipManager.MyShip.MovementController.StopMovement();
         }
         myShip.Experience = info.Experience;
         myShip.ExperienceToNextLevel = info.ExperienceToNextLevel;
         game.HUDManager.MyRankings.LoadPosition(info.LeaderboardPosition, info.ShipsInWorld);
+        game.ShipManager.MyShip.Update();
         game.ShipManager.MyShip.PayloadReceived(info);
         game.ShipManager.UpdateShips(info.Ships);
         game.PowerupManager.UpdatePowerups(info.Powerups, game.GameTime);

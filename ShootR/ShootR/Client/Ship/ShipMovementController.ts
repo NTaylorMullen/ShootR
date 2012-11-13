@@ -11,7 +11,7 @@ class ShipMovementController extends MovementController {
     static DRAG_COEFFICIENT: number = 0;
     static ROTATE_SPEED: number = 0;
     static MOVING_DIRECTIONS: string[] = ["RotatingLeft", "RotatingRight", "Forward", "Backward"];
-    static INTERPOLATE_POSITION_THRESHOLD: number = 7;
+    static INTERPOLATE_POSITION_THRESHOLD: number = 10;
     static INTERPOLATE_ROTATION_THRESHOLD: number = 15;
 
     private _acceleration: Vector2;
@@ -136,8 +136,10 @@ class ShipMovementController extends MovementController {
     }
 
     public Update(percentOfSecond: number, now: Date): void {
-        this.Move(percentOfSecond, now);
-        super.Update(percentOfSecond, now);
+        if (percentOfSecond > 0) {
+            this.Move(percentOfSecond, now);
+            super.Update(percentOfSecond, now);
+        }
     }
 
     public UpdateMovementController(data: IShipMovementControllerData): void {

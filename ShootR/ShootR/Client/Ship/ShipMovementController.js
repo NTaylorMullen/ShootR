@@ -27,7 +27,7 @@ var ShipMovementController = (function (_super) {
         "Forward", 
         "Backward"
     ];
-    ShipMovementController.INTERPOLATE_POSITION_THRESHOLD = 7;
+    ShipMovementController.INTERPOLATE_POSITION_THRESHOLD = 10;
     ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD = 15;
     ShipMovementController.prototype.interpolate = function (axis, ClientPositionPrediction) {
         if(this.Smoothing[axis]) {
@@ -107,8 +107,10 @@ var ShipMovementController = (function (_super) {
         this.ApplyForce(dragForce);
     };
     ShipMovementController.prototype.Update = function (percentOfSecond, now) {
-        this.Move(percentOfSecond, now);
-        _super.prototype.Update.call(this, percentOfSecond, now);
+        if(percentOfSecond > 0) {
+            this.Move(percentOfSecond, now);
+            _super.prototype.Update.call(this, percentOfSecond, now);
+        }
     };
     ShipMovementController.prototype.UpdateMovementController = function (data) {
         _super.prototype.UpdateMovementController.call(this, data);

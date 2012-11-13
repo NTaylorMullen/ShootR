@@ -36,11 +36,8 @@ class ShipManager {
 
             currentShip.Vehicle = IMAGE_ASSETS["Ship" + shipImage];
 
-            // Create a GUID on the ship object.  This allows the camera to follow a GUID based object
-            currentShip.GUID = currentShip.ID;
-
-            var abilities = currentShip.Abilities,
-                movementController = currentShip.MovementController;
+            var abilities: IAbilityData = currentShip.Abilities,
+                movementController: IShipMovementControllerData = currentShip.MovementController;
 
             // Remove them from the currentShip so we don't update them as properties
             delete currentShip.Abilities;
@@ -54,9 +51,6 @@ class ShipManager {
                 this.Ships[id].UpdateProperties(currentShip);
             }
 
-            this.Ships[id].ShipAbilityHandler.UpdateAbilities(abilities);
-            this.Ships[id].MovementController.UpdateMovementController(movementController);
-
             // Check if the ship still exists
             if (this.Ships[id].Disposed) {
                 this.Ships[id].Destroy();
@@ -67,6 +61,8 @@ class ShipManager {
             }
             else {
                 this.Ships[id].Update();
+                this.Ships[id].ShipAbilityHandler.UpdateAbilities(abilities);
+                this.Ships[id].MovementController.UpdateMovementController(movementController);
             }
         }
     }
@@ -91,7 +87,7 @@ class ShipManager {
                     this.Ships[key].DrawName(10);
                 }
             }
-            else if (this.myShipID !== this.Ships[key].ID) { // Ship is not in view, so remove it from our ship list
+            else if (this.myShipID !== this.Ships[key].ID) { // Ship is not in view, so remove it from our ship list if its not our ship
                 delete this.Ships[key];
             }
         }

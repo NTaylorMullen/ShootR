@@ -84,6 +84,7 @@ $(function () {
 
         if (info.KilledByName) {
             game.HUDManager.DeathScreen.YouDied.call(game.HUDManager.DeathScreen, info.KilledByName, info.KilledByPhoto);
+            game.ShipManager.MyShip.MovementController.StopMovement();
         }
 
         myShip.Experience = info.Experience;
@@ -91,6 +92,7 @@ $(function () {
 
         game.HUDManager.MyRankings.LoadPosition(info.LeaderboardPosition, info.ShipsInWorld);
 
+        game.ShipManager.MyShip.Update(); // Force update of MyShip prior to determining interpolation
         game.ShipManager.MyShip.PayloadReceived(info);
 
         game.ShipManager.UpdateShips(info.Ships);

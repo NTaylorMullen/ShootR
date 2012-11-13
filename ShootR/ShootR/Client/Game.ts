@@ -34,13 +34,13 @@ class Game {
         this.HUDManager = new HUDManager(this._myShip, this._connection);
     }
 
-    public Update(payload: IPayloadData): void {
+    public Update(lastPayload: IPayloadData): void {
         this.GameTime.Update();
         CanvasContext.clear();
 
         this._map.CheckBoundaryCollisions(this.ShipManager.Ships, this.BulletManager.Bullets);
 
-        this.HUDManager.Update(payload);
+        this.HUDManager.Update(lastPayload);
 
         // Move the ships on the client
         this.ShipManager.Update(this.GameTime);
