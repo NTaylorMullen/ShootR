@@ -22,7 +22,7 @@
     <form runat="server">
 
     <asp:Panel runat="server" ID="JanrainScripts" Visible="true">
-        <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
+        <script src="Scripts/jquery-1.8.3.js" type="text/javascript"></script>
         <script src="Scripts/jquery.cookie.js" type="text/javascript"></script>
         <script src="Scripts/janrain.js" type="text/javascript"></script>
         <div id="janrainEngageEmbed"></div>
@@ -283,7 +283,7 @@
         </div>
 
         <%= Bundle.JavaScript()
-                      .Add("Scripts/jquery-1.8.2.js")
+                      .Add("Scripts/jquery-1.8.3.js")
                       .Add("Scripts/jquery.cookie.js")
                       .Add("Scripts/jquery-ui-1.9.0.min.js")
                       .Add("Scripts/shortcut.js")

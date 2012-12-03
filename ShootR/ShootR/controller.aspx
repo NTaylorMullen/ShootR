@@ -26,7 +26,7 @@
             </div>
 
             <%= Bundle.JavaScript()
-                .Add("Scripts/jquery-1.8.2.js")
+                .Add("Scripts/jquery-1.8.3.js")
                 .Add("Scripts/jquery.cookie.js")
                 .Add("Scripts/shortcut.js")
                 .Add("Scripts/jquery.signalR-1.0.0.js")                      
