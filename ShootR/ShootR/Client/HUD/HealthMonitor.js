@@ -62,11 +62,7 @@ var HealthMonitor = (function () {
             this._healthText.html(this._lastHealth + "/" + this._maxHealth);
             this._currentHealthBar.stop(true);
             this._currentHealthHeart.stop(true);
-            var lifePercentage = (this._lastHealth / this._maxHealth);
-            var holderWidth = this._healthHolder.width();
-            var heartLeft = Math.min(Math.max((holderWidth * lifePercentage) - this._halfHeartWidth, 0), holderWidth - 2 * this._halfHeartWidth);
-            var barColor;
-
+            var lifePercentage = (this._lastHealth / this._maxHealth), holderWidth = this._healthHolder.width(), heartLeft = Math.min(Math.max((holderWidth * lifePercentage) - this._halfHeartWidth, 0), holderWidth - 2 * this._halfHeartWidth), barColor;
             this._currentHealthHeart.removeClass("good hurt bad");
             if(lifePercentage <= HealthMonitor.BadThreshold) {
                 this._currentHealthHeart.addClass("bad");

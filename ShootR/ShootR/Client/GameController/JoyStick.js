@@ -16,16 +16,11 @@ var JoyStick = (function () {
     JoyStick.prototype.getAlteredMovements = function () {
         if(this.Traveled() > this._activeJoystickDistance) {
             this._controlling = true;
-            var deltas = Vector2.SubtractV(this.Position, this.PositionStart);
-            var angle = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
-
+            var deltas = Vector2.SubtractV(this.Position, this.PositionStart), angle = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
             if(angle < 0) {
                 angle += 360;
             }
-            var toStop;
-            var toStart;
-            var changed = false;
-
+            var toStop, toStart, changed = false;
             for(var i = 0; i < this._movementList.length; i++) {
                 var validMove = this._movementList[i].ValidMove(angle);
                 if(!validMove && this._movementList[i].Active) {

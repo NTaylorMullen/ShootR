@@ -10,11 +10,7 @@ var spritify = (function () {
         this.Rotation = this.options.Rotation;
     }
     spritify.prototype.getFramePosition = function (currentFrame, frameSize, spriteSheetSize) {
-        var columns = spriteSheetSize.Width / frameSize.Width;
-        var rows = spriteSheetSize.Height / frameSize.Height;
-        var row = Math.floor(currentFrame / columns);
-        var column = Math.ceil(currentFrame % columns);
-
+        var columns = spriteSheetSize.Width / frameSize.Width, rows = spriteSheetSize.Height / frameSize.Height, row = Math.floor(currentFrame / columns), column = Math.ceil(currentFrame % columns);
         return {
             row: row,
             column: column

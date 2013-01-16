@@ -31,9 +31,7 @@ var AbilityHandler = (function () {
     };
     AbilityHandler.prototype.UpdateAbilities = function (aList) {
         for(var abilityName in aList) {
-            var dataActive = aList[abilityName];
-            var myActive = this._abilityList[abilityName].Active;
-
+            var dataActive = aList[abilityName], myActive = this._abilityList[abilityName].Active;
             if(dataActive && !myActive) {
                 this.Activate(abilityName);
             } else {

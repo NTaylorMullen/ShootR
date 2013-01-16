@@ -5,9 +5,7 @@ var BulletManager = (function () {
     }
     BulletManager.prototype.UpdateBullets = function (bulletList) {
         for(var i = 0; i < bulletList.length; i++) {
-            var currentBullet = bulletList[i];
-            var id = currentBullet.ID;
-
+            var currentBullet = bulletList[i], id = currentBullet.ID;
             var movementController = currentBullet.MovementController;
             delete currentBullet.MovementController;
             if(this.Bullets[id]) {

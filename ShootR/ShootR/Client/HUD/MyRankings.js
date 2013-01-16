@@ -1,4 +1,4 @@
-var MyRankings = (function () {
+﻿var MyRankings = (function () {
     function MyRankings() {
         this._myPosition = 0;
         this._globalRanking = $("#GlobalRanking");
@@ -50,9 +50,7 @@ var MyRankings = (function () {
                 if(deaths === 0 && kills === 0) {
                     finalRatio = "";
                 } else {
-                    var kRatio;
-                    var dRatio;
-
+                    var kRatio, dRatio;
                     if(kills <= deaths && kills !== 0) {
                         kRatio = 1;
                         dRatio = Math.round((deaths / kills) * 10) / 10;

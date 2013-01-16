@@ -1,11 +1,6 @@
 ($)(window).load(function () {
-    var env = ($).connection.h;
-    var configurationManager = {
-    };
-    var screen = new GameScreen($("#game"), $("#gameWrapper"), false, env);
-    var shipControllerFn = new ShipControllerFunctions(env);
-    var touchController;
-
+    var env = ($).connection.h, configurationManager = {
+    }, screen = new GameScreen($("#game"), $("#gameWrapper"), false, env), shipControllerFn = new ShipControllerFunctions(env), touchController;
     screen.SendNewViewportToServer = function () {
     };
     function Initialize(init) {
@@ -36,11 +31,8 @@
         touchController.Draw();
         CanvasContext.Render();
     }
-    var stateCookie = ($).cookie('shootr.state');
-    var state = stateCookie ? JSON.parse(stateCookie) : {
-    };
-    var registrationID = state.RegistrationID;
-
+    var stateCookie = ($).cookie('shootr.state'), state = stateCookie ? JSON.parse(stateCookie) : {
+    }, registrationID = state.RegistrationID;
     env.client.stopController = function (msg) {
         ($).connection.hub.stop();
         alert(msg);

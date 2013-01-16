@@ -2,7 +2,7 @@ var __extends = this.__extends || function (d, b) {
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
-}
+};
 var Boost = (function (_super) {
     __extends(Boost, _super);
     function Boost(_movementController, Controllable) {

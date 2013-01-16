@@ -1,23 +1,10 @@
 $(function () {
-    var env = ($).connection.h;
-    var game;
-    var configurationManager;
-    var payloadDecompressor = new PayloadDecompressor();
-    var latencyResolver = new LatencyResolver(env);
-    var screen = new GameScreen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env);
-    var notification = $("#Notification");
-    var gameInfoReceived = false;
-    var lastPayload = {
-        Ships: {
+    var env = ($).connection.h, game, configurationManager, payloadDecompressor = new PayloadDecompressor(), latencyResolver = new LatencyResolver(env), screen = new GameScreen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env), notification = $("#Notification"), gameInfoReceived = false, lastPayload = {
+Ships: {
         },
-        Bullets: []
-    };
-
-    var stateCookie = ($).cookie('shootr.state');
-    var state = stateCookie ? JSON.parse(stateCookie) : {
-    };
-    var registrationID = state.RegistrationID;
-
+Bullets: []    };
+    var stateCookie = ($).cookie('shootr.state'), state = stateCookie ? JSON.parse(stateCookie) : {
+    }, registrationID = state.RegistrationID;
     function Initialize(init) {
         if(init != null) {
             if(init.ServerFull) {

@@ -35,9 +35,7 @@ var EnvironmentMonitor = (function () {
         ];
     }
     EnvironmentMonitor.prototype.Update = function (payload) {
-        var mapSize = Map.WIDTH;
-        var areaSize = Math.max(Math.round(mapSize / 26), 1000);
-
+        var mapSize = Map.WIDTH, areaSize = Math.max(Math.round(mapSize / 26), 1000);
         this._latency.html(this._myShip.LatencyResolver.Latency);
         this._worldBullets.html(payload.BulletsInWorld);
         this._worldTargets.html(payload.ShipsInWorld);

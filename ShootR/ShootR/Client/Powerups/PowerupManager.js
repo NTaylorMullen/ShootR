@@ -6,9 +6,7 @@ var PowerupManager = (function () {
     PowerupManager.prototype.UpdatePowerups = function (powerupList, gameTime) {
         var powerupsCount = powerupList.length;
         for(var i = 0; i < powerupsCount; i++) {
-            var currentPowerup = powerupList[i];
-            var id = currentPowerup.ID;
-
+            var currentPowerup = powerupList[i], id = currentPowerup.ID;
             var movementController = currentPowerup.MovementController;
             delete currentPowerup.MovementController;
             if(this.Powerups[id]) {

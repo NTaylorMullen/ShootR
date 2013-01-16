@@ -2,7 +2,7 @@ var __extends = this.__extends || function (d, b) {
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
-}
+};
 var ShipAbilityHandler = (function (_super) {
     __extends(ShipAbilityHandler, _super);
     function ShipAbilityHandler(myShip) {

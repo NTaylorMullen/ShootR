@@ -14,9 +14,7 @@ var ExperienceMonitor = (function () {
     ExperienceMonitor.prototype.Update = function () {
         var that = this;
         if(this._myShip.Experience !== this._lastExperience || this._myShip.Level !== this._lastLevel) {
-            var experienceIncrease;
-            var experiencePercentage;
-
+            var experienceIncrease, experiencePercentage;
             if(this._myShip.Level !== this._lastLevel) {
                 experienceIncrease = this._lastExperienceToNextLevel - this._lastExperience + this._myShip.Experience;
                 this._myShip.ResetTouchController();

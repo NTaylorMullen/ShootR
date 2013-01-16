@@ -103,9 +103,7 @@ var PayloadDecompressor = (function () {
         this.PowerupContract = contracts.PowerupContract;
     };
     PayloadDecompressor.prototype.Decompress = function (data) {
-        var payload = this.DecompressPayload(data);
-        var i = 0;
-
+        var payload = this.DecompressPayload(data), i = 0;
         for(i = 0; i < payload.Ships.length; i++) {
             payload.Ships[i] = this.DecompressShip(payload.Ships[i]);
         }

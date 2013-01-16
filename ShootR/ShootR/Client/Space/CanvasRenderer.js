@@ -87,9 +87,7 @@ var CanvasRenderer = (function () {
     };
     CanvasRenderer.prototype.drawRotatedImage = function (image, angle, sx, sy, swidth, sheight, x, y, width, height) {
         this._canvasBufferContext.save();
-        var halfSize;
-        var cameraOffset = new Vector2(-this.Camera.Position.X + this.CanvasCenter.X, -this.Camera.Position.Y + this.CanvasCenter.Y);
-
+        var halfSize, cameraOffset = new Vector2(-this.Camera.Position.X + this.CanvasCenter.X, -this.Camera.Position.Y + this.CanvasCenter.Y);
         if(!swidth) {
             halfSize = {
                 width: image.width * 0.5,

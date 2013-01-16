@@ -2,7 +2,7 @@ var __extends = this.__extends || function (d, b) {
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
-}
+};
 var ShipController = (function (_super) {
     __extends(ShipController, _super);
     function ShipController(rotateLeft, forward, rotateRight, backward, fire, connection) {
@@ -126,9 +126,7 @@ var ShipController = (function (_super) {
     };
     ShipController.prototype.startMovement = function (dir) {
         if(this.Controllable.Value && !this.MovementController.Moving[dir] && this.LifeController.Alive) {
-            var pingBack = false;
-            var now = new Date().getTime();
-
+            var pingBack = false, now = new Date().getTime();
             this._movementCount = ++this._movementCount % ShipController.REQUEST_PING_EVERY;
             if(this._movementCount === 0) {
                 pingBack = true;
@@ -172,9 +170,7 @@ var ShipController = (function (_super) {
     };
     ShipController.prototype.stopAndStartMovement = function (toStop, toStart) {
         if(this.Controllable.Value && this.LifeController.Alive) {
-            var pingBack = false;
-            var now = new Date().getTime();
-
+            var pingBack = false, now = new Date().getTime();
             this._movementCount = ++this._movementCount % ShipController.REQUEST_PING_EVERY;
             if(this._movementCount === 0) {
                 pingBack = true;
@@ -231,11 +227,7 @@ var ShipController = (function (_super) {
         }
     };
     ShipController.prototype.applyKeyboardMappings = function () {
-        var timeFirePressed;
-        var singleFireMode = true;
-        var autoFireTimeout;
-        var that = this;
-
+        var timeFirePressed, singleFireMode = true, autoFireTimeout, that = this;
         for(var k = 0; k < this._keyMapping.length; k++) {
             for(var z = 0; z < this._keyMapping[k].key.length; z++) {
                 shortcut.add(that._keyMapping[k].key[z], (function (k) {

@@ -61,10 +61,7 @@ var AreaRenderer = (function () {
         return new Vector2(Math.ceil(boxIndex % 3), Math.floor(boxIndex / 3));
     };
     AreaRenderer.prototype.getBoxPositions = function (currentSector, letterIndex, sectorNumber) {
-        var sectorPositions = [];
-        var topLeftSector = Vector2.SubtractVFromN(currentSector, this._areaSize.Width);
-        var that = this;
-
+        var sectorPositions = [], topLeftSector = Vector2.SubtractVFromN(currentSector, this._areaSize.Width), that = this;
         sectorPositions.push({
             Position: currentSector,
             Sector: that._areaLetters[letterIndex--] + sectorNumber--
@@ -78,9 +75,7 @@ var AreaRenderer = (function () {
         };
         for(var i = 0; i < 9; i++) {
             if(i !== 4) {
-                var boxRelativePosition = this.getBoxPosition(i);
-                var spos = Vector2.MultiplyN(boxRelativePosition, this._areaSize.Width);
-
+                var boxRelativePosition = this.getBoxPosition(i), spos = Vector2.MultiplyN(boxRelativePosition, this._areaSize.Width);
                 spos = Vector2.AddV(spos, topLeftSector);
                 if(spos.X >= 0 && spos.Y >= 0 && spos.X + this._areaSize.Width <= this._mapSize && spos.Y + this._areaSize.Width <= this._mapSize) {
                     cameraCheckObj.MovementController.Position = spos;
@@ -101,11 +96,7 @@ var AreaRenderer = (function () {
         this._areaSize = new Size(temp);
     };
     AreaRenderer.prototype.Draw = function () {
-        var letterIndex = Math.max(Math.floor(this._myShip.MovementController.Position.X / this._areaSize.Width), 0);
-        var letterSector = this._areaLetters[letterIndex];
-        var sectorNumber = Math.max(Math.ceil(this._myShip.MovementController.Position.Y / this._areaSize.Height), 1);
-        var sectorPosition = new Vector2(letterIndex * this._areaSize.Width, (sectorNumber - 1) * this._areaSize.Width);
-
+        var letterIndex = Math.max(Math.floor(this._myShip.MovementController.Position.X / this._areaSize.Width), 0), letterSector = this._areaLetters[letterIndex], sectorNumber = Math.max(Math.ceil(this._myShip.MovementController.Position.Y / this._areaSize.Height), 1), sectorPosition = new Vector2(letterIndex * this._areaSize.Width, (sectorNumber - 1) * this._areaSize.Width);
         if(this._showMap) {
             this.drawSectorMap(sectorPosition, letterIndex, sectorNumber);
         }

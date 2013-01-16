@@ -50,26 +50,24 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.1.0.0-rc1\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.1.0.0-rc2-130116\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Owin">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Owin.1.0.0-rc1\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Owin.1.0.0-rc2-130116\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.1.0.0-rc1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.1.0.0-rc2-130116\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin.Host.SystemWeb">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.1.0.0-rc1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.1.0.0-rc2-130116\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
@@ -268,6 +266,9 @@
     <TypeScriptCompile Include="Client\HUD\ExperienceMonitor.ts" />
     <TypeScriptCompile Include="Client\HUD\EnvironmentMonitor.ts" />
     <Content Include="Client\HUD\EnvironmentMonitor.js">
+      <DependentUpon>EnvironmentMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\HUD\EnvironmentMonitor.min.js">
       <DependentUpon>EnvironmentMonitor.ts</DependentUpon>
     </Content>
     <Content Include="Client\HUD\ExperienceMonitor.js">
@@ -760,15 +761,18 @@
     <Content Include="Images\SpriteSheets\thrust_basic.png" />
     <Content Include="Images\SpriteSheets\thrust_start.png" />
     <Content Include="Scripts\janrain.js" />
-    <None Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />
-    <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <None Include="Scripts\jquery-1.9.0.intellisense.js" />
+    <Content Include="Scripts\jquery-1.9.0.js" />
+    <Content Include="Scripts\jquery-1.9.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.9.0.min.js" />
     <Content Include="Scripts\jquery.animate-colors-min.js" />
     <Content Include="Scripts\jquery.d.min.js">
       <DependentUpon>jquery.d.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\jquery.d.ts" />
+    <Content Include="Scripts\jquery.signalR-1.0.0-rc2-130116.js" />
+    <Content Include="Scripts\jquery.signalR-1.0.0-rc2-130116.min.js" />
     <Content Include="Scripts\jquery.signalR-1.0.0.js" />
     <Content Include="Scripts\shortcut.js" />
     <Content Include="Styles\controller.css" />
@@ -899,10 +903,10 @@
     <Compile Include="Server\Utilities\MovementFlags.cs" />
     <Compile Include="Server\PayloadManagement\Payload.cs" />
     <Compile Include="Server\Utilities\Vector2.cs" />
-    <Compile Include="SignalRModifiers\SmallHubDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery-1.9.0.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -9,9 +9,7 @@ var LatencyResolver = (function () {
         this._requestedPingAt = false;
     }
     LatencyResolver.prototype.calculateDeltaTime = function (sentAt, serverTime) {
-        var currentTime = new Date().getTime();
-        var latency = this.CalculateLatencySince(sentAt);
-
+        var currentTime = new Date().getTime(), latency = this.CalculateLatencySince(sentAt);
         return (currentTime - serverTime + latency);
     };
     LatencyResolver.prototype.pushPingResults = function (sentAt, result) {
@@ -62,9 +60,7 @@ var LatencyResolver = (function () {
     };
     LatencyResolver.prototype.GenerateDeltaTime = function () {
         this._deltas.sort();
-        var standardDeviation = StandardDeviation(this._deltas);
-        var median = this._deltas[Math.floor(this._deltas.length / 2)];
-
+        var standardDeviation = StandardDeviation(this._deltas), median = this._deltas[Math.floor(this._deltas.length / 2)];
         for(var i = 0; i < this._deltas.length; i++) {
             if(Math.abs(this._deltas[i] - median) >= standardDeviation) {
                 this._deltas.splice(i--, 1);

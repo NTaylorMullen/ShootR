@@ -28,15 +28,11 @@ var ShipManager = (function () {
     };
     ShipManager.prototype.UpdateShips = function (shipList) {
         for(var i = 0; i < shipList.length; i++) {
-            var currentShip = shipList[i];
-            var id = currentShip.ID;
-
+            var currentShip = shipList[i], id = currentShip.ID;
             currentShip.Visible = true;
             var shipImage = Math.min(currentShip.Level, 13);
             currentShip.Vehicle = IMAGE_ASSETS["Ship" + shipImage];
-            var abilities = currentShip.Abilities;
-            var movementController = currentShip.MovementController;
-
+            var abilities = currentShip.Abilities, movementController = currentShip.MovementController;
             delete currentShip.Abilities;
             delete currentShip.MovementController;
             if(!this.Ships[id]) {

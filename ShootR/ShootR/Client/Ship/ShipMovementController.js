@@ -2,7 +2,7 @@ var __extends = this.__extends || function (d, b) {
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
-}
+};
 var ShipMovementController = (function (_super) {
     __extends(ShipMovementController, _super);
     function ShipMovementController(position) {
@@ -69,10 +69,7 @@ var ShipMovementController = (function (_super) {
         }
     };
     ShipMovementController.prototype.Move = function (percentOfSecond, now) {
-        var velocityLength;
-        var clientPositionPrediction = Vector2.Zero();
-        var nowMilliseconds = now.getTime();
-
+        var velocityLength, clientPositionPrediction = Vector2.Zero(), nowMilliseconds = now.getTime();
         this._acceleration = Vector2.DivideVByN(this.Forces, this.Mass);
         clientPositionPrediction = Vector2.AddV(Vector2.MultiplyN(this.Velocity, percentOfSecond), Vector2.MultiplyN(this._acceleration, percentOfSecond * percentOfSecond));
         this.Position.AddV(clientPositionPrediction);
@@ -88,10 +85,7 @@ var ShipMovementController = (function (_super) {
         }
         this._acceleration.ZeroOut();
         this.Forces.ZeroOut();
-        var rotationIncrementor = percentOfSecond * ShipMovementController.ROTATE_SPEED;
-        var direction = new Vector2(this.Rotation, false);
-        var dragForce = Vector2.MultiplyN(Vector2.MultiplyV(Vector2.MultiplyN(this.Velocity, 0.5), this.Velocity.Abs()), ShipMovementController.DRAG_COEFFICIENT * ShipMovementController.DRAG_AREA * -1);
-
+        var rotationIncrementor = percentOfSecond * ShipMovementController.ROTATE_SPEED, direction = new Vector2(this.Rotation, false), dragForce = Vector2.MultiplyN(Vector2.MultiplyV(Vector2.MultiplyN(this.Velocity, 0.5), this.Velocity.Abs()), ShipMovementController.DRAG_COEFFICIENT * ShipMovementController.DRAG_AREA * -1);
         if(this.Moving.RotatingLeft) {
             this.Rotation -= rotationIncrementor;
         }
