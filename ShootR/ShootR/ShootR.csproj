@@ -761,7 +761,6 @@
     <Content Include="Images\SpriteSheets\thrust_basic.png" />
     <Content Include="Images\SpriteSheets\thrust_start.png" />
     <Content Include="Scripts\janrain.js" />
-    <Content Include="Scripts\jquery-1.8.3.js" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />
