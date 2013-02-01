@@ -7,7 +7,7 @@ NOTE:  Have tons to do when it comes to organizing the repository structure =)
 
 In order to run ShootR locally you must do the following:
 1. Pull down the ShootR code.
-2. Use nuget to install SignalR 1.0 Alpha. (Search SignalR in nuget)
+2. Use nuget to install latest SignalR. (Search SignalR in nuget, set filters to "Include Pre-release")
 3. Have fun =]
 
 Final comment: The ShootR code needs to be refactored greatly!  It was put together quickly and will be refactored (and expanded) in the coming months.
