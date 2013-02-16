@@ -287,7 +287,7 @@
                       .Add("Scripts/jquery.cookie.js")
                       .Add("Scripts/jquery-ui-1.9.0.min.js")
                       .Add("Scripts/shortcut.js")
-                      .Add("Scripts/jquery.signalR-1.0.0-rc2-130116.js")                      
+                      .Add("Scripts/jquery.signalR-1.0.0-rc2.js")                      
                       .Add("Scripts/jquery.animate-colors-min.js")
                   .Render("Scripts/jqueryLIBS.js")
         %>
