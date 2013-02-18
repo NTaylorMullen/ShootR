@@ -145,7 +145,7 @@ namespace ShootR
 
         private void PushLeaderboard(List<object> leaderboard)
         {
-            GetContext().Clients.Client(Leaderboard.LEADERBOARD_REQUESTEE_GROUP).l(leaderboard);
+            GetContext().Clients.Group(Leaderboard.LEADERBOARD_REQUESTEE_GROUP).l(leaderboard);
         }
 
         public static IHubContext GetContext()

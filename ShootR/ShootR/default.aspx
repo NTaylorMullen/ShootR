@@ -283,7 +283,7 @@
         </div>
 
         <%= Bundle.JavaScript()
-                      .Add("Scripts/jquery-1.8.2.js")
+                      .Add("Scripts/jquery-1.9.1.js")
                       .Add("Scripts/jquery.cookie.js")
                       .Add("Scripts/jquery-ui-1.9.0.min.js")
                       .Add("Scripts/shortcut.js")

@@ -41,10 +41,7 @@ var NotificationManager = (function () {
         });
     };
     NotificationManager.prototype.Notify = function (message, stayUp) {
-        var newNotification = this.notificationBase.clone();
-        var notificationText = newNotification.find("p");
-        var that = this;
-
+        var newNotification = this.notificationBase.clone(), notificationText = newNotification.find("p"), that = this;
         notificationText.html(message);
         this.notifications.append(newNotification);
         this.notificationHolder.css("display", "block");

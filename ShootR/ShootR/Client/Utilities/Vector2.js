@@ -24,34 +24,34 @@ var Vector2 = (function () {
     };
     Vector2.MultiplyV = function MultiplyV(v1, v2) {
         return new Vector2(v1.X * v2.X, v1.Y * v2.Y);
-    }
+    };
     Vector2.MultiplyN = function MultiplyN(v1, num) {
         return new Vector2(v1.X * num, v1.Y * num);
-    }
+    };
     Vector2.AddV = function AddV(v1, v2) {
         return new Vector2(v1.X + v2.X, v1.Y + v2.Y);
-    }
+    };
     Vector2.AddN = function AddN(v1, num) {
         return new Vector2(v1.X + num, v1.Y + num);
-    }
+    };
     Vector2.SubtractV = function SubtractV(v1, v2) {
         return new Vector2(v1.X - v2.X, v1.Y - v2.Y);
-    }
+    };
     Vector2.SubtractVFromN = function SubtractVFromN(v1, num) {
         return new Vector2(v1.X - num, v1.Y - num);
-    }
+    };
     Vector2.SubtractNFromV = function SubtractNFromV(num, v1) {
         return new Vector2(num - v1.X, num - v1.Y);
-    }
+    };
     Vector2.DivideV = function DivideV(v1, v2) {
         return new Vector2(v1.X / v2.X, v1.Y / v2.Y);
-    }
+    };
     Vector2.DivideVByN = function DivideVByN(v1, num) {
         return new Vector2(v1.X / num, v1.Y / num);
-    }
+    };
     Vector2.DivideNByV = function DivideNByV(num, v1) {
         return new Vector2(num / v1.X, num / v1.Y);
-    }
+    };
     return Vector2;
 })();
 //@ sourceMappingURL=Vector2.js.map

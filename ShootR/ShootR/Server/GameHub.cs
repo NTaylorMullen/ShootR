@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ShootR
 {
@@ -256,7 +257,7 @@ namespace ShootR
                     if (pingBack)
                     {
                         Clients.Caller.pingBack();
-                    }                    
+                    }
 
                     Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
@@ -354,6 +355,6 @@ namespace ShootR
             }
         }
 
-        #endregion        
+        #endregion
     }
 }
