@@ -20,17 +20,13 @@ var MovementController = (function () {
     MovementController.prototype.RepositionInBounds = function (objectWidth, objectHeight) {
         if(this.Position.X < 0) {
             this.Position.X = 0;
-        } else {
-            if(this.Position.X + objectWidth > Map.WIDTH) {
-                this.Position.X = Map.WIDTH - objectWidth;
-            }
+        } else if(this.Position.X + objectWidth > Map.WIDTH) {
+            this.Position.X = Map.WIDTH - objectWidth;
         }
         if(this.Position.Y < 0) {
             this.Position.Y = 0;
-        } else {
-            if(this.Position.Y + objectHeight > Map.HEIGHT) {
-                this.Position.Y = Map.HEIGHT - objectHeight;
-            }
+        } else if(this.Position.Y + objectHeight > Map.HEIGHT) {
+            this.Position.Y = Map.HEIGHT - objectHeight;
         }
     };
     MovementController.prototype.Update = function (percentOfSecond, now) {
@@ -40,7 +36,7 @@ var MovementController = (function () {
         for(var key in data) {
             this[key] = data[key];
         }
-        ; ;
+        ;
     };
     return MovementController;
 })();

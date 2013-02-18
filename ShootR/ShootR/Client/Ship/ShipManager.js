@@ -67,10 +67,8 @@ var ShipManager = (function () {
                     this.Ships[key].DrawHealthBar();
                     this.Ships[key].DrawName(10);
                 }
-            } else {
-                if(this.myShipID !== this.Ships[key].ID) {
-                    delete this.Ships[key];
-                }
+            } else if(this.myShipID !== this.Ships[key].ID) {
+                delete this.Ships[key];
             }
         }
     };

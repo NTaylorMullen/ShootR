@@ -46,20 +46,18 @@
             var finalRatio;
             if(deaths === 0 && kills !== 0) {
                 finalRatio = "∞";
+            } else if(deaths === 0 && kills === 0) {
+                finalRatio = "";
             } else {
-                if(deaths === 0 && kills === 0) {
-                    finalRatio = "";
+                var kRatio, dRatio;
+                if(kills <= deaths && kills !== 0) {
+                    kRatio = 1;
+                    dRatio = Math.round((deaths / kills) * 10) / 10;
                 } else {
-                    var kRatio, dRatio;
-                    if(kills <= deaths && kills !== 0) {
-                        kRatio = 1;
-                        dRatio = Math.round((deaths / kills) * 10) / 10;
-                    } else {
-                        kRatio = Math.round((kills / deaths) * 10) / 10;
-                        dRatio = 1;
-                    }
-                    finalRatio = kRatio + ":" + dRatio;
+                    kRatio = Math.round((kills / deaths) * 10) / 10;
+                    dRatio = 1;
                 }
+                finalRatio = kRatio + ":" + dRatio;
             }
             this._kdRatioEle.html(finalRatio);
             this._lastKills = kills;

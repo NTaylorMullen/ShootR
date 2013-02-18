@@ -67,14 +67,12 @@ var HealthMonitor = (function () {
             if(lifePercentage <= HealthMonitor.BadThreshold) {
                 this._currentHealthHeart.addClass("bad");
                 barColor = GAME_GLOBALS.Colors.ShipBad;
+            } else if(lifePercentage <= HealthMonitor.HurtThreshold) {
+                this._currentHealthHeart.addClass("hurt");
+                barColor = GAME_GLOBALS.Colors.ShipHurt;
             } else {
-                if(lifePercentage <= HealthMonitor.HurtThreshold) {
-                    this._currentHealthHeart.addClass("hurt");
-                    barColor = GAME_GLOBALS.Colors.ShipHurt;
-                } else {
-                    this._currentHealthHeart.addClass("good");
-                    barColor = GAME_GLOBALS.Colors.ShipGood;
-                }
+                this._currentHealthHeart.addClass("good");
+                barColor = GAME_GLOBALS.Colors.ShipGood;
             }
             this._currentHealthHeart.animate({
                 left: heartLeft

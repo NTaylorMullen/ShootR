@@ -34,10 +34,8 @@ var AbilityHandler = (function () {
             var dataActive = aList[abilityName], myActive = this._abilityList[abilityName].Active;
             if(dataActive && !myActive) {
                 this.Activate(abilityName);
-            } else {
-                if(!dataActive && myActive) {
-                    this.Deactivate(abilityName);
-                }
+            } else if(!dataActive && myActive) {
+                this.Deactivate(abilityName);
             }
         }
     };

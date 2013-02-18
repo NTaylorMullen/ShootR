@@ -78,10 +78,8 @@ var ShipMovementController = (function (_super) {
         velocityLength = this.Velocity.Length();
         if(velocityLength < 10) {
             this.Velocity.ZeroOut();
-        } else {
-            if(velocityLength > 3000) {
-                this.Velocity = Vector2.MultiplyN(new Vector2(this.Rotation, false), 600);
-            }
+        } else if(velocityLength > 3000) {
+            this.Velocity = Vector2.MultiplyN(new Vector2(this.Rotation, false), 600);
         }
         this._acceleration.ZeroOut();
         this.Forces.ZeroOut();

@@ -7,12 +7,12 @@
 
 class ShipManager {
     public DrawDetails: bool;
-    public Ships: { [s: any]: Ship; };
+    public Ships: { [s: number]: Ship; };
     public MyShip: ShipController;
 
     constructor (private myShipID: number) {
         this.DrawDetails = true;
-        this.Ships = {};
+        this.Ships = <{ [s: number]: Ship; }>{};
     }
 
     public InitializeMyShip(connection: any) {

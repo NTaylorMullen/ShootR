@@ -15,7 +15,7 @@ class Map {
             position.Y >= 0 && position.Y + height <= Map.HEIGHT);
     }
 
-    public CheckBoundaryCollisions(ships: { [s: any]: Ship; }, bullets: { [s: any]: Bullet; }): void {
+    public CheckBoundaryCollisions(ships: { [s: number]: Ship; }, bullets: { [s: number]: Bullet; }): void {
         for (var key in ships) {
             if (!this.mapContains(ships[key].MovementController.Position, ships[key].WIDTH, ships[key].HEIGHT)) {
                 var bounceMultiplier: Vector2;

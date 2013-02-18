@@ -16,13 +16,6 @@ var Ship = (function (_super) {
         this.AnimationHandler = new ShipAnimationHandler(this);
         this.ShipAbilityHandler = new ShipAbilityHandler(this);
     }
-    Ship.WIDTH = 0;
-    Ship.HEIGHT = 0;
-    Ship.HALF_WIDTH = 0;
-    Ship.HALF_HEIGHT = 0;
-    Ship.MIN_FIRE_RATE = 0;
-    Ship.START_LIFE = 0;
-    Ship.DAMAGE_INCREASE_RATE = 0;
     Ship.prototype.Destroy = function () {
         if(!this.LifeController.Alive) {
             GAME_GLOBALS.AnimationManager.Add(new spritify({
@@ -58,12 +51,10 @@ var Ship = (function (_super) {
             this._lastHealth = this.LifeController.Health;
             if(this._currentHealthPercentage <= HealthMonitor.BadThreshold) {
                 this._miniHealthBarColor = GAME_GLOBALS.Colors.ShipBad;
+            } else if(this._currentHealthPercentage <= HealthMonitor.HurtThreshold) {
+                this._miniHealthBarColor = GAME_GLOBALS.Colors.ShipHurt;
             } else {
-                if(this._currentHealthPercentage <= HealthMonitor.HurtThreshold) {
-                    this._miniHealthBarColor = GAME_GLOBALS.Colors.ShipHurt;
-                } else {
-                    this._miniHealthBarColor = GAME_GLOBALS.Colors.ShipGood;
-                }
+                this._miniHealthBarColor = GAME_GLOBALS.Colors.ShipGood;
             }
         }
         CanvasContext.drawRectangle(this.MovementController.Position.X + this._xOffset, this.MovementController.Position.Y + this.HEIGHT + 15, this._maxWidth, 5, "#7F767D");

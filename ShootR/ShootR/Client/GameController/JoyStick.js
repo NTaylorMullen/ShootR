@@ -26,11 +26,9 @@ var JoyStick = (function () {
                 if(!validMove && this._movementList[i].Active) {
                     changed = true;
                     toStop = this._movementList[i];
-                } else {
-                    if(validMove && !this._movementList[i].Active) {
-                        changed = true;
-                        toStart = this._movementList[i];
-                    }
+                } else if(validMove && !this._movementList[i].Active) {
+                    changed = true;
+                    toStart = this._movementList[i];
                 }
             }
             return {
@@ -48,16 +46,12 @@ var JoyStick = (function () {
                 toStop.Active = false;
                 toStart.Active = true;
                 this._stopAndStartMovement(toStop.Direction, toStart.Direction);
-            } else {
-                if(toStop) {
-                    toStop.Active = false;
-                    this._stopMovement(toStop.Direction);
-                } else {
-                    if(toStart) {
-                        toStart.Active = true;
-                        this._startMovement(toStart.Direction);
-                    }
-                }
+            } else if(toStop) {
+                toStop.Active = false;
+                this._stopMovement(toStop.Direction);
+            } else if(toStart) {
+                toStart.Active = true;
+                this._startMovement(toStart.Direction);
             }
         }
     };

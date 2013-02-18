@@ -13,7 +13,6 @@ var Leaderboard = (function () {
         this.initializeLeaderboardRows();
         this.applyKeyboardShortcuts();
     }
-    Leaderboard.LEADERBOARD_SIZE = 0;
     Leaderboard.prototype.initializeLeaderboardRows = function () {
         var tempRow = $("#leaderboard .row");
         this._leaderboardRows.push(tempRow);

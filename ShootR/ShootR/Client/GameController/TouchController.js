@@ -105,28 +105,26 @@ var TouchController = (function () {
             this._canvas.addEventListener("MSHoldVisual", function (e) {
                 e.preventDefault();
             }, false);
+        } else if('createTouch' in document) {
+            this._canvas.addEventListener('touchstart', function (e) {
+                that._touchAdapter.Start(e);
+            }, false);
+            this._canvas.addEventListener('touchmove', function (e) {
+                that._touchAdapter.Move(e);
+            }, false);
+            this._canvas.addEventListener('touchend', function (e) {
+                that._touchAdapter.Stop(e);
+            }, false);
         } else {
-            if('createTouch' in document) {
-                this._canvas.addEventListener('touchstart', function (e) {
-                    that._touchAdapter.Start(e);
-                }, false);
-                this._canvas.addEventListener('touchmove', function (e) {
-                    that._touchAdapter.Move(e);
-                }, false);
-                this._canvas.addEventListener('touchend', function (e) {
-                    that._touchAdapter.Stop(e);
-                }, false);
-            } else {
-                this._canvas.addEventListener('mousedown', function (e) {
-                    that._mouseAdapter.Start(e);
-                }, false);
-                this._canvas.addEventListener('mousemove', function (e) {
-                    that._mouseAdapter.Move(e);
-                }, false);
-                this._canvas.addEventListener('mouseup', function (e) {
-                    that._mouseAdapter.Stop(e);
-                }, false);
-            }
+            this._canvas.addEventListener('mousedown', function (e) {
+                that._mouseAdapter.Start(e);
+            }, false);
+            this._canvas.addEventListener('mousemove', function (e) {
+                that._mouseAdapter.Move(e);
+            }, false);
+            this._canvas.addEventListener('mouseup', function (e) {
+                that._mouseAdapter.Stop(e);
+            }, false);
         }
         this._middle = screen.Viewport.Width / 2;
         $(screen).on("UpdateScreen", function () {

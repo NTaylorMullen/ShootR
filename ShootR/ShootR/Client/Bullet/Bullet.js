@@ -14,9 +14,6 @@ var Bullet = (function (_super) {
         this._spawnedAt = this.LastUpdated.getTime();
         this.UpdateProperties(properties);
     }
-    Bullet.BULLET_DIE_AFTER = 0;
-    Bullet.WIDTH = 0;
-    Bullet.HEIGHT = 0;
     Bullet.prototype.ShouldDispose = function () {
         return ((new Date().getTime()) - this._spawnedAt) >= Bullet.BULLET_DIE_AFTER;
     };

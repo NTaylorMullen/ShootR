@@ -115,7 +115,8 @@ namespace ShootR
                     ErrorLog.Instance.Log(e);
                 }
             }
-            throw new Exception();
+
+            return 0;
         }
 
         /// <summary>

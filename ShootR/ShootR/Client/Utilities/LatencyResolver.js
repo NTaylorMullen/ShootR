@@ -46,14 +46,12 @@ var LatencyResolver = (function () {
                 that.pushPingResults(sentAt, this._CST.GetServerTime(new Date(result).getTime()));
                 if(++that._pingCount < that.SampleSize) {
                     GetDelta();
+                } else if(that._pingCount === 1) {
+                    that._CST.Delta = that._deltas[0];
                 } else {
-                    if(that._pingCount === 1) {
-                        that._CST.Delta = that._deltas[0];
-                    } else {
-                        that._CST.Delta = that.GenerateDeltaTime();
-                        that._deltas = [];
-                        callback();
-                    }
+                    that._CST.Delta = that.GenerateDeltaTime();
+                    that._deltas = [];
+                    callback();
                 }
             });
         }

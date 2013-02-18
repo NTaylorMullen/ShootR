@@ -74,7 +74,6 @@ var DeathScreen = (function () {
             ]
         ];
     }
-    DeathScreen.RESPAWN_TIMER = 0;
     DeathScreen.prototype.YouDied = function (by, byPhoto) {
         var quote = Math.floor(Math.random() * this._randomQuotes.length);
         this._myShip.ResetTouchController();

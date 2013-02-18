@@ -1,8 +1,9 @@
 $(function () {
     var env = ($).connection.h, game, configurationManager, payloadDecompressor = new PayloadDecompressor(), latencyResolver = new LatencyResolver(env), screen = new GameScreen($("#game"), $("#gameWrapper"), $("#popUpHolder"), env), notification = $("#Notification"), gameInfoReceived = false, lastPayload = {
-Ships: {
+        Ships: {
         },
-Bullets: []    };
+        Bullets: []
+    };
     var stateCookie = ($).cookie('shootr.state'), state = stateCookie ? JSON.parse(stateCookie) : {
     }, registrationID = state.RegistrationID;
     function Initialize(init) {

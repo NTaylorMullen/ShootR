@@ -1,6 +1,6 @@
 class ShipControllerFunctions {
     static _connection: any;
-    static _currentCommand: number;
+    static _currentCommand: number = 0;
 
     constructor (connection: any) {
         ShipControllerFunctions._connection = connection;

@@ -29,9 +29,6 @@ var HealthPack = (function (_super) {
         this._animation.Play();
         this.AnimationDrawList.push(this._animation);
     }
-    HealthPack.WIDTH = 0;
-    HealthPack.HEIGHT = 0;
-    HealthPack.LIFE_SPAN = 0;
     HealthPack.prototype.Update = function (gameTime) {
         if(gameTime.Now.getTime() - this._spawnedAt >= HealthPack.LIFE_SPAN) {
             this.Disposed = true;

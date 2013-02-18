@@ -2,7 +2,6 @@ var ShipControllerFunctions = (function () {
     function ShipControllerFunctions(connection) {
         ShipControllerFunctions._connection = connection;
     }
-    ShipControllerFunctions._connection = undefined;
     ShipControllerFunctions._currentCommand = 0;
     ShipControllerFunctions.prototype.StartMovement = function (dir) {
         ShipControllerFunctions._connection.server.registerMoveStart(dir, false, ++ShipControllerFunctions._currentCommand);

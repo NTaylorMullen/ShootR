@@ -233,7 +233,7 @@ var ShipController = (function (_super) {
                 shortcut.add(that._keyMapping[k].key[z], (function (k) {
                     return function () {
                         that.startMovement(that._keyMapping[k].dir);
-                    }
+                    };
                 })(k), {
                     'disable_in_input': true,
                     'type': 'keydown'
@@ -241,7 +241,7 @@ var ShipController = (function (_super) {
                 shortcut.add(that._keyMapping[k].key[z], (function (k) {
                     return function () {
                         that.stopMovement(that._keyMapping[k].dir);
-                    }
+                    };
                 })(k), {
                     'disable_in_input': true,
                     'type': 'keyup'

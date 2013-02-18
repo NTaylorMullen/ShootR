@@ -36,7 +36,7 @@ var delay = (function () {
     return function (callback, ms) {
         clearTimeout(timer);
         timer = setTimeout(callback, ms);
-    }
+    };
 })();
 jQuery.fn.flash = function (color, duration) {
     this.stop(true);

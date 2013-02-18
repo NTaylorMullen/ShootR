@@ -16,7 +16,6 @@ var GameScreen = (function () {
     GameScreen.MAX_SCREEN_HEIGHT = 10000;
     GameScreen.MIN_SCREEN_WIDTH = -1;
     GameScreen.MIN_SCREEN_HEIGHT = -1;
-    GameScreen.SCREEN_BUFFER_AREA = 0;
     GameScreen.prototype.updateGameCanvas = function () {
         this._gameCanvas.attr("width", this.Viewport.Width);
         this._gameCanvas.attr("height", this.Viewport.Height);
