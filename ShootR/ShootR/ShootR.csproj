@@ -238,6 +238,7 @@
     <Content Include="Images\SpriteSheets\thrusters-BOOST.png" />
     <Content Include="Images\SpriteSheets\thrust_basic.png" />
     <Content Include="Images\SpriteSheets\thrust_start.png" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\janrain.js" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -248,6 +249,7 @@
     <Content Include="Scripts\jquery.signalR-1.0.0.min.js" />
     <Content Include="Scripts\jquery.spritify-0.0.0.js" />
     <Content Include="Scripts\shortcut.js" />
+    <Content Include="Styles\bootstrap.min.css" />
     <Content Include="Styles\controller.css" />
     <Content Include="Styles\game.css" />
     <Content Include="Styles\gameHUD.css" />
