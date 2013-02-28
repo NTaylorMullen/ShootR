@@ -55,29 +55,19 @@ table {
 html, body {
     width: 100%;
     height: 100%;
-    background-color:#2a1b26;
 }
+
+    body.space {
+        background-color: #2a1b26;
+    }
 
 a {
     color: white;
-    text-decoration:none;
-}
-
-#GuestLogin {
-    width:392px;
-    height:25px;
-    line-height:25px;
-    text-align:center;
-    margin:0 auto;
-    display:block;
-    color:white;
-    background-color:#1E9AF3;
-    font-family:'SegoeUISemibold';
-    border-radius:3px;
+    text-decoration: none;
 }
 
 div.borderless {
-    border:0!important;
+    border: 0!important;
 }
 
 #game {
@@ -102,10 +92,15 @@ div.borderless {
     left: 200px;
 }
 
-.janrainContent {
-    margin: 0 auto 40px;
-}
-
 #logout:hover {
     cursor: pointer;
+}
+
+h2 {
+    width:40px!important;
+    float:left!important;
+    margin:0px!important;
+    margin-right:40px!important;
+    height:166px!important;
+    line-height:166px!important;
 }
