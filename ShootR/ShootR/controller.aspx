@@ -57,7 +57,7 @@
         <script src="Scripts/jquery-1.9.1.js" type="text/javascript"></script>
         <script src="Scripts/jquery.cookie.js" type="text/javascript"></script>
         <script src="Scripts/shortcut.js" type="text/javascript"></script>
-        <script src="Scripts/jquery.signalR-1.0.0.js" type="text/javascript"></script>
+        <script src="Scripts/jquery.signalR-2.0.0-rc1-130619-b76.js.js" type="text/javascript"></script>
         <script src="Scripts/jquery.spritify-0.0.0.js" type="text/javascript"></script>
         <script src="signalr/hubs" type="text/javascript"></script>
 
