@@ -213,9 +213,9 @@ namespace ShootR
                     return new
                     {
                         Configuration = Configuration,
+                        ServerFull = false,
                         CompressionContracts = new
                         {
-                            ServerFull = false,
                             PayloadContract = _payloadManager.Compressor.PayloadCompressionContract,
                             CollidableContract = _payloadManager.Compressor.CollidableCompressionContract,
                             ShipContract = _payloadManager.Compressor.ShipCompressionContract,
