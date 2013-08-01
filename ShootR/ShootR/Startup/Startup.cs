@@ -1,13 +1,14 @@
 ﻿using System.Configuration;
+using System.Security.Claims;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.Twitter;
-using Microsoft.Owin.Security.Facebook;
 using Owin;
 using ShootR;
 using ShootR.Authentication;
-using System.Security.Claims;
+using TweetSharp;
 
 // Specify the entry point
 [assembly: OwinStartup(typeof(Startup), "Configuration")]
@@ -28,6 +29,21 @@ namespace ShootR
 
             app.UseTwitterAuthentication(new TwitterAuthenticationOptions
             {
+                Provider = new TwitterAuthenticationProvider
+                {
+                    OnAuthenticated = async context =>
+                    {
+                        var service = new TwitterService(ConfigurationManager.AppSettings["twitterConsumerKey"], ConfigurationManager.AppSettings["twitterConsumerSecret"]);
+                        service.AuthenticateWith(context.AccessToken, context.AccessTokenSecret);
+
+                        var profile = service.GetUserProfile(new GetUserProfileOptions
+                        {
+                            IncludeEntities = true
+                        });
+
+                        context.Identity.AddClaim(new Claim("profilePicture", profile.ProfileImageUrl));
+                    }
+                },
                 SignInAsAuthenticationType = "ShootR",
                 ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"],
                 ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"]
@@ -44,7 +60,7 @@ namespace ShootR
                 {
                     OnAuthenticated = async context =>
                     {
-                        context.Identity.AddClaim(new Claim("profilePicture","https://graph.facebook.com/" + context.Identity.FindFirst(ClaimTypes.NameIdentifier).Value + "/picture?type=large"));
+                        context.Identity.AddClaim(new Claim("profilePicture", "https://graph.facebook.com/" + context.Identity.FindFirst(ClaimTypes.NameIdentifier).Value + "/picture?type=large"));
                     }
                 },
                 SignInAsAuthenticationType = "ShootR",
