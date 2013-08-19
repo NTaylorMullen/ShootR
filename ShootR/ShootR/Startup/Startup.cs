@@ -10,9 +10,6 @@ using ShootR;
 using ShootR.Authentication;
 using TweetSharp;
 
-// Specify the entry point
-[assembly: OwinStartup(typeof(Startup), "Configuration")]
-
 namespace ShootR
 {
     public class Startup
