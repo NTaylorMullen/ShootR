@@ -10,24 +10,33 @@
 namespace ShootR {
     
     
-    public partial class controller {
+    public partial class Login {
         
         /// <summary>
-        /// LoginScripts control.
+        /// FacebookLoginButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::ShootR.Login LoginScripts;
+        protected global::System.Web.UI.WebControls.Button FacebookLoginButton;
         
         /// <summary>
-        /// GameScripts control.
+        /// GoogleLoginButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel GameScripts;
+        protected global::System.Web.UI.WebControls.Button GoogleLoginButton;
+        
+        /// <summary>
+        /// TwitterLoginButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button TwitterLoginButton;
     }
 }

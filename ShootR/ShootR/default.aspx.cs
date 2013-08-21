@@ -58,20 +58,5 @@ namespace ShootR
                 GameScripts.Visible = false;
             }
         }
-
-        protected void TwitterLoginButton_Click(object sender, EventArgs e)
-        {
-            Context.Request.GetOwinContext().Authentication.Challenge(new string[] { "Twitter" });
-        }
-
-        protected void GoogleLoginButton_Click(object sender, EventArgs e)
-        {
-            Context.Request.GetOwinContext().Authentication.Challenge(new string[] { "Google" });
-        }
-
-        protected void FacebookLoginButton_Click(object sender, EventArgs e)
-        {
-            Context.Request.GetOwinContext().Authentication.Challenge(new string[] { "Facebook" });
-        }
     }
 }
