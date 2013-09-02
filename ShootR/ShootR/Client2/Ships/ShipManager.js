@@ -16,6 +16,10 @@ var ShootR;
             this._userShipManager = userShipManager;
         };
 
+        ShipManager.prototype.UpdateViewport = function (viewport) {
+            this._viewport.Size = viewport;
+        };
+
         ShipManager.prototype.GetShip = function (id) {
             return this._ships[id];
         };
@@ -39,6 +43,7 @@ var ShootR;
                 }
 
                 if (ship.Disposed) {
+                    console.log("Disposed: " + ship.ID);
                     this._ships[ship.ID].Destroy();
                     delete this._ships[ship.ID];
                 }
@@ -47,15 +52,18 @@ var ShootR;
 
         ShipManager.prototype.Update = function (gameTime) {
             for (var id in this._ships) {
-                if (this._ships[id].Bounds.IntersectsRectangle(this._viewport)) {
-                    this._ships[id].Update(gameTime);
-                } else {
-                    //this._ships[id].Graphic.Dispose();
-                    //delete this._ships[id];
-                }
+                this._ships[id].Update(gameTime);
             }
 
             this._userShipManager.Update(gameTime);
+
+            for (var id in this._ships) {
+                if (!this._ships[id].Bounds.IntersectsRectangle(this._viewport)) {
+                    console.log("No longer in view: " + id);
+                    this._ships[id].Destroy();
+                    delete this._ships[id];
+                }
+            }
         };
         return ShipManager;
     })();

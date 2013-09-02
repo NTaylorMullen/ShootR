@@ -18,6 +18,10 @@ module ShootR {
             this._userShipManager = userShipManager;
         }
 
+        public UpdateViewport(viewport: eg.Size2d): void {
+            this._viewport.Size = viewport;
+        }
+
         public GetShip(id: number): Ship {
             return this._ships[id];
         }
@@ -41,6 +45,7 @@ module ShootR {
                 }
 
                 if (ship.Disposed) {
+                    console.log("Disposed: " + ship.ID);
                     this._ships[ship.ID].Destroy();
                     delete this._ships[ship.ID];
                 }
@@ -48,16 +53,21 @@ module ShootR {
         }
 
         public Update(gameTime: eg.GameTime): void {
+            // Update positions first
             for (var id in this._ships) {
-                if (this._ships[id].Bounds.IntersectsRectangle(this._viewport)) {
-                    this._ships[id].Update(gameTime);
-                } else {
-                    //this._ships[id].Graphic.Dispose();
-                    //delete this._ships[id];
-                }
+                this._ships[id].Update(gameTime);
             }
 
             this._userShipManager.Update(gameTime);
+
+            // Check for "in-bounds" to see what ships we should destroy
+            for (var id in this._ships) {
+                if (!this._ships[id].Bounds.IntersectsRectangle(this._viewport)) {
+                    console.log("No longer in view: " + id);
+                    this._ships[id].Destroy();
+                    delete this._ships[id];
+                }
+            }
         }
     }
 
