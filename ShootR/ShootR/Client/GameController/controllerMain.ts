@@ -3,7 +3,7 @@
 /// <reference path="TouchController.ts" />
 /// <reference path="../Game.ts" />
 /// <reference path="../Configuration/ConfigurationManager.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 declare var animloop;
 

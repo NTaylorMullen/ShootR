@@ -11,7 +11,7 @@
 /// <reference path="../Space/Map.ts" />
 /// <reference path="ShipStatMonitor.ts" />
 /// <reference path="../Utilities/Size.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 class HUDManager {
     public GameDetailManager: GameDetailManager;
@@ -41,7 +41,7 @@ class HUDManager {
         this.ShipStatMonitor = new ShipStatMonitor(this.MyShip);
         this.EnvironmentMonitor = new EnvironmentMonitor(this.MyShip);
         this.NotificationManager = new NotificationManager();
-        this.AreaRenderer = new AreaRenderer(this.MyShip, Map.WIDTH);
+        this.AreaRenderer = new AreaRenderer(this.MyShip, Map2.WIDTH);
 
         this._gameHUDHeight = this._gameHUD.height();
     }

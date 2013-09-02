@@ -5,9 +5,10 @@ var ClientServerTime = (function () {
     ClientServerTime.prototype.GetServerTime = function (serverTime) {
         return serverTime + this.Delta;
     };
+
     ClientServerTime.prototype.ToServerTime = function (time) {
         return time - this.Delta;
     };
     return ClientServerTime;
 })();
-//@ sourceMappingURL=ClientServerTime.js.map
+//# sourceMappingURL=ClientServerTime.js.map

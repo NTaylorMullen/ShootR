@@ -1,6 +1,6 @@
 /// <reference path="../Utilities/Vector2.ts" />
 /// <reference path="../Utilities/Size.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 class Camera {
 
@@ -20,7 +20,7 @@ class Camera {
         this.Position = position;
         // Update background position based on camera
         this._gameWrapper.css("background-position", -this.Position.X + "px " + -this.Position.Y + "px");
-    };
+    }
 
     public InView(obj: any): bool {
         var halfObj: Size = new Size(obj.WIDTH * .5, obj.HEIGHT * .5),

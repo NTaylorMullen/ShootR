@@ -1,5 +1,5 @@
 /// <reference path="../Ship/ShipController.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 class Leaderboard {
     static LEADERBOARD_SIZE: number;

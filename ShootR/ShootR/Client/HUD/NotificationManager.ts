@@ -1,4 +1,4 @@
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 class NotificationManager {
     private controlsNCredits: JQuery = $("#ControlsNCredits");

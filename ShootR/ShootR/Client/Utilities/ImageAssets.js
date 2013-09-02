@@ -16,10 +16,12 @@ var IMAGE_ASSETS = {
         this.Ship11 = this.Ship10;
         this.Ship12.src = "/Images/Ships/LaserCat.png";
         this.Ship13 = this.Ship10;
+
         this.ThrustBasic.src = "/Images/SpriteSheets/thrust_basic.png";
         this.HealthPack.src = "/Images/SpriteSheets/health_pack.png";
         this.Boost.src = "/Images/SpriteSheets/thrusters-BOOST.png";
         this.ThrustStart.src = "/Images/SpriteSheets/thrust_start.png";
+
         this.ShipDamage1.src = "/Images/Ships/Damage/damage_1.png";
         this.ShipDamage3.src = "/Images/Ships/Damage/damage_2.png";
         this.ShipDamage5.src = "/Images/Ships/Damage/damage_3.png";
@@ -47,5 +49,6 @@ var IMAGE_ASSETS = {
     Boost: new Image(),
     ThrustStart: new Image()
 };
+
 IMAGE_ASSETS.INIT();
-//@ sourceMappingURL=ImageAssets.js.map
+//# sourceMappingURL=ImageAssets.js.map

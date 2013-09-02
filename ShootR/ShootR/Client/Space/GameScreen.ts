@@ -1,7 +1,7 @@
 /// <reference path="../Space/CanvasRenderer.ts" />
 /// <reference path="../Utilities/Size.ts" />
 /// <reference path="../Utilities/UtilityFunctions.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../HUD/HUDManager.ts" />
 
 class GameScreen {

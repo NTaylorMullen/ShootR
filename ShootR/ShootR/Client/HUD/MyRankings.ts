@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery.d.ts" />
+﻿/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 class MyRankings {
     private _myPosition: number = 0; // Initially set to a very high value so we flash green on leaderboard position first update

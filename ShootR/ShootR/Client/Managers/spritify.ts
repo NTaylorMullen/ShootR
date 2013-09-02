@@ -1,7 +1,7 @@
 /// <reference path="../Utilities/Size.ts" />
 /// <reference path="../Utilities/Vector2.ts" />
 /// <reference path="../Space/CanvasRenderer.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 class spritify {
     private _lastUpdateFrame: number;

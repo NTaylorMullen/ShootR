@@ -1,6 +1,6 @@
 /// <reference path="Leaderboard.ts" />
 /// <reference path="../Ship/ShipController.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 class DeathScreen {
     static RESPAWN_TIMER: number;

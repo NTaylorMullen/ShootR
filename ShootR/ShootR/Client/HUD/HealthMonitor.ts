@@ -3,7 +3,7 @@
 /// <reference path="../GameGlobals.ts" />
 /// <reference path="Animation/TextAnimation.ts" />
 /// <reference path="../Utilities/Vector2.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 class HealthMonitor {
     static ANIMATE_SPEED: number = 500;

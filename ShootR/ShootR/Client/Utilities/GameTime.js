@@ -1,3 +1,4 @@
+/// <reference path="UtilityFunctions.ts" />
 var GameTime = (function () {
     function GameTime() {
         this._lastUpdated = new Date();
@@ -6,9 +7,10 @@ var GameTime = (function () {
     }
     GameTime.prototype.Update = function () {
         this.PercentOfSecond = CalculatePOS(this._lastUpdated);
+
         this.Now = new Date();
         this._lastUpdated = this.Now;
     };
     return GameTime;
 })();
-//@ sourceMappingURL=GameTime.js.map
+//# sourceMappingURL=GameTime.js.map

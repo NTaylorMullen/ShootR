@@ -1,3 +1,4 @@
+/// <reference path="../TouchController.ts" />
 var IETouchAdapter = (function () {
     function IETouchAdapter(_proxy, _handleStart, _handleMove, _handleStop) {
         this._proxy = _proxy;
@@ -7,19 +8,25 @@ var IETouchAdapter = (function () {
     }
     IETouchAdapter.prototype.stopAndConvert = function (e) {
         e.preventDefault();
+
         var touch = e;
+
         touch.identifier = e.pointerId;
+
         return touch;
     };
+
     IETouchAdapter.prototype.Start = function (e) {
         this._handleStart.call(this._proxy, this.stopAndConvert(e));
     };
+
     IETouchAdapter.prototype.Move = function (e) {
         this._handleMove.call(this._proxy, this.stopAndConvert(e));
     };
+
     IETouchAdapter.prototype.Stop = function (e) {
         this._handleStop.call(this._proxy, this.stopAndConvert(e));
     };
     return IETouchAdapter;
 })();
-//@ sourceMappingURL=IETouchAdapter.js.map
+//# sourceMappingURL=IETouchAdapter.js.map

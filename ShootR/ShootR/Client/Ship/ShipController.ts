@@ -5,7 +5,7 @@
 /// <reference path="../Utilities/UtilityFunctions.ts" />
 /// <reference path="../GameController/TouchController.ts" />
 /// <reference path="../Space/GameScreen.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 class ShipController extends Ship {
     static REQUEST_PING_EVERY: number = 5;

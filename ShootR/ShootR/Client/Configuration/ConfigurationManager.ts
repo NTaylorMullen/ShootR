@@ -10,7 +10,7 @@
 /// <reference path="../Powerups/HealthPack.ts" />
 /// <reference path="../Game.ts" />
 /// <reference path="../Interfaces/IConfigurations.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 class ConfigurationManager {
     public bulletConfig: BulletConfiguration;

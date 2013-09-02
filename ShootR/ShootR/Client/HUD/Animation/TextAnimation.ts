@@ -1,6 +1,6 @@
 /// <reference path="../../Utilities/Vector2.ts" />
 /// <reference path="../../Space/CanvasRenderer.ts" />
-/// <reference path="../../../Scripts/jquery.d.ts" />
+/// <reference path="../../../Scripts/typings/jquery/jquery.d.ts" />
 
 class TextAnimation {
     public Destroyed: bool = false;

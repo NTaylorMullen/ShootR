@@ -5,7 +5,7 @@
 /// <reference path="Space/GameScreen.ts" />
 /// <reference path="Space/Map.ts" />
 /// <reference path="Configuration/ConfigurationManager.ts" />
-/// <reference path="../Scripts/jquery.d.ts" />
+/// <reference path="../Scripts/typings/jquery/jquery.d.ts" />
 
 declare var animloop;
 

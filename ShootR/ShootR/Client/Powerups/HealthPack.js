@@ -1,4 +1,11 @@
+/// <reference path="Powerup.ts" />
+/// <reference path="../Managers/spritify.ts" />
+/// <reference path="../Utilities/ImageAssets.ts" />
+/// <reference path="../Utilities/Vector2.ts" />
+/// <reference path="../Utilities/GameTime.ts" />
+/// <reference path="../Collidable/MovementControllers/StationaryMovementController.ts" />
 var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
@@ -7,12 +14,15 @@ var HealthPack = (function (_super) {
     __extends(HealthPack, _super);
     function HealthPack(properties, position) {
         _super.call(this, properties);
+
         this.WIDTH = HealthPack.WIDTH;
         this.HEIGHT = HealthPack.HEIGHT;
         this.MovementController = new StationaryMovementController(position);
+
         this._spawnedAt = new Date().getTime();
         this.InitializeAnimationCanvas();
         this.UpdateAnimationCanvasSize(new Size(this.WIDTH, this.HEIGHT));
+
         this._animation = new spritify({
             image: IMAGE_ASSETS.HealthPack,
             drawOn: this.AnimationCanvasContext,
@@ -26,15 +36,17 @@ var HealthPack = (function (_super) {
             autoPlay: false,
             loop: true
         });
+
         this._animation.Play();
         this.AnimationDrawList.push(this._animation);
     }
     HealthPack.prototype.Update = function (gameTime) {
-        if(gameTime.Now.getTime() - this._spawnedAt >= HealthPack.LIFE_SPAN) {
+        if (gameTime.Now.getTime() - this._spawnedAt >= HealthPack.LIFE_SPAN) {
             this.Disposed = true;
         }
+
         this._animation.Update(gameTime.Now);
     };
     return HealthPack;
 })(Powerup);
-//@ sourceMappingURL=HealthPack.js.map
+//# sourceMappingURL=HealthPack.js.map

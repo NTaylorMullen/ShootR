@@ -24,6 +24,25 @@ namespace ShootR
                 .Include("~/Styles/bootstrap.min.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/gamejs")
+                .Include("~/Scripts/endgate-{version}.js")
+                .Include("~/Client2/Utilities/UtilityFunctions.js")
+                .Include("~/Client2/Server/PayloadDecompressor.js")
+                .Include("~/Client2/Server/ServerConnectionManager.js")
+                .Include("~/Client2/Server/ServerAdapter.js")
+                .Include("~/Client2/Configuration/ConfigurationManager.js")
+                .Include("~/Client2/GameScreen.js")
+                .Include("~/Client2/Space/MapBoundary.js")
+                .Include("~/Client2/Space/Map.js")
+                .Include("~/Client2/Ships/ShipGraphic.js")
+                .Include("~/Client2/Ships/ShipMovementController.js")
+                .Include("~/Client2/Ships/ShipInputController.js")
+                .Include("~/Client2/Ships/Ship.js")
+                .Include("~/Client2/Ships/UserShipManager.js")
+                .Include("~/Client2/Ships/ShipManager.js")
+                .Include("~/Client2/Game.js")
+                .Include("~/Client2/Main.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/gamejs2")
                 .Include("~/Client/Utilities/Vector2.js")
                 .Include("~/Client/Utilities/ValueRef.js")
                 .Include("~/Client/Utilities/ImageAssets.js")

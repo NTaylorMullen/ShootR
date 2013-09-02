@@ -4,7 +4,7 @@
 /// <reference path="../Interfaces/PayloadDefinitions.d.ts" />
 
 class BulletManager {
-    public Bullets: { [s: any]: Bullet; };
+    public Bullets: { [s: number]: Bullet; };
 
     constructor () {
         this.Bullets = {};

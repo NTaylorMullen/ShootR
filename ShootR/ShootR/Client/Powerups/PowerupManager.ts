@@ -5,7 +5,7 @@
 /// <reference path="../Space/CanvasRenderer.ts" />
 
 class PowerupManager {
-    public Powerups: { [s: any]: Powerup; };
+    public Powerups: { [s: number]: Powerup; };
 
     constructor () {
         this.Powerups = {};

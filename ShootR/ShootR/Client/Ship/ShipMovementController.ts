@@ -109,7 +109,7 @@ class ShipMovementController extends MovementController {
         }
         else if (velocityLength > 3000) // Hack
         {
-            this.Velocity = Vector2.MultiplyN(new Vector2(this.Rotation, false), 600);
+            this.Velocity = Vector2.MultiplyN(new Vector2(Math.cos(this.Rotation * Math.PI / 180), Math.sin(this.Rotation * Math.PI / 180)), 600);
         }
 
         this._acceleration.ZeroOut();

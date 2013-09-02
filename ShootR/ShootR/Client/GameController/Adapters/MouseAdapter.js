@@ -1,3 +1,4 @@
+/// <reference path="../TouchController.ts" />
 var MouseAdapter = (function () {
     function MouseAdapter(_proxy, _handleStart, _handleMove, _handleStop) {
         this._proxy = _proxy;
@@ -9,19 +10,24 @@ var MouseAdapter = (function () {
     }
     MouseAdapter.prototype.Start = function (e) {
         e.preventDefault();
+
         e.identifier = this._currentGUID = this._guid++;
         this._handleStart.call(this._proxy, e);
     };
+
     MouseAdapter.prototype.Move = function (e) {
         e.preventDefault();
+
         e.identifier = this._currentGUID;
         this._handleMove.call(this._proxy, e);
     };
+
     MouseAdapter.prototype.Stop = function (e) {
         e.preventDefault();
+
         e.identifier = this._currentGUID;
         this._handleStop.call(this._proxy, e);
     };
     return MouseAdapter;
 })();
-//@ sourceMappingURL=MouseAdapter.js.map
+//# sourceMappingURL=MouseAdapter.js.map

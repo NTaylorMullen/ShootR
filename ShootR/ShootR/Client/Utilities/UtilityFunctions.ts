@@ -1,5 +1,5 @@
 /// <reference path="../Utilities/Vector2.ts" />
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 
 function CalculatePO(from: Date, time: number): number {
     return ((new Date().getTime() - from.getTime()) / time);
