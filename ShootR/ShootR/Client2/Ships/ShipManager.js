@@ -28,8 +28,8 @@ var ShootR;
             delete this._ships[shipID];
         };
 
-        ShipManager.prototype.LoadPayload = function (shipPayload) {
-            var ship;
+        ShipManager.prototype.LoadPayload = function (payload) {
+            var shipPayload = payload.Ships, ship;
 
             for (var i = 0; i < shipPayload.length; i++) {
                 ship = shipPayload[i];
@@ -48,6 +48,8 @@ var ShootR;
                     delete this._ships[ship.ID];
                 }
             }
+
+            this._userShipManager.LoadPayload(payload);
         };
 
         ShipManager.prototype.Update = function (gameTime) {

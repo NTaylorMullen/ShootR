@@ -1,6 +1,7 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="ShipManager.ts" />
 /// <reference path="ShipInputController.ts" />
+/// <reference path="../Server/IPayloadDefinitions.ts" />
 var ShootR;
 (function (ShootR) {
     var UserShipManager = (function () {
@@ -34,6 +35,28 @@ var ShootR;
                 }
             });
         }
+        UserShipManager.prototype.LoadPayload = function (payload) {
+            var serverCommand = payload.LastCommandProcessed, ship = this._shipManager.GetShip(this._myShipId);
+
+            if (this._commandList.length >= 1) {
+                var serverCommandIndex = this._commandList.length - (this._currentCommand - serverCommand);
+
+                for (var i = serverCommandIndex; i < this._commandList.length; i++) {
+                    if (this._commandList[i][3]) {
+                        /*if (this._commandList[i][2]) {
+                        this.ShipAbilityHandler.Activate(this._commandList[i][1])
+                        } else {
+                        this.ShipAbilityHandler.Deactivate(this._commandList[i][1])
+                        }*/
+                    } else {
+                        ship.MovementController.Moving[this._commandList[i][1]] = this._commandList[i][2];
+                    }
+                }
+
+                this._commandList.splice(0, serverCommandIndex);
+            }
+        };
+
         UserShipManager.prototype.Update = function (gameTime) {
             var ship = this._shipManager.GetShip(this._myShipId);
 

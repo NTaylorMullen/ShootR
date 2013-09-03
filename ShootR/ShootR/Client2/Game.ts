@@ -28,7 +28,7 @@ module ShootR {
             this._map = new Map(this.Scene, this.CollisionManager);
 
             serverAdapter.OnPayload.Bind((payload: Server.IPayloadData) => {
-                this._shipManager.LoadPayload(payload.Ships);
+                this._shipManager.LoadPayload(payload);
             });
 
             /*this._shipManager.LoadPayload([<any>{

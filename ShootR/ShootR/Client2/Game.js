@@ -30,7 +30,7 @@ var ShootR;
             this._map = new ShootR.Map(this.Scene, this.CollisionManager);
 
             serverAdapter.OnPayload.Bind(function (payload) {
-                _this._shipManager.LoadPayload(payload.Ships);
+                _this._shipManager.LoadPayload(payload);
             });
             /*this._shipManager.LoadPayload([<any>{
             ID: initializationData.ShipID,

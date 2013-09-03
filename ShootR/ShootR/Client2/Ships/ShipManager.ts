@@ -30,8 +30,9 @@ module ShootR {
             delete this._ships[shipID];
         }
 
-        public LoadPayload(shipPayload: Array<Server.IShipData>): void {
-            var ship: Server.IShipData;
+        public LoadPayload(payload: Server.IPayloadData): void {
+            var shipPayload: Array<Server.IShipData> = payload.Ships,
+                ship: Server.IShipData;
 
             for (var i = 0; i < shipPayload.length; i++) {
                 ship = shipPayload[i];
@@ -50,6 +51,8 @@ module ShootR {
                     delete this._ships[ship.ID];
                 }
             }
+
+            this._userShipManager.LoadPayload(payload);
         }
 
         public Update(gameTime: eg.GameTime): void {
