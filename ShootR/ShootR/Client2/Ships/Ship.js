@@ -28,7 +28,6 @@ var ShootR;
 
         Ship.prototype.LoadPayload = function (payload) {
             this.ID = payload.ID;
-            this.Graphic.Rotation = payload.MovementController.Rotation * .0174532925;
             this.MovementController.LoadPayload(payload.MovementController);
         };
 

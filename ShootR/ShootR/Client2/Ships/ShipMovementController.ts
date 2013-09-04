@@ -1,6 +1,7 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="IMoving.ts" />
+/// <reference path="ShipInterpolationManager.ts" />
 
 module ShootR {
 
@@ -20,6 +21,7 @@ module ShootR {
         public Forces: eg.Vector2d;
         private _acceleration: eg.Vector2d;        
         private _moveables: Array<eg.IMoveable>;
+        private _interpolationManager: ShipInterpolationManager;
 
         constructor(movables: Array<eg.IMoveable>) {
             super(movables);
@@ -38,17 +40,31 @@ module ShootR {
                 RotatingRight: false
             };
 
+            this._interpolationManager = new ShipInterpolationManager(this);
+
             this.OnMove = new eg.EventHandler1<eg.MovementControllers.IMoveEvent>();
         }
 
         public OnMove: eg.EventHandler1<eg.MovementControllers.IMoveEvent>;
 
+        public IsInterpolating(): boolean {
+            return this._interpolationManager.InterpolatingPosition;
+        }
+
         public LoadPayload(payload: Server.IShipMovementControllerData): void {
-            this.Rotation = payload.Rotation * .0174532925;
+            this._interpolationManager.LoadPayload(payload);
+
+            if (!this._interpolationManager.InterpolatingRotation) {
+                this.Rotation = payload.Rotation;
+            }
+
+            if (!this._interpolationManager.InterpolatingPosition) {
+                this.Position = payload.Position;
+            }
+
             this.Mass = payload.Mass;
             this.Forces = payload.Forces;
             this.Velocity = payload.Velocity;
-            this.Position = payload.Position.Add(Ship.SIZE.Multiply(.5));
             this.Moving = payload.Moving;
         }
 
@@ -81,43 +97,52 @@ module ShootR {
                 dragForce: eg.Vector2d,
                 velocityLength: number;
 
-            this._acceleration = this.Forces.Divide(this.Mass);
+            this._interpolationManager.Update(gameTime);
 
-            clientPositionPrediction = this.Velocity.Multiply(gameTime.Elapsed.Seconds).Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds * gameTime.Elapsed.Seconds));
-            this.Position = this.Position.Add(clientPositionPrediction);
+            if (!this._interpolationManager.InterpolatingPosition) {
+                this._acceleration = this.Forces.Divide(this.Mass);
 
-            this.Velocity = this.Velocity.Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds));
+                clientPositionPrediction = this.Velocity.Multiply(gameTime.Elapsed.Seconds).Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds * gameTime.Elapsed.Seconds));
+                this.Position = this.Position.Add(clientPositionPrediction);
 
-            velocityLength = this.Velocity.Length();
+                this.Velocity = this.Velocity.Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds));
 
-            // Stop moving if the "speed" is less than 10
-            if (velocityLength < 10) {
-                this.Velocity = eg.Vector2d.Zero;
-            } else if (velocityLength > 3000) // Hack
-            {
-                this.Velocity = direction.Multiply(600);
+                velocityLength = this.Velocity.Length();
+
+                // Stop moving if the "speed" is less than 10
+                if (velocityLength < 10) {
+                    this.Velocity = eg.Vector2d.Zero;
+                } else if (velocityLength > 3000) // Hack
+                {
+                    this.Velocity = direction.Multiply(600);
+                }
+
+                this._acceleration = eg.Vector2d.Zero;
+                this.Forces = eg.Vector2d.Zero;
+
+                dragForce = this.Velocity.Multiply(.5).Multiply(this.Velocity.Abs()).Multiply(ShipMovementController.DRAG_COEFFICIENT * ShipMovementController.DRAG_AREA * -1);
+
+                if (this.Moving.Forward) {
+                    this.ApplyForce(direction.Multiply(this.Power));
+                }
+                if (this.Moving.Backward) {
+                    this.ApplyForce(direction.Multiply(this.Power * -1));
+                }
+
+                this.ApplyForce(dragForce);
             }
 
-            this._acceleration = eg.Vector2d.Zero;
-            this.Forces = eg.Vector2d.Zero;
+            if (!this._interpolationManager.InterpolatingRotation) {
+                rotationIncrementor = gameTime.Elapsed.Seconds * ShipMovementController.ROTATE_SPEED;
 
-            rotationIncrementor = gameTime.Elapsed.Seconds * ShipMovementController.ROTATE_SPEED;
-            dragForce = this.Velocity.Multiply(.5).Multiply(this.Velocity.Abs()).Multiply(ShipMovementController.DRAG_COEFFICIENT * ShipMovementController.DRAG_AREA * -1);
-
-            if (this.Moving.RotatingLeft) {
-                this.Rotation -= rotationIncrementor;
-            }
-            if (this.Moving.RotatingRight) {
-                this.Rotation += rotationIncrementor;
-            }
-            if (this.Moving.Forward) {
-                this.ApplyForce(direction.Multiply(this.Power));
-            }
-            if (this.Moving.Backward) {
-                this.ApplyForce(direction.Multiply(this.Power * -1));
+                if (this.Moving.RotatingLeft) {
+                    this.Rotation -= rotationIncrementor;
+                }
+                if (this.Moving.RotatingRight) {
+                    this.Rotation += rotationIncrementor;
+                }                
             }
 
-            this.ApplyForce(dragForce);
 
             for (var i = 0; i < this._moveables.length; i++) {
                 this._moveables[i].Position = this.Position;

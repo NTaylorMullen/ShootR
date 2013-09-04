@@ -34,6 +34,7 @@ namespace ShootR
                 .Include("~/Client2/Space/MapBoundary.js")
                 .Include("~/Client2/Space/Map.js")
                 .Include("~/Client2/Ships/ShipGraphic.js")
+                .Include("~/Client2/Ships/ShipInterpolationManager.js")
                 .Include("~/Client2/Ships/ShipMovementController.js")
                 .Include("~/Client2/Ships/ShipInputController.js")
                 .Include("~/Client2/Ships/Ship.js")

@@ -29,7 +29,6 @@ module ShootR {
 
         public LoadPayload(payload: Server.IShipData): void {
             this.ID = payload.ID;
-            this.Graphic.Rotation = payload.MovementController.Rotation * .0174532925;
             this.MovementController.LoadPayload(payload.MovementController);
         }
 

@@ -1,6 +1,7 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../Ships/IMoving.ts" />
 /// <reference path="IPayloadDefinitions.ts" />
+/// <reference path="../Ships/Ship.ts" />
 
 module ShootR.Server {
 
@@ -29,7 +30,7 @@ module ShootR.Server {
                     Forces: new eg.Vector2d(obj[this.CollidableContract.ForcesX], obj[this.CollidableContract.ForcesY]),
                     Mass: obj[this.CollidableContract.Mass],
                     Position: new eg.Vector2d(obj[this.CollidableContract.PositionX], obj[this.CollidableContract.PositionY]),
-                    Rotation: obj[this.CollidableContract.Rotation],
+                    Rotation: obj[this.CollidableContract.Rotation] * .0174532925,
                     Velocity: new eg.Vector2d(obj[this.CollidableContract.VelocityX], obj[this.CollidableContract.VelocityY])
                 },
                 LifeController: {
@@ -43,6 +44,8 @@ module ShootR.Server {
 
         private DecompressShip(ship: any): IShipData {
             var result: IShipData = <IShipData>this.DecompressCollidable(ship);
+
+            result.MovementController.Position = result.MovementController.Position.Add(Ship.SIZE.Multiply(.5));
 
             result.MovementController.Moving = {
                 RotatingLeft: !!ship[this.ShipContract.RotatingLeft],

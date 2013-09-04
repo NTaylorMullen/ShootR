@@ -43,7 +43,6 @@ var ShootR;
                 }
 
                 if (ship.Disposed) {
-                    console.log("Disposed: " + ship.ID);
                     this._ships[ship.ID].Destroy();
                     delete this._ships[ship.ID];
                 }
@@ -61,7 +60,6 @@ var ShootR;
 
             for (var id in this._ships) {
                 if (!this._ships[id].Bounds.IntersectsRectangle(this._viewport)) {
-                    console.log("No longer in view: " + id);
                     this._ships[id].Destroy();
                     delete this._ships[id];
                 }

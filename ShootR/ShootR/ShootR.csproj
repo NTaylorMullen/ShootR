@@ -194,6 +194,10 @@
       <DependentUpon>ShipInputController.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client2\Ships\ShipManager.ts" />
+    <TypeScriptCompile Include="Client2\Ships\ShipInterpolationManager.ts" />
+    <Content Include="Client2\Ships\ShipInterpolationManager.js">
+      <DependentUpon>ShipInterpolationManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Ships\ShipManager.js">
       <DependentUpon>ShipManager.ts</DependentUpon>
     </Content>
