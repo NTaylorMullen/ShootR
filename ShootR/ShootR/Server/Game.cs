@@ -25,16 +25,22 @@ namespace ShootR
         private Map _space;
         private PayloadManager _payloadManager;
 
-        private DateTime _lastDraw = DateTime.UtcNow;
-        private TimeSpan DRAW_AFTER;
+        private long _drawCount = 0;
+        private long _actualFPS = 0;
+        private long _drawFPS = 0;
+        private int DRAW_AFTER;
         private object _locker = new object();
         public static Random GEN = new Random();
 
         private Game()
         {
             Configuration = new GameConfigurationManager();
-            DRAW_AFTER = TimeSpan.FromMilliseconds(Configuration.gameConfig.DRAW_INTERVAL);
-            _gameLoop = new HighFrequencyTimer(1000 / Configuration.gameConfig.UPDATE_INTERVAL, id => Update(id));
+            DRAW_AFTER = Configuration.gameConfig.DRAW_INTERVAL / Configuration.gameConfig.UPDATE_INTERVAL;
+            _drawFPS = 1000 / DRAW_AFTER;
+            _gameLoop = new HighFrequencyTimer(1000 / Configuration.gameConfig.UPDATE_INTERVAL, id => Update(id), () => { }, () => { }, (fps) =>
+            {
+                _actualFPS = fps;
+            });
             _leaderboardLoop = new Timer(UpdateLeaderboard, null, Configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL, Configuration.gameConfig.LEADERBOARD_PUSH_INTERVAL);
 
             _gameTime = new GameTime();
@@ -81,10 +87,10 @@ namespace ShootR
 
                     _space.Update();
 
-                    if (utcNow - _lastDraw >= DRAW_AFTER)
+                    if (_actualFPS <= _drawFPS || (++_drawCount) % DRAW_AFTER == 0)
                     {
                         Draw();
-                        _lastDraw = utcNow;
+                        _drawCount = 0;
                     }
                 }
                 catch (Exception e)
