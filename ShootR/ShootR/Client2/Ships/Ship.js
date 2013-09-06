@@ -1,5 +1,6 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
+/// <reference path="Abilities/AbilityHandlers/ShipAbilityHandler.ts" />
 /// <reference path="ShipGraphic.ts" />
 /// <reference path="ShipMovementController.ts" />
 var __extends = this.__extends || function (d, b) {
@@ -19,10 +20,12 @@ var ShootR;
             _super.call(this, this.Graphic.GetDrawBounds());
 
             this.MovementController = new ShootR.ShipMovementController(new Array(this.Bounds, this.Graphic));
+            this.AbilityHandler = new ShootR.ShipAbilityHandler(this);
 
             this.LoadPayload(payload);
         }
         Ship.prototype.Update = function (gameTime) {
+            this.AbilityHandler.Update(gameTime);
             this.MovementController.Update(gameTime);
         };
 

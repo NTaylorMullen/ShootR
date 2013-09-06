@@ -18,9 +18,17 @@ var ShootR;
             this._shipInputController = new ShootR.ShipInputController(input.Keyboard, function (direction, startMoving) {
                 var ship = _this._shipManager.GetShip(_this._myShipId), pingBack = false;
 
-                if (ship) {
+                if (ship && ship.MovementController.Controllable) {
                     if (startMoving) {
-                        if (!ship.MovementController.IsMovingInDirection(direction)) {
+                        if (direction === "Boost") {
+                            _this._commandList.push([++_this._currentCommand, direction, true, true]);
+                            proxy.invoke("registerAbilityStart", direction, false, _this._currentCommand);
+
+                            ship.AbilityHandler.Activate(direction);
+
+                            return;
+                            // Don't want to trigger a server command if we're already moving in the direction
+                        } else if (!ship.MovementController.IsMovingInDirection(direction)) {
                             _this._commandList.push([++_this._currentCommand, direction, startMoving]);
                             proxy.invoke("registerMoveStart", direction, pingBack, _this._currentCommand);
                         }

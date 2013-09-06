@@ -4,6 +4,7 @@ var ShootR;
 (function (ShootR) {
     var ShipInputController = (function () {
         function ShipInputController(_keyboard, _onMove) {
+            var _this = this;
             this._keyboard = _keyboard;
             this._onMove = _onMove;
             this._directions = {
@@ -12,6 +13,7 @@ var ShootR;
                 RotatingLeft: false,
                 RotatingRight: false
             };
+            this._lastBoostTap = new Date();
 
             this.BindKeys(["w"], "OnCommandDown", "Forward", true);
             this.BindKeys(["d"], "OnCommandDown", "RotatingRight", true);
@@ -21,6 +23,16 @@ var ShootR;
             this.BindKeys(["d"], "OnCommandUp", "RotatingRight", false);
             this.BindKeys(["s"], "OnCommandUp", "Backward", false);
             this.BindKeys(["a"], "OnCommandUp", "RotatingLeft", false);
+
+            this._keyboard.OnCommandUp("w", function () {
+                var now = new Date();
+
+                if (eg.TimeSpan.DateSpan(_this._lastBoostTap, now).Milliseconds <= ShipInputController.DOUBLE_TAP_AFTER.Milliseconds) {
+                    _this._onMove("Boost", true);
+                } else {
+                    _this._lastBoostTap = now;
+                }
+            });
         }
         ShipInputController.prototype.BindKeys = function (keyList, bindingAction, direction, startMoving) {
             var _this = this;
@@ -33,6 +45,7 @@ var ShootR;
                 });
             }
         };
+        ShipInputController.DOUBLE_TAP_AFTER = eg.TimeSpan.FromMilliseconds(175);
         return ShipInputController;
     })();
     ShootR.ShipInputController = ShipInputController;

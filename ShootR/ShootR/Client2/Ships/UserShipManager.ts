@@ -20,10 +20,17 @@ module ShootR {
                 var ship = this._shipManager.GetShip(this._myShipId),
                     pingBack: boolean = false;
 
-                if (ship) {
+                if (ship && ship.MovementController.Controllable) {
                     if (startMoving) {
-                        // Don't want to trigger a server command if we're already moving in the direction
-                        if (!ship.MovementController.IsMovingInDirection(direction)) {
+                        if (direction === "Boost") {
+                            this._commandList.push([++this._currentCommand, direction, true, true]);
+                            proxy.invoke("registerAbilityStart", direction, false, this._currentCommand);
+
+                            ship.AbilityHandler.Activate(direction);
+
+                            return;
+                            // Don't want to trigger a server command if we're already moving in the direction
+                        } else if (!ship.MovementController.IsMovingInDirection(direction)) {
                             this._commandList.push([++this._currentCommand, direction, startMoving]);
                             proxy.invoke("registerMoveStart", direction, pingBack, this._currentCommand);
                         }

@@ -2,7 +2,7 @@
 /// <reference path="../Ships/Ship.ts" />
 /// <reference path="../Ships/ShipMovementController.ts" />
 /// <reference path="../Server/IConfigurationDefinitions.ts" />
-/////////////////// <reference path="../Abilities/Boost.ts" />
+/// <reference path="../Ships/Abilities/Boost.ts" />
 /////////////////// <reference path="../Bullet/Bullet.ts" />
 /////////////////// <reference path="../HUD/Leaderboard.ts" />
 /////////////////// <reference path="../HUD/DeathScreen.ts" />
@@ -35,8 +35,8 @@ module ShootR {
             ShipMovementController.MASS = configuration.shipMovementControllerConfig.MASS;
             ShipMovementController.ROTATE_SPEED = configuration.shipMovementControllerConfig.ROTATE_SPEED * .0174532925; // Convert to radians
 
-            //Boost.DURATION = configuration.abilityConfig.BOOST_DURATION;
-            //Boost.SPEED_INCREASE = configuration.abilityConfig.BOOST_SPEED_INCREASE;
+            Boost.DURATION = eg.TimeSpan.FromMilliseconds(configuration.abilityConfig.BOOST_DURATION);
+            Boost.SPEED_INCREASE = configuration.abilityConfig.BOOST_SPEED_INCREASE;
 
             //Bullet.BULLET_DIE_AFTER = configuration.gameConfig.BULLET_DIE_AFTER;
 

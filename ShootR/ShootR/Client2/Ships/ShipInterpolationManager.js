@@ -18,7 +18,6 @@ var ShootR;
                 _this._movementController.Position = newPosition;
             });
             this._positionInterpolation.OnComplete.Bind(function (positionTween) {
-                console.log("------ Interpolation complete ------");
                 _this.InterpolatingPosition = false;
             });
 
@@ -42,7 +41,6 @@ var ShootR;
 
         ShipInterpolationManager.prototype.TryInterpolatePosition = function (payload) {
             if (this._movementController.Position.Subtract(payload.Position).Magnitude() > ShipInterpolationManager.POSITION_THRESHOLD) {
-                console.log("(P) Interpolating position FROM " + this._movementController.Position + " TO " + payload.Position + "  =  " + this._movementController.Position.Subtract(payload.Position).Magnitude() + "  OVER  " + this._payloadFrequency.Milliseconds + "ms");
                 this._positionInterpolation.From = this._movementController.Position;
                 this._positionInterpolation.To = payload.Position;
                 this._positionInterpolation.Duration = this._payloadFrequency;
@@ -56,7 +54,6 @@ var ShootR;
 
         ShipInterpolationManager.prototype.TryInterpolateRotation = function (payload) {
             if (Math.abs(this._movementController.Rotation - payload.Rotation) > ShipInterpolationManager.ROTATION_THRESHOLD) {
-                console.log("(R) Interpolating rotation FROM " + this._movementController.Rotation + " TO " + payload.Rotation + "  =  " + Math.abs(this._movementController.Rotation - payload.Rotation) + "  OVER  " + this._payloadFrequency.Milliseconds + "ms");
                 this._rotationInterpolation.From = this._movementController.Rotation;
                 this._rotationInterpolation.To = payload.Rotation;
                 this._rotationInterpolation.Duration = this._payloadFrequency;

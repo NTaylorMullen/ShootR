@@ -19,6 +19,7 @@ module ShootR {
         public Mass: number;
         public Power: number;
         public Forces: eg.Vector2d;
+        public Controllable: boolean;
         private _acceleration: eg.Vector2d;        
         private _moveables: Array<eg.IMoveable>;
         private _interpolationManager: ShipInterpolationManager;
@@ -31,6 +32,7 @@ module ShootR {
             this.Mass = ShipMovementController.MASS;
             this.Power = ShipMovementController.ENGINE_POWER;
             this.Forces = eg.Vector2d.Zero;
+            this.Controllable = true;
             this._acceleration = eg.Vector2d.Zero;
 
             this.Moving = {
@@ -154,15 +156,17 @@ module ShootR {
         }
 
         public Move(direction: string, startMoving: boolean): void {
-            if (typeof this.Moving[direction] !== "undefined") {
-                this.Moving[direction] = startMoving;
-                this.OnMove.Trigger(<eg.MovementControllers.IMoveEvent>{
-                    Direction: direction,
-                    StartMoving: startMoving
-                });
-            }
-            else {
-                throw new Error(direction + " is an unknown direction.");
+            if (this.Controllable) {
+                if (typeof this.Moving[direction] !== "undefined") {
+                    this.Moving[direction] = startMoving;
+                    this.OnMove.Trigger(<eg.MovementControllers.IMoveEvent>{
+                        Direction: direction,
+                        StartMoving: startMoving
+                    });
+                }
+                else {
+                    throw new Error(direction + " is an unknown direction.");
+                }
             }
         }
     }

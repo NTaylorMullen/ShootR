@@ -20,6 +20,7 @@ var ShootR;
             this.Mass = ShipMovementController.MASS;
             this.Power = ShipMovementController.ENGINE_POWER;
             this.Forces = eg.Vector2d.Zero;
+            this.Controllable = true;
             this._acceleration = eg.Vector2d.Zero;
 
             this.Moving = {
@@ -133,14 +134,16 @@ var ShootR;
         };
 
         ShipMovementController.prototype.Move = function (direction, startMoving) {
-            if (typeof this.Moving[direction] !== "undefined") {
-                this.Moving[direction] = startMoving;
-                this.OnMove.Trigger({
-                    Direction: direction,
-                    StartMoving: startMoving
-                });
-            } else {
-                throw new Error(direction + " is an unknown direction.");
+            if (this.Controllable) {
+                if (typeof this.Moving[direction] !== "undefined") {
+                    this.Moving[direction] = startMoving;
+                    this.OnMove.Trigger({
+                        Direction: direction,
+                        StartMoving: startMoving
+                    });
+                } else {
+                    throw new Error(direction + " is an unknown direction.");
+                }
             }
         };
         ShipMovementController.MASS = 50;

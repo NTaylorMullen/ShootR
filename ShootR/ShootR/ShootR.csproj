@@ -131,10 +131,53 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin.aspx" />
+    <Content Include="Client2\Ships\Abilities\Ability.js.map">
+      <DependentUpon>Ability.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client2\Ships\Abilities\Ability.ts" />
+    <Content Include="Client2\Ships\Abilities\Ability.js">
+      <DependentUpon>Ability.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Abilities\Ability.min.js">
+      <DependentUpon>Ability.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Abilities\AbilityHandlers\AbilityHandler.js.map">
+      <DependentUpon>AbilityHandler.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Abilities\AbilityHandlers\ShipAbilityHandler.js.map">
+      <DependentUpon>ShipAbilityHandler.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Abilities\Boost.js.map">
+      <DependentUpon>Boost.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Abilities\MovementAbility.js.map">
+      <DependentUpon>MovementAbility.ts</DependentUpon>
+    </Content>
     <None Include="Client\Abilities\AbilityHandlers\AbilityHandler.ts" />
     <TypeScriptCompile Include="Client2\Main.ts" />
     <TypeScriptCompile Include="Client2\Game.ts" />
     <TypeScriptCompile Include="Client2\Configuration\ConfigurationManager.ts" />
+    <TypeScriptCompile Include="Client2\Ships\Abilities\AbilityHandlers\AbilityHandler.ts" />
+    <Content Include="Client2\Ships\Abilities\AbilityHandlers\AbilityHandler.js">
+      <DependentUpon>AbilityHandler.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Abilities\AbilityHandlers\AbilityHandler.min.js">
+      <DependentUpon>AbilityHandler.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client2\Ships\Abilities\AbilityHandlers\ShipAbilityHandler.ts" />
+    <Content Include="Client2\Ships\Abilities\AbilityHandlers\ShipAbilityHandler.js">
+      <DependentUpon>ShipAbilityHandler.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Abilities\AbilityHandlers\ShipAbilityHandler.min.js">
+      <DependentUpon>ShipAbilityHandler.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client2\Ships\Abilities\Boost.ts" />
+    <Content Include="Client2\Ships\Abilities\Boost.js">
+      <DependentUpon>Boost.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Abilities\Boost.min.js">
+      <DependentUpon>Boost.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Configuration\ConfigurationManager.js">
       <DependentUpon>ConfigurationManager.ts</DependentUpon>
     </Content>
@@ -151,6 +194,13 @@
     <TypeScriptCompile Include="Client2\Server\ServerAdapter.ts" />
     <TypeScriptCompile Include="Client2\Server\IPayloadDefinitions.ts" />
     <TypeScriptCompile Include="Client2\Ships\IMoving.ts" />
+    <TypeScriptCompile Include="Client2\Ships\Abilities\MovementAbility.ts" />
+    <Content Include="Client2\Ships\Abilities\MovementAbility.js">
+      <DependentUpon>MovementAbility.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Abilities\MovementAbility.min.js">
+      <DependentUpon>MovementAbility.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Ships\IMoving.js">
       <DependentUpon>IMoving.ts</DependentUpon>
     </Content>
