@@ -1,7 +1,7 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="Abilities/AbilityHandlers/ShipAbilityHandler.ts" />
-/// <reference path="ShipGraphic.ts" />
+/// <reference path="Graphics/ShipGraphic.ts" />
 /// <reference path="ShipMovementController.ts" />
 
 module ShootR {
@@ -13,6 +13,7 @@ module ShootR {
         public Graphic: ShipGraphic;
         public MovementController: ShipMovementController;
         public AbilityHandler: ShipAbilityHandler;
+        public AnimationHandler: ShipAnimationHandler;
 
         constructor(payload: Server.IShipData, contentManager: eg.Content.ContentManager) {
             // Going to use the rectangle to "hold" all the other graphics
@@ -22,6 +23,7 @@ module ShootR {
 
             this.MovementController = new ShipMovementController(new Array<eg.IMoveable>(this.Bounds, this.Graphic));
             this.AbilityHandler = new ShipAbilityHandler(this);
+            this.AnimationHandler = new ShipAnimationHandler(this.MovementController, this.Graphic, contentManager);
 
             this.LoadPayload(payload);
         }
@@ -29,6 +31,7 @@ module ShootR {
         public Update(gameTime: eg.GameTime): void {
             this.AbilityHandler.Update(gameTime);
             this.MovementController.Update(gameTime);
+            this.AnimationHandler.Update(gameTime);
         }
 
         public LoadPayload(payload: Server.IShipData): void {

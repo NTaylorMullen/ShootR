@@ -40,6 +40,7 @@ module ShootR {
                 side: eg.Vector2d = this.Graphic.From.Subtract(this.Graphic.To);
 
             ship.MovementController.StopAllMovement();
+            ship.AnimationHandler.StopAllAnimations();
 
             this.RepositionShipInBounds(ship);
 

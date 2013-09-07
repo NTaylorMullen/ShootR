@@ -35,6 +35,7 @@ var ShootR;
             var bounceMultiplier, side = this.Graphic.From.Subtract(this.Graphic.To);
 
             ship.MovementController.StopAllMovement();
+            ship.AnimationHandler.StopAllAnimations();
 
             this.RepositionShipInBounds(ship);
 

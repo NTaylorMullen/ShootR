@@ -38,7 +38,7 @@ var ShootR;
             var _this = this;
             for (var i = 0; i < keyList.length; i++) {
                 this._keyboard[bindingAction](keyList[i], function () {
-                    if (_this._directions[direction] != startMoving) {
+                    if (_this._directions[direction] !== startMoving) {
                         _this._directions[direction] = startMoving;
                         _this._onMove(direction, startMoving);
                     }

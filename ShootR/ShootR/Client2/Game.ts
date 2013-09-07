@@ -74,8 +74,8 @@ module ShootR {
             this.Content.LoadImage("Ship11", "/Images/Ships/ship_lvl11.png", 75, 75);
             this.Content.LoadImage("Ship12", "/Images/Ships/LaserCat.png", 75, 75);
             this.Content.LoadImage("Ship13", "/Images/Ships/ship_lvl13.png", 75, 75);
-            this.Content.LoadImage("Thrust", "/Images/SpriteSheets/thrust_basic.png", 450, 100);
-            this.Content.LoadImage("ThrustStart", "/Images/SpriteSheets/thrust_start.png", 450, 100);
+            this.Content.LoadImage("Thrust", "/Images/SpriteSheets/thrust_basic.png", 468, 100);
+            this.Content.LoadImage("ThrustStart", "/Images/SpriteSheets/thrust_start.png", 468, 100);
             this.Content.LoadImage("Boost", "/Images/SpriteSheets/thrusters-BOOST.png", 400, 150);
             this.Content.LoadImage("HealthPack", "/Images/SpriteSheets/health_pack.png", 450, 100);
             this.Content.LoadImage("ShipDamage1", "/Images/Ships/Damage/damage_1.png", 75, 75);

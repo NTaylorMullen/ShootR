@@ -41,7 +41,7 @@ module ShootR {
         private BindKeys(keyList: string[], bindingAction: string, direction: string, startMoving: boolean): void {
             for (var i = 0; i < keyList.length; i++) {
                 this._keyboard[bindingAction](keyList[i], () => {
-                    if (this._directions[direction] != startMoving) {
+                    if (this._directions[direction] !== startMoving) {
                         this._directions[direction] = startMoving;
                         this._onMove(direction, startMoving);
                     }
