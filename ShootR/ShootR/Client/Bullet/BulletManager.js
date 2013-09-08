@@ -44,4 +44,3 @@ var BulletManager = (function () {
     };
     return BulletManager;
 })();
-//# sourceMappingURL=BulletManager.js.map

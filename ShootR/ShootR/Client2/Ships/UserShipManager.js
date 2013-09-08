@@ -41,6 +41,10 @@ var ShootR;
 
                     ship.MovementController.Move(direction, startMoving);
                 }
+            }, function (fireMethod) {
+                var hubMethod = fireMethod.substr(0, 1).toUpperCase() + fireMethod.substring(1);
+
+                proxy.invoke(hubMethod);
             });
         }
         UserShipManager.prototype.LoadPayload = function (payload) {

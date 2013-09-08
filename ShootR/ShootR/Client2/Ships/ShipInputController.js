@@ -1,12 +1,14 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="IMoving.ts" />
+/// <reference path="ShipFireController.ts" />
 var ShootR;
 (function (ShootR) {
     var ShipInputController = (function () {
-        function ShipInputController(_keyboard, _onMove) {
+        function ShipInputController(_keyboard, _onMove, _onFire) {
             var _this = this;
             this._keyboard = _keyboard;
             this._onMove = _onMove;
+            this._onFire = _onFire;
             this._directions = {
                 Forward: false,
                 Backward: false,
@@ -33,6 +35,8 @@ var ShootR;
                     _this._lastBoostTap = now;
                 }
             });
+
+            this._fireController = new ShootR.ShipFireController(this._keyboard, this._onFire);
         }
         ShipInputController.prototype.BindKeys = function (keyList, bindingAction, direction, startMoving) {
             var _this = this;

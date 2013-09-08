@@ -1,5 +1,6 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="IMoving.ts" />
+/// <reference path="ShipFireController.ts" />
 
 module ShootR {
 
@@ -8,8 +9,9 @@ module ShootR {
 
         private _directions: IMoving;
         private _lastBoostTap: Date;
+        private _fireController: ShipFireController;
 
-        constructor(private _keyboard: eg.Input.KeyboardHandler, private _onMove: (direction: string, startMoving: boolean) => void) {
+        constructor(private _keyboard: eg.Input.KeyboardHandler, private _onMove: (direction: string, startMoving: boolean) => void, private _onFire: (fireMethod: string) => void) {
             this._directions = {
                 Forward: false,
                 Backward: false,
@@ -18,7 +20,7 @@ module ShootR {
             };
             this._lastBoostTap = new Date();
 
-            this.BindKeys(["w"], "OnCommandDown", "Forward", true);            
+            this.BindKeys(["w"], "OnCommandDown", "Forward", true);
             this.BindKeys(["d"], "OnCommandDown", "RotatingRight", true);
             this.BindKeys(["s"], "OnCommandDown", "Backward", true);
             this.BindKeys(["a"], "OnCommandDown", "RotatingLeft", true);
@@ -36,6 +38,8 @@ module ShootR {
                     this._lastBoostTap = now;
                 }
             });
+
+            this._fireController = new ShipFireController(this._keyboard, this._onFire);
         }
 
         private BindKeys(keyList: string[], bindingAction: string, direction: string, startMoving: boolean): void {

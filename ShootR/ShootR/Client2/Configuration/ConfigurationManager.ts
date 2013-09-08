@@ -1,9 +1,10 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../Ships/Ship.ts" />
+/// <reference path="../Ships/ShipFireController.ts" />
 /// <reference path="../Ships/ShipMovementController.ts" />
 /// <reference path="../Server/IConfigurationDefinitions.ts" />
 /// <reference path="../Ships/Abilities/Boost.ts" />
-/////////////////// <reference path="../Bullet/Bullet.ts" />
+/// <reference path="../Bullets/Bullet.ts" />
 /////////////////// <reference path="../HUD/Leaderboard.ts" />
 /////////////////// <reference path="../HUD/DeathScreen.ts" />
 /////////////////// <reference path="../Space/Map.ts" />
@@ -29,6 +30,7 @@ module ShootR {
         constructor(configuration: Server.IConfigurationManager) {
             // Update the prototypes from the config
             Ship.SIZE = new eg.Size2d(configuration.shipConfig.WIDTH, configuration.shipConfig.HEIGHT);
+            ShipFireController.MIN_FIRE_RATE = eg.TimeSpan.FromMilliseconds(configuration.shipConfig.MIN_FIRE_RATE);
             ShipMovementController.DRAG_AREA = configuration.shipMovementControllerConfig.DRAG_AREA;
             ShipMovementController.DRAG_COEFFICIENT = configuration.shipMovementControllerConfig.DRAG_COEFFICIENT;
             ShipMovementController.ENGINE_POWER = configuration.shipMovementControllerConfig.ENGINE_POWER;
@@ -49,8 +51,10 @@ module ShootR {
             GameScreen.MIN_SCREEN_WIDTH = configuration.screenConfig.MIN_SCREEN_WIDTH;
             GameScreen.SCREEN_BUFFER_AREA = configuration.screenConfig.SCREEN_BUFFER_AREA;
 
-/*          $.extend(Leaderboard, configuration.leaderboardConfig);
-            $.extend(Bullet, configuration.bulletConfig);*/
+            Bullet.BULLET_DIE_AFTER = eg.TimeSpan.FromMilliseconds(configuration.gameConfig.BULLET_DIE_AFTER);
+            Bullet.SIZE = new eg.Size2d(configuration.bulletConfig.WIDTH, configuration.bulletConfig.HEIGHT);
+
+//          $.extend(Leaderboard, configuration.leaderboardConfig);            
             //$.extend(Game.prototype, configuration.gameConfig);
             //$.extend(HealthPack, configuration.healthPackConfig);
 

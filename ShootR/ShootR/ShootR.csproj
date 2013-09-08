@@ -131,6 +131,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin.aspx" />
+    <TypeScriptCompile Include="Client2\Bullets\Bullet.ts" />
+    <TypeScriptCompile Include="Client2\Bullets\Animations\BulletAnimationHandler.ts" />
+    <Content Include="Client2\Bullets\Animations\BulletAnimationHandler.js">
+      <DependentUpon>BulletAnimationHandler.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client2\Bullets\Animations\BulletExplosionAnimation.ts" />
+    <Content Include="Client2\Bullets\Animations\BulletExplosionAnimation.js">
+      <DependentUpon>BulletExplosionAnimation.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Bullets\Bullet.js">
+      <DependentUpon>Bullet.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client2\Bullets\BulletManager.ts" />
+    <TypeScriptCompile Include="Client2\Bullets\BulletGraphic.ts" />
+    <Content Include="Client2\Bullets\BulletGraphic.js">
+      <DependentUpon>BulletGraphic.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Bullets\BulletManager.js">
+      <DependentUpon>BulletManager.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client2\Bullets\BulletMovementController.ts" />
+    <Content Include="Client2\Bullets\BulletMovementController.js">
+      <DependentUpon>BulletMovementController.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Ships\Abilities\Ability.js.map">
       <DependentUpon>Ability.ts</DependentUpon>
     </Content>
@@ -247,6 +271,10 @@
       <DependentUpon>Ship.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client2\Ships\ShipGraphic.ts" />
+    <TypeScriptCompile Include="Client2\Ships\ShipFireController.ts" />
+    <Content Include="Client2\Ships\ShipFireController.js">
+      <DependentUpon>ShipFireController.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Ships\ShipGraphic.js">
       <DependentUpon>ShipGraphic.ts</DependentUpon>
     </Content>

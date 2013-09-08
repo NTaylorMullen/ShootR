@@ -44,7 +44,11 @@ module ShootR {
 
                     ship.MovementController.Move(direction, startMoving);
                 }
-            });
+            }, (fireMethod: string) => {
+                    var hubMethod: string = fireMethod.substr(0, 1).toUpperCase() + fireMethod.substring(1);
+
+                    proxy.invoke(hubMethod);
+                });
         }
 
         public LoadPayload(payload: Server.IPayloadData): void {

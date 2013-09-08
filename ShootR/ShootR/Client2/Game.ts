@@ -3,6 +3,7 @@
 /// <reference path="../Scripts/typings/signalr/signalr.d.ts" />
 /// <reference path="Server/ServerAdapter.ts" />
 /// <reference path="Ships/ShipManager.ts" />
+/// <reference path="Bullets/BulletManager.ts" />
 /// <reference path="Ships/UserShipManager.ts" />
 /// <reference path="Configuration/ConfigurationManager.ts" />
 /// <reference path="Space/Map.ts" />
@@ -14,6 +15,7 @@ module ShootR {
         private _payloads: Array<Server.IPayloadData>;
         private _configuration: ConfigurationManager;
         private _shipManager: ShipManager;
+        private _bulletManager: BulletManager;
         private _map: Map;
 
         constructor(gameCanvas: HTMLCanvasElement, gameScreen: GameScreen, serverAdapter: Server.ServerAdapter, initializationData: Server.IClientInitialization) {
@@ -25,10 +27,12 @@ module ShootR {
             this._configuration = new ConfigurationManager(initializationData.Configuration);
             this._shipManager = new ShipManager(this.Scene.Camera, this.Scene, this.CollisionManager, this.Content);
             this._shipManager.Initialize(new UserShipManager(initializationData.ShipID, this._shipManager, this.Input, this.Scene.Camera, serverAdapter));
+            this._bulletManager = new BulletManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new Map(this.Scene, this.CollisionManager);
 
             serverAdapter.OnPayload.Bind((payload: Server.IPayloadData) => {
                 this._shipManager.LoadPayload(payload);
+                this._bulletManager.LoadPayload(payload);
             });
 
             /*this._shipManager.LoadPayload([<any>{
@@ -86,6 +90,7 @@ module ShootR {
 
         public Update(gameTime: eg.GameTime): void {
             this._shipManager.Update(gameTime);
+            this._bulletManager.Update(gameTime);
         }
     }
 

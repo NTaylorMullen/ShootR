@@ -3,6 +3,7 @@
 /// <reference path="../Scripts/typings/signalr/signalr.d.ts" />
 /// <reference path="Server/ServerAdapter.ts" />
 /// <reference path="Ships/ShipManager.ts" />
+/// <reference path="Bullets/BulletManager.ts" />
 /// <reference path="Ships/UserShipManager.ts" />
 /// <reference path="Configuration/ConfigurationManager.ts" />
 /// <reference path="Space/Map.ts" />
@@ -27,10 +28,12 @@ var ShootR;
             this._configuration = new ShootR.ConfigurationManager(initializationData.Configuration);
             this._shipManager = new ShootR.ShipManager(this.Scene.Camera, this.Scene, this.CollisionManager, this.Content);
             this._shipManager.Initialize(new ShootR.UserShipManager(initializationData.ShipID, this._shipManager, this.Input, this.Scene.Camera, serverAdapter));
+            this._bulletManager = new ShootR.BulletManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new ShootR.Map(this.Scene, this.CollisionManager);
 
             serverAdapter.OnPayload.Bind(function (payload) {
                 _this._shipManager.LoadPayload(payload);
+                _this._bulletManager.LoadPayload(payload);
             });
             /*this._shipManager.LoadPayload([<any>{
             ID: initializationData.ShipID,
@@ -86,6 +89,7 @@ var ShootR;
 
         Game.prototype.Update = function (gameTime) {
             this._shipManager.Update(gameTime);
+            this._bulletManager.Update(gameTime);
         };
         return Game;
     })(eg.Game);
