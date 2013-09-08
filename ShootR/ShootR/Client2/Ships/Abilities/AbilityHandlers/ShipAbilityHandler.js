@@ -18,11 +18,11 @@ var ShootR;
             var boost = new ShootR.Boost(myShip.MovementController);
             _super.call(this, [boost]);
 
-            this.boost = boost;
+            this.Boost = boost;
 
             myShip.OnCollision.Bind(function (data) {
                 if (data.With instanceof ShootR.MapBoundary) {
-                    _this.boost.Deactivate();
+                    _this.Boost.Deactivate();
                 }
             });
         }

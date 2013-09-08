@@ -7,17 +7,17 @@
 module ShootR {
 
     export class ShipAbilityHandler extends AbilityHandler {
-        private boost: Boost;
+        public Boost: Boost;
 
         constructor(myShip: Ship) {
             var boost: Boost = new Boost(myShip.MovementController);
             super([boost]);
 
-            this.boost = boost;
+            this.Boost = boost;
 
             myShip.OnCollision.Bind((data: eg.Collision.CollisionData) => {
                 if (data.With instanceof MapBoundary) {
-                    this.boost.Deactivate();
+                    this.Boost.Deactivate();
                 }
             });
         }

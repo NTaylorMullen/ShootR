@@ -2,6 +2,7 @@
 /// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="Abilities/AbilityHandlers/ShipAbilityHandler.ts" />
 /// <reference path="Graphics/ShipGraphic.ts" />
+/// <reference path="Animations/ShipAnimationHandler.ts" />
 /// <reference path="ShipMovementController.ts" />
 
 module ShootR {
@@ -23,7 +24,7 @@ module ShootR {
 
             this.MovementController = new ShipMovementController(new Array<eg.IMoveable>(this.Bounds, this.Graphic));
             this.AbilityHandler = new ShipAbilityHandler(this);
-            this.AnimationHandler = new ShipAnimationHandler(this.MovementController, this.Graphic, contentManager);
+            this.AnimationHandler = new ShipAnimationHandler(this, contentManager);
 
             this.LoadPayload(payload);
         }

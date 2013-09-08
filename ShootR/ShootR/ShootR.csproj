@@ -201,12 +201,16 @@
     <Content Include="Client2\Ships\Abilities\MovementAbility.min.js">
       <DependentUpon>MovementAbility.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Client2\Ships\Graphics\ShipAnimationHandler.ts" />
-    <Content Include="Client2\Ships\Graphics\ShipAnimationHandler.js">
+    <TypeScriptCompile Include="Client2\Ships\Animations\ShipAnimationHandler.ts" />
+    <Content Include="Client2\Ships\Animations\ShipAnimationHandler.js">
       <DependentUpon>ShipAnimationHandler.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Client2\Ships\Graphics\ShipThrustAnimation.ts" />
-    <Content Include="Client2\Ships\Graphics\ShipThrustAnimation.js">
+    <TypeScriptCompile Include="Client2\Ships\Animations\ShipThrustAnimation.ts" />
+    <TypeScriptCompile Include="Client2\Ships\Animations\ShipBoostAnimation.ts" />
+    <Content Include="Client2\Ships\Animations\ShipBoostAnimation.js">
+      <DependentUpon>ShipBoostAnimation.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Animations\ShipThrustAnimation.js">
       <DependentUpon>ShipThrustAnimation.ts</DependentUpon>
     </Content>
     <Content Include="Client2\Ships\IMoving.js">

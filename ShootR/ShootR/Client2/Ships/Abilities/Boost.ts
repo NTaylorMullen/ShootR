@@ -11,18 +11,26 @@ module ShootR {
 
         constructor(private _movementController: ShipMovementController) {
             super(Boost.NAME, _movementController);
+
+            this.OnStart = new eg.EventHandler();
+            this.OnStop = new eg.EventHandler();
         }
+
+        public OnStart: eg.EventHandler;
+        public OnStop: eg.EventHandler;
 
         public Activate(): void {
             this.MultiplySpeedBy(Boost.SPEED_INCREASE);
             super.Activate();
             this._movementController.Controllable = false;
+            this.OnStart.Trigger();
         }
 
         public Deactivate(): void {
             this.ResetSpeed();
             super.Deactivate();
             this._movementController.Controllable = true;
+            this.OnStop.Trigger();
         }
 
         public Update(gameTime: eg.GameTime): void {
