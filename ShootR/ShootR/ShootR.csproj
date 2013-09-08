@@ -246,8 +246,8 @@
     <Content Include="Client2\Ships\Ship.js">
       <DependentUpon>Ship.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Client2\Ships\Graphics\ShipGraphic.ts" />
-    <Content Include="Client2\Ships\Graphics\ShipGraphic.js">
+    <TypeScriptCompile Include="Client2\Ships\ShipGraphic.ts" />
+    <Content Include="Client2\Ships\ShipGraphic.js">
       <DependentUpon>ShipGraphic.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client2\Ships\ShipMovementController.ts" />
