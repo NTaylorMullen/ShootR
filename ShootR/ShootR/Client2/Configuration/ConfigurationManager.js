@@ -5,6 +5,7 @@
 /// <reference path="../Server/IConfigurationDefinitions.ts" />
 /// <reference path="../Ships/Abilities/Boost.ts" />
 /// <reference path="../Bullets/Bullet.ts" />
+/// <reference path="../Ships/ShipLifeController.ts" />
 /////////////////// <reference path="../HUD/Leaderboard.ts" />
 /////////////////// <reference path="../HUD/DeathScreen.ts" />
 /////////////////// <reference path="../Space/Map.ts" />
@@ -19,17 +20,20 @@ var ShootR;
         function ConfigurationManager(configuration) {
             // Update the prototypes from the config
             ShootR.Ship.SIZE = new eg.Size2d(configuration.shipConfig.WIDTH, configuration.shipConfig.HEIGHT);
+
             ShootR.ShipFireController.MIN_FIRE_RATE = eg.TimeSpan.FromMilliseconds(configuration.shipConfig.MIN_FIRE_RATE);
+
             ShootR.ShipMovementController.DRAG_AREA = configuration.shipMovementControllerConfig.DRAG_AREA;
             ShootR.ShipMovementController.DRAG_COEFFICIENT = configuration.shipMovementControllerConfig.DRAG_COEFFICIENT;
             ShootR.ShipMovementController.ENGINE_POWER = configuration.shipMovementControllerConfig.ENGINE_POWER;
             ShootR.ShipMovementController.MASS = configuration.shipMovementControllerConfig.MASS;
             ShootR.ShipMovementController.ROTATE_SPEED = configuration.shipMovementControllerConfig.ROTATE_SPEED * .0174532925;
 
+            ShootR.ShipLifeController.START_LIFE = configuration.shipConfig.START_LIFE;
+
             ShootR.Boost.DURATION = eg.TimeSpan.FromMilliseconds(configuration.abilityConfig.BOOST_DURATION);
             ShootR.Boost.SPEED_INCREASE = configuration.abilityConfig.BOOST_SPEED_INCREASE;
 
-            //Bullet.BULLET_DIE_AFTER = configuration.gameConfig.BULLET_DIE_AFTER;
             ShootR.Map.SIZE = new eg.Size2d(configuration.mapConfig.WIDTH, configuration.mapConfig.HEIGHT);
             ShootR.Map.BARRIER_DEPRECATION = configuration.mapConfig.BARRIER_DEPRECATION;
 

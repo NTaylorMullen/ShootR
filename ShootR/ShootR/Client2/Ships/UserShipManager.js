@@ -50,16 +50,16 @@ var ShootR;
         UserShipManager.prototype.LoadPayload = function (payload) {
             var serverCommand = payload.LastCommandProcessed, ship = this._shipManager.GetShip(this._myShipId);
 
-            if (this._commandList.length >= 1) {
+            if (this._commandList.length >= 1 && ship) {
                 var serverCommandIndex = this._commandList.length - (this._currentCommand - serverCommand);
 
                 for (var i = serverCommandIndex; i < this._commandList.length; i++) {
                     if (this._commandList[i][3]) {
-                        /*if (this._commandList[i][2]) {
-                        this.ShipAbilityHandler.Activate(this._commandList[i][1])
+                        if (this._commandList[i][2]) {
+                            ship.AbilityHandler.Activate(this._commandList[i][1]);
                         } else {
-                        this.ShipAbilityHandler.Deactivate(this._commandList[i][1])
-                        }*/
+                            ship.AbilityHandler.Deactivate(this._commandList[i][1]);
+                        }
                     } else {
                         ship.MovementController.Moving[this._commandList[i][1]] = this._commandList[i][2];
                     }

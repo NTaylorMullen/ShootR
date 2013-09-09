@@ -126,10 +126,6 @@ var ShootR;
 
             for (var i = 0; i < this._moveables.length; i++) {
                 this._moveables[i].Position = this.Position;
-
-                if (this._moveables[i] instanceof eg.Graphics.Graphic2d) {
-                    this._moveables[i].Rotation = this.Rotation;
-                }
             }
         };
 

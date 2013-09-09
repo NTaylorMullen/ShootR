@@ -237,6 +237,10 @@
     <Content Include="Client2\Ships\Animations\ShipThrustAnimation.js">
       <DependentUpon>ShipThrustAnimation.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Client2\Ships\Graphics\ShipLifeGraphic.ts" />
+    <Content Include="Client2\Ships\Graphics\ShipLifeGraphic.js">
+      <DependentUpon>ShipLifeGraphic.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Ships\IMoving.js">
       <DependentUpon>IMoving.ts</DependentUpon>
     </Content>
@@ -270,12 +274,12 @@
     <Content Include="Client2\Ships\Ship.js">
       <DependentUpon>Ship.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Client2\Ships\ShipGraphic.ts" />
+    <TypeScriptCompile Include="Client2\Ships\Graphics\ShipGraphic.ts" />
     <TypeScriptCompile Include="Client2\Ships\ShipFireController.ts" />
     <Content Include="Client2\Ships\ShipFireController.js">
       <DependentUpon>ShipFireController.ts</DependentUpon>
     </Content>
-    <Content Include="Client2\Ships\ShipGraphic.js">
+    <Content Include="Client2\Ships\Graphics\ShipGraphic.js">
       <DependentUpon>ShipGraphic.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client2\Ships\ShipMovementController.ts" />
@@ -287,6 +291,10 @@
     <TypeScriptCompile Include="Client2\Ships\ShipInterpolationManager.ts" />
     <Content Include="Client2\Ships\ShipInterpolationManager.js">
       <DependentUpon>ShipInterpolationManager.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client2\Ships\ShipLifeController.ts" />
+    <Content Include="Client2\Ships\ShipLifeController.js">
+      <DependentUpon>ShipLifeController.ts</DependentUpon>
     </Content>
     <Content Include="Client2\Ships\ShipManager.js">
       <DependentUpon>ShipManager.ts</DependentUpon>
