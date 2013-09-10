@@ -18,15 +18,20 @@ var ShootR;
             this._body = new eg.Graphics.Sprite2d(0, 0, contentManager.GetImage("Ship1"));
             this._lifeBar = new ShootR.ShipLifeGraphic(lifeController);
 
-            _super.prototype.AddChild.call(this, this._body);
-            _super.prototype.AddChild.call(this, this._lifeBar);
+            this.AddChild(this._body);
+            this.AddChild(this._lifeBar);
         }
-        ShipGraphic.prototype.AddChild = function (child) {
+        ShipGraphic.prototype.AddChildToShip = function (child) {
             this._body.AddChild(child);
         };
 
         ShipGraphic.prototype.RotateShip = function (newRotation) {
             this._body.Rotation = newRotation;
+        };
+
+        ShipGraphic.prototype.HideShip = function () {
+            this._lifeBar.Visible = false;
+            this._body.Visible = false;
         };
         return ShipGraphic;
     })(eg.Graphics.Rectangle);

@@ -142,6 +142,14 @@ var ShootR;
                 }
             }
         };
+
+        ShipMovementController.prototype.Dispose = function () {
+            // Make all active functions no-op
+            this.Update = function () {
+            };
+            this.LoadPayload = function () {
+            };
+        };
         ShipMovementController.MASS = 50;
         ShipMovementController.ENGINE_POWER = 110000;
         ShipMovementController.DRAG_AREA = 5;

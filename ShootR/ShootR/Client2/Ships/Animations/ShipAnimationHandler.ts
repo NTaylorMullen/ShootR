@@ -11,6 +11,7 @@ module ShootR {
 
         private _thrustAnimation: ShipThrustAnimation;
         private _boostAnimation: ShipBoostAnimation;
+        private _deathAnimation: ShipDeathAnimation;
 
         constructor(private _ship: Ship, private _contentManager: eg.Content.ContentManager) {
             var thrustSpriteSheet: eg.Graphics.ImageSource = this._contentManager.GetImage("Thrust"),
@@ -18,9 +19,11 @@ module ShootR {
 
             this._thrustAnimation = new ShipThrustAnimation(this._contentManager);
             this._boostAnimation = new ShipBoostAnimation(this._contentManager);
+            this._deathAnimation = new ShipDeathAnimation(this._contentManager);
 
-            this._ship.Graphic.AddChild(this._thrustAnimation);
-            this._ship.Graphic.AddChild(this._boostAnimation);
+            this._ship.Graphic.AddChildToShip(this._thrustAnimation);
+            this._ship.Graphic.AddChildToShip(this._boostAnimation);
+            this._ship.Graphic.AddChild(this._deathAnimation);
 
             this._ship.MovementController.OnMove.Bind((event: eg.MovementControllers.IMoveEvent) => {
                 if (event.Direction === "Forward") {
@@ -39,6 +42,19 @@ module ShootR {
             this._ship.AbilityHandler.Boost.OnStop.Bind(() => {
                 this._boostAnimation.Stop();
             });
+
+            this._ship.OnExplosion.Bind(() => {
+                this._thrustAnimation.Visible = false;
+                this._boostAnimation.Visible = false;
+                this._ship.Graphic.HideShip();
+
+                this._deathAnimation.Play();    
+            });
+
+            this._deathAnimation.OnComplete.Bind(() => {
+                this._ship.Dispose();
+                this._ship.Graphic.Dispose();
+            });
         }
 
         public StopAllAnimations(): void {
@@ -49,6 +65,7 @@ module ShootR {
         public Update(gameTime: eg.GameTime): void {
             this._thrustAnimation.Update(gameTime);
             this._boostAnimation.Update(gameTime);
+            this._deathAnimation.Update(gameTime);
         }
     }
 

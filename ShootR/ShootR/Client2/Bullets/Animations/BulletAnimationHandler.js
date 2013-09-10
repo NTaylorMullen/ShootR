@@ -16,6 +16,7 @@ var ShootR;
             });
 
             this._bullet.OnExplosion.Bind(function () {
+                _this._bullet.Graphic.HideBullet();
                 _this._explosionAnimation.Play();
             });
 

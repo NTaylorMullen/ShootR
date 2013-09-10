@@ -29,6 +29,7 @@ var ShootR;
         };
 
         ShipManager.prototype.LoadPayload = function (payload) {
+            var _this = this;
             var shipPayload = payload.Ships, ship;
 
             for (var i = 0; i < shipPayload.length; i++) {
@@ -38,13 +39,16 @@ var ShootR;
                     this._ships[ship.ID] = new ShootR.Ship(ship, this._contentManager);
                     this._collisionManager.Monitor(this._ships[ship.ID]);
                     this._scene.Add(this._ships[ship.ID].Graphic);
+
+                    this._ships[ship.ID].OnDisposed.Bind(function (ship) {
+                        delete _this._ships[(ship).ID];
+                    });
                 } else {
                     this._ships[ship.ID].LoadPayload(ship);
                 }
 
                 if (ship.Disposed) {
-                    this._ships[ship.ID].Destroy();
-                    delete this._ships[ship.ID];
+                    this._ships[ship.ID].Destroy(true);
                 }
             }
 
@@ -61,7 +65,6 @@ var ShootR;
             for (var id in this._ships) {
                 if (!this._ships[id].Bounds.IntersectsRectangle(this._viewport)) {
                     this._ships[id].Destroy();
-                    delete this._ships[id];
                 }
             }
         };

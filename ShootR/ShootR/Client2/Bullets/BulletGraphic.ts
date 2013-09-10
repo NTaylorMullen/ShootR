@@ -13,6 +13,10 @@ module ShootR {
             this._bulletBody = new eg.Graphics.Sprite2d(0, 0, contentManager.GetImage("Bullet"));
             this.AddChild(this._bulletBody);
         }
+
+        public HideBullet(): void {
+            this._bulletBody.Visible = false;
+        }
     }
 
 }

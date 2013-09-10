@@ -15,16 +15,21 @@ module ShootR {
             this._body = new eg.Graphics.Sprite2d(0, 0, contentManager.GetImage("Ship1"));
             this._lifeBar = new ShipLifeGraphic(lifeController);
 
-            super.AddChild(this._body);
-            super.AddChild(this._lifeBar);
+            this.AddChild(this._body);
+            this.AddChild(this._lifeBar);
         }
 
-        public AddChild(child: eg.Graphics.Graphic2d): void {
+        public AddChildToShip(child: eg.Graphics.Graphic2d): void {
             this._body.AddChild(child);
         }
 
         public RotateShip(newRotation: number): void {
             this._body.Rotation = newRotation;
+        }
+
+        public HideShip(): void {
+            this._lifeBar.Visible = false;
+            this._body.Visible = false;
         }
     }
     

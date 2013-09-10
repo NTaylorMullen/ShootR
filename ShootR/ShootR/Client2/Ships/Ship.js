@@ -16,6 +16,9 @@ var ShootR;
     var Ship = (function (_super) {
         __extends(Ship, _super);
         function Ship(payload, contentManager) {
+            this._destroyed = false;
+            this.OnExplosion = new eg.EventHandler();
+
             this.LifeController = new ShootR.ShipLifeController();
             this.Graphic = new ShootR.ShipGraphic(this.LifeController, payload.MovementController.Position, Ship.SIZE, contentManager);
 
@@ -43,9 +46,21 @@ var ShootR;
             this.LifeController.LoadPayload(payload);
         };
 
-        Ship.prototype.Destroy = function () {
-            this.Graphic.Dispose();
-            this.Dispose();
+        Ship.prototype.Destroy = function (explode) {
+            if (typeof explode === "undefined") { explode = false; }
+            if (!this._destroyed) {
+                this._destroyed = true;
+
+                this.MovementController.Dispose();
+
+                if (!explode) {
+                    this.Graphic.Dispose();
+                    this.Dispose();
+                } else {
+                    // We rely on the completion of the explosion to finish disposing the bounds and graphic
+                    this.OnExplosion.Trigger();
+                }
+            }
         };
         Ship.SIZE = new eg.Size2d(75, 75);
         return Ship;

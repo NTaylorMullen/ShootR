@@ -234,6 +234,10 @@
     <Content Include="Client2\Ships\Animations\ShipBoostAnimation.js">
       <DependentUpon>ShipBoostAnimation.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Client2\Ships\Animations\ShipDeathAnimation.ts" />
+    <Content Include="Client2\Ships\Animations\ShipDeathAnimation.js">
+      <DependentUpon>ShipDeathAnimation.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Ships\Animations\ShipThrustAnimation.js">
       <DependentUpon>ShipThrustAnimation.ts</DependentUpon>
     </Content>

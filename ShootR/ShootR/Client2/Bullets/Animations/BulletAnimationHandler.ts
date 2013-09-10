@@ -16,7 +16,8 @@ module ShootR {
             });
 
             this._bullet.OnExplosion.Bind(() => {
-                this._explosionAnimation.Play();                
+                this._bullet.Graphic.HideBullet();
+                this._explosionAnimation.Play();
             });
 
             this._bullet.Graphic.AddChild(this._explosionAnimation);

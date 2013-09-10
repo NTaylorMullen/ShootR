@@ -18,7 +18,12 @@ module ShootR {
         public AnimationHandler: ShipAnimationHandler;
         public LifeController: ShipLifeController;
 
+        private _destroyed: boolean;
+
         constructor(payload: Server.IShipData, contentManager: eg.Content.ContentManager) {
+            this._destroyed = false;
+            this.OnExplosion = new eg.EventHandler();
+
             this.LifeController = new ShipLifeController();
             this.Graphic = new ShipGraphic(this.LifeController, payload.MovementController.Position, Ship.SIZE, contentManager);
 
@@ -31,6 +36,8 @@ module ShootR {
 
             this.LoadPayload(payload);
         }
+
+        public OnExplosion: eg.EventHandler;
 
         public Update(gameTime: eg.GameTime): void {
             this.AbilityHandler.Update(gameTime);
@@ -47,9 +54,20 @@ module ShootR {
             this.LifeController.LoadPayload(payload);
         }
 
-        public Destroy(): void {
-            this.Graphic.Dispose();
-            this.Dispose();
+        public Destroy(explode: boolean = false): void {
+            if (!this._destroyed) {
+                this._destroyed = true;
+
+                this.MovementController.Dispose();
+
+                if (!explode) {
+                    this.Graphic.Dispose();
+                    this.Dispose();
+                } else {
+                    // We rely on the completion of the explosion to finish disposing the bounds and graphic
+                    this.OnExplosion.Trigger();
+                }
+            }
         }
     }
 

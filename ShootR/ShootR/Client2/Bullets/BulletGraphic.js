@@ -17,6 +17,9 @@ var ShootR;
             this._bulletBody = new eg.Graphics.Sprite2d(0, 0, contentManager.GetImage("Bullet"));
             this.AddChild(this._bulletBody);
         }
+        BulletGraphic.prototype.HideBullet = function () {
+            this._bulletBody.Visible = false;
+        };
         return BulletGraphic;
     })(eg.Graphics.Rectangle);
     ShootR.BulletGraphic = BulletGraphic;

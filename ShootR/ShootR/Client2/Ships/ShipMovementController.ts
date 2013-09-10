@@ -165,6 +165,12 @@ module ShootR {
                 }
             }
         }
+
+        public Dispose(): void {
+            // Make all active functions no-op
+            this.Update = () => { };
+            this.LoadPayload = () => { };
+        }
     }
 
 }

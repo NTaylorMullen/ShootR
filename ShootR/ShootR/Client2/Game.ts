@@ -63,7 +63,7 @@ module ShootR {
 
         public LoadContent(): void {
             this.Content.LoadImage("BulletExplosion", "/Images/SpriteSheets/explosion_1.png", 320, 320);
-            this.Content.LoadImage("BigExplosion", "/Images/SpriteSheets/explosion_2.png", 768, 640);
+            this.Content.LoadImage("ShipExplosion", "/Images/SpriteSheets/explosion_2.png", 768, 640);
             this.Content.LoadImage("Bullet", "/Images/Laser.png", 13, 13);
             this.Content.LoadImage("Ship1", "/Images/Ships/ship_lvl1.png", 75, 75);
             this.Content.LoadImage("Ship2", "/Images/Ships/ship_lvl2.png", 75, 75);
