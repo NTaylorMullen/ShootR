@@ -20,16 +20,6 @@ var ShootR;
             this._ship.Graphic.AddChildToShip(this._boostAnimation);
             this._ship.Graphic.AddChild(this._deathAnimation);
 
-            this._ship.MovementController.OnMove.Bind(function (event) {
-                if (event.Direction === "Forward") {
-                    if (event.StartMoving) {
-                        _this._thrustAnimation.Play();
-                    } else {
-                        _this._thrustAnimation.Stop();
-                    }
-                }
-            });
-
             this._ship.AbilityHandler.Boost.OnStart.Bind(function () {
                 _this._boostAnimation.Play();
             });
@@ -57,6 +47,14 @@ var ShootR;
         };
 
         ShipAnimationHandler.prototype.Update = function (gameTime) {
+            var thrustIsPlaying = this._thrustAnimation.IsPlaying();
+
+            if (!thrustIsPlaying && this._ship.MovementController.IsMovingInDirection("Forward")) {
+                this._thrustAnimation.Play();
+            } else if (thrustIsPlaying && !this._ship.MovementController.IsMovingInDirection("Forward")) {
+                this._thrustAnimation.Stop();
+            }
+
             this._thrustAnimation.Update(gameTime);
             this._boostAnimation.Update(gameTime);
             this._deathAnimation.Update(gameTime);

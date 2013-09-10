@@ -33,6 +33,10 @@ var ShootR;
             this.Visible = true;
         };
 
+        ShipThrustAnimation.prototype.IsPlaying = function () {
+            return this._thrustAnimator.IsPlaying() || this._thrustStartAnimator.IsPlaying();
+        };
+
         ShipThrustAnimation.prototype.Stop = function () {
             this._thrustStartAnimator.Stop();
             this._thrustAnimator.Stop();

@@ -25,16 +25,6 @@ module ShootR {
             this._ship.Graphic.AddChildToShip(this._boostAnimation);
             this._ship.Graphic.AddChild(this._deathAnimation);
 
-            this._ship.MovementController.OnMove.Bind((event: eg.MovementControllers.IMoveEvent) => {
-                if (event.Direction === "Forward") {
-                    if (event.StartMoving) {
-                        this._thrustAnimation.Play();
-                    } else {
-                        this._thrustAnimation.Stop();
-                    }
-                }
-            });
-
             this._ship.AbilityHandler.Boost.OnStart.Bind(() => {
                 this._boostAnimation.Play();
             });
@@ -63,6 +53,14 @@ module ShootR {
         }
 
         public Update(gameTime: eg.GameTime): void {
+            var thrustIsPlaying: boolean = this._thrustAnimation.IsPlaying();
+
+            if (!thrustIsPlaying && this._ship.MovementController.IsMovingInDirection("Forward")) {
+                this._thrustAnimation.Play();
+            } else if (thrustIsPlaying && !this._ship.MovementController.IsMovingInDirection("Forward")) {
+                this._thrustAnimation.Stop();
+            }
+
             this._thrustAnimation.Update(gameTime);
             this._boostAnimation.Update(gameTime);
             this._deathAnimation.Update(gameTime);

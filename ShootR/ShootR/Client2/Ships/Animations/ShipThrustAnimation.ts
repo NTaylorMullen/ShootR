@@ -36,6 +36,10 @@ module ShootR {
             this.Visible = true;
         }
 
+        public IsPlaying(): boolean {
+            return this._thrustAnimator.IsPlaying() || this._thrustStartAnimator.IsPlaying();
+        }
+
         public Stop(): void {
             this._thrustStartAnimator.Stop();
             this._thrustAnimator.Stop();
