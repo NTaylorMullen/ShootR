@@ -21,21 +21,18 @@ var ShootR;
                 if (ship && ship.MovementController.Controllable) {
                     if (startMoving) {
                         if (direction === "Boost") {
-                            _this._commandList.push([++_this._currentCommand, direction, true, true]);
-                            proxy.invoke("registerAbilityStart", direction, false, _this._currentCommand);
+                            proxy.invoke("registerAbilityStart", direction, false, _this.NewAbilityCommand(direction, true));
 
                             ship.AbilityHandler.Activate(direction);
 
                             return;
                             // Don't want to trigger a server command if we're already moving in the direction
                         } else if (!ship.MovementController.IsMovingInDirection(direction)) {
-                            _this._commandList.push([++_this._currentCommand, direction, startMoving]);
-                            proxy.invoke("registerMoveStart", direction, pingBack, _this._currentCommand);
+                            proxy.invoke("registerMoveStart", direction, pingBack, _this.NewMovementCommand(direction, true));
                         }
                     } else {
                         if (ship.MovementController.IsMovingInDirection(direction)) {
-                            _this._commandList.push([++_this._currentCommand, direction, startMoving]);
-                            proxy.invoke("registerMoveStop", direction, pingBack, _this._currentCommand);
+                            proxy.invoke("registerMoveStop", direction, pingBack, _this.NewMovementCommand(direction, false));
                         }
                     }
 
@@ -48,20 +45,22 @@ var ShootR;
             });
         }
         UserShipManager.prototype.LoadPayload = function (payload) {
-            var serverCommand = payload.LastCommandProcessed, ship = this._shipManager.GetShip(this._myShipId);
+            var serverCommand = payload.LastCommandProcessed, ship = this._shipManager.GetShip(this._myShipId), serverCommandIndex, command;
 
             if (this._commandList.length >= 1 && ship) {
-                var serverCommandIndex = this._commandList.length - (this._currentCommand - serverCommand);
+                serverCommandIndex = this._commandList.length - (this._currentCommand - serverCommand);
 
                 for (var i = serverCommandIndex; i < this._commandList.length; i++) {
-                    if (this._commandList[i][3]) {
-                        if (this._commandList[i][2]) {
-                            ship.AbilityHandler.Activate(this._commandList[i][1]);
+                    command = this._commandList[i];
+
+                    if (command.IsAbility) {
+                        if (command.Start) {
+                            ship.AbilityHandler.Activate(command.Command);
                         } else {
-                            ship.AbilityHandler.Deactivate(this._commandList[i][1]);
+                            ship.AbilityHandler.Deactivate(command.Command);
                         }
                     } else {
-                        ship.MovementController.Moving[this._commandList[i][1]] = this._commandList[i][2];
+                        ship.MovementController.Moving[command.Command] = command.Start;
                     }
                 }
 
@@ -77,6 +76,28 @@ var ShootR;
 
                 this._camera.Position = ship.MovementController.Position;
             }
+        };
+
+        UserShipManager.prototype.NewMovementCommand = function (direction, startMoving) {
+            this._commandList.push({
+                CommandID: ++this._currentCommand,
+                Command: direction,
+                Start: startMoving,
+                IsAbility: false
+            });
+
+            return this._currentCommand;
+        };
+
+        UserShipManager.prototype.NewAbilityCommand = function (ability, startMoving) {
+            this._commandList.push({
+                CommandID: ++this._currentCommand,
+                Command: ability,
+                Start: startMoving,
+                IsAbility: true
+            });
+
+            return this._currentCommand;
         };
         return UserShipManager;
     })();

@@ -8,7 +8,7 @@ module ShootR {
     export class UserShipManager implements eg.IUpdateable {
         private _shipInputController: ShipInputController;
         private _currentCommand: number;
-        private _commandList: any[][];
+        private _commandList: IShipCommand[];
 
         constructor(private _myShipId: number, private _shipManager: ShipManager, input: eg.Input.InputManager, private _camera: eg.Rendering.Camera2d, serverAdapter: Server.ServerAdapter) {
             var proxy: HubProxy = serverAdapter.Proxy;
@@ -23,22 +23,19 @@ module ShootR {
                 if (ship && ship.MovementController.Controllable) {
                     if (startMoving) {
                         if (direction === "Boost") {
-                            this._commandList.push([++this._currentCommand, direction, true, true]);
-                            proxy.invoke("registerAbilityStart", direction, false, this._currentCommand);
+                            proxy.invoke("registerAbilityStart", direction, false, this.NewAbilityCommand(direction, true));
 
                             ship.AbilityHandler.Activate(direction);
 
                             return;
                             // Don't want to trigger a server command if we're already moving in the direction
                         } else if (!ship.MovementController.IsMovingInDirection(direction)) {
-                            this._commandList.push([++this._currentCommand, direction, startMoving]);
-                            proxy.invoke("registerMoveStart", direction, pingBack, this._currentCommand);
+                            proxy.invoke("registerMoveStart", direction, pingBack, this.NewMovementCommand(direction, true));
                         }
                     } else {
                         // Don't want to trigger a server command if we're already moving in the direction
                         if (ship.MovementController.IsMovingInDirection(direction)) {
-                            this._commandList.push([++this._currentCommand, direction, startMoving]);
-                            proxy.invoke("registerMoveStop", direction, pingBack, this._currentCommand);
+                            proxy.invoke("registerMoveStop", direction, pingBack, this.NewMovementCommand(direction, false));
                         }
                     }
 
@@ -53,20 +50,24 @@ module ShootR {
 
         public LoadPayload(payload: Server.IPayloadData): void {
             var serverCommand: number = payload.LastCommandProcessed,
-                ship: Ship = this._shipManager.GetShip(this._myShipId);
+                ship: Ship = this._shipManager.GetShip(this._myShipId),
+                serverCommandIndex: number,
+                command: IShipCommand;
 
             if (this._commandList.length >= 1 && ship) {
-                var serverCommandIndex: number = this._commandList.length - (this._currentCommand - serverCommand);
+                serverCommandIndex = this._commandList.length - (this._currentCommand - serverCommand);
 
                 for (var i = serverCommandIndex; i < this._commandList.length; i++) {
-                    if (this._commandList[i][3]) { // Checking if the command is an ability
-                        if (this._commandList[i][2]) {
-                            ship.AbilityHandler.Activate(this._commandList[i][1])
+                    command = this._commandList[i];
+
+                    if (command.IsAbility) {
+                        if (command.Start) {
+                            ship.AbilityHandler.Activate(command.Command)
                         } else {
-                            ship.AbilityHandler.Deactivate(this._commandList[i][1])
+                            ship.AbilityHandler.Deactivate(command.Command)
                         }
                     } else {
-                        ship.MovementController.Moving[this._commandList[i][1]] = this._commandList[i][2];
+                        ship.MovementController.Moving[command.Command] = command.Start;
                     }
                 }
 
@@ -83,6 +84,35 @@ module ShootR {
                 this._camera.Position = ship.MovementController.Position;
             }
         }
+
+        private NewMovementCommand(direction: string, startMoving: boolean): number {
+            this._commandList.push({
+                CommandID: ++this._currentCommand,
+                Command: direction,
+                Start: startMoving,
+                IsAbility: false
+            });
+
+            return this._currentCommand;
+        }
+
+        private NewAbilityCommand(ability: string, startMoving: boolean): number {
+            this._commandList.push({
+                CommandID: ++this._currentCommand,
+                Command: ability,
+                Start: startMoving,
+                IsAbility: true
+            });
+
+            return this._currentCommand;
+        }
+    }
+
+    interface IShipCommand {
+        CommandID: number;
+        Command: string;
+        Start: boolean;
+        IsAbility: boolean;
     }
 
 }
