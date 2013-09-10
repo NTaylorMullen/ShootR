@@ -78,6 +78,8 @@ module ShootR {
             var ship = this._shipManager.GetShip(this._myShipId);
 
             if (ship) {
+                ship.Graphic.HideLifeBar();
+
                 this._camera.Position = ship.MovementController.Position;
             }
         }

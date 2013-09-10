@@ -31,6 +31,10 @@ module ShootR {
             this._lifeBar.Visible = false;
             this._body.Visible = false;
         }
+
+        public HideLifeBar(): void {
+            this._lifeBar.Visible = false;
+        }
     }
     
 }

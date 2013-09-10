@@ -33,6 +33,10 @@ var ShootR;
             this._lifeBar.Visible = false;
             this._body.Visible = false;
         };
+
+        ShipGraphic.prototype.HideLifeBar = function () {
+            this._lifeBar.Visible = false;
+        };
         return ShipGraphic;
     })(eg.Graphics.Rectangle);
     ShootR.ShipGraphic = ShipGraphic;
