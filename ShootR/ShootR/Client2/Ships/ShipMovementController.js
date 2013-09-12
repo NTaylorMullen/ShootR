@@ -124,6 +124,10 @@ var ShootR;
                 }
             }
 
+            this.Sync();
+        };
+
+        ShipMovementController.prototype.Sync = function () {
             for (var i = 0; i < this._moveables.length; i++) {
                 this._moveables[i].Position = this.Position;
             }

@@ -4,7 +4,7 @@
 /// <reference path="Server/ServerAdapter.ts" />
 /// <reference path="Ships/ShipManager.ts" />
 /// <reference path="Bullets/BulletManager.ts" />
-/// <reference path="Ships/UserShipManager.ts" />
+/// <reference path="User/UserShipManager.ts" />
 /// <reference path="Configuration/ConfigurationManager.ts" />
 /// <reference path="Space/Map.ts" />
 /// <reference path="GameScreen.ts" />
@@ -23,6 +23,7 @@ var ShootR;
             _super.call(this, gameCanvas);
 
             this.Configuration.UpdateRate = 1000 / initializationData.Configuration.gameConfig.UPDATE_INTERVAL;
+            this.Configuration.DrawOnlyAfterUpdate = false;
 
             this._payloads = new Array();
             this._configuration = new ShootR.ConfigurationManager(initializationData.Configuration);

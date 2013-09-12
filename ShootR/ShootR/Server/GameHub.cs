@@ -235,7 +235,6 @@ namespace ShootR
 
                     if (ship.Controllable.Value)
                     {
-                        Debug.WriteLine("Register move start: " + movement);
                         Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
                         ship.StartMoving(where, commandID);
                     }
@@ -266,7 +265,6 @@ namespace ShootR
 
                     if (ship.Controllable.Value)
                     {
-                        Debug.WriteLine("Register move stop: " + movement);
                         Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
                         ship.StopMoving(where, commandID);
                     }

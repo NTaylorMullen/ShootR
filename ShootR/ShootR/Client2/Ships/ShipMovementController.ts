@@ -146,6 +146,10 @@ module ShootR {
             }
 
 
+            this.Sync();
+        }
+
+        public Sync(): void {
             for (var i = 0; i < this._moveables.length; i++) {
                 this._moveables[i].Position = this.Position;
             }
