@@ -1,6 +1,7 @@
 /// <reference path="../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Scripts/typings/signalr/signalr.d.ts" />
+/// <reference path="Debug/DebugManager.ts" />
 /// <reference path="Server/ServerAdapter.ts" />
 /// <reference path="Ships/ShipManager.ts" />
 /// <reference path="Bullets/BulletManager.ts" />
@@ -31,10 +32,12 @@ var ShootR;
             this._shipManager.Initialize(new ShootR.UserShipManager(initializationData.ShipID, this._shipManager, this.Input, this.Scene.Camera, serverAdapter));
             this._bulletManager = new ShootR.BulletManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new ShootR.Map(this.Scene, this.CollisionManager);
+            this._debugManager = new ShootR.Debug.DebugManager(initializationData.ShipID, this);
 
             serverAdapter.OnPayload.Bind(function (payload) {
                 _this._shipManager.LoadPayload(payload);
                 _this._bulletManager.LoadPayload(payload);
+                _this._debugManager.LoadPayload(payload);
             });
             /*this._shipManager.LoadPayload([<any>{
             ID: initializationData.ShipID,
@@ -91,6 +94,7 @@ var ShootR;
         Game.prototype.Update = function (gameTime) {
             this._shipManager.Update(gameTime);
             this._bulletManager.Update(gameTime);
+            this._debugManager.Update(gameTime);
         };
         return Game;
     })(eg.Game);

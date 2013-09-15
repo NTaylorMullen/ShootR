@@ -158,6 +158,8 @@
     <Content Include="Client2\Ships\Abilities\Ability.js.map">
       <DependentUpon>Ability.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Client2\Debug\DebugManager.ts" />
+    <TypeScriptCompile Include="Client2\Debug\ServerGhost.ts" />
     <TypeScriptCompile Include="Client2\Ships\Abilities\Ability.ts" />
     <Content Include="Client2\Ships\Abilities\Ability.js">
       <DependentUpon>Ability.ts</DependentUpon>

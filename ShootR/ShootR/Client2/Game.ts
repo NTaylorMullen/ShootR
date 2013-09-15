@@ -1,6 +1,7 @@
 /// <reference path="../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Scripts/typings/signalr/signalr.d.ts" />
+/// <reference path="Debug/DebugManager.ts" />
 /// <reference path="Server/ServerAdapter.ts" />
 /// <reference path="Ships/ShipManager.ts" />
 /// <reference path="Bullets/BulletManager.ts" />
@@ -16,7 +17,9 @@ module ShootR {
         private _configuration: ConfigurationManager;
         private _shipManager: ShipManager;
         private _bulletManager: BulletManager;
+        private _debugManager: Debug.DebugManager;
         private _map: Map;
+        private _shipGhost: Ship;
 
         constructor(gameCanvas: HTMLCanvasElement, gameScreen: GameScreen, serverAdapter: Server.ServerAdapter, initializationData: Server.IClientInitialization) {
             super(gameCanvas);
@@ -30,10 +33,12 @@ module ShootR {
             this._shipManager.Initialize(new UserShipManager(initializationData.ShipID, this._shipManager, this.Input, this.Scene.Camera, serverAdapter));
             this._bulletManager = new BulletManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new Map(this.Scene, this.CollisionManager);
+            this._debugManager = new Debug.DebugManager(initializationData.ShipID, this);
 
             serverAdapter.OnPayload.Bind((payload: Server.IPayloadData) => {
                 this._shipManager.LoadPayload(payload);
                 this._bulletManager.LoadPayload(payload);
+                this._debugManager.LoadPayload(payload);
             });
 
             /*this._shipManager.LoadPayload([<any>{
@@ -92,6 +97,7 @@ module ShootR {
         public Update(gameTime: eg.GameTime): void {
             this._shipManager.Update(gameTime);
             this._bulletManager.Update(gameTime);
+            this._debugManager.Update(gameTime);
         }
     }
 
