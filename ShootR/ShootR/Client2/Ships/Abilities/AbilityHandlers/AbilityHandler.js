@@ -22,7 +22,7 @@ var ShootR;
         };
 
         AbilityHandler.prototype.Activate = function (abilityName) {
-            if (this._abilityList[abilityName] && !this._abilityList[abilityName].Active) {
+            if (this._abilityList[abilityName]) {
                 this._abilityList[abilityName].Activate();
                 return true;
             }

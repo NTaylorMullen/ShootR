@@ -19,18 +19,22 @@ var ShootR;
             this.OnStop = new eg.EventHandler();
         }
         Boost.prototype.Activate = function () {
+            this._movementController.Moving.Forward = true;
+            this._movementController.Controllable = false;
+
             if (!this.Active) {
                 this.MultiplySpeedBy(Boost.SPEED_INCREASE);
-                _super.prototype.Activate.call(this);
-                this._movementController.Controllable = false;
                 this.OnStart.Trigger();
             }
+
+            _super.prototype.Activate.call(this);
         };
 
         Boost.prototype.Deactivate = function () {
             if (this.Activate) {
                 this.ResetSpeed();
                 _super.prototype.Deactivate.call(this);
+                this._movementController.Moving.Forward = false;
                 this._movementController.Controllable = true;
                 this.OnStop.Trigger();
             }

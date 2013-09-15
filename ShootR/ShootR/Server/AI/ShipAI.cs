@@ -44,13 +44,13 @@ namespace ShootR
 
         public int SeekingShip { get; set; }
 
-        public override void StartMoving(Movement where, long commandID = -1)
+        public void StartMoving(Movement where, long commandID = -1)
         {
             Host.IdleManager.RecordActivity();
             MovementController.StartMoving(where);
         }
 
-        public override void StopMoving(Movement where, long commandID = -1)
+        public void StopMoving(Movement where, long commandID = -1)
         {
             Host.IdleManager.RecordActivity();
             MovementController.StopMoving(where);

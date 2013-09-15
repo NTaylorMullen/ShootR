@@ -21,6 +21,7 @@ var ShootR;
             this.Power = ShipMovementController.ENGINE_POWER;
             this.Forces = eg.Vector2d.Zero;
             this.Controllable = true;
+            this.UserControlled = false;
             this._acceleration = eg.Vector2d.Zero;
 
             this.Moving = {
@@ -41,18 +42,20 @@ var ShootR;
         ShipMovementController.prototype.LoadPayload = function (payload) {
             this._interpolationManager.LoadPayload(payload);
 
-            if (!this._interpolationManager.InterpolatingRotation) {
-                this.Rotation = payload.Rotation;
-            }
+            if (!this.UserControlled) {
+                if (!this._interpolationManager.InterpolatingRotation) {
+                    this.Rotation = payload.Rotation;
+                }
 
-            if (!this._interpolationManager.InterpolatingPosition) {
-                this.Position = payload.Position;
-            }
+                if (!this._interpolationManager.InterpolatingPosition) {
+                    this.Position = payload.Position;
+                }
 
-            this.Mass = payload.Mass;
-            this.Forces = payload.Forces;
-            this.Velocity = payload.Velocity;
-            this.Moving = payload.Moving;
+                this.Mass = payload.Mass;
+                this.Forces = payload.Forces;
+                this.Velocity = payload.Velocity;
+                this.Moving = payload.Moving;
+            }
         };
 
         ShipMovementController.prototype.IsMovingInDirection = function (direction) {
@@ -78,18 +81,15 @@ var ShootR;
         };
 
         ShipMovementController.prototype.Update = function (gameTime) {
-            var clientPositionPrediction, rotationIncrementor, direction = new eg.Vector2d(Math.cos(this.Rotation), Math.sin(this.Rotation)), dragForce, velocityLength;
+            var rotationIncrementor, direction = new eg.Vector2d(Math.cos(this.Rotation), Math.sin(this.Rotation)), dragForce, velocityLength;
 
             this._interpolationManager.Update(gameTime);
 
             if (!this._interpolationManager.InterpolatingPosition) {
                 this._acceleration = this.Forces.Divide(this.Mass);
 
-                clientPositionPrediction = this.Velocity.Multiply(gameTime.Elapsed.Seconds).Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds * gameTime.Elapsed.Seconds));
-                this.Position = this.Position.Add(clientPositionPrediction);
-
+                this.Position = this.Position.Add(this.Velocity.Multiply(gameTime.Elapsed.Seconds).Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds * gameTime.Elapsed.Seconds)));
                 this.Velocity = this.Velocity.Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds));
-
                 velocityLength = this.Velocity.Length();
 
                 if (velocityLength < 10) {

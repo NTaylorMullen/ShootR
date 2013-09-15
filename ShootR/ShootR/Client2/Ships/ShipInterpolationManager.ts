@@ -5,7 +5,7 @@
 module ShootR {
 
     export class ShipInterpolationManager implements eg.IUpdateable {
-        public static POSITION_THRESHOLD: number = 15;
+        public static POSITION_THRESHOLD: number = 8;
         public static ROTATION_THRESHOLD: number = Math.PI / 10;
 
         public InterpolatingPosition: boolean;
@@ -15,20 +15,25 @@ module ShootR {
         private _payloadFrequency: eg.TimeSpan;
         private _positionInterpolation: eg.Tweening.Vector2dTween;
         private _rotationInterpolation: eg.Tweening.NumberTween;
+        private _gameTime: eg.GameTime;
 
         constructor(private _movementController: ShipMovementController) {
             this.InterpolatingPosition = false;
             this.InterpolatingRotation = false;
 
-            this._payloadFrequency = eg.TimeSpan.Zero;
+            this._payloadFrequency = eg.TimeSpan.FromMilliseconds(1);
             this._positionInterpolation = new eg.Tweening.Vector2dTween(eg.Vector2d.Zero, eg.Vector2d.Zero, eg.TimeSpan.Zero, eg.Tweening.Functions.Linear.EaseNone);
             this._rotationInterpolation = new eg.Tweening.NumberTween(0, 0, eg.TimeSpan.Zero, eg.Tweening.Functions.Linear.EaseNone);
+            this._gameTime = new eg.GameTime();
 
             this._positionInterpolation.OnChange.Bind((newPosition: eg.Vector2d) => {
+                console.log(": " + this._movementController.Position + "   -->    " + newPosition);
                 this._movementController.Position = newPosition;
             });
             this._positionInterpolation.OnComplete.Bind((positionTween: eg.Tweening.Vector2dTween) => {
                 this.InterpolatingPosition = false;
+                console.log("------Interpolation Complete------");
+                console.log(" ");
             });
 
             this._rotationInterpolation.OnChange.Bind((newRotation: number) => {
@@ -40,28 +45,38 @@ module ShootR {
         }
 
         public LoadPayload(payload: Server.IShipMovementControllerData): void {
-            this.UpdatePayloadFrequency();
-            this.InterpolatingPosition = this.TryInterpolatePosition(payload);
+            /*this.UpdatePayloadFrequency();
+            this.InterpolatePosition(payload);
             this.InterpolatingRotation = this.TryInterpolateRotation(payload);
+
+            // Force the custom game time object to update
+            this.Update();*/
         }
 
-        public Update(gameTime: eg.GameTime): void {
-            this._positionInterpolation.Update(gameTime);
-            this._rotationInterpolation.Update(gameTime);
+        public Update(gameTime?: eg.GameTime): void {
+            this._gameTime.Update();
+
+            this._positionInterpolation.Update(this._gameTime);
+            this._rotationInterpolation.Update(this._gameTime);
         }
 
-        private TryInterpolatePosition(payload: Server.IShipMovementControllerData): boolean {
-            // Should interpolate position
-            if (this._movementController.Position.Subtract(payload.Position).Magnitude() > ShipInterpolationManager.POSITION_THRESHOLD) {
-                this._positionInterpolation.From = this._movementController.Position;
-                this._positionInterpolation.To = payload.Position;
-                this._positionInterpolation.Duration = this._payloadFrequency;
-                this._positionInterpolation.Restart();
+        private StartInterpolationPayload(payload: IPayloadInterpolation): void {
+            console.log("------Interpolation Started------");
+            console.log("*** Interpolating position. From: " + this._movementController.Position + " To " + payload.To + " Over " + payload.Duration.Milliseconds + "ms.");
 
-                return true;
-            }
+            this._positionInterpolation.From = this._movementController.Position;
+            this._positionInterpolation.To = payload.To;
+            this._positionInterpolation.Duration = payload.Duration;
+            this._positionInterpolation.Restart();
+            payload = null;
+            this.InterpolatingPosition = true;
+        }
 
-            return false;
+        private InterpolatePosition(payload: Server.IShipMovementControllerData): void {
+            this.StartInterpolationPayload({
+                To: payload.Position,
+                Duration: this._payloadFrequency
+            });
         }
 
         private TryInterpolateRotation(payload: Server.IShipMovementControllerData): boolean {
@@ -87,6 +102,11 @@ module ShootR {
 
             this._lastPayloadAt = now;
         }
+    }
+
+    interface IPayloadInterpolation {
+        Duration: eg.TimeSpan;
+        To: eg.Vector2d;
     }
 
 }

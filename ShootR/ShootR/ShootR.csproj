@@ -308,8 +308,9 @@
     <Content Include="Client2\Ships\ShipMovementController.js">
       <DependentUpon>ShipMovementController.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Client2\Ships\UserShipManager.ts" />
-    <Content Include="Client2\Ships\UserShipManager.js">
+    <TypeScriptCompile Include="Client2\User\UserCameraController.ts" />
+    <TypeScriptCompile Include="Client2\User\UserShipManager.ts" />
+    <Content Include="Client2\User\UserShipManager.js">
       <DependentUpon>UserShipManager.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client2\Space\Map.ts" />

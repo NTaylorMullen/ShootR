@@ -20,18 +20,22 @@ module ShootR {
         public OnStop: eg.EventHandler;
 
         public Activate(): void {
+            this._movementController.Moving.Forward = true;
+            this._movementController.Controllable = false;
+
             if (!this.Active) {
                 this.MultiplySpeedBy(Boost.SPEED_INCREASE);
-                super.Activate();
-                this._movementController.Controllable = false;
                 this.OnStart.Trigger();
             }
+
+            super.Activate();
         }
 
         public Deactivate(): void {
             if (this.Activate) {
                 this.ResetSpeed();
                 super.Deactivate();
+                this._movementController.Moving.Forward = false;
                 this._movementController.Controllable = true;
                 this.OnStop.Trigger();
             }

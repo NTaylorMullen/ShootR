@@ -20,6 +20,7 @@ module ShootR {
         public Power: number;
         public Forces: eg.Vector2d;
         public Controllable: boolean;
+        public UserControlled: boolean;
         private _acceleration: eg.Vector2d;        
         private _moveables: Array<eg.IMoveable>;
         private _interpolationManager: ShipInterpolationManager;
@@ -33,6 +34,7 @@ module ShootR {
             this.Power = ShipMovementController.ENGINE_POWER;
             this.Forces = eg.Vector2d.Zero;
             this.Controllable = true;
+            this.UserControlled = false;
             this._acceleration = eg.Vector2d.Zero;
 
             this.Moving = {
@@ -56,18 +58,20 @@ module ShootR {
         public LoadPayload(payload: Server.IShipMovementControllerData): void {
             this._interpolationManager.LoadPayload(payload);
 
-            if (!this._interpolationManager.InterpolatingRotation) {
-                this.Rotation = payload.Rotation;
-            }
+            if (!this.UserControlled) {
+                if (!this._interpolationManager.InterpolatingRotation) {
+                    this.Rotation = payload.Rotation;
+                }
 
-            if (!this._interpolationManager.InterpolatingPosition) {
-                this.Position = payload.Position;
-            }
+                if (!this._interpolationManager.InterpolatingPosition) {
+                    this.Position = payload.Position;
+                }
 
-            this.Mass = payload.Mass;
-            this.Forces = payload.Forces;
-            this.Velocity = payload.Velocity;
-            this.Moving = payload.Moving;
+                this.Mass = payload.Mass;
+                this.Forces = payload.Forces;
+                this.Velocity = payload.Velocity;
+                this.Moving = payload.Moving;
+            }
         }
 
         public IsMovingInDirection(direction: string): boolean {
@@ -93,8 +97,7 @@ module ShootR {
         }
 
         public Update(gameTime: eg.GameTime): void {
-            var clientPositionPrediction: eg.Vector2d,
-                rotationIncrementor: number,
+            var rotationIncrementor: number,
                 direction: eg.Vector2d = new eg.Vector2d(Math.cos(this.Rotation), Math.sin(this.Rotation)),
                 dragForce: eg.Vector2d,
                 velocityLength: number;
@@ -104,11 +107,8 @@ module ShootR {
             if (!this._interpolationManager.InterpolatingPosition) {
                 this._acceleration = this.Forces.Divide(this.Mass);
 
-                clientPositionPrediction = this.Velocity.Multiply(gameTime.Elapsed.Seconds).Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds * gameTime.Elapsed.Seconds));
-                this.Position = this.Position.Add(clientPositionPrediction);
-
+                this.Position = this.Position.Add(this.Velocity.Multiply(gameTime.Elapsed.Seconds).Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds * gameTime.Elapsed.Seconds)));
                 this.Velocity = this.Velocity.Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds));
-
                 velocityLength = this.Velocity.Length();
 
                 // Stop moving if the "speed" is less than 10
@@ -144,7 +144,6 @@ module ShootR {
                     this.Rotation += rotationIncrementor;
                 }                
             }
-
 
             this.Sync();
         }

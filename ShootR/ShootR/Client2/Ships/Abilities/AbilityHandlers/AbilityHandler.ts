@@ -25,7 +25,7 @@ module ShootR {
         }
 
         public Activate(abilityName: string): boolean {
-            if (this._abilityList[abilityName] && !this._abilityList[abilityName].Active) {
+            if (this._abilityList[abilityName]) {
                 this._abilityList[abilityName].Activate();
                 return true;
             }

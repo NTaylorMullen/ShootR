@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using Microsoft.AspNet.SignalR;
@@ -20,6 +21,8 @@ namespace ShootR
 
         private static int _shipGUID = 0;
 
+        private ConcurrentQueue<Action> _enqueuedCommands;
+
         public Ship(Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT, new ShipMovementController(position), new ShipLifeController(START_LIFE), new HarmlessDamageController())
         {
@@ -33,11 +36,13 @@ namespace ShootR
 
             LevelManager = new ShipLevelManager(this);
             AbilityHandler = new ShipAbilityHandler(this);
+
+            _enqueuedCommands = new ConcurrentQueue<Action>();
         }
 
         public string Name { get; set; }
         public User Host { get; set; }
-        public bool RespawnEnabled { get; set; }        
+        public bool RespawnEnabled { get; set; }
 
         public virtual ShipStatRecorder StatRecorder { get; protected set; }
         public ShipAbilityHandler AbilityHandler { get; private set; }
@@ -104,53 +109,78 @@ namespace ShootR
             }
         }
 
-        public virtual void ActivateAbility(string abilityName, long commandID)
+        public virtual void ActivateAbility(string abilityName, Vector2 at, double angle, Vector2 velocity, long commandID)
         {
-            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
-
             Host.IdleManager.RecordActivity();
-            AbilityHandler.Activate(abilityName);
-            Host.LastCommandID = commandID;
-        }
 
-        public virtual void DeactivateAbility(string abilityName, long commandID)
-        {
-            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
-
-            Host.IdleManager.RecordActivity();
-            AbilityHandler.Deactivate(abilityName);
-            Host.LastCommandID = commandID;
-        }
-
-        public virtual void StartMoving(Movement where, long commandID)
-        {
-            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
-
-            Host.IdleManager.RecordActivity();
-            MovementController.StartMoving(where);
-            Host.LastCommandID = commandID;
-        }
-
-        public virtual void StopMoving(Movement where, long commandID)
-        {
-            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
-
-            Host.IdleManager.RecordActivity();
-            MovementController.StopMoving(where);
-            Host.LastCommandID = commandID;
-        }
-
-        public void ResetMoving(List<Movement> movementList, long commandID)
-        {
-            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
-
-            foreach (Movement m in movementList)
+            _enqueuedCommands.Enqueue(() =>
             {
-                MovementController.StopMoving(m);
-            }
+                MovementController.Position = at;
+                MovementController.Rotation = angle;
+                MovementController.Velocity = velocity;
+                AbilityHandler.Activate(abilityName);
+                Host.LastCommandID = commandID;
+            });
+        }
 
-            Host.LastCommandID = commandID;
-        }                
+        public virtual void DeactivateAbility(string abilityName, Vector2 at, double angle, Vector2 velocity, long commandID)
+        {
+            Host.IdleManager.RecordActivity();
+
+            _enqueuedCommands.Enqueue(() =>
+            {
+                MovementController.Position = at;
+                MovementController.Rotation = angle;
+                MovementController.Velocity = velocity;
+                AbilityHandler.Deactivate(abilityName);
+                Host.LastCommandID = commandID;
+            });
+        }
+
+        public virtual void StartMoving(Movement where, Vector2 at, double angle, Vector2 velocity, long commandID)
+        {
+            Host.IdleManager.RecordActivity();
+
+            _enqueuedCommands.Enqueue(() =>
+            {
+                MovementController.Position = at;
+                MovementController.Rotation = angle;
+                MovementController.Velocity = velocity;
+                MovementController.StartMoving(where);
+                Host.LastCommandID = commandID;
+            });
+        }
+
+        public virtual void StopMoving(Movement where, Vector2 at, double angle, Vector2 velocity, long commandID)
+        {
+            Host.IdleManager.RecordActivity();
+
+            _enqueuedCommands.Enqueue(() =>
+            {
+                MovementController.Position = at;
+                MovementController.Rotation = angle;
+                MovementController.Velocity = velocity;
+                MovementController.StopMoving(where);
+                Host.LastCommandID = commandID;
+            });
+        }
+
+        public void ResetMoving(List<Movement> movementList, Vector2 at, double angle, Vector2 velocity, long commandID)
+        {
+            _enqueuedCommands.Enqueue(() =>
+            {
+                MovementController.Position = at;
+                MovementController.Rotation = angle;
+                MovementController.Velocity = velocity;
+
+                foreach (Movement m in movementList)
+                {
+                    MovementController.StopMoving(m);
+                }
+
+                Host.LastCommandID = commandID;
+            });
+        }
 
         public void Update(GameTime gameTime)
         {
@@ -163,6 +193,16 @@ namespace ShootR
             MovementController.Update(PercentOfSecond);
             AbilityHandler.Update(GameTime.Now);
             base.Update();
+
+            Action command;
+
+            while (_enqueuedCommands.Count > 0)
+            {
+                if (_enqueuedCommands.TryDequeue(out command))
+                {
+                    command();
+                }
+            }
         }
 
         public void Fired(Bullet bullet)

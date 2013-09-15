@@ -10,15 +10,19 @@ var ShootR;
             this.InterpolatingPosition = false;
             this.InterpolatingRotation = false;
 
-            this._payloadFrequency = eg.TimeSpan.Zero;
+            this._payloadFrequency = eg.TimeSpan.FromMilliseconds(1);
             this._positionInterpolation = new eg.Tweening.Vector2dTween(eg.Vector2d.Zero, eg.Vector2d.Zero, eg.TimeSpan.Zero, eg.Tweening.Functions.Linear.EaseNone);
             this._rotationInterpolation = new eg.Tweening.NumberTween(0, 0, eg.TimeSpan.Zero, eg.Tweening.Functions.Linear.EaseNone);
+            this._gameTime = new eg.GameTime();
 
             this._positionInterpolation.OnChange.Bind(function (newPosition) {
+                console.log(": " + _this._movementController.Position + "   -->    " + newPosition);
                 _this._movementController.Position = newPosition;
             });
             this._positionInterpolation.OnComplete.Bind(function (positionTween) {
                 _this.InterpolatingPosition = false;
+                console.log("------Interpolation Complete------");
+                console.log(" ");
             });
 
             this._rotationInterpolation.OnChange.Bind(function (newRotation) {
@@ -29,27 +33,38 @@ var ShootR;
             });
         }
         ShipInterpolationManager.prototype.LoadPayload = function (payload) {
-            this.UpdatePayloadFrequency();
-            this.InterpolatingPosition = this.TryInterpolatePosition(payload);
+            /*this.UpdatePayloadFrequency();
+            this.InterpolatePosition(payload);
             this.InterpolatingRotation = this.TryInterpolateRotation(payload);
+            
+            // Force the custom game time object to update
+            this.Update();*/
         };
 
         ShipInterpolationManager.prototype.Update = function (gameTime) {
-            this._positionInterpolation.Update(gameTime);
-            this._rotationInterpolation.Update(gameTime);
+            this._gameTime.Update();
+
+            this._positionInterpolation.Update(this._gameTime);
+            this._rotationInterpolation.Update(this._gameTime);
         };
 
-        ShipInterpolationManager.prototype.TryInterpolatePosition = function (payload) {
-            if (this._movementController.Position.Subtract(payload.Position).Magnitude() > ShipInterpolationManager.POSITION_THRESHOLD) {
-                this._positionInterpolation.From = this._movementController.Position;
-                this._positionInterpolation.To = payload.Position;
-                this._positionInterpolation.Duration = this._payloadFrequency;
-                this._positionInterpolation.Restart();
+        ShipInterpolationManager.prototype.StartInterpolationPayload = function (payload) {
+            console.log("------Interpolation Started------");
+            console.log("*** Interpolating position. From: " + this._movementController.Position + " To " + payload.To + " Over " + payload.Duration.Milliseconds + "ms.");
 
-                return true;
-            }
+            this._positionInterpolation.From = this._movementController.Position;
+            this._positionInterpolation.To = payload.To;
+            this._positionInterpolation.Duration = payload.Duration;
+            this._positionInterpolation.Restart();
+            payload = null;
+            this.InterpolatingPosition = true;
+        };
 
-            return false;
+        ShipInterpolationManager.prototype.InterpolatePosition = function (payload) {
+            this.StartInterpolationPayload({
+                To: payload.Position,
+                Duration: this._payloadFrequency
+            });
         };
 
         ShipInterpolationManager.prototype.TryInterpolateRotation = function (payload) {
@@ -74,7 +89,7 @@ var ShootR;
 
             this._lastPayloadAt = now;
         };
-        ShipInterpolationManager.POSITION_THRESHOLD = 15;
+        ShipInterpolationManager.POSITION_THRESHOLD = 8;
         ShipInterpolationManager.ROTATION_THRESHOLD = Math.PI / 10;
         return ShipInterpolationManager;
     })();

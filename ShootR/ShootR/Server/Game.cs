@@ -13,7 +13,7 @@ namespace ShootR
     public class Game
     {
         public const int MAX_SERVER_SIZE = 2000;
-        public const int AIShipsToSpawn = 5;
+        public const int AIShipsToSpawn = 0;
         public const int SpawnsPerInterval = 1;
         private int _spawned = 0;
         private DateTime _lastSpawn = DateTime.UtcNow;        
@@ -36,7 +36,7 @@ namespace ShootR
         {
             Configuration = new GameConfigurationManager();
             DRAW_AFTER = Configuration.gameConfig.DRAW_INTERVAL / Configuration.gameConfig.UPDATE_INTERVAL;
-            _drawFPS = 1000 / DRAW_AFTER;
+            _drawFPS = 1000 / Configuration.gameConfig.DRAW_INTERVAL;
             _gameLoop = new HighFrequencyTimer(1000 / Configuration.gameConfig.UPDATE_INTERVAL, id => Update(id), () => { }, () => { }, (fps) =>
             {
                 _actualFPS = fps;
