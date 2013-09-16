@@ -13,8 +13,9 @@
 module ShootR {
 
     export class Game extends eg.Game {
+        public static GameConfiguration: ConfigurationManager;
+
         private _payloads: Array<Server.IPayloadData>;
-        private _configuration: ConfigurationManager;
         private _shipManager: ShipManager;
         private _bulletManager: BulletManager;
         private _debugManager: Debug.DebugManager;
@@ -28,7 +29,7 @@ module ShootR {
             this.Configuration.DrawOnlyAfterUpdate = false;
 
             this._payloads = new Array<Server.IPayloadData>();
-            this._configuration = new ConfigurationManager(initializationData.Configuration);
+            Game.GameConfiguration = new ConfigurationManager(initializationData.Configuration);
             this._shipManager = new ShipManager(this.Scene.Camera, this.Scene, this.CollisionManager, this.Content);
             this._shipManager.Initialize(new UserShipManager(initializationData.ShipID, this._shipManager, this.CollisionManager, this.Input, this.Scene.Camera, serverAdapter));
             this._bulletManager = new BulletManager(this.Scene.Camera, this.Scene, this.Content);

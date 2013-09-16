@@ -35,22 +35,10 @@ var ShootR;
 
             this.OnMove = new eg.EventHandler1();
         }
-        ShipMovementController.prototype.IsInterpolating = function () {
-            return this._interpolationManager.InterpolatingPosition;
-        };
-
         ShipMovementController.prototype.LoadPayload = function (payload) {
             this._interpolationManager.LoadPayload(payload);
 
             if (!this.UserControlled) {
-                if (!this._interpolationManager.InterpolatingRotation) {
-                    this.Rotation = payload.Rotation;
-                }
-
-                if (!this._interpolationManager.InterpolatingPosition) {
-                    this.Position = payload.Position;
-                }
-
                 this.Mass = payload.Mass;
                 this.Forces = payload.Forces;
                 this.Velocity = payload.Velocity;
@@ -85,7 +73,7 @@ var ShootR;
 
             this._interpolationManager.Update(gameTime);
 
-            if (!this._interpolationManager.InterpolatingPosition) {
+            if (!this._interpolationManager.Interpolating) {
                 this._acceleration = this.Forces.Divide(this.Mass);
 
                 this.Position = this.Position.Add(this.Velocity.Multiply(gameTime.Elapsed.Seconds).Add(this._acceleration.Multiply(gameTime.Elapsed.Seconds * gameTime.Elapsed.Seconds)));
@@ -111,9 +99,7 @@ var ShootR;
                 }
 
                 this.ApplyForce(dragForce);
-            }
 
-            if (!this._interpolationManager.InterpolatingRotation) {
                 rotationIncrementor = gameTime.Elapsed.Seconds * ShipMovementController.ROTATE_SPEED;
 
                 if (this.Moving.RotatingLeft) {
@@ -124,10 +110,6 @@ var ShootR;
                 }
             }
 
-            this.Sync();
-        };
-
-        ShipMovementController.prototype.Sync = function () {
             for (var i = 0; i < this._moveables.length; i++) {
                 this._moveables[i].Position = this.Position;
             }
