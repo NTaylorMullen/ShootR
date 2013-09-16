@@ -7,19 +7,37 @@
 module ShootR {
 
     export class UserShipManager implements eg.IUpdateable {
+        public static SYNC_INTERVAL: eg.TimeSpan = eg.TimeSpan.FromSeconds(1.5);
+
         private _shipInputController: ShipInputController;
         private _currentCommand: number;
         private _commandList: IShipCommand[];
         private _userCameraController: UserCameraController;
         private _enqueuedCommands: Array<Function>;
         private _proxy: HubProxy;
+        private _lastSync: Date;
 
-        constructor(private _myShipId: number, private _shipManager: ShipManager, input: eg.Input.InputManager, private _camera: eg.Rendering.Camera2d, serverAdapter: Server.ServerAdapter) {
+        constructor(private _myShipId: number, private _shipManager: ShipManager, private _collisionManager: eg.Collision.CollisionManager, input: eg.Input.InputManager, private _camera: eg.Rendering.Camera2d, serverAdapter: Server.ServerAdapter) {
             this._proxy = serverAdapter.Proxy;
             this._currentCommand = 0;
             this._commandList = [];
             this._userCameraController = new UserCameraController(this._myShipId, this._shipManager, this._camera);
             this._enqueuedCommands = [];
+            this._lastSync = new Date();
+
+            this._collisionManager.OnCollision.Bind((ship: Ship, boundary: MapBoundary) => {
+                if (ship instanceof Ship && boundary instanceof MapBoundary) {
+                    if (ship.ID === this._myShipId) {
+                        for (var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
+                            this._enqueuedCommands.push(((i) => {
+                                    return () => {
+                                    this.Invoke("registerMoveStop", false, this.NewMovementCommand(ShipMovementController.MOVING_DIRECTIONS[i], false));
+                                }
+                            })(i));
+                        }
+                    }
+                }
+            });
 
             this._shipInputController = new ShipInputController(input.Keyboard, (direction: string, startMoving: boolean) => {
                 var ship = this._shipManager.GetShip(this._myShipId),
@@ -99,6 +117,11 @@ module ShootR {
             if (ship) {
                 while (this._enqueuedCommands.length > 0) {
                     this._enqueuedCommands.shift()();
+                }
+
+                if (eg.TimeSpan.DateSpan(this._lastSync, gameTime.Now).Seconds > UserShipManager.SYNC_INTERVAL.Seconds) {
+                    this._lastSync = gameTime.Now;
+                    this._proxy.invoke("syncMovement", { X: Math.round(ship.MovementController.Position.X - ship.Graphic.Size.HalfWidth), Y: Math.round(ship.MovementController.Position.Y - ship.Graphic.Size.HalfHeight) }, Math.roundTo(ship.MovementController.Rotation * 57.2957795, 2), { X: Math.round(ship.MovementController.Velocity.X), Y: Math.round(ship.MovementController.Velocity.Y) });
                 }
 
                 this._userCameraController.Update(gameTime);

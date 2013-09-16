@@ -153,6 +153,20 @@ namespace ShootR
             _game.UserHandler.GetUser(Context.ConnectionId).ReadyForPayloads = true;
         }
 
+        public virtual void syncMovement(Vector2 at, double angle, Vector2 velocity)
+        {
+            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            {
+                try
+                {
+                    _game.UserHandler.GetUserShip(Context.ConnectionId).SyncMovement(at, angle, velocity);
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        }
+
         /// <summary>
         /// Resets all movement flags on the ship
         /// </summary>

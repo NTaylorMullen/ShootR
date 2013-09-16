@@ -113,7 +113,7 @@ namespace ShootR
         public virtual void HandleOutOfBounds()
         {
             _altered = true;
-            Vector2 bounceMultiplier = null;
+            var bounceMultiplier = new Vector2(1, 1);
 
             // Collided with left or right side
             if (MovementController.Position.X <= 0 || (MovementController.Position.X + Width()) >= Map.WIDTH)

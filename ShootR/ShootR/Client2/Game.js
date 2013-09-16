@@ -29,7 +29,7 @@ var ShootR;
             this._payloads = new Array();
             this._configuration = new ShootR.ConfigurationManager(initializationData.Configuration);
             this._shipManager = new ShootR.ShipManager(this.Scene.Camera, this.Scene, this.CollisionManager, this.Content);
-            this._shipManager.Initialize(new ShootR.UserShipManager(initializationData.ShipID, this._shipManager, this.Input, this.Scene.Camera, serverAdapter));
+            this._shipManager.Initialize(new ShootR.UserShipManager(initializationData.ShipID, this._shipManager, this.CollisionManager, this.Input, this.Scene.Camera, serverAdapter));
             this._bulletManager = new ShootR.BulletManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new ShootR.Map(this.Scene, this.CollisionManager);
             this._debugManager = new ShootR.Debug.DebugManager(initializationData.ShipID, this);

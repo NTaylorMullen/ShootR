@@ -372,7 +372,7 @@ namespace ShootR
             }
         }
 
-        public override void Update(double PercentOfSecond)
+        public override void Update(GameTime gameTime)
         {
             DateTime now = DateTime.UtcNow;
             // Used to convert the calculated ship rotation to a usable 0-360 rotation
@@ -381,7 +381,7 @@ namespace ShootR
             CheckCurrentState(now);
             ActOnCurrentState(now);
 
-            base.Update(PercentOfSecond);
+            base.Update(gameTime);
         }
 
         public void UpdateCurrentRotation()

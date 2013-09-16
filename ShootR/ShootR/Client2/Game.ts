@@ -30,7 +30,7 @@ module ShootR {
             this._payloads = new Array<Server.IPayloadData>();
             this._configuration = new ConfigurationManager(initializationData.Configuration);
             this._shipManager = new ShipManager(this.Scene.Camera, this.Scene, this.CollisionManager, this.Content);
-            this._shipManager.Initialize(new UserShipManager(initializationData.ShipID, this._shipManager, this.Input, this.Scene.Camera, serverAdapter));
+            this._shipManager.Initialize(new UserShipManager(initializationData.ShipID, this._shipManager, this.CollisionManager, this.Input, this.Scene.Camera, serverAdapter));
             this._bulletManager = new BulletManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new Map(this.Scene, this.CollisionManager);
             this._debugManager = new Debug.DebugManager(initializationData.ShipID, this);

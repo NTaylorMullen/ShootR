@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 namespace ShootR
 {
@@ -31,6 +32,7 @@ namespace ShootR
         public override void Move(double percentOfSecond)
         {
             double velocityLength;
+
             _acceleration = Forces / Mass;
 
             Position += Velocity * percentOfSecond + _acceleration * percentOfSecond * percentOfSecond;
@@ -50,18 +52,9 @@ namespace ShootR
             _acceleration = new Vector2();
             Forces = new Vector2();
 
-            double rotationIncrementor = percentOfSecond * ROTATE_SPEED;
             Vector2 direction = new Vector2(Rotation),
                     dragForce = .5 * Velocity * Velocity.Abs() * DRAG_COEFFICIENT * DRAG_AREA * -1;
 
-            if (Moving.RotatingLeft)
-            {
-                Rotation -= rotationIncrementor;
-            }
-            if (Moving.RotatingRight)
-            {
-                Rotation += rotationIncrementor;
-            }
             if (Moving.Forward)
             {
                 ApplyForce(direction * Power);
@@ -72,6 +65,17 @@ namespace ShootR
             }
 
             ApplyForce(dragForce);
+
+            double rotationIncrementor = percentOfSecond * ROTATE_SPEED;
+
+            if (Moving.RotatingLeft)
+            {
+                Rotation -= rotationIncrementor;
+            }
+            if (Moving.RotatingRight)
+            {
+                Rotation += rotationIncrementor;
+            }
         }
 
         public void StopMovement()
@@ -125,10 +129,15 @@ namespace ShootR
             FlagMovement(where, false);
         }
 
+        public void Update(GameTime gameTime)
+        {
+            Update(gameTime.PercentOfSecond);
+        }
+
         public override void Update(double PercentOfSecond)
         {
             base.Update(PercentOfSecond);
-            Move(PercentOfSecond);            
+            Move(PercentOfSecond);
         }
     }
 }

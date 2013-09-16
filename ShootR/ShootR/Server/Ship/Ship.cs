@@ -21,6 +21,7 @@ namespace ShootR
 
         private static int _shipGUID = 0;
 
+        private ShipClientVerifier _verifier;
         private ConcurrentQueue<Action> _enqueuedCommands;
 
         public Ship(Vector2 position, BulletManager bm)
@@ -38,6 +39,7 @@ namespace ShootR
             AbilityHandler = new ShipAbilityHandler(this);
 
             _enqueuedCommands = new ConcurrentQueue<Action>();
+            _verifier = new ShipClientVerifier(MovementController);
         }
 
         public string Name { get; set; }
@@ -115,9 +117,8 @@ namespace ShootR
 
             _enqueuedCommands.Enqueue(() =>
             {
-                MovementController.Position = at;
-                MovementController.Rotation = angle;
-                MovementController.Velocity = velocity;
+                _verifier.VerifyMovement(at, angle, velocity);
+
                 AbilityHandler.Activate(abilityName);
                 Host.LastCommandID = commandID;
             });
@@ -129,9 +130,8 @@ namespace ShootR
 
             _enqueuedCommands.Enqueue(() =>
             {
-                MovementController.Position = at;
-                MovementController.Rotation = angle;
-                MovementController.Velocity = velocity;
+                _verifier.VerifyMovement(at, angle, velocity);
+
                 AbilityHandler.Deactivate(abilityName);
                 Host.LastCommandID = commandID;
             });
@@ -143,9 +143,8 @@ namespace ShootR
 
             _enqueuedCommands.Enqueue(() =>
             {
-                MovementController.Position = at;
-                MovementController.Rotation = angle;
-                MovementController.Velocity = velocity;
+                _verifier.VerifyMovement(at, angle, velocity);
+
                 MovementController.StartMoving(where);
                 Host.LastCommandID = commandID;
             });
@@ -157,11 +156,18 @@ namespace ShootR
 
             _enqueuedCommands.Enqueue(() =>
             {
-                MovementController.Position = at;
-                MovementController.Rotation = angle;
-                MovementController.Velocity = velocity;
+                _verifier.VerifyMovement(at, angle, velocity);
+
                 MovementController.StopMoving(where);
                 Host.LastCommandID = commandID;
+            });
+        }
+
+        public virtual void SyncMovement(Vector2 at, double angle, Vector2 velocity)
+        {
+            _enqueuedCommands.Enqueue(() =>
+            {
+                _verifier.VerifyMovement(at, angle, velocity);
             });
         }
 
@@ -169,9 +175,7 @@ namespace ShootR
         {
             _enqueuedCommands.Enqueue(() =>
             {
-                MovementController.Position = at;
-                MovementController.Rotation = angle;
-                MovementController.Velocity = velocity;
+                _verifier.VerifyMovement(at, angle, velocity);
 
                 foreach (Movement m in movementList)
                 {
@@ -182,15 +186,10 @@ namespace ShootR
             });
         }
 
-        public void Update(GameTime gameTime)
-        {
-            Update(GameTime.CalculatePercentOfSecond(LastUpdated));
-        }
-
-        public virtual void Update(double PercentOfSecond)
+        public virtual void Update(GameTime gameTime)
         {
             WeaponController.Update(GameTime.Now);
-            MovementController.Update(PercentOfSecond);
+            MovementController.Update(gameTime);
             AbilityHandler.Update(GameTime.Now);
             base.Update();
 

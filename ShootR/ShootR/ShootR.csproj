@@ -1107,6 +1107,7 @@
     <Compile Include="Server\Abilities\AbilityHandlers\AbilityHandler.cs" />
     <Compile Include="Server\Ship\Levels\LevelCalculator.cs" />
     <Compile Include="Server\Ship\Levels\ShipLevelManager.cs" />
+    <Compile Include="Server\Ship\ShipClientVerifier.cs" />
     <Compile Include="Server\Ship\ShipLifeController.cs" />
     <Compile Include="Server\Ship\ShipManager.cs" />
     <Compile Include="Server\Ship\ShipStatRecorder.cs" />
