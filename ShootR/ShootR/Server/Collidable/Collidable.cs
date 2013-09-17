@@ -139,12 +139,12 @@ namespace ShootR
         /// </summary>
         /// <param name="c">The object to check the collision against.</param>
         /// <returns>Whether or not I am colliding with <paramref name="c"/>.</returns>
-        public bool IsCollidingWith(Collidable c)
+        public virtual bool IsCollidingWith(Collidable c)
         {
             return _bounds.IntersectsWith(c.GetBounds());
         }
 
-        public Rectangle GetBounds()
+        public virtual Rectangle GetBounds()
         {
             return _bounds;
         }
@@ -180,7 +180,7 @@ namespace ShootR
             UpdateBounds();
         }
 
-        public void UpdateBounds()
+        public virtual void UpdateBounds()
         {
             _bounds.X = Convert.ToInt32(MovementController.Position.X);
             _bounds.Y = Convert.ToInt32(MovementController.Position.Y);

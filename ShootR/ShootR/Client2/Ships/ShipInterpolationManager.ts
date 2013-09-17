@@ -7,7 +7,7 @@ module ShootR {
 
     export class ShipInterpolationManager implements eg.IUpdateable {
         // Buffer X payloads
-        public static PAYLOAD_BUFFER: number = 2;
+        public static PAYLOAD_BUFFER: number = 1;
 
         public Interpolating: boolean;
 

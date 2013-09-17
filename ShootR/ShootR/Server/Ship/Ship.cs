@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading;
-using Microsoft.AspNet.SignalR;
 namespace ShootR
 {
     /// <summary>
@@ -23,6 +23,7 @@ namespace ShootR
 
         private ShipClientVerifier _verifier;
         private ConcurrentQueue<Action> _enqueuedCommands;
+        private ShipSnapShotManager _snapShotManager;
 
         public Ship(Vector2 position, BulletManager bm)
             : base(WIDTH, HEIGHT, new ShipMovementController(position), new ShipLifeController(START_LIFE), new HarmlessDamageController())
@@ -40,6 +41,7 @@ namespace ShootR
 
             _enqueuedCommands = new ConcurrentQueue<Action>();
             _verifier = new ShipClientVerifier(MovementController);
+            _snapShotManager = new ShipSnapShotManager(this);
         }
 
         public string Name { get; set; }
@@ -74,6 +76,16 @@ namespace ShootR
             {
                 base.MovementController = value;
             }
+        }
+
+        public override Rectangle GetBounds()
+        {
+            return _snapShotManager.GetBoundsSnapShot();
+        }
+
+        public override bool IsCollidingWith(Collidable c)
+        {
+            return _snapShotManager.GetBoundsSnapShot().IntersectsWith(c.GetBounds());
         }
 
         public override void ResetFlags()
@@ -191,6 +203,7 @@ namespace ShootR
             WeaponController.Update(GameTime.Now);
             MovementController.Update(gameTime);
             AbilityHandler.Update(GameTime.Now);
+            _snapShotManager.Update(gameTime);
             base.Update();
 
             Action command;
