@@ -20,7 +20,8 @@ module ShootR {
         public OnStop: eg.EventHandler;
 
         public Activate(): void {
-            this._movementController.Moving.Forward = true;
+            this._movementController.StopAllMovement();
+            this._movementController.Moving.Forward = true;            
             this._movementController.Controllable = false;
 
             if (!this.Active) {

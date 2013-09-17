@@ -35,6 +35,9 @@ module ShootR {
         public HideLifeBar(): void {
             this._lifeBar.Visible = false;
         }
+
+        public Update(gameTime: eg.GameTime): void {
+        }
     }
     
 }

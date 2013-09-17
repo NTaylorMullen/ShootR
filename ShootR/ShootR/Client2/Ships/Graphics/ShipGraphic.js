@@ -37,6 +37,9 @@ var ShootR;
         ShipGraphic.prototype.HideLifeBar = function () {
             this._lifeBar.Visible = false;
         };
+
+        ShipGraphic.prototype.Update = function (gameTime) {
+        };
         return ShipGraphic;
     })(eg.Graphics.Rectangle);
     ShootR.ShipGraphic = ShipGraphic;

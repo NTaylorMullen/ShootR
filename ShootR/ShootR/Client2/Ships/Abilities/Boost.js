@@ -19,6 +19,7 @@ var ShootR;
             this.OnStop = new eg.EventHandler();
         }
         Boost.prototype.Activate = function () {
+            this._movementController.StopAllMovement();
             this._movementController.Moving.Forward = true;
             this._movementController.Controllable = false;
 
