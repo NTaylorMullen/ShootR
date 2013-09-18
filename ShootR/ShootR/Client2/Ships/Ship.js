@@ -38,7 +38,6 @@ var ShootR;
 
             // Updates rotation
             this.Graphic.RotateShip(this.MovementController.Rotation);
-            this.Graphic.Update(gameTime);
         };
 
         Ship.prototype.LoadPayload = function (payload) {

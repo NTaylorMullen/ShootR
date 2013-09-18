@@ -1,5 +1,6 @@
 /// <reference path="../../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="ShipLifeGraphic.ts" />
+/// <reference path="ShipDamageGraphic.ts" />
 /// <reference path="../Ship.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -16,10 +17,13 @@ var ShootR;
             _super.call(this, position.X, position.Y, size.Width, size.Height, eg.Graphics.Color.Transparent);
 
             this.Body = new eg.Graphics.Sprite2d(0, 0, contentManager.GetImage("Ship1"));
+            this._damageGraphic = new ShootR.ShipDamageGraphic(lifeController, contentManager);
             this._lifeBar = new ShootR.ShipLifeGraphic(lifeController);
 
             this.AddChild(this.Body);
             this.AddChild(this._lifeBar);
+
+            this.Body.AddChild(this._damageGraphic);
         }
         ShipGraphic.prototype.AddChildToShip = function (child) {
             this.Body.AddChild(child);
@@ -36,9 +40,6 @@ var ShootR;
 
         ShipGraphic.prototype.HideLifeBar = function () {
             this._lifeBar.Visible = false;
-        };
-
-        ShipGraphic.prototype.Update = function (gameTime) {
         };
         return ShipGraphic;
     })(eg.Graphics.Rectangle);

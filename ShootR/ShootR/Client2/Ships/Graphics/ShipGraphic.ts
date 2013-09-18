@@ -1,11 +1,13 @@
 /// <reference path="../../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="ShipLifeGraphic.ts" />
+/// <reference path="ShipDamageGraphic.ts" />
 /// <reference path="../Ship.ts" />
 
 module ShootR {
 
     export class ShipGraphic extends eg.Graphics.Rectangle {
         public Body: eg.Graphics.Sprite2d;
+        private _damageGraphic: ShipDamageGraphic;
         private _lifeBar: ShipLifeGraphic;
 
         constructor(lifeController: ShipLifeController, position: eg.Vector2d, size: eg.Size2d, contentManager: eg.Content.ContentManager) {
@@ -13,10 +15,13 @@ module ShootR {
             super(position.X, position.Y, size.Width, size.Height, eg.Graphics.Color.Transparent);
 
             this.Body = new eg.Graphics.Sprite2d(0, 0, contentManager.GetImage("Ship1"));
+            this._damageGraphic = new ShipDamageGraphic(lifeController, contentManager);
             this._lifeBar = new ShipLifeGraphic(lifeController);
 
             this.AddChild(this.Body);
             this.AddChild(this._lifeBar);
+
+            this.Body.AddChild(this._damageGraphic);
         }
 
         public AddChildToShip(child: eg.Graphics.Graphic2d): void {
@@ -34,9 +39,6 @@ module ShootR {
 
         public HideLifeBar(): void {
             this._lifeBar.Visible = false;
-        }
-
-        public Update(gameTime: eg.GameTime): void {
         }
     }
     

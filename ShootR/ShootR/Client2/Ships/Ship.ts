@@ -46,7 +46,6 @@ module ShootR {
 
             // Updates rotation
             this.Graphic.RotateShip(this.MovementController.Rotation);
-            this.Graphic.Update(gameTime);
         }
 
         public LoadPayload(payload: Server.IShipData): void {
