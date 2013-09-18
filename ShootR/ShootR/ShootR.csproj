@@ -155,11 +155,43 @@
     <Content Include="Client2\Bullets\BulletMovementController.js">
       <DependentUpon>BulletMovementController.ts</DependentUpon>
     </Content>
+    <Content Include="Client2\Powerups\HealthPack.js">
+      <DependentUpon>HealthPack.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Powerups\HealthPack.min.js">
+      <DependentUpon>HealthPack.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Powerups\Powerup.js">
+      <DependentUpon>Powerup.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Powerups\Powerup.min.js">
+      <DependentUpon>Powerup.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Powerups\PowerupManager.js">
+      <DependentUpon>PowerupManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Powerups\PowerupManager.min.js">
+      <DependentUpon>PowerupManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Ships\Abilities\Ability.js.map">
       <DependentUpon>Ability.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Client2\Common\LifeController.ts" />
     <TypeScriptCompile Include="Client2\Debug\DebugManager.ts" />
     <TypeScriptCompile Include="Client2\Debug\ServerGhost.ts" />
+    <Content Include="Client2\Powerups\HealthPack.js.map">
+      <DependentUpon>HealthPack.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client2\Powerups\Graphics\HealthPackGraphic.ts" />
+    <TypeScriptCompile Include="Client2\Powerups\HealthPack.ts" />
+    <Content Include="Client2\Powerups\Powerup.js.map">
+      <DependentUpon>Powerup.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client2\Powerups\Powerup.ts" />
+    <Content Include="Client2\Powerups\PowerupManager.js.map">
+      <DependentUpon>PowerupManager.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Client2\Powerups\PowerupManager.ts" />
     <TypeScriptCompile Include="Client2\Ships\Abilities\Ability.ts" />
     <Content Include="Client2\Ships\Abilities\Ability.js">
       <DependentUpon>Ability.ts</DependentUpon>
@@ -323,8 +355,8 @@
       <DependentUpon>MapBoundary.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client2\Utilities\UtilityFunctions.ts" />
-    <TypeScriptCompile Include="Client2\Utilities\Animation.ts" />
-    <Content Include="Client2\Utilities\Animation.js">
+    <TypeScriptCompile Include="Client2\Common\Animation.ts" />
+    <Content Include="Client2\Common\Animation.js">
       <DependentUpon>Animation.ts</DependentUpon>
     </Content>
     <Content Include="Client2\Utilities\UtilityFunctions.js">

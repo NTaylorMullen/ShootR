@@ -45,7 +45,7 @@ module ShootR {
 
             // Update positions first
             for (var id in this._bullets) {
-                // Check for "in-bounds" to see what ships we should destroy
+                // Check for "in-bounds" to see what bullets we should destroy
                 if (!this._bullets[id].Bounds.IntersectsRectangle(this._viewport)) {
                     this._bullets[id].Destroy(false);
                 }

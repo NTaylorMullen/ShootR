@@ -1,5 +1,5 @@
 /// <reference path="../../../Scripts/endgate-0.2.0-beta1.d.ts" />
-/// <reference path="../../Utilities/Animation.ts" />
+/// <reference path="../../Common/Animation.ts" />
 /// <reference path="../Ship.ts" />
 /// <reference path="ShipThrustAnimation.ts" />
 /// <reference path="ShipBoostAnimation.ts" />

@@ -5,6 +5,7 @@
 /// <reference path="Server/ServerAdapter.ts" />
 /// <reference path="Ships/ShipManager.ts" />
 /// <reference path="Bullets/BulletManager.ts" />
+/// <reference path="Powerups/PowerupManager.ts" />
 /// <reference path="User/UserShipManager.ts" />
 /// <reference path="Configuration/ConfigurationManager.ts" />
 /// <reference path="Space/Map.ts" />
@@ -31,12 +32,14 @@ var ShootR;
             this._shipManager = new ShootR.ShipManager(this.Scene.Camera, this.Scene, this.CollisionManager, this.Content);
             this._shipManager.Initialize(new ShootR.UserShipManager(initializationData.ShipID, this._shipManager, this.CollisionManager, this.Input, this.Scene.Camera, serverAdapter));
             this._bulletManager = new ShootR.BulletManager(this.Scene.Camera, this.Scene, this.Content);
+            this._powerupManager = new ShootR.PowerupManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new ShootR.Map(this.Scene, this.CollisionManager);
             this._debugManager = new ShootR.Debug.DebugManager(initializationData.ShipID, this);
 
             serverAdapter.OnPayload.Bind(function (payload) {
                 _this._shipManager.LoadPayload(payload);
                 _this._bulletManager.LoadPayload(payload);
+                _this._powerupManager.LoadPayload(payload);
                 _this._debugManager.LoadPayload(payload);
             });
             /*this._shipManager.LoadPayload([<any>{
@@ -94,6 +97,7 @@ var ShootR;
         Game.prototype.Update = function (gameTime) {
             this._shipManager.Update(gameTime);
             this._bulletManager.Update(gameTime);
+            this._powerupManager.Update(gameTime);
             this._debugManager.Update(gameTime);
         };
         return Game;

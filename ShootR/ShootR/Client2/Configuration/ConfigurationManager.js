@@ -8,11 +8,9 @@
 /// <reference path="../Ships/ShipLifeController.ts" />
 /////////////////// <reference path="../HUD/Leaderboard.ts" />
 /////////////////// <reference path="../HUD/DeathScreen.ts" />
-/////////////////// <reference path="../Space/Map.ts" />
 /// <reference path="../GameScreen.ts" />
-/////////////////// <reference path="../Powerups/HealthPack.ts" />
+/// <reference path="../Powerups/HealthPack.ts" />
 /// <reference path="../Game.ts" />
-/////////////////// <reference path="../Interfaces/IConfigurations.ts" />
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 var ShootR;
 (function (ShootR) {
@@ -46,9 +44,11 @@ var ShootR;
             ShootR.Bullet.BULLET_DIE_AFTER = eg.TimeSpan.FromMilliseconds(configuration.gameConfig.BULLET_DIE_AFTER);
             ShootR.Bullet.SIZE = new eg.Size2d(configuration.bulletConfig.WIDTH, configuration.bulletConfig.HEIGHT);
 
+            ShootR.HealthPack.SIZE = new eg.Size2d(configuration.healthPackConfig.WIDTH, configuration.healthPackConfig.HEIGHT);
+            ShootR.HealthPack.LIFE_SPAN = eg.TimeSpan.FromMilliseconds(configuration.healthPackConfig.LIFE_SPAN);
+
             //          $.extend(Leaderboard, configuration.leaderboardConfig);
             //$.extend(Game.prototype, configuration.gameConfig);
-            //$.extend(HealthPack, configuration.healthPackConfig);
             //DeathScreen.RESPAWN_TIMER = configuration.gameConfig.RESPAWN_TIMER;
             //ShipController.REQUEST_PING_EVERY = configuration.gameConfig.REQUEST_PING_EVERY;
             $.extend(this, configuration);

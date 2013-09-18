@@ -4,6 +4,7 @@ var ShootR;
     /// <reference path="../Ships/IMoving.ts" />
     /// <reference path="IPayloadDefinitions.ts" />
     /// <reference path="../Ships/Ship.ts" />
+    /// <reference path="../Powerups/HealthPack.ts" />
     (function (Server) {
         var PayloadDecompressor = (function () {
             function PayloadDecompressor(contracts) {
@@ -79,7 +80,7 @@ var ShootR;
             PayloadDecompressor.prototype.DecompressPowerup = function (data) {
                 return {
                     MovementController: {
-                        Position: new eg.Vector2d(data[this.PowerupContract.PositionX], data[this.PowerupContract.PositionY]),
+                        Position: new eg.Vector2d(data[this.PowerupContract.PositionX] + ShootR.HealthPack.SIZE.HalfWidth, data[this.PowerupContract.PositionY] + ShootR.HealthPack.SIZE.HalfHeight),
                         Rotation: 0
                     },
                     ID: data[this.PowerupContract.ID],

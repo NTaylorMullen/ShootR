@@ -2,6 +2,7 @@
 /// <reference path="../Ships/IMoving.ts" />
 /// <reference path="IPayloadDefinitions.ts" />
 /// <reference path="../Ships/Ship.ts" />
+/// <reference path="../Powerups/HealthPack.ts" />
 
 module ShootR.Server {
 
@@ -87,7 +88,7 @@ module ShootR.Server {
         private DecompressPowerup(data: any): IPowerupData {
             return {
                 MovementController: {
-                    Position: new eg.Vector2d(data[this.PowerupContract.PositionX], data[this.PowerupContract.PositionY]),
+                    Position: new eg.Vector2d(data[this.PowerupContract.PositionX] + HealthPack.SIZE.HalfWidth, data[this.PowerupContract.PositionY] + HealthPack.SIZE.HalfHeight),
                     Rotation: 0
                 },
                 ID: data[this.PowerupContract.ID],

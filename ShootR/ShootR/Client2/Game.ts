@@ -5,6 +5,7 @@
 /// <reference path="Server/ServerAdapter.ts" />
 /// <reference path="Ships/ShipManager.ts" />
 /// <reference path="Bullets/BulletManager.ts" />
+/// <reference path="Powerups/PowerupManager.ts" />
 /// <reference path="User/UserShipManager.ts" />
 /// <reference path="Configuration/ConfigurationManager.ts" />
 /// <reference path="Space/Map.ts" />
@@ -18,6 +19,7 @@ module ShootR {
         private _payloads: Array<Server.IPayloadData>;
         private _shipManager: ShipManager;
         private _bulletManager: BulletManager;
+        private _powerupManager: PowerupManager;
         private _debugManager: Debug.DebugManager;
         private _map: Map;
         private _shipGhost: Ship;
@@ -33,12 +35,14 @@ module ShootR {
             this._shipManager = new ShipManager(this.Scene.Camera, this.Scene, this.CollisionManager, this.Content);
             this._shipManager.Initialize(new UserShipManager(initializationData.ShipID, this._shipManager, this.CollisionManager, this.Input, this.Scene.Camera, serverAdapter));
             this._bulletManager = new BulletManager(this.Scene.Camera, this.Scene, this.Content);
+            this._powerupManager = new PowerupManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new Map(this.Scene, this.CollisionManager);
             this._debugManager = new Debug.DebugManager(initializationData.ShipID, this);
 
             serverAdapter.OnPayload.Bind((payload: Server.IPayloadData) => {
                 this._shipManager.LoadPayload(payload);
                 this._bulletManager.LoadPayload(payload);
+                this._powerupManager.LoadPayload(payload);
                 this._debugManager.LoadPayload(payload);
             });
 
@@ -98,6 +102,7 @@ module ShootR {
         public Update(gameTime: eg.GameTime): void {
             this._shipManager.Update(gameTime);
             this._bulletManager.Update(gameTime);
+            this._powerupManager.Update(gameTime);
             this._debugManager.Update(gameTime);
         }
     }
