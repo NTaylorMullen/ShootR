@@ -10,7 +10,7 @@ module ShootR {
         private _background: eg.Graphics.Sprite2d;
         private _boundaries: Array<MapBoundary>;
 
-        constructor(private _scene: eg.Rendering.Scene2d, private _collisionManager: eg.Collision.CollisionManager) {
+        constructor(private _scene: eg.Rendering.Scene2d, private _collisionManager: eg.Collision.CollisionManager, private _contentManager: eg.Content.ContentManager) {
             this.BuildBackground();
             this.BuildBoundaries();
         }
@@ -18,21 +18,28 @@ module ShootR {
         private BuildBackground(): void {
             var cache: HTMLCanvasElement,
                 context: CanvasRenderingContext2D,
-                source: eg.Graphics.ImageSource = new eg.Graphics.ImageSource("/Images/bg_stars.png");
+                source: eg.Graphics.ImageSource = this._contentManager.GetImage("StarBackground"),
+                build = () => {
+                    cache = document.createElement("canvas");
+                    cache.width = Map.SIZE.Width + this._scene.Camera.Size.Width;
+                    cache.height = Map.SIZE.Height + this._scene.Camera.Size.Height;
+                    context = cache.getContext("2d");
 
-            cache = document.createElement("canvas");
-            cache.width = Map.SIZE.Width + this._scene.Camera.Size.Width;
-            cache.height = Map.SIZE.Height + this._scene.Camera.Size.Height;
-            context = cache.getContext("2d");
+                    context.fillStyle = context.createPattern(source.Source, "repeat");
+                    context.fillRect(0, 0, cache.width, cache.height);
 
-            context.fillStyle = context.createPattern(source.Source, "repeat");
-            context.fillRect(0, 0, cache.width, cache.height);
+                    // Make the background larger than the map so stars appear beyond the borders
+                    this._background = new eg.Graphics.Sprite2d(Map.SIZE.HalfWidth, Map.SIZE.HalfHeight, new eg.Graphics.ImageSource((<any>cache), Map.SIZE.Width + this._scene.Camera.Size.Width, Map.SIZE.Height + this._scene.Camera.Size.Height), Map.SIZE.Width + this._scene.Camera.Size.Width, Map.SIZE.Height + this._scene.Camera.Size.Height);
+                    this._background.ZIndex = -2;
 
-            // Make the background larger than the map so stars appear beyond the borders
-            this._background = new eg.Graphics.Sprite2d(Map.SIZE.HalfWidth, Map.SIZE.HalfHeight, new eg.Graphics.ImageSource((<any>cache), Map.SIZE.Width + this._scene.Camera.Size.Width, Map.SIZE.Height + this._scene.Camera.Size.Height), Map.SIZE.Width + this._scene.Camera.Size.Width, Map.SIZE.Height + this._scene.Camera.Size.Height);
-            this._background.ZIndex = -2;
+                    this._scene.Add(this._background);
+                };
 
-            this._scene.Add(this._background);
+            if (source.IsLoaded()) {
+                build();
+            } else {
+                source.OnLoaded.Bind(build);
+            }
         }
 
         private BuildBoundaries(): void {

@@ -33,7 +33,7 @@ var ShootR;
             this._shipManager.Initialize(new ShootR.UserShipManager(initializationData.ShipID, this._shipManager, this.CollisionManager, this.Input, this.Scene.Camera, serverAdapter));
             this._bulletManager = new ShootR.BulletManager(this.Scene.Camera, this.Scene, this.Content);
             this._powerupManager = new ShootR.PowerupManager(this.Scene.Camera, this.Scene, this.Content);
-            this._map = new ShootR.Map(this.Scene, this.CollisionManager);
+            this._map = new ShootR.Map(this.Scene, this.CollisionManager, this.Content);
             this._debugManager = new ShootR.Debug.DebugManager(initializationData.ShipID, this);
 
             serverAdapter.OnPayload.Bind(function (payload) {
@@ -68,6 +68,7 @@ var ShootR;
             }]);*/
         }
         Game.prototype.LoadContent = function () {
+            this.Content.LoadImage("StarBackground", "/Images/bg_stars.png", 500, 500);
             this.Content.LoadImage("BulletExplosion", "/Images/SpriteSheets/explosion_1.png", 320, 320);
             this.Content.LoadImage("ShipExplosion", "/Images/SpriteSheets/explosion_2.png", 768, 640);
             this.Content.LoadImage("Bullet", "/Images/Laser.png", 13, 13);
