@@ -34,6 +34,8 @@ namespace ShootR
                 .Include("~/Client2/Configuration/ConfigurationManager.js")
                 .Include("~/Client2/GameScreen.js")
                 .Include("~/Client2/Space/MapBoundary.js")
+                .Include("~/Client2/Space/Area.js")
+                .Include("~/Client2/Space/AreaRenderer.js")
                 .Include("~/Client2/Space/Map.js")
                 .Include("~/Client2/Powerups/Graphics/HealthPackGraphic.js")
                 .Include("~/Client2/Powerups/Powerup.js")

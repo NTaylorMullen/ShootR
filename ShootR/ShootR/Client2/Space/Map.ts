@@ -1,5 +1,6 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="MapBoundary.ts" />
+/// <reference path="AreaRenderer.ts" />
 
 module ShootR {
 
@@ -9,10 +10,12 @@ module ShootR {
 
         private _background: eg.Graphics.Sprite2d;
         private _boundaries: Array<MapBoundary>;
+        private _areaRenderer: AreaRenderer;
 
-        constructor(private _scene: eg.Rendering.Scene2d, private _collisionManager: eg.Collision.CollisionManager, private _contentManager: eg.Content.ContentManager) {
+        constructor(private _scene: eg.Rendering.Scene2d, private _collisionManager: eg.Collision.CollisionManager, private _contentManager: eg.Content.ContentManager, private _keyboard: eg.Input.KeyboardHandler) {
             this.BuildBackground();
             this.BuildBoundaries();
+            this.BuildAreas();
         }
 
         private BuildBackground(): void {
@@ -58,6 +61,11 @@ module ShootR {
                 this._scene.Add(boundary.Graphic);
                 this._boundaries.push(boundary);
             }
+        }
+
+        private BuildAreas(): void {
+            this._areaRenderer = new AreaRenderer(this._scene, this._keyboard);
+            this._areaRenderer.OnMapResize(Map.SIZE);
         }
     }
 

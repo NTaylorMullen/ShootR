@@ -1,14 +1,17 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="MapBoundary.ts" />
+/// <reference path="AreaRenderer.ts" />
 var ShootR;
 (function (ShootR) {
     var Map = (function () {
-        function Map(_scene, _collisionManager, _contentManager) {
+        function Map(_scene, _collisionManager, _contentManager, _keyboard) {
             this._scene = _scene;
             this._collisionManager = _collisionManager;
             this._contentManager = _contentManager;
+            this._keyboard = _keyboard;
             this.BuildBackground();
             this.BuildBoundaries();
+            this.BuildAreas();
         }
         Map.prototype.BuildBackground = function () {
             var _this = this;
@@ -46,6 +49,11 @@ var ShootR;
                 this._scene.Add(boundary.Graphic);
                 this._boundaries.push(boundary);
             }
+        };
+
+        Map.prototype.BuildAreas = function () {
+            this._areaRenderer = new ShootR.AreaRenderer(this._scene, this._keyboard);
+            this._areaRenderer.OnMapResize(Map.SIZE);
         };
         return Map;
     })();
