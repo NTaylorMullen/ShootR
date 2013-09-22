@@ -39,12 +39,13 @@ module ShootR {
             this._powerupManager = new PowerupManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new Map(this.Scene, this.CollisionManager, this.Content, this.Input.Keyboard);
             this._debugManager = new Debug.DebugManager(initializationData.ShipID, this);
-            this._hud = new HUDManager(initializationData.ShipID, this._shipManager, serverAdapter);
+            this._hud = new HUDManager(initializationData.ShipID, this._shipManager);
 
             serverAdapter.OnPayload.Bind((payload: Server.IPayloadData) => {
                 this._shipManager.LoadPayload(payload);
                 this._bulletManager.LoadPayload(payload);
                 this._powerupManager.LoadPayload(payload);
+                this._hud.LoadPayload(payload);
                 this._debugManager.LoadPayload(payload);
             });
 

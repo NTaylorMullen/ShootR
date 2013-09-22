@@ -72,7 +72,7 @@ declare module ShootR.Server {
         Ships: Array<IShipData>;
         Powerups: Array<IPowerupData>;
         Bullets: Array<IBulletData>;
-        LeaderboardPosition: ILeaderboardEntryData;
+        LeaderboardPosition: number;
         Kills: number;
         Deaths: number;
         ShipsInWorld: number;

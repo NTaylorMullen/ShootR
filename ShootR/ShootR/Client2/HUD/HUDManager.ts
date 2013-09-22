@@ -1,9 +1,10 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="../Server/ServerAdapter.ts" />
+/// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="ShipStatMonitor.ts" />
 /// <reference path="HealthMonitor.ts" />
 /// <reference path="ExperienceMonitor.ts" />
+/// <reference path="RankingsManager.ts" />
 
 module ShootR {
 
@@ -16,12 +17,14 @@ module ShootR {
         private _shipStatMonitor: ShipStatMonitor;
         private _shipHealthMonitor: HealthMonitor;
         private _shipExperienceMonitor: ExperienceMonitor;
+        private _rankingsManager: RankingsManager;
 
-        constructor(private _myShipId: number, private _shipManager: ShipManager, serverAdapter: Server.ServerAdapter) {
+        constructor(private _myShipId: number, private _shipManager: ShipManager) {
             this._gameHUDHeight = this._gameHUD.height();
             this._shipStatMonitor = new ShipStatMonitor();
             this._shipHealthMonitor = new HealthMonitor();
             this._shipExperienceMonitor = new ExperienceMonitor();
+            this._rankingsManager = new RankingsManager();
         }
 
         public OnMapResize(newSize: eg.Size2d): void {
@@ -53,6 +56,10 @@ module ShootR {
         public CenterDoublePopup(newViewport: eg.Size2d): void {
             // The left is handled by the css
             this._doublePopupHolder.css("top", ((newViewport.Height - this._gameHUDHeight) / 2) - this._doublePopupHolder.height() / 2);
+        }
+
+        public LoadPayload(payload: Server.IPayloadData): void {
+            this._rankingsManager.LoadPayload(payload);
         }
 
         public Update(gameTime: eg.GameTime): void {
