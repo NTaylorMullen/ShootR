@@ -5,6 +5,7 @@
 /// <reference path="HealthMonitor.ts" />
 /// <reference path="ExperienceMonitor.ts" />
 /// <reference path="RankingsManager.ts" />
+/// <reference path="EnvironmentMonitor.ts" />
 var ShootR;
 (function (ShootR) {
     var HUDManager = (function () {
@@ -20,6 +21,7 @@ var ShootR;
             this._shipHealthMonitor = new ShootR.HealthMonitor();
             this._shipExperienceMonitor = new ShootR.ExperienceMonitor();
             this._rankingsManager = new ShootR.RankingsManager();
+            this._environmentMonitor = new ShootR.EnvironmentMonitor();
         }
         HUDManager.prototype.OnMapResize = function (newSize) {
         };
@@ -50,6 +52,7 @@ var ShootR;
 
         HUDManager.prototype.LoadPayload = function (payload) {
             this._rankingsManager.LoadPayload(payload);
+            this._environmentMonitor.LoadPayload(payload);
         };
 
         HUDManager.prototype.Update = function (gameTime) {

@@ -5,6 +5,7 @@
 /// <reference path="HealthMonitor.ts" />
 /// <reference path="ExperienceMonitor.ts" />
 /// <reference path="RankingsManager.ts" />
+/// <reference path="EnvironmentMonitor.ts" />
 
 module ShootR {
 
@@ -18,6 +19,7 @@ module ShootR {
         private _shipHealthMonitor: HealthMonitor;
         private _shipExperienceMonitor: ExperienceMonitor;
         private _rankingsManager: RankingsManager;
+        private _environmentMonitor: EnvironmentMonitor;
 
         constructor(private _myShipId: number, private _shipManager: ShipManager) {
             this._gameHUDHeight = this._gameHUD.height();
@@ -25,6 +27,7 @@ module ShootR {
             this._shipHealthMonitor = new HealthMonitor();
             this._shipExperienceMonitor = new ExperienceMonitor();
             this._rankingsManager = new RankingsManager();
+            this._environmentMonitor = new EnvironmentMonitor();
         }
 
         public OnMapResize(newSize: eg.Size2d): void {
@@ -60,6 +63,7 @@ module ShootR {
 
         public LoadPayload(payload: Server.IPayloadData): void {
             this._rankingsManager.LoadPayload(payload);
+            this._environmentMonitor.LoadPayload(payload);
         }
 
         public Update(gameTime: eg.GameTime): void {
