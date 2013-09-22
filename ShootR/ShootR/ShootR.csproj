@@ -155,6 +155,12 @@
     <Content Include="Client2\Bullets\BulletMovementController.js">
       <DependentUpon>BulletMovementController.ts</DependentUpon>
     </Content>
+    <Content Include="Client2\HUD\ExperienceMonitor.js">
+      <DependentUpon>ExperienceMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\ExperienceMonitor.min.js">
+      <DependentUpon>ExperienceMonitor.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\HUD\HealthMonitor.js">
       <DependentUpon>HealthMonitor.ts</DependentUpon>
     </Content>
@@ -198,6 +204,10 @@
       <DependentUpon>HealthMonitor.ts</DependentUpon>
     </Content>
     <Content Include="Client2\HUD\HealthMonitor.ts" />
+    <Content Include="Client2\HUD\ExperienceMonitor.js.map">
+      <DependentUpon>ExperienceMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\ExperienceMonitor.ts" />
     <TypeScriptCompile Include="Client2\HUD\HUDManager.ts" />
     <Content Include="Client2\HUD\ShipStatMonitor.js.map">
       <DependentUpon>ShipStatMonitor.ts</DependentUpon>

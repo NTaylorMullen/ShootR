@@ -3,6 +3,7 @@
 /// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="ShipStatMonitor.ts" />
 /// <reference path="HealthMonitor.ts" />
+/// <reference path="ExperienceMonitor.ts" />
 var ShootR;
 (function (ShootR) {
     var HUDManager = (function () {
@@ -16,6 +17,7 @@ var ShootR;
             this._gameHUDHeight = this._gameHUD.height();
             this._shipStatMonitor = new ShootR.ShipStatMonitor();
             this._shipHealthMonitor = new ShootR.HealthMonitor();
+            this._shipExperienceMonitor = new ShootR.ExperienceMonitor();
         }
         HUDManager.prototype.OnMapResize = function (newSize) {
         };
@@ -50,6 +52,7 @@ var ShootR;
             if (ship) {
                 this._shipStatMonitor.Update(ship);
                 this._shipHealthMonitor.Update(ship);
+                this._shipExperienceMonitor.Update(ship);
             }
         };
         return HUDManager;

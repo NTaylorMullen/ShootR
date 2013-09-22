@@ -3,6 +3,7 @@
 /// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="ShipStatMonitor.ts" />
 /// <reference path="HealthMonitor.ts" />
+/// <reference path="ExperienceMonitor.ts" />
 
 module ShootR {
 
@@ -14,11 +15,13 @@ module ShootR {
         private _shipStats: JQuery = $("#StatisticHolder");
         private _shipStatMonitor: ShipStatMonitor;
         private _shipHealthMonitor: HealthMonitor;
+        private _shipExperienceMonitor: ExperienceMonitor;
 
         constructor(private _myShipId: number, private _shipManager: ShipManager, serverAdapter: Server.ServerAdapter) {
             this._gameHUDHeight = this._gameHUD.height();
             this._shipStatMonitor = new ShipStatMonitor();
             this._shipHealthMonitor = new HealthMonitor();
+            this._shipExperienceMonitor = new ExperienceMonitor();
         }
 
         public OnMapResize(newSize: eg.Size2d): void {
@@ -58,6 +61,7 @@ module ShootR {
             if (ship) {
                 this._shipStatMonitor.Update(ship);
                 this._shipHealthMonitor.Update(ship);
+                this._shipExperienceMonitor.Update(ship);
             }
         }
     }

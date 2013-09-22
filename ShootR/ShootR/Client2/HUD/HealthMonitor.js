@@ -26,8 +26,6 @@ var ShootR;
                 this._maxHealth = ship.LifeController.MaxHealth;
 
                 if (ship.LifeController.Health < this._lastHealth) {
-                    var healthDecrease = ship.LifeController.Health - this._lastHealth;
-
                     if (ship.LifeController.Health <= 0) {
                         this._whiteHeartIndicator.fadeOut(HealthMonitor.ANIMATE_SPEED);
                         this._whiteHeartVisible = false;
@@ -36,8 +34,6 @@ var ShootR;
                     if (!this._whiteHeartVisible) {
                         this._whiteHeartVisible = true;
                         this._whiteHeartIndicator.fadeIn(HealthMonitor.ANIMATE_SPEED);
-                    } else {
-                        var healthIncrease = (ship.LifeController.Health - this._lastHealth);
                     }
                 }
 
