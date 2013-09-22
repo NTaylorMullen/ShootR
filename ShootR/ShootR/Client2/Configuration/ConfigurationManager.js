@@ -18,6 +18,7 @@ var ShootR;
         function ConfigurationManager(configuration) {
             // Update the prototypes from the config
             ShootR.Ship.SIZE = new eg.Size2d(configuration.shipConfig.WIDTH, configuration.shipConfig.HEIGHT);
+            ShootR.Ship.DAMAGE_INCREASE_RATE = configuration.shipConfig.DAMAGE_INCREASE_RATE;
 
             ShootR.ShipFireController.MIN_FIRE_RATE = eg.TimeSpan.FromMilliseconds(configuration.shipConfig.MIN_FIRE_RATE);
 

@@ -10,6 +10,7 @@
 /// <reference path="Configuration/ConfigurationManager.ts" />
 /// <reference path="Space/Map.ts" />
 /// <reference path="GameScreen.ts" />
+/// <reference path="HUD/HUDManager.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -35,6 +36,7 @@ var ShootR;
             this._powerupManager = new ShootR.PowerupManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new ShootR.Map(this.Scene, this.CollisionManager, this.Content, this.Input.Keyboard);
             this._debugManager = new ShootR.Debug.DebugManager(initializationData.ShipID, this);
+            this._hud = new ShootR.HUDManager(initializationData.ShipID, this._shipManager, serverAdapter);
 
             serverAdapter.OnPayload.Bind(function (payload) {
                 _this._shipManager.LoadPayload(payload);
@@ -42,30 +44,10 @@ var ShootR;
                 _this._powerupManager.LoadPayload(payload);
                 _this._debugManager.LoadPayload(payload);
             });
-            /*this._shipManager.LoadPayload([<any>{
-            ID: initializationData.ShipID,
-            Level: 1,
-            MovementController: {
-            Moving: {
-            Forward: false,
-            Backward: false,
-            RotatingLeft: false,
-            RotatingRight: false
-            },
-            Forces: eg.Vector2d.Zero,
-            Mass: ShipMovementController.MASS,
-            Rotation: 0,
-            Position: new eg.Vector2d(500, 500),
-            Velocity: eg.Vector2d.Zero
-            },
-            Abilities: null,
-            Collided: null,
-            CollidedAt: null,
-            Disposed: false,
-            MaxLife: 10000,
-            LifeController: null,
-            Name: "Taylor"
-            }]);*/
+
+            gameScreen.OnResize.Bind(function (newSize) {
+                _this._hud.OnScreenResize(newSize);
+            });
         }
         Game.prototype.LoadContent = function () {
             this.Content.LoadImage("StarBackground", "/Images/bg_stars.png", 500, 500);
@@ -99,6 +81,7 @@ var ShootR;
             this._shipManager.Update(gameTime);
             this._bulletManager.Update(gameTime);
             this._powerupManager.Update(gameTime);
+            this._hud.Update(gameTime);
             this._debugManager.Update(gameTime);
         };
         return Game;

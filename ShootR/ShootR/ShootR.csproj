@@ -155,6 +155,18 @@
     <Content Include="Client2\Bullets\BulletMovementController.js">
       <DependentUpon>BulletMovementController.ts</DependentUpon>
     </Content>
+    <Content Include="Client2\HUD\HealthMonitor.js">
+      <DependentUpon>HealthMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\HealthMonitor.min.js">
+      <DependentUpon>HealthMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\ShipStatMonitor.js">
+      <DependentUpon>ShipStatMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\ShipStatMonitor.min.js">
+      <DependentUpon>ShipStatMonitor.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Powerups\HealthPack.js">
       <DependentUpon>HealthPack.ts</DependentUpon>
     </Content>
@@ -182,6 +194,15 @@
     <Content Include="Client2\Powerups\HealthPack.js.map">
       <DependentUpon>HealthPack.ts</DependentUpon>
     </Content>
+    <Content Include="Client2\HUD\HealthMonitor.js.map">
+      <DependentUpon>HealthMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\HealthMonitor.ts" />
+    <TypeScriptCompile Include="Client2\HUD\HUDManager.ts" />
+    <Content Include="Client2\HUD\ShipStatMonitor.js.map">
+      <DependentUpon>ShipStatMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\ShipStatMonitor.ts" />
     <TypeScriptCompile Include="Client2\Powerups\Graphics\HealthPackGraphic.ts" />
     <TypeScriptCompile Include="Client2\Powerups\HealthPack.ts" />
     <Content Include="Client2\Powerups\Powerup.js.map">
@@ -309,6 +330,7 @@
     <Content Include="Client2\Server\ServerConnectionManager.js">
       <DependentUpon>ServerConnectionManager.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Client2\Ships\Levels\ShipLevelManager.ts" />
     <TypeScriptCompile Include="Client2\Ships\Ship.ts" />
     <Content Include="Client2\Ships\Ship.js">
       <DependentUpon>Ship.ts</DependentUpon>

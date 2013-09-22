@@ -29,6 +29,7 @@ module ShootR {
         constructor(configuration: Server.IConfigurationManager) {
             // Update the prototypes from the config
             Ship.SIZE = new eg.Size2d(configuration.shipConfig.WIDTH, configuration.shipConfig.HEIGHT);
+            Ship.DAMAGE_INCREASE_RATE = configuration.shipConfig.DAMAGE_INCREASE_RATE;
 
             ShipFireController.MIN_FIRE_RATE = eg.TimeSpan.FromMilliseconds(configuration.shipConfig.MIN_FIRE_RATE);
 

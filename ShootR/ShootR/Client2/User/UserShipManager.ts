@@ -88,6 +88,7 @@ module ShootR {
             if (ship) {
                 ship.Graphic.HideLifeBar();
                 ship.MovementController.UserControlled = true;
+                ship.LevelManager.UpdateExperience(payload.Experience, payload.ExperienceToNextLevel);
 
                 if (this._commandList.length >= 1) {
                     serverCommandIndex = this._commandList.length - (this._currentCommand - serverCommand);

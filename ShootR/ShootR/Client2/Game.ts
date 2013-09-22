@@ -10,6 +10,7 @@
 /// <reference path="Configuration/ConfigurationManager.ts" />
 /// <reference path="Space/Map.ts" />
 /// <reference path="GameScreen.ts" />
+/// <reference path="HUD/HUDManager.ts" />
 
 module ShootR {
 
@@ -22,7 +23,7 @@ module ShootR {
         private _powerupManager: PowerupManager;
         private _debugManager: Debug.DebugManager;
         private _map: Map;
-        private _shipGhost: Ship;
+        private _hud: HUDManager;
 
         constructor(gameCanvas: HTMLCanvasElement, gameScreen: GameScreen, serverAdapter: Server.ServerAdapter, initializationData: Server.IClientInitialization) {
             super(gameCanvas);
@@ -38,6 +39,7 @@ module ShootR {
             this._powerupManager = new PowerupManager(this.Scene.Camera, this.Scene, this.Content);
             this._map = new Map(this.Scene, this.CollisionManager, this.Content, this.Input.Keyboard);
             this._debugManager = new Debug.DebugManager(initializationData.ShipID, this);
+            this._hud = new HUDManager(initializationData.ShipID, this._shipManager, serverAdapter);
 
             serverAdapter.OnPayload.Bind((payload: Server.IPayloadData) => {
                 this._shipManager.LoadPayload(payload);
@@ -46,30 +48,9 @@ module ShootR {
                 this._debugManager.LoadPayload(payload);
             });
 
-            /*this._shipManager.LoadPayload([<any>{
-                ID: initializationData.ShipID,
-                Level: 1,
-                MovementController: {
-                    Moving: {
-                        Forward: false,
-                        Backward: false,
-                        RotatingLeft: false,
-                        RotatingRight: false
-                    },
-                    Forces: eg.Vector2d.Zero,
-                    Mass: ShipMovementController.MASS,
-                    Rotation: 0,
-                    Position: new eg.Vector2d(500, 500),
-                    Velocity: eg.Vector2d.Zero
-                },
-                Abilities: null,
-                Collided: null,
-                CollidedAt: null,
-                Disposed: false,
-                MaxLife: 10000,
-                LifeController: null,
-                Name: "Taylor"
-            }]);*/
+            gameScreen.OnResize.Bind((newSize: eg.Size2d) => {
+                this._hud.OnScreenResize(newSize);
+            });
         }
 
         public LoadContent(): void {
@@ -104,7 +85,8 @@ module ShootR {
             this._shipManager.Update(gameTime);
             this._bulletManager.Update(gameTime);
             this._powerupManager.Update(gameTime);
-            this._debugManager.Update(gameTime);
+            this._hud.Update(gameTime);
+            this._debugManager.Update(gameTime);            
         }
     }
 

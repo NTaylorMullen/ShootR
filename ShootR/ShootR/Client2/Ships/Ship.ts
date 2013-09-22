@@ -5,11 +5,13 @@
 /// <reference path="Animations/ShipAnimationHandler.ts" />
 /// <reference path="ShipMovementController.ts" />
 /// <reference path="ShipLifeController.ts" />
+/// <reference path="Levels/ShipLevelManager.ts" />
 
 module ShootR {
 
     export class Ship extends eg.Collision.Collidable {
-        public static SIZE: eg.Size2d = new eg.Size2d(75, 75);
+        public static SIZE: eg.Size2d = new eg.Size2d(75);
+        public static DAMAGE_INCREASE_RATE: number = .1;
 
         public ID: number;
         public Graphic: ShipGraphic;
@@ -17,6 +19,7 @@ module ShootR {
         public AbilityHandler: ShipAbilityHandler;
         public AnimationHandler: ShipAnimationHandler;
         public LifeController: ShipLifeController;
+        public LevelManager: ShipLevelManager;
 
         private _destroyed: boolean;
 
@@ -33,6 +36,7 @@ module ShootR {
             this.MovementController = new ShipMovementController(new Array<eg.IMoveable>(this.Bounds, this.Graphic));
             this.AbilityHandler = new ShipAbilityHandler(this);            
             this.AnimationHandler = new ShipAnimationHandler(this, contentManager);
+            this.LevelManager = new ShipLevelManager(payload);
 
             this.LoadPayload(payload);
         }
@@ -52,6 +56,7 @@ module ShootR {
             this.ID = payload.ID;
             this.MovementController.LoadPayload(payload.MovementController);
             this.LifeController.LoadPayload(payload);
+            this.LevelManager.LoadPayload(payload);
         }
 
         public Destroy(explode: boolean = false): void {

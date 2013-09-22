@@ -5,6 +5,7 @@
 /// <reference path="Animations/ShipAnimationHandler.ts" />
 /// <reference path="ShipMovementController.ts" />
 /// <reference path="ShipLifeController.ts" />
+/// <reference path="Levels/ShipLevelManager.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -28,6 +29,7 @@ var ShootR;
             this.MovementController = new ShootR.ShipMovementController(new Array(this.Bounds, this.Graphic));
             this.AbilityHandler = new ShootR.ShipAbilityHandler(this);
             this.AnimationHandler = new ShootR.ShipAnimationHandler(this, contentManager);
+            this.LevelManager = new ShootR.ShipLevelManager(payload);
 
             this.LoadPayload(payload);
         }
@@ -44,6 +46,7 @@ var ShootR;
             this.ID = payload.ID;
             this.MovementController.LoadPayload(payload.MovementController);
             this.LifeController.LoadPayload(payload);
+            this.LevelManager.LoadPayload(payload);
         };
 
         Ship.prototype.Destroy = function (explode) {
@@ -62,7 +65,8 @@ var ShootR;
                 }
             }
         };
-        Ship.SIZE = new eg.Size2d(75, 75);
+        Ship.SIZE = new eg.Size2d(75);
+        Ship.DAMAGE_INCREASE_RATE = .1;
         return Ship;
     })(eg.Collision.Collidable);
     ShootR.Ship = Ship;
