@@ -36,12 +36,7 @@ var ShootR;
                 this.Wire();
 
                 this._connection.start().done(function () {
-                    _this.Proxy.invoke("initializeClient", userInformation.RegistrationID).done(function (initialization) {
-                        if (!initialization) {
-                            alert("Error, refresh!");
-                            return;
-                        }
-
+                    _this.TryInitialize(userInformation, function (initialization) {
                         initialization.UserInformation = userInformation;
                         _this._payloadDecompressor = new Server.PayloadDecompressor(initialization.CompressionContracts);
 
@@ -56,6 +51,24 @@ var ShootR;
 
             ServerAdapter.prototype.Stop = function () {
                 this._connection.stop();
+            };
+
+            ServerAdapter.prototype.TryInitialize = function (userInformation, onComplete, count) {
+                if (typeof count === "undefined") { count = 0; }
+                var _this = this;
+                this.Proxy.invoke("initializeClient", userInformation.RegistrationID).done(function (initialization) {
+                    if (!initialization) {
+                        if (count >= ServerAdapter.NEGOTIATE_RETRIES) {
+                            alert("Could not negotiate with server, please refresh the page.");
+                        } else {
+                            setTimeout(function () {
+                                _this.TryInitialize(userInformation, onComplete, count + 1);
+                            }, ServerAdapter.RETRY_DELAY.Milliseconds);
+                        }
+                    } else {
+                        onComplete(initialization);
+                    }
+                });
             };
 
             ServerAdapter.prototype.Wire = function () {
@@ -80,6 +93,8 @@ var ShootR;
                     _this.OnPingRequest.Trigger();
                 });
             };
+            ServerAdapter.NEGOTIATE_RETRIES = 3;
+            ServerAdapter.RETRY_DELAY = eg.TimeSpan.FromSeconds(1);
             return ServerAdapter;
         })();
         Server.ServerAdapter = ServerAdapter;

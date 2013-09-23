@@ -9,6 +9,9 @@
 module ShootR.Server {
 
     export class ServerAdapter {
+        public static NEGOTIATE_RETRIES: number = 3;
+        public static RETRY_DELAY: eg.TimeSpan = eg.TimeSpan.FromSeconds(1);
+
         public OnPayload: eg.EventHandler1<IPayloadData>;
         public OnLeaderboardUpdate: eg.EventHandler1<Array<ILeaderboardEntryData>>;
         public OnForcedDisconnct: eg.EventHandler;
@@ -43,12 +46,7 @@ module ShootR.Server {
             this.Wire();
 
             this._connection.start().done(() => {
-                this.Proxy.invoke("initializeClient", userInformation.RegistrationID).done((initialization: IClientInitialization) => {
-                    if (!initialization) {
-                        alert("Error, refresh!");
-                        return;
-                    }
-
+                this.TryInitialize(userInformation, (initialization: IClientInitialization) => {
                     initialization.UserInformation = userInformation;
                     this._payloadDecompressor = new PayloadDecompressor(initialization.CompressionContracts);
 
@@ -63,6 +61,22 @@ module ShootR.Server {
 
         public Stop(): void {
             this._connection.stop();
+        }
+
+        private TryInitialize(userInformation: IUserInformation, onComplete: (initialization: IClientInitialization) => void, count: number = 0): void {
+            this.Proxy.invoke("initializeClient", userInformation.RegistrationID).done((initialization: IClientInitialization) => {
+                if (!initialization) {
+                    if (count >= ServerAdapter.NEGOTIATE_RETRIES) {
+                        alert("Could not negotiate with server, please refresh the page.");
+                    } else {
+                        setTimeout(() => {
+                            this.TryInitialize(userInformation, onComplete, count + 1);
+                        }, ServerAdapter.RETRY_DELAY.Milliseconds);
+                    }
+                } else {
+                    onComplete(initialization);
+                }
+            });
         }
 
         private Wire(): void {
