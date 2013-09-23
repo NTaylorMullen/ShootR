@@ -14,7 +14,7 @@ var ShootR;
             this._healthText = $("#HealthText");
             this._gameWrapper = $("#gameWrapper");
             this._whiteHeartVisible = true;
-            this._lastHealth = ShootR.ShipLifeController.START_LIFE;
+            this._lastHealth = 0;
             this._halfHeartWidth = .5 * this._currentHealthHeart.width();
         }
         HealthMonitor.prototype.OnScreenResize = function () {

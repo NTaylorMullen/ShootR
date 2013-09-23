@@ -19,7 +19,7 @@ module ShootR {
 
         constructor() {
             this._lastExperience = 0;
-            this._lastLevel = 1;
+            this._lastLevel = -1;
             this._lastExperienceToNextLevel = 0;
         }
 

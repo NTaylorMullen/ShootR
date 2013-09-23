@@ -12,7 +12,7 @@ var ShootR;
             this._currentLevelNotification = $("#CurrentLevel_Notification");
             this._popupHolder = $("#popUpHolder");
             this._lastExperience = 0;
-            this._lastLevel = 1;
+            this._lastLevel = -1;
             this._lastExperienceToNextLevel = 0;
         }
         ExperienceMonitor.prototype.Update = function (ship) {

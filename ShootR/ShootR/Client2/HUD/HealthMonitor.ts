@@ -20,7 +20,7 @@ module ShootR {
         private _whiteHeartVisible: boolean = true;
 
         constructor() {
-            this._lastHealth = ShipLifeController.START_LIFE;
+            this._lastHealth = 0;
             this._halfHeartWidth = .5 * this._currentHealthHeart.width();
         }
 
