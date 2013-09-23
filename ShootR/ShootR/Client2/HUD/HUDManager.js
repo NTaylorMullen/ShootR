@@ -8,6 +8,7 @@
 /// <reference path="RankingsManager.ts" />
 /// <reference path="EnvironmentMonitor.ts" />
 /// <reference path="LeaderboardManager.ts" />
+/// <reference path="DeathScreen.ts" />
 var ShootR;
 (function (ShootR) {
     var HUDManager = (function () {
@@ -25,6 +26,7 @@ var ShootR;
             this._rankingsManager = new ShootR.RankingsManager();
             this._environmentMonitor = new ShootR.EnvironmentMonitor();
             this._leaderboardManager = new ShootR.LeaderboardManager(this._myShipId, keyboard, serverAdapter);
+            this._deathScreen = new ShootR.DeathScreen();
         }
         HUDManager.prototype.OnMapResize = function (newSize) {
         };
@@ -56,6 +58,7 @@ var ShootR;
         HUDManager.prototype.LoadPayload = function (payload) {
             this._rankingsManager.LoadPayload(payload);
             this._environmentMonitor.LoadPayload(payload);
+            this._deathScreen.LoadPayload(payload);
         };
 
         HUDManager.prototype.Update = function (gameTime) {

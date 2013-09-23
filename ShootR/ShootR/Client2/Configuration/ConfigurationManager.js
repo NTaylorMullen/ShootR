@@ -7,7 +7,7 @@
 /// <reference path="../Bullets/Bullet.ts" />
 /// <reference path="../Ships/ShipLifeController.ts" />
 /// <reference path="../HUD/LeaderboardManager.ts" />
-/////////////////// <reference path="../HUD/DeathScreen.ts" />
+/// <reference path="../HUD/DeathScreen.ts" />
 /// <reference path="../GameScreen.ts" />
 /// <reference path="../Powerups/HealthPack.ts" />
 /// <reference path="../Game.ts" />
@@ -50,8 +50,8 @@ var ShootR;
 
             ShootR.LeaderboardManager.LEADERBOARD_SIZE = configuration.leaderboardConfig.LEADERBOARD_SIZE;
 
-            //$.extend(Game.prototype, configuration.gameConfig);
-            //DeathScreen.RESPAWN_TIMER = configuration.gameConfig.RESPAWN_TIMER;
+            ShootR.DeathScreen.RESPAWN_TIMER = eg.TimeSpan.FromSeconds(configuration.gameConfig.RESPAWN_TIMER);
+
             //ShipController.REQUEST_PING_EVERY = configuration.gameConfig.REQUEST_PING_EVERY;
             $.extend(this, configuration);
         }
