@@ -19,6 +19,8 @@ module ShootR.Server {
         private _connectionManager: ServerConnectionManager;
 
         constructor(private _connection: HubConnection, public Proxy: HubProxy, authCookieName: string) {
+            var savedProxyInvoke = this.Proxy.invoke;
+
             this.OnPayload = new eg.EventHandler1<IPayloadData>();
             this.OnLeaderboardUpdate = new eg.EventHandler1<Array<ILeaderboardEntryData>>();
             this.OnForcedDisconnct = new eg.EventHandler();
@@ -26,6 +28,12 @@ module ShootR.Server {
             this.OnPingRequest = new eg.EventHandler();
 
             this._connectionManager = new ServerConnectionManager(authCookieName);
+
+            (<any>this.Proxy.invoke) = () => {
+                if ((<any>this._connection).state === $.signalR.connectionState.connected) {
+                    return savedProxyInvoke.apply(this.Proxy, arguments);
+                }
+            };
         }
 
         public Negotiate(): JQueryPromise<IClientInitialization> {
@@ -51,6 +59,10 @@ module ShootR.Server {
             });
 
             return result.promise();
+        }
+
+        public Stop(): void {
+            this._connection.stop();
         }
 
         private Wire(): void {

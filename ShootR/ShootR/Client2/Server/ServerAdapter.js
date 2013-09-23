@@ -10,8 +10,11 @@ var ShootR;
     (function (Server) {
         var ServerAdapter = (function () {
             function ServerAdapter(_connection, Proxy, authCookieName) {
+                var _this = this;
                 this._connection = _connection;
                 this.Proxy = Proxy;
+                var savedProxyInvoke = this.Proxy.invoke;
+
                 this.OnPayload = new eg.EventHandler1();
                 this.OnLeaderboardUpdate = new eg.EventHandler1();
                 this.OnForcedDisconnct = new eg.EventHandler();
@@ -19,6 +22,12 @@ var ShootR;
                 this.OnPingRequest = new eg.EventHandler();
 
                 this._connectionManager = new Server.ServerConnectionManager(authCookieName);
+
+                (this.Proxy.invoke) = function () {
+                    if ((_this._connection).state === $.signalR.connectionState.connected) {
+                        return savedProxyInvoke.apply(_this.Proxy, arguments);
+                    }
+                };
             }
             ServerAdapter.prototype.Negotiate = function () {
                 var _this = this;
@@ -43,6 +52,10 @@ var ShootR;
                 });
 
                 return result.promise();
+            };
+
+            ServerAdapter.prototype.Stop = function () {
+                this._connection.stop();
             };
 
             ServerAdapter.prototype.Wire = function () {

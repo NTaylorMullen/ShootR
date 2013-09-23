@@ -9,6 +9,7 @@
 /// <reference path="EnvironmentMonitor.ts" />
 /// <reference path="LeaderboardManager.ts" />
 /// <reference path="DeathScreen.ts" />
+/// <reference path="NotificationManager.ts" />
 
 module ShootR {
 
@@ -25,6 +26,7 @@ module ShootR {
         private _environmentMonitor: EnvironmentMonitor;
         private _leaderboardManager: LeaderboardManager;
         private _deathScreen: DeathScreen;
+        private _notificationManager: NotificationManager;
 
         constructor(private _myShipId: number, private _shipManager: ShipManager, keyboard: eg.Input.KeyboardHandler, serverAdapter: Server.ServerAdapter) {
             this._gameHUDHeight = this._gameHUD.height();
@@ -35,6 +37,7 @@ module ShootR {
             this._environmentMonitor = new EnvironmentMonitor();
             this._leaderboardManager = new LeaderboardManager(this._myShipId, keyboard, serverAdapter);
             this._deathScreen = new DeathScreen();
+            this._notificationManager = new NotificationManager(serverAdapter);
         }
 
         public OnMapResize(newSize: eg.Size2d): void {
@@ -72,6 +75,7 @@ module ShootR {
             this._rankingsManager.LoadPayload(payload);
             this._environmentMonitor.LoadPayload(payload);
             this._deathScreen.LoadPayload(payload);
+            this._notificationManager.LoadPayload(payload);
         }
 
         public Update(gameTime: eg.GameTime): void {

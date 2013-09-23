@@ -179,6 +179,12 @@
     <Content Include="Client2\HUD\HealthMonitor.min.js">
       <DependentUpon>HealthMonitor.ts</DependentUpon>
     </Content>
+    <Content Include="Client2\HUD\NotificationManager.js">
+      <DependentUpon>NotificationManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\NotificationManager.min.js">
+      <DependentUpon>NotificationManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\HUD\ShipStatMonitor.js">
       <DependentUpon>ShipStatMonitor.ts</DependentUpon>
     </Content>
@@ -237,6 +243,10 @@
     </Content>
     <Content Include="Client2\HUD\ShipStatMonitor.ts" />
     <TypeScriptCompile Include="Client2\HUD\LeaderboardManager.ts" />
+    <Content Include="Client2\HUD\NotificationManager.js.map">
+      <DependentUpon>NotificationManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\NotificationManager.ts" />
     <TypeScriptCompile Include="Client2\HUD\RankingsManager.ts" />
     <TypeScriptCompile Include="Client2\Powerups\Graphics\HealthPackGraphic.ts" />
     <TypeScriptCompile Include="Client2\Powerups\HealthPack.ts" />
