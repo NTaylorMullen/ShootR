@@ -2,6 +2,7 @@
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
+/// <reference path="../Space/AreaRenderer.ts" />
 /// <reference path="ShipStatMonitor.ts" />
 /// <reference path="HealthMonitor.ts" />
 /// <reference path="ExperienceMonitor.ts" />
@@ -28,13 +29,13 @@ module ShootR {
         private _deathScreen: DeathScreen;
         private _notificationManager: NotificationManager;
 
-        constructor(private _myShipId: number, private _shipManager: ShipManager, keyboard: eg.Input.KeyboardHandler, serverAdapter: Server.ServerAdapter) {
+        constructor(private _myShipId: number, private _shipManager: ShipManager, areaRenderer: AreaRenderer, keyboard: eg.Input.KeyboardHandler, serverAdapter: Server.ServerAdapter) {
             this._gameHUDHeight = this._gameHUD.height();
             this._shipStatMonitor = new ShipStatMonitor();
             this._shipHealthMonitor = new HealthMonitor();
             this._shipExperienceMonitor = new ExperienceMonitor();
             this._rankingsManager = new RankingsManager();
-            this._environmentMonitor = new EnvironmentMonitor();
+            this._environmentMonitor = new EnvironmentMonitor(areaRenderer);
             this._leaderboardManager = new LeaderboardManager(this._myShipId, keyboard, serverAdapter);
             this._deathScreen = new DeathScreen();
             this._notificationManager = new NotificationManager(serverAdapter);
@@ -85,6 +86,7 @@ module ShootR {
                 this._shipStatMonitor.Update(ship);
                 this._shipHealthMonitor.Update(ship);
                 this._shipExperienceMonitor.Update(ship);
+                this._environmentMonitor.Update(ship);
             }
         }
     }

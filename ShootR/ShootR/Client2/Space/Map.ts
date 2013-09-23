@@ -10,7 +10,7 @@ module ShootR {
 
         private _background: eg.Graphics.Sprite2d;
         private _boundaries: Array<MapBoundary>;
-        private _areaRenderer: AreaRenderer;
+        public AreaRenderer: AreaRenderer;
 
         constructor(private _scene: eg.Rendering.Scene2d, private _collisionManager: eg.Collision.CollisionManager, private _contentManager: eg.Content.ContentManager, private _keyboard: eg.Input.KeyboardHandler) {
             this.BuildBackground();
@@ -64,8 +64,8 @@ module ShootR {
         }
 
         private BuildAreas(): void {
-            this._areaRenderer = new AreaRenderer(this._scene, this._keyboard);
-            this._areaRenderer.OnMapResize(Map.SIZE);
+            this.AreaRenderer = new AreaRenderer(this._scene, this._keyboard);
+            this.AreaRenderer.OnMapResize(Map.SIZE);
         }
     }
 

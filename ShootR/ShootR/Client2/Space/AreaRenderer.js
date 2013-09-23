@@ -27,6 +27,12 @@ var ShootR;
             this.BuildSectors();
         };
 
+        AreaRenderer.prototype.AreaFromPosition = function (position) {
+            var letter = AreaRenderer.AREA_LETTERS[Math.max(Math.floor(position.X / this._areaSize.Width), 0)], sectorNumber = Math.max(Math.ceil(position.Y / this._areaSize.Height), 1);
+
+            return letter + sectorNumber.toString();
+        };
+
         AreaRenderer.prototype.BuildSectors = function () {
             var gridCount = this._mapSize.Width / this._areaSize.Width, locationOffset = this._areaSize.HalfWidth, area;
 

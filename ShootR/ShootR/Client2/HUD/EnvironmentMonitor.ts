@@ -2,6 +2,7 @@
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="../Space/Map.ts" />
+/// <reference path="../Space/AreaRenderer.ts" />
 /// <reference path="../Ships/Ship.ts" />
 
 module ShootR {
@@ -11,14 +12,17 @@ module ShootR {
         private _worldTargets: JQuery = $("#WorldTargets");
         private _worldBullets: JQuery = $("#WorldBullets");
         private _area: JQuery = $("#Area");
-        private _areaLetters: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
-        constructor() { }
+        constructor(private _areaRenderer: AreaRenderer) { }
 
         public LoadPayload(payload: Server.IPayloadData): void {
             //this._latency.html(this._myShip.LatencyResolver.Latency);
             this._worldBullets.text(payload.BulletsInWorld.toString());
-            this._worldTargets.text(payload.ShipsInWorld.toString());
+            this._worldTargets.text(payload.ShipsInWorld.toString());            
+        }
+
+        public Update(ship: Ship): void {
+            this._area.text(this._areaRenderer.AreaFromPosition(ship.MovementController.Position).toString());
         }
     }
 

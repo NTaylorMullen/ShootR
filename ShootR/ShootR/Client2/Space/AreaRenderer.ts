@@ -38,6 +38,13 @@ module ShootR {
             this.BuildSectors();
         }
 
+        public AreaFromPosition(position: eg.Vector2d): string {
+            var letter: string = AreaRenderer.AREA_LETTERS[Math.max(Math.floor(position.X / this._areaSize.Width), 0)],
+                sectorNumber: number = Math.max(Math.ceil(position.Y / this._areaSize.Height), 1);
+
+            return letter + sectorNumber.toString();
+        }
+
         private BuildSectors(): void {
             var gridCount: number = this._mapSize.Width / this._areaSize.Width,
                 locationOffset: number = this._areaSize.HalfWidth,

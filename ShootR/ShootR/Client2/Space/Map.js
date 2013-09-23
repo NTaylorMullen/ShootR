@@ -52,8 +52,8 @@ var ShootR;
         };
 
         Map.prototype.BuildAreas = function () {
-            this._areaRenderer = new ShootR.AreaRenderer(this._scene, this._keyboard);
-            this._areaRenderer.OnMapResize(Map.SIZE);
+            this.AreaRenderer = new ShootR.AreaRenderer(this._scene, this._keyboard);
+            this.AreaRenderer.OnMapResize(Map.SIZE);
         };
         return Map;
     })();

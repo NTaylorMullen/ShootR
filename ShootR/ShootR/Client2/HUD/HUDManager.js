@@ -2,6 +2,7 @@
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
+/// <reference path="../Space/AreaRenderer.ts" />
 /// <reference path="ShipStatMonitor.ts" />
 /// <reference path="HealthMonitor.ts" />
 /// <reference path="ExperienceMonitor.ts" />
@@ -13,7 +14,7 @@
 var ShootR;
 (function (ShootR) {
     var HUDManager = (function () {
-        function HUDManager(_myShipId, _shipManager, keyboard, serverAdapter) {
+        function HUDManager(_myShipId, _shipManager, areaRenderer, keyboard, serverAdapter) {
             this._myShipId = _myShipId;
             this._shipManager = _shipManager;
             this._gameHUD = $("#gameHUD");
@@ -25,7 +26,7 @@ var ShootR;
             this._shipHealthMonitor = new ShootR.HealthMonitor();
             this._shipExperienceMonitor = new ShootR.ExperienceMonitor();
             this._rankingsManager = new ShootR.RankingsManager();
-            this._environmentMonitor = new ShootR.EnvironmentMonitor();
+            this._environmentMonitor = new ShootR.EnvironmentMonitor(areaRenderer);
             this._leaderboardManager = new ShootR.LeaderboardManager(this._myShipId, keyboard, serverAdapter);
             this._deathScreen = new ShootR.DeathScreen();
             this._notificationManager = new ShootR.NotificationManager(serverAdapter);
@@ -71,6 +72,7 @@ var ShootR;
                 this._shipStatMonitor.Update(ship);
                 this._shipHealthMonitor.Update(ship);
                 this._shipExperienceMonitor.Update(ship);
+                this._environmentMonitor.Update(ship);
             }
         };
         return HUDManager;
