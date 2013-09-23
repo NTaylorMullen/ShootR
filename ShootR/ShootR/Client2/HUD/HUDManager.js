@@ -2,6 +2,7 @@
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
+/// <reference path="../Server/IClientInitialization.ts" />
 /// <reference path="../Space/AreaRenderer.ts" />
 /// <reference path="ShipStatMonitor.ts" />
 /// <reference path="HealthMonitor.ts" />
@@ -11,16 +12,17 @@
 /// <reference path="LeaderboardManager.ts" />
 /// <reference path="DeathScreen.ts" />
 /// <reference path="NotificationManager.ts" />
+/// <reference path="UserInformationManager.ts" />
 var ShootR;
 (function (ShootR) {
     var HUDManager = (function () {
-        function HUDManager(_myShipId, _shipManager, areaRenderer, keyboard, serverAdapter) {
-            this._myShipId = _myShipId;
+        function HUDManager(initialization, _shipManager, areaRenderer, keyboard, serverAdapter) {
             this._shipManager = _shipManager;
             this._gameHUD = $("#gameHUD");
             this._doublePopupHolder = $("#doublePopupHolder");
             this._locationStats = $("#LocationStatisticsHolder");
             this._shipStats = $("#StatisticHolder");
+            this._myShipId = initialization.ShipID;
             this._gameHUDHeight = this._gameHUD.height();
             this._shipStatMonitor = new ShootR.ShipStatMonitor();
             this._shipHealthMonitor = new ShootR.HealthMonitor();
@@ -30,6 +32,7 @@ var ShootR;
             this._leaderboardManager = new ShootR.LeaderboardManager(this._myShipId, keyboard, serverAdapter);
             this._deathScreen = new ShootR.DeathScreen();
             this._notificationManager = new ShootR.NotificationManager(serverAdapter);
+            this._userInformationManager = new ShootR.UserInformationManager(initialization.UserInformation);
         }
         HUDManager.prototype.OnMapResize = function (newSize) {
         };

@@ -2,6 +2,7 @@
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
+/// <reference path="../Server/IClientInitialization.ts" />
 /// <reference path="../Space/AreaRenderer.ts" />
 /// <reference path="ShipStatMonitor.ts" />
 /// <reference path="HealthMonitor.ts" />
@@ -11,6 +12,7 @@
 /// <reference path="LeaderboardManager.ts" />
 /// <reference path="DeathScreen.ts" />
 /// <reference path="NotificationManager.ts" />
+/// <reference path="UserInformationManager.ts" />
 
 module ShootR {
 
@@ -28,8 +30,11 @@ module ShootR {
         private _leaderboardManager: LeaderboardManager;
         private _deathScreen: DeathScreen;
         private _notificationManager: NotificationManager;
+        private _userInformationManager: UserInformationManager;
+        private _myShipId: number;
 
-        constructor(private _myShipId: number, private _shipManager: ShipManager, areaRenderer: AreaRenderer, keyboard: eg.Input.KeyboardHandler, serverAdapter: Server.ServerAdapter) {
+        constructor(initialization: Server.IClientInitialization, private _shipManager: ShipManager, areaRenderer: AreaRenderer, keyboard: eg.Input.KeyboardHandler, serverAdapter: Server.ServerAdapter) {
+            this._myShipId = initialization.ShipID;
             this._gameHUDHeight = this._gameHUD.height();
             this._shipStatMonitor = new ShipStatMonitor();
             this._shipHealthMonitor = new HealthMonitor();
@@ -39,6 +44,7 @@ module ShootR {
             this._leaderboardManager = new LeaderboardManager(this._myShipId, keyboard, serverAdapter);
             this._deathScreen = new DeathScreen();
             this._notificationManager = new NotificationManager(serverAdapter);
+            this._userInformationManager = new UserInformationManager(initialization.UserInformation);
         }
 
         public OnMapResize(newSize: eg.Size2d): void {

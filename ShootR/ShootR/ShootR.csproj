@@ -248,6 +248,7 @@
     </Content>
     <Content Include="Client2\HUD\NotificationManager.ts" />
     <TypeScriptCompile Include="Client2\HUD\RankingsManager.ts" />
+    <TypeScriptCompile Include="Client2\HUD\UserInformationManager.ts" />
     <TypeScriptCompile Include="Client2\Powerups\Graphics\HealthPackGraphic.ts" />
     <TypeScriptCompile Include="Client2\Powerups\HealthPack.ts" />
     <Content Include="Client2\Powerups\Powerup.js.map">
