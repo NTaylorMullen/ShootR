@@ -10,6 +10,7 @@ namespace ShootR
         private BoundsSnapShot _snapShotTail;
         private Ship _ship;
         private Rectangle _bounds;
+        private object _updateLock;
 
         public ShipSnapShotManager(Ship ship)
         {
@@ -30,6 +31,7 @@ namespace ShootR
 
             _ship = ship;
             _bounds = new Rectangle(Convert.ToInt32(_ship.MovementController.Position.X), Convert.ToInt32(_ship.MovementController.Position.Y), _ship.Width(), _ship.Height());
+            _updateLock = new object();
         }
 
         public Rectangle GetBoundsSnapShot()
@@ -39,23 +41,26 @@ namespace ShootR
 
         public void Update(GameTime gameTime)
         {
-            // Remove old snapshots
-            while ((GameTime.Now - _snapShotHead.At) > _snapShotLifetime && _snapShotHead.Next != null)
+            lock (_updateLock)
             {
-                _snapShotHead = _snapShotHead.Next;
+                // Remove old snapshots
+                while ((GameTime.Now - _snapShotHead.At) > _snapShotLifetime && _snapShotHead.Next != null)
+                {
+                    _snapShotHead = _snapShotHead.Next;
+                }
+
+                _snapShotTail.Next = new BoundsSnapShot
+                {
+                    Position = _ship.MovementController.Position,
+                    At = GameTime.Now,
+                    Next = null
+                };
+
+                _snapShotTail = _snapShotTail.Next;
+
+                _bounds.X = Convert.ToInt32(_ship.MovementController.Position.X);
+                _bounds.Y = Convert.ToInt32(_ship.MovementController.Position.Y);
             }
-
-            _snapShotTail.Next = new BoundsSnapShot
-            {
-                Position = _ship.MovementController.Position,
-                At = GameTime.Now,
-                Next = null
-            };
-
-            _snapShotTail = _snapShotTail.Next;
-
-            _bounds.X = Convert.ToInt32(_ship.MovementController.Position.X);
-            _bounds.Y = Convert.ToInt32(_ship.MovementController.Position.Y);
         }
 
         class BoundsSnapShot

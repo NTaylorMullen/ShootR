@@ -223,6 +223,7 @@
       <DependentUpon>ShipStatMonitor.ts</DependentUpon>
     </Content>
     <Content Include="Client2\HUD\ShipStatMonitor.ts" />
+    <TypeScriptCompile Include="Client2\HUD\LeaderboardManager.ts" />
     <TypeScriptCompile Include="Client2\HUD\RankingsManager.ts" />
     <TypeScriptCompile Include="Client2\Powerups\Graphics\HealthPackGraphic.ts" />
     <TypeScriptCompile Include="Client2\Powerups\HealthPack.ts" />

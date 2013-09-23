@@ -1,15 +1,17 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="ShipStatMonitor.ts" />
 /// <reference path="HealthMonitor.ts" />
 /// <reference path="ExperienceMonitor.ts" />
 /// <reference path="RankingsManager.ts" />
 /// <reference path="EnvironmentMonitor.ts" />
+/// <reference path="LeaderboardManager.ts" />
 var ShootR;
 (function (ShootR) {
     var HUDManager = (function () {
-        function HUDManager(_myShipId, _shipManager) {
+        function HUDManager(_myShipId, _shipManager, keyboard, serverAdapter) {
             this._myShipId = _myShipId;
             this._shipManager = _shipManager;
             this._gameHUD = $("#gameHUD");
@@ -22,6 +24,7 @@ var ShootR;
             this._shipExperienceMonitor = new ShootR.ExperienceMonitor();
             this._rankingsManager = new ShootR.RankingsManager();
             this._environmentMonitor = new ShootR.EnvironmentMonitor();
+            this._leaderboardManager = new ShootR.LeaderboardManager(this._myShipId, keyboard, serverAdapter);
         }
         HUDManager.prototype.OnMapResize = function (newSize) {
         };

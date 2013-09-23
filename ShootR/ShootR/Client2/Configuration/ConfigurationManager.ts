@@ -6,7 +6,7 @@
 /// <reference path="../Ships/Abilities/Boost.ts" />
 /// <reference path="../Bullets/Bullet.ts" />
 /// <reference path="../Ships/ShipLifeController.ts" />
-/////////////////// <reference path="../HUD/Leaderboard.ts" />
+/// <reference path="../HUD/LeaderboardManager.ts" />
 /////////////////// <reference path="../HUD/DeathScreen.ts" />
 /// <reference path="../GameScreen.ts" />
 /// <reference path="../Powerups/HealthPack.ts" />
@@ -59,7 +59,8 @@ module ShootR {
             HealthPack.SIZE = new eg.Size2d(configuration.healthPackConfig.WIDTH, configuration.healthPackConfig.HEIGHT);
             HealthPack.LIFE_SPAN = eg.TimeSpan.FromMilliseconds(configuration.healthPackConfig.LIFE_SPAN);
 
-//          $.extend(Leaderboard, configuration.leaderboardConfig);            
+            LeaderboardManager.LEADERBOARD_SIZE = configuration.leaderboardConfig.LEADERBOARD_SIZE;
+
             //$.extend(Game.prototype, configuration.gameConfig);
 
             //DeathScreen.RESPAWN_TIMER = configuration.gameConfig.RESPAWN_TIMER;
