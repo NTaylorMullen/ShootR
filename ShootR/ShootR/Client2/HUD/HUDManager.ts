@@ -40,7 +40,7 @@ module ShootR {
             this._shipHealthMonitor = new HealthMonitor();
             this._shipExperienceMonitor = new ExperienceMonitor();
             this._rankingsManager = new RankingsManager();
-            this._environmentMonitor = new EnvironmentMonitor(areaRenderer);
+            this._environmentMonitor = new EnvironmentMonitor(areaRenderer, this._shipManager.UserShipManager);
             this._leaderboardManager = new LeaderboardManager(this._myShipId, keyboard, serverAdapter);
             this._deathScreen = new DeathScreen();
             this._notificationManager = new NotificationManager(serverAdapter);

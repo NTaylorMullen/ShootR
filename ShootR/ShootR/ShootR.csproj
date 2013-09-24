@@ -411,6 +411,7 @@
     </Content>
     <TypeScriptCompile Include="Client2\Space\Area.ts" />
     <TypeScriptCompile Include="Client2\Space\AreaRenderer.ts" />
+    <TypeScriptCompile Include="Client2\User\LatencyResolver.ts" />
     <TypeScriptCompile Include="Client2\User\UserCameraController.ts" />
     <TypeScriptCompile Include="Client2\User\UserShipManager.ts" />
     <Content Include="Client2\User\UserShipManager.js">

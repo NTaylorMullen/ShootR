@@ -4,6 +4,7 @@
 /// <reference path="../Space/Map.ts" />
 /// <reference path="../Space/AreaRenderer.ts" />
 /// <reference path="../Ships/Ship.ts" />
+/// <reference path="../User/UserShipManager.ts" />
 
 module ShootR {
 
@@ -13,10 +14,10 @@ module ShootR {
         private _worldBullets: JQuery = $("#WorldBullets");
         private _area: JQuery = $("#Area");
 
-        constructor(private _areaRenderer: AreaRenderer) { }
+        constructor(private _areaRenderer: AreaRenderer, private _userShipManager: UserShipManager) { }
 
         public LoadPayload(payload: Server.IPayloadData): void {
-            //this._latency.html(this._myShip.LatencyResolver.Latency);
+            this._latency.text(this._userShipManager.LatencyResolver.Latency);
             this._worldBullets.text(payload.BulletsInWorld.toString());
             this._worldTargets.text(payload.ShipsInWorld.toString());            
         }

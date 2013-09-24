@@ -2,7 +2,9 @@
 /// <reference path="../Ships/ShipManager.ts" />
 /// <reference path="../Ships/ShipInputController.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
+/// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="UserCameraController.ts" />
+/// <reference path="LatencyResolver.ts" />
 var ShootR;
 (function (ShootR) {
     var UserShipManager = (function () {
@@ -18,6 +20,7 @@ var ShootR;
             this._userCameraController = new ShootR.UserCameraController(this._myShipId, this._shipManager, this._camera);
             this._enqueuedCommands = [];
             this._lastSync = new Date();
+            this.LatencyResolver = new ShootR.LatencyResolver(serverAdapter);
 
             this._collisionManager.OnCollision.Bind(function (ship, boundary) {
                 if (ship instanceof ShootR.Ship && boundary instanceof ShootR.MapBoundary) {
@@ -34,13 +37,13 @@ var ShootR;
             });
 
             this._shipInputController = new ShootR.ShipInputController(input.Keyboard, function (direction, startMoving) {
-                var ship = _this._shipManager.GetShip(_this._myShipId), pingBack = false;
+                var ship = _this._shipManager.GetShip(_this._myShipId);
 
                 if (ship && ship.MovementController.Controllable) {
                     if (startMoving) {
                         if (direction === "Boost") {
                             _this._enqueuedCommands.push(function () {
-                                _this.Invoke("registerAbilityStart", pingBack, _this.NewAbilityCommand(direction, true));
+                                _this.Invoke("registerAbilityStart", _this.LatencyResolver.TryRequestPing(), _this.NewAbilityCommand(direction, true));
 
                                 ship.AbilityHandler.Activate(direction);
                             });
@@ -49,7 +52,7 @@ var ShootR;
                             // Don't want to trigger a server command if we're already moving in the direction
                         } else if (!ship.MovementController.IsMovingInDirection(direction)) {
                             _this._enqueuedCommands.push(function () {
-                                _this.Invoke("registerMoveStart", pingBack, _this.NewMovementCommand(direction, true));
+                                _this.Invoke("registerMoveStart", _this.LatencyResolver.TryRequestPing(), _this.NewMovementCommand(direction, true));
 
                                 ship.MovementController.Move(direction, startMoving);
                             });
@@ -57,7 +60,7 @@ var ShootR;
                     } else {
                         if (ship.MovementController.IsMovingInDirection(direction)) {
                             _this._enqueuedCommands.push(function () {
-                                _this.Invoke("registerMoveStop", pingBack, _this.NewMovementCommand(direction, false));
+                                _this.Invoke("registerMoveStop", _this.LatencyResolver.TryRequestPing(), _this.NewMovementCommand(direction, false));
 
                                 ship.MovementController.Move(direction, startMoving);
                             });

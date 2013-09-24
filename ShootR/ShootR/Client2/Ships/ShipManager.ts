@@ -6,7 +6,7 @@
 module ShootR {
 
     export class ShipManager implements eg.IUpdateable {
-        private _userShipManager: UserShipManager;
+        public UserShipManager: UserShipManager;
 
         private _ships: { [id: number]: Ship };
 
@@ -15,7 +15,7 @@ module ShootR {
         }
 
         public Initialize(userShipManager: UserShipManager): void {
-            this._userShipManager = userShipManager;
+            this.UserShipManager = userShipManager;
         }
 
         public UpdateViewport(viewport: eg.Size2d): void {
@@ -54,7 +54,7 @@ module ShootR {
                 }
             }
 
-            this._userShipManager.LoadPayload(payload);
+            this.UserShipManager.LoadPayload(payload);
         }
 
         public Update(gameTime: eg.GameTime): void {
@@ -63,7 +63,7 @@ module ShootR {
                 this._ships[id].Update(gameTime);
             }
 
-            this._userShipManager.Update(gameTime);
+            this.UserShipManager.Update(gameTime);
 
             // Check for "in-bounds" to see what ships we should destroy
             for (var id in this._ships) {

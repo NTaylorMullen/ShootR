@@ -67,6 +67,7 @@ namespace ShootR
                 .Include("~/Client2/Ships/Levels/ShipLevelManager.js")
                 .Include("~/Client2/Ships/Ship.js")
                 .Include("~/Client2/User/UserCameraController.js")
+                .Include("~/Client2/User/LatencyResolver.js")
                 .Include("~/Client2/User/UserShipManager.js")
                 .Include("~/Client2/Ships/ShipManager.js")
                 .Include("~/Client2/Debug/ServerGhost.js")

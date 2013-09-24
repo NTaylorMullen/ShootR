@@ -4,6 +4,8 @@
 /// <reference path="../Ships/ShipMovementController.ts" />
 /// <reference path="../Server/IConfigurationDefinitions.ts" />
 /// <reference path="../Ships/Abilities/Boost.ts" />
+/// <reference path="../User/UserShipManager.ts" />
+/// <reference path="../User/LatencyResolver.ts" />
 /// <reference path="../Bullets/Bullet.ts" />
 /// <reference path="../Ships/ShipLifeController.ts" />
 /// <reference path="../HUD/LeaderboardManager.ts" />
@@ -63,9 +65,9 @@ module ShootR {
 
             DeathScreen.RESPAWN_TIMER = eg.TimeSpan.FromSeconds(configuration.gameConfig.RESPAWN_TIMER);
 
-            //ShipController.REQUEST_PING_EVERY = configuration.gameConfig.REQUEST_PING_EVERY;
 
             $.extend(this, configuration);
+            LatencyResolver.REQUEST_PING_EVERY = configuration.gameConfig.REQUEST_PING_EVERY;
         }
     }
 

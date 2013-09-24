@@ -2,12 +2,16 @@
 /// <reference path="../Ships/ShipManager.ts" />
 /// <reference path="../Ships/ShipInputController.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
+/// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="UserCameraController.ts" />
+/// <reference path="LatencyResolver.ts" />
 
 module ShootR {
 
     export class UserShipManager implements eg.IUpdateable {
         public static SYNC_INTERVAL: eg.TimeSpan = eg.TimeSpan.FromSeconds(1.5);
+
+        public LatencyResolver: LatencyResolver;
 
         private _shipInputController: ShipInputController;
         private _currentCommand: number;
@@ -24,6 +28,7 @@ module ShootR {
             this._userCameraController = new UserCameraController(this._myShipId, this._shipManager, this._camera);
             this._enqueuedCommands = [];
             this._lastSync = new Date();
+            this.LatencyResolver = new LatencyResolver(serverAdapter);
 
             this._collisionManager.OnCollision.Bind((ship: Ship, boundary: MapBoundary) => {
                 if (ship instanceof Ship && boundary instanceof MapBoundary) {
@@ -40,14 +45,13 @@ module ShootR {
             });
 
             this._shipInputController = new ShipInputController(input.Keyboard, (direction: string, startMoving: boolean) => {
-                var ship = this._shipManager.GetShip(this._myShipId),
-                    pingBack: boolean = false;
+                var ship = this._shipManager.GetShip(this._myShipId);
 
                 if (ship && ship.MovementController.Controllable) {
                     if (startMoving) {
                         if (direction === "Boost") {
                             this._enqueuedCommands.push(() => {
-                                this.Invoke("registerAbilityStart", pingBack, this.NewAbilityCommand(direction, true));
+                                this.Invoke("registerAbilityStart", this.LatencyResolver.TryRequestPing(), this.NewAbilityCommand(direction, true));
 
                                 ship.AbilityHandler.Activate(direction);
                             });
@@ -56,7 +60,7 @@ module ShootR {
                             // Don't want to trigger a server command if we're already moving in the direction
                         } else if (!ship.MovementController.IsMovingInDirection(direction)) {
                             this._enqueuedCommands.push(() => {
-                                this.Invoke("registerMoveStart", pingBack, this.NewMovementCommand(direction, true));
+                                this.Invoke("registerMoveStart", this.LatencyResolver.TryRequestPing(), this.NewMovementCommand(direction, true));
 
                                 ship.MovementController.Move(direction, startMoving);
                             });
@@ -65,7 +69,7 @@ module ShootR {
                         // Don't want to trigger a server command if we're already moving in the direction
                         if (ship.MovementController.IsMovingInDirection(direction)) {
                             this._enqueuedCommands.push(() => {
-                                this.Invoke("registerMoveStop", pingBack, this.NewMovementCommand(direction, false));
+                                this.Invoke("registerMoveStop", this.LatencyResolver.TryRequestPing(), this.NewMovementCommand(direction, false));
 
                                 ship.MovementController.Move(direction, startMoving);
                             });

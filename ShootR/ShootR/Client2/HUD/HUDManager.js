@@ -28,7 +28,7 @@ var ShootR;
             this._shipHealthMonitor = new ShootR.HealthMonitor();
             this._shipExperienceMonitor = new ShootR.ExperienceMonitor();
             this._rankingsManager = new ShootR.RankingsManager();
-            this._environmentMonitor = new ShootR.EnvironmentMonitor(areaRenderer);
+            this._environmentMonitor = new ShootR.EnvironmentMonitor(areaRenderer, this._shipManager.UserShipManager);
             this._leaderboardManager = new ShootR.LeaderboardManager(this._myShipId, keyboard, serverAdapter);
             this._deathScreen = new ShootR.DeathScreen();
             this._notificationManager = new ShootR.NotificationManager(serverAdapter);

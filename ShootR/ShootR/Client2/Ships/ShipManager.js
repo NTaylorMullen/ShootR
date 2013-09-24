@@ -13,7 +13,7 @@ var ShootR;
             this._ships = {};
         }
         ShipManager.prototype.Initialize = function (userShipManager) {
-            this._userShipManager = userShipManager;
+            this.UserShipManager = userShipManager;
         };
 
         ShipManager.prototype.UpdateViewport = function (viewport) {
@@ -52,7 +52,7 @@ var ShootR;
                 }
             }
 
-            this._userShipManager.LoadPayload(payload);
+            this.UserShipManager.LoadPayload(payload);
         };
 
         ShipManager.prototype.Update = function (gameTime) {
@@ -60,7 +60,7 @@ var ShootR;
                 this._ships[id].Update(gameTime);
             }
 
-            this._userShipManager.Update(gameTime);
+            this.UserShipManager.Update(gameTime);
 
             for (var id in this._ships) {
                 if (!this._ships[id].Bounds.IntersectsRectangle(this._viewport)) {
