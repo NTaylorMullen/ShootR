@@ -41,6 +41,7 @@ var ShootR;
             this._gameHUD.css("width", newViewport.Width);
             this._gameHUD.css("height", this._gameHUDHeight);
             this._gameHUD.css("top", newViewport.Height - this._gameHUDHeight);
+            this._shipHealthMonitor.OnScreenResize();
             this.CenterDoublePopup(newViewport);
 
             if (newViewport.Width <= 1370) {
