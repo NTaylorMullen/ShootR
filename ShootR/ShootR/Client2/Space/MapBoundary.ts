@@ -35,6 +35,11 @@ module ShootR {
             // TODO: Add bullet
         }
 
+        public Dispose(): void {
+            super.Dispose();
+            this.Graphic.Dispose();
+        }
+
         private HandleShipCollision(ship: Ship): void {
             var bounceMultiplier: eg.Vector2d,
                 side: eg.Vector2d = this.Graphic.From.Subtract(this.Graphic.To);

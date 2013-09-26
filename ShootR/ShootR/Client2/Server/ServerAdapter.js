@@ -20,6 +20,7 @@ var ShootR;
                 this.OnForcedDisconnct = new eg.EventHandler();
                 this.OnControlTransferred = new eg.EventHandler();
                 this.OnPingRequest = new eg.EventHandler();
+                this.OnMapResize = new eg.EventHandler1();
 
                 this._connectionManager = new Server.ServerConnectionManager(authCookieName);
 
@@ -91,6 +92,10 @@ var ShootR;
 
                 this.Proxy.on("pingBack", function () {
                     _this.OnPingRequest.Trigger();
+                });
+
+                this.Proxy.on("mapSizeIncreased", function (size) {
+                    _this.OnMapResize.Trigger(new eg.Size2d(size.Width, size.Height));
                 });
             };
             ServerAdapter.NEGOTIATE_RETRIES = 3;

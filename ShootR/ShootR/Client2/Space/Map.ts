@@ -1,4 +1,5 @@
 /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="MapBoundary.ts" />
 /// <reference path="AreaRenderer.ts" />
 
@@ -8,34 +9,52 @@ module ShootR {
         public static SIZE: eg.Size2d;
         public static BARRIER_DEPRECATION: number;
 
-        private _background: eg.Graphics.Sprite2d;
+        private _backgroundTiles: Array<eg.Graphics.Sprite2d>;
         private _boundaries: Array<MapBoundary>;
         public AreaRenderer: AreaRenderer;
 
-        constructor(private _scene: eg.Rendering.Scene2d, private _collisionManager: eg.Collision.CollisionManager, private _contentManager: eg.Content.ContentManager, private _keyboard: eg.Input.KeyboardHandler) {
+        constructor(private _scene: eg.Rendering.Scene2d, private _collisionManager: eg.Collision.CollisionManager, private _contentManager: eg.Content.ContentManager, private _keyboard: eg.Input.KeyboardHandler, serverAdapter: Server.ServerAdapter) {
+            this._boundaries = new Array<MapBoundary>();
+            this._backgroundTiles = new Array<eg.Graphics.Sprite2d>();
+
             this.BuildBackground();
             this.BuildBoundaries();
             this.BuildAreas();
+
+            serverAdapter.OnMapResize.Bind((newSize: eg.Size2d) => {
+                Map.SIZE = newSize;
+                this.BuildBackground();
+                this.BuildBoundaries();
+                this.AreaRenderer.OnMapResize(newSize);
+            });
         }
 
         private BuildBackground(): void {
-            var cache: HTMLCanvasElement,
-                context: CanvasRenderingContext2D,
-                source: eg.Graphics.ImageSource = this._contentManager.GetImage("StarBackground"),
+            var source: eg.Graphics.ImageSource = this._contentManager.GetImage("StarBackground"),
                 build = () => {
-                    cache = document.createElement("canvas");
-                    cache.width = Map.SIZE.Width + this._scene.Camera.Size.Width;
-                    cache.height = Map.SIZE.Height + this._scene.Camera.Size.Height;
-                    context = cache.getContext("2d");
+                    // Add 2 to give a buffer on both sides of the map
+                    var tileCount: number = (Map.SIZE.Width / source.Size.Width) + 2,
+                        templateTile: eg.Graphics.Sprite2d = new eg.Graphics.Sprite2d(0, 0, source, 1000, 1000),
+                        tile: eg.Graphics.Sprite2d;
 
-                    context.fillStyle = context.createPattern(source.Source, "repeat");
-                    context.fillRect(0, 0, cache.width, cache.height);
+                    templateTile.ZIndex = -2;
 
-                    // Make the background larger than the map so stars appear beyond the borders
-                    this._background = new eg.Graphics.Sprite2d(Map.SIZE.HalfWidth, Map.SIZE.HalfHeight, new eg.Graphics.ImageSource((<any>cache), Map.SIZE.Width + this._scene.Camera.Size.Width, Map.SIZE.Height + this._scene.Camera.Size.Height), Map.SIZE.Width + this._scene.Camera.Size.Width, Map.SIZE.Height + this._scene.Camera.Size.Height);
-                    this._background.ZIndex = -2;
+                    // Clean up any existing tiles so that we can create new ones (also used to resize the map).
+                    for (var i = 0; i < this._backgroundTiles.length; i++) {
+                        this._backgroundTiles[i].Dispose();
+                    }
 
-                    this._scene.Add(this._background);
+                    this._backgroundTiles = new Array<eg.Graphics.Sprite2d>();
+
+                    for (var i = 0; i < tileCount; i++) {
+                        for (var j = 0; j < tileCount; j++) {
+                            tile = templateTile.Clone();
+                            tile.Position.X = j * source.Size.Width - source.Size.HalfWidth;
+                            tile.Position.Y = i * source.Size.Height - source.Size.HalfHeight;
+                            this._scene.Add(tile);
+                            this._backgroundTiles.push(tile);
+                        }
+                    }
                 };
 
             if (source.IsLoaded()) {
@@ -52,6 +71,10 @@ module ShootR {
                 new eg.Vector2d(Map.SIZE.Width + 2, Map.SIZE.Height + 2),
                 new eg.Vector2d(-2, Map.SIZE.Height + 2)),
                 boundary: MapBoundary;
+
+            for (var i = 0; i < this._boundaries.length; i++) {
+                this._boundaries[i].Dispose();
+            }
 
             this._boundaries = new Array<MapBoundary>();
 

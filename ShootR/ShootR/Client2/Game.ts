@@ -37,7 +37,7 @@ module ShootR {
             this._shipManager.Initialize(new UserShipManager(initializationData.ShipID, this._shipManager, this.CollisionManager, this.Input, this.Scene.Camera, serverAdapter));
             this._bulletManager = new BulletManager(this.Scene.Camera, this.Scene, this.Content);
             this._powerupManager = new PowerupManager(this.Scene.Camera, this.Scene, this.Content);
-            this._map = new Map(this.Scene, this.CollisionManager, this.Content, this.Input.Keyboard);
+            this._map = new Map(this.Scene, this.CollisionManager, this.Content, this.Input.Keyboard, serverAdapter);
             this._debugManager = new Debug.DebugManager(initializationData.ShipID, this);
             this._hud = new HUDManager(initializationData, this._shipManager, this._map.AreaRenderer, this.Input.Keyboard, serverAdapter);
 
@@ -55,7 +55,7 @@ module ShootR {
         }
 
         public LoadContent(): void {
-            this.Content.LoadImage("StarBackground", "/Images/bg_stars.png", 500, 500);
+            this.Content.LoadImage("StarBackground", "/Images/bg_stars.png", 1000, 1000);
             this.Content.LoadImage("BulletExplosion", "/Images/SpriteSheets/explosion_1.png", 320, 320);
             this.Content.LoadImage("ShipExplosion", "/Images/SpriteSheets/explosion_2.png", 768, 640);
             this.Content.LoadImage("Bullet", "/Images/Laser.png", 13, 13);

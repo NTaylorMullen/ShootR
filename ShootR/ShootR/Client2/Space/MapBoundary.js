@@ -31,6 +31,11 @@ var ShootR;
             // TODO: Add bullet
         };
 
+        MapBoundary.prototype.Dispose = function () {
+            _super.prototype.Dispose.call(this);
+            this.Graphic.Dispose();
+        };
+
         MapBoundary.prototype.HandleShipCollision = function (ship) {
             var bounceMultiplier, side = this.Graphic.From.Subtract(this.Graphic.To);
 

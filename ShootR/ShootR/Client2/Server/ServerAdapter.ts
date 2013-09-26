@@ -17,6 +17,7 @@ module ShootR.Server {
         public OnForcedDisconnct: eg.EventHandler;
         public OnControlTransferred: eg.EventHandler;
         public OnPingRequest: eg.EventHandler;
+        public OnMapResize: eg.EventHandler1<eg.Size2d>;
 
         private _payloadDecompressor: PayloadDecompressor;
         private _connectionManager: ServerConnectionManager;
@@ -29,6 +30,7 @@ module ShootR.Server {
             this.OnForcedDisconnct = new eg.EventHandler();
             this.OnControlTransferred = new eg.EventHandler();
             this.OnPingRequest = new eg.EventHandler();
+            this.OnMapResize = new eg.EventHandler1<eg.Size2d>();
 
             this._connectionManager = new ServerConnectionManager(authCookieName);
 
@@ -98,6 +100,10 @@ module ShootR.Server {
 
             this.Proxy.on("pingBack", () => {
                 this.OnPingRequest.Trigger();
+            });
+
+            this.Proxy.on("mapSizeIncreased", (size: any) => {
+                this.OnMapResize.Trigger(new eg.Size2d(size.Width, size.Height));
             });
         }
     }
