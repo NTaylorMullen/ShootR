@@ -33,8 +33,8 @@ module ShootR {
             var source: eg.Graphics.ImageSource = this._contentManager.GetImage("StarBackground"),
                 build = () => {
                     // Add 2 to give a buffer on both sides of the map
-                    var tileCount: number = (Map.SIZE.Width / source.Size.Width) + 2,
-                        templateTile: eg.Graphics.Sprite2d = new eg.Graphics.Sprite2d(0, 0, source, 1000, 1000),
+                    var tileCount: number = (Map.SIZE.Width / source.ClipSize.Width) + 2,
+                        templateTile: eg.Graphics.Sprite2d = new eg.Graphics.Sprite2d(0, 0, source, source.ClipSize.Width, source.ClipSize.Height),
                         tile: eg.Graphics.Sprite2d;
 
                     templateTile.ZIndex = -2;
@@ -49,8 +49,8 @@ module ShootR {
                     for (var i = 0; i < tileCount; i++) {
                         for (var j = 0; j < tileCount; j++) {
                             tile = templateTile.Clone();
-                            tile.Position.X = j * source.Size.Width - source.Size.HalfWidth;
-                            tile.Position.Y = i * source.Size.Height - source.Size.HalfHeight;
+                            tile.Position.X = j * source.ClipSize.Width - source.ClipSize.HalfWidth;
+                            tile.Position.Y = i * source.ClipSize.Height - source.ClipSize.HalfHeight;
                             this._scene.Add(tile);
                             this._backgroundTiles.push(tile);
                         }

@@ -29,7 +29,7 @@ var ShootR;
             var _this = this;
             var source = this._contentManager.GetImage("StarBackground"), build = function () {
                 // Add 2 to give a buffer on both sides of the map
-                var tileCount = (Map.SIZE.Width / source.Size.Width) + 2, templateTile = new eg.Graphics.Sprite2d(0, 0, source, 1000, 1000), tile;
+                var tileCount = (Map.SIZE.Width / source.ClipSize.Width) + 2, templateTile = new eg.Graphics.Sprite2d(0, 0, source, source.ClipSize.Width, source.ClipSize.Height), tile;
 
                 templateTile.ZIndex = -2;
 
@@ -42,8 +42,8 @@ var ShootR;
                 for (var i = 0; i < tileCount; i++) {
                     for (var j = 0; j < tileCount; j++) {
                         tile = templateTile.Clone();
-                        tile.Position.X = j * source.Size.Width - source.Size.HalfWidth;
-                        tile.Position.Y = i * source.Size.Height - source.Size.HalfHeight;
+                        tile.Position.X = j * source.ClipSize.Width - source.ClipSize.HalfWidth;
+                        tile.Position.Y = i * source.ClipSize.Height - source.ClipSize.HalfHeight;
                         _this._scene.Add(tile);
                         _this._backgroundTiles.push(tile);
                     }

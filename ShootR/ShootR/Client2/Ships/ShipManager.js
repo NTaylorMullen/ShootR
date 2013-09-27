@@ -48,7 +48,7 @@ var ShootR;
                 }
 
                 if (ship.Disposed) {
-                    this._ships[ship.ID].Destroy(true);
+                    this._ships[ship.ID].Destroy(!ship.LifeController.Alive);
                 }
             }
 
