@@ -21,7 +21,7 @@ namespace ShootR
 
         private static int _shipGUID = 0;
 
-        private ShipClientVerifier _verifier;
+        private ShipInterpolationManager _interpolationManager;
         private ConcurrentQueue<Action> _enqueuedCommands;
         private ShipSnapShotManager _snapShotManager;
 
@@ -40,7 +40,7 @@ namespace ShootR
             AbilityHandler = new ShipAbilityHandler(this);
 
             _enqueuedCommands = new ConcurrentQueue<Action>();
-            _verifier = new ShipClientVerifier(MovementController);
+            _interpolationManager = new ShipInterpolationManager(MovementController);
             _snapShotManager = new ShipSnapShotManager(this);
         }
 
@@ -129,7 +129,7 @@ namespace ShootR
 
             _enqueuedCommands.Enqueue(() =>
             {
-                _verifier.VerifyMovement(at, angle, velocity);
+                _interpolationManager.SyncMovement(at, angle, velocity);
 
                 AbilityHandler.Activate(abilityName);
                 Host.LastCommandID = commandID;
@@ -142,7 +142,7 @@ namespace ShootR
 
             _enqueuedCommands.Enqueue(() =>
             {
-                _verifier.VerifyMovement(at, angle, velocity);
+                _interpolationManager.SyncMovement(at, angle, velocity);
 
                 AbilityHandler.Deactivate(abilityName);
                 Host.LastCommandID = commandID;
@@ -155,7 +155,7 @@ namespace ShootR
 
             _enqueuedCommands.Enqueue(() =>
             {
-                _verifier.VerifyMovement(at, angle, velocity);
+                _interpolationManager.SyncMovement(at, angle, velocity);
 
                 MovementController.StartMoving(where);
                 Host.LastCommandID = commandID;
@@ -168,7 +168,7 @@ namespace ShootR
 
             _enqueuedCommands.Enqueue(() =>
             {
-                _verifier.VerifyMovement(at, angle, velocity);
+                _interpolationManager.SyncMovement(at, angle, velocity);
 
                 MovementController.StopMoving(where);
                 Host.LastCommandID = commandID;
@@ -179,7 +179,7 @@ namespace ShootR
         {
             _enqueuedCommands.Enqueue(() =>
             {
-                _verifier.VerifyMovement(at, angle, velocity);
+                _interpolationManager.SyncMovement(at, angle, velocity);
             });
         }
 
@@ -187,7 +187,7 @@ namespace ShootR
         {
             _enqueuedCommands.Enqueue(() =>
             {
-                _verifier.VerifyMovement(at, angle, velocity);
+                _interpolationManager.SyncMovement(at, angle, velocity);
 
                 foreach (Movement m in movementList)
                 {
@@ -201,7 +201,13 @@ namespace ShootR
         public virtual void Update(GameTime gameTime)
         {
             WeaponController.Update(GameTime.Now);
-            MovementController.Update(gameTime);
+            _interpolationManager.Update(gameTime);
+
+            if (!_interpolationManager.Interpolating)
+            {
+                MovementController.Update(gameTime);
+            }
+
             AbilityHandler.Update(GameTime.Now);
             _snapShotManager.Update(gameTime);
             base.Update();

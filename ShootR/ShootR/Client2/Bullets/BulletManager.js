@@ -31,7 +31,7 @@ var ShootR;
                 }
 
                 if (bullet.Disposed) {
-                    this._bullets[bullet.ID].Destroy();
+                    this._bullets[bullet.ID].Destroy(bullet.Collided);
                 }
             }
         };

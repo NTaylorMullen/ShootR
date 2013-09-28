@@ -47,6 +47,8 @@ module ShootR.Server {
 
             this.Wire();
 
+            this._connection.logging = true;
+
             this._connection.start().done(() => {
                 this.TryInitialize(userInformation, (initialization: IClientInitialization) => {
                     initialization.UserInformation = userInformation;

@@ -43,6 +43,14 @@ namespace ShootR
             }
         }
 
+        public static Vector2 One
+        {
+            get
+            {
+                return new Vector2(1, 1);
+            }
+        }
+
         public double X { get; set; }
         public double Y { get; set; }
 

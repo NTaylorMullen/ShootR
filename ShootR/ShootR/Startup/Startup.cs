@@ -1,13 +1,12 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Security.Claims;
 using Microsoft.AspNet.SignalR;
-using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.Twitter;
 using Owin;
-using ShootR;
 using ShootR.Authentication;
 using TweetSharp;
 
@@ -20,7 +19,7 @@ namespace ShootR
             app.MapSignalR();
 
             // Disable keep alive, no need
-            GlobalHost.Configuration.KeepAlive = null;
+            GlobalHost.Configuration.DisconnectTimeout = TimeSpan.FromMinutes(3);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {

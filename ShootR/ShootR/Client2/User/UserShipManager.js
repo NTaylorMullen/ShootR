@@ -39,7 +39,7 @@ var ShootR;
             this._shipInputController = new ShootR.ShipInputController(input.Keyboard, function (direction, startMoving) {
                 var ship = _this._shipManager.GetShip(_this._myShipId);
 
-                if (ship && ship.MovementController.Controllable) {
+                if (ship && ship.MovementController.Controllable && ship.LifeController.Alive) {
                     if (startMoving) {
                         if (direction === "Boost") {
                             _this._enqueuedCommands.push(function () {
@@ -111,7 +111,7 @@ var ShootR;
                     this._enqueuedCommands.shift()();
                 }
 
-                if (eg.TimeSpan.DateSpan(this._lastSync, gameTime.Now).Seconds > UserShipManager.SYNC_INTERVAL.Seconds) {
+                if (eg.TimeSpan.DateSpan(this._lastSync, gameTime.Now).Seconds > UserShipManager.SYNC_INTERVAL.Seconds && ship.LifeController.Alive) {
                     this._lastSync = gameTime.Now;
                     this._proxy.invoke("syncMovement", { X: Math.round(ship.MovementController.Position.X - ship.Graphic.Size.HalfWidth), Y: Math.round(ship.MovementController.Position.Y - ship.Graphic.Size.HalfHeight) }, Math.roundTo(ship.MovementController.Rotation * 57.2957795, 2), { X: Math.round(ship.MovementController.Velocity.X), Y: Math.round(ship.MovementController.Velocity.Y) });
                 }

@@ -1211,11 +1211,15 @@
     <Compile Include="Server\Abilities\AbilityHandlers\AbilityHandler.cs" />
     <Compile Include="Server\Ship\Levels\LevelCalculator.cs" />
     <Compile Include="Server\Ship\Levels\ShipLevelManager.cs" />
-    <Compile Include="Server\Ship\ShipClientVerifier.cs" />
+    <Compile Include="Server\Ship\ShipInterpolationManager.cs" />
     <Compile Include="Server\Ship\ShipLifeController.cs" />
     <Compile Include="Server\Ship\ShipManager.cs" />
     <Compile Include="Server\Ship\ShipSnapShotManager.cs" />
     <Compile Include="Server\Ship\ShipStatRecorder.cs" />
+    <Compile Include="Server\Tweening\Linear.cs" />
+    <Compile Include="Server\Tweening\NumberTween.cs" />
+    <Compile Include="Server\Tweening\Tween.cs" />
+    <Compile Include="Server\Tweening\Vector2Tween.cs" />
     <Compile Include="Server\User\IdleManager.cs" />
     <Compile Include="Server\User\NotificationManager.cs" />
     <Compile Include="Server\User\RespawnManager.cs" />
