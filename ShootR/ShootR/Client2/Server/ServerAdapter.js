@@ -36,8 +36,6 @@ var ShootR;
 
                 this.Wire();
 
-                this._connection.logging = true;
-
                 this._connection.start().done(function () {
                     _this.TryInitialize(userInformation, function (initialization) {
                         initialization.UserInformation = userInformation;
