@@ -318,6 +318,7 @@
     </Content>
     <TypeScriptCompile Include="Client2\Server\ServerAdapter.ts" />
     <TypeScriptCompile Include="Client2\Server\IPayloadDefinitions.ts" />
+    <TypeScriptCompile Include="Client2\Ships\Graphics\ShipBodyGraphic.ts" />
     <TypeScriptCompile Include="Client2\Ships\Graphics\ShipDamageGraphic.ts" />
     <TypeScriptCompile Include="Client2\Ships\IMoving.ts" />
     <TypeScriptCompile Include="Client2\Ships\Abilities\MovementAbility.ts" />

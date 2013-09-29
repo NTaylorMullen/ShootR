@@ -28,15 +28,16 @@ module ShootR {
             this.OnExplosion = new eg.EventHandler();
 
             this.LifeController = new ShipLifeController();
-            this.Graphic = new ShipGraphic(this.LifeController, payload.MovementController.Position, Ship.SIZE, contentManager);
+            this.LevelManager = new ShipLevelManager(payload);
+
+            this.Graphic = new ShipGraphic(this.LevelManager, this.LifeController, payload.MovementController.Position, Ship.SIZE, contentManager);
 
             // Going to use the rectangle to "hold" all the other graphics
             super(this.Graphic.GetDrawBounds());
 
             this.MovementController = new ShipMovementController(new Array<eg.IMoveable>(this.Bounds, this.Graphic));
-            this.AbilityHandler = new ShipAbilityHandler(this);            
+            this.AbilityHandler = new ShipAbilityHandler(this);
             this.AnimationHandler = new ShipAnimationHandler(this, contentManager);
-            this.LevelManager = new ShipLevelManager(payload);
 
             this.LoadPayload(payload);
         }

@@ -21,7 +21,9 @@ var ShootR;
             this.OnExplosion = new eg.EventHandler();
 
             this.LifeController = new ShootR.ShipLifeController();
-            this.Graphic = new ShootR.ShipGraphic(this.LifeController, payload.MovementController.Position, Ship.SIZE, contentManager);
+            this.LevelManager = new ShootR.ShipLevelManager(payload);
+
+            this.Graphic = new ShootR.ShipGraphic(this.LevelManager, this.LifeController, payload.MovementController.Position, Ship.SIZE, contentManager);
 
             // Going to use the rectangle to "hold" all the other graphics
             _super.call(this, this.Graphic.GetDrawBounds());
@@ -29,7 +31,6 @@ var ShootR;
             this.MovementController = new ShootR.ShipMovementController(new Array(this.Bounds, this.Graphic));
             this.AbilityHandler = new ShootR.ShipAbilityHandler(this);
             this.AnimationHandler = new ShootR.ShipAnimationHandler(this, contentManager);
-            this.LevelManager = new ShootR.ShipLevelManager(payload);
 
             this.LoadPayload(payload);
         }
