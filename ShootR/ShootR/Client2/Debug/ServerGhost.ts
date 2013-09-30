@@ -19,6 +19,7 @@ module ShootR.Debug {
                 if (shipPayload.ID === this._myShipId) {
                     if (!this._ghost) {
                         this._ghost = new Ship(shipPayload, this._content);
+                        this._ghost.MovementController.UserControlled = false;
                         this._ghost.Graphic.HideLifeBar();
                         this._ghost.Graphic.Body.Opacity = .5;
                         this._scene.Add(this._ghost.Graphic);

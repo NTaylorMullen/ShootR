@@ -29,6 +29,8 @@ var ShootR;
             _super.call(this, this.Graphic.GetDrawBounds());
 
             this.MovementController = new ShootR.ShipMovementController(new Array(this.Bounds, this.Graphic));
+            this.MovementController.UserControlled = payload.UserControlled;
+
             this.AbilityHandler = new ShootR.ShipAbilityHandler(this);
             this.AnimationHandler = new ShootR.ShipAnimationHandler(this, contentManager);
 

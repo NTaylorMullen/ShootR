@@ -21,7 +21,6 @@ var ShootR;
             this.Power = ShipMovementController.ENGINE_POWER;
             this.Forces = eg.Vector2d.Zero;
             this.Controllable = true;
-            this.UserControlled = false;
             this._acceleration = eg.Vector2d.Zero;
 
             this.Moving = {

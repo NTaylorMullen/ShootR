@@ -36,6 +36,8 @@ module ShootR {
             super(this.Graphic.GetDrawBounds());
 
             this.MovementController = new ShipMovementController(new Array<eg.IMoveable>(this.Bounds, this.Graphic));
+            this.MovementController.UserControlled = payload.UserControlled;
+
             this.AbilityHandler = new ShipAbilityHandler(this);
             this.AnimationHandler = new ShipAnimationHandler(this, contentManager);
 

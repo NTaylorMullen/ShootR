@@ -38,6 +38,12 @@ module ShootR {
                 ship = shipPayload[i];
 
                 if (!this._ships[ship.ID]) {
+                    if (ship.ID === this.UserShipManager.ControlledShipId) {
+                        ship.UserControlled = true;
+                    } else {
+                        ship.UserControlled = false;
+                    }
+
                     this._ships[ship.ID] = new Ship(ship, this._contentManager);
                     this._collisionManager.Monitor(this._ships[ship.ID]);
                     this._scene.Add(this._ships[ship.ID].Graphic);

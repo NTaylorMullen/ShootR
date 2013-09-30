@@ -21,18 +21,18 @@ module ShootR {
         private _proxy: HubProxy;
         private _lastSync: Date;
 
-        constructor(private _myShipId: number, private _shipManager: ShipManager, private _collisionManager: eg.Collision.CollisionManager, input: eg.Input.InputManager, private _camera: eg.Rendering.Camera2d, serverAdapter: Server.ServerAdapter) {
+        constructor(public ControlledShipId: number, private _shipManager: ShipManager, private _collisionManager: eg.Collision.CollisionManager, input: eg.Input.InputManager, private _camera: eg.Rendering.Camera2d, serverAdapter: Server.ServerAdapter) {
             this._proxy = serverAdapter.Proxy;
             this._currentCommand = 0;
             this._commandList = [];
-            this._userCameraController = new UserCameraController(this._myShipId, this._shipManager, this._camera);
+            this._userCameraController = new UserCameraController(this.ControlledShipId, this._shipManager, this._camera);
             this._enqueuedCommands = [];
             this._lastSync = new Date();
             this.LatencyResolver = new LatencyResolver(serverAdapter);
 
             this._collisionManager.OnCollision.Bind((ship: Ship, boundary: MapBoundary) => {
                 if (ship instanceof Ship && boundary instanceof MapBoundary) {
-                    if (ship.ID === this._myShipId) {
+                    if (ship.ID === this.ControlledShipId) {
                         for (var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
                             this._enqueuedCommands.push(((i) => {
                                     return () => {
@@ -45,7 +45,7 @@ module ShootR {
             });
 
             this._shipInputController = new ShipInputController(input.Keyboard, (direction: string, startMoving: boolean) => {
-                var ship = this._shipManager.GetShip(this._myShipId);
+                var ship = this._shipManager.GetShip(this.ControlledShipId);
 
                 if (ship && ship.MovementController.Controllable && ship.LifeController.Alive) {
                     if (startMoving) {
@@ -85,13 +85,12 @@ module ShootR {
 
         public LoadPayload(payload: Server.IPayloadData): void {
             var serverCommand: number = payload.LastCommandProcessed,
-                ship: Ship = this._shipManager.GetShip(this._myShipId),
+                ship: Ship = this._shipManager.GetShip(this.ControlledShipId),
                 serverCommandIndex: number,
                 command: IShipCommand;
 
             if (ship) {
                 ship.Graphic.HideLifeBar();
-                ship.MovementController.UserControlled = true;
                 ship.LevelManager.UpdateExperience(payload.Experience, payload.ExperienceToNextLevel);
 
                 if (this._commandList.length >= 1) {
@@ -117,7 +116,7 @@ module ShootR {
         }
 
         public Update(gameTime: eg.GameTime): void {
-            var ship = this._shipManager.GetShip(this._myShipId);
+            var ship = this._shipManager.GetShip(this.ControlledShipId);
 
             if (ship) {
                 while (this._enqueuedCommands.length > 0) {
@@ -134,7 +133,7 @@ module ShootR {
         }
 
         private Invoke(method: string, pingBack: boolean, command: IShipCommand): void {
-            var ship: Ship = this._shipManager.GetShip(this._myShipId);
+            var ship: Ship = this._shipManager.GetShip(this.ControlledShipId);
 
             this._proxy.invoke(method, command.Command, { X: Math.round(ship.MovementController.Position.X - ship.Graphic.Size.HalfWidth), Y: Math.round(ship.MovementController.Position.Y - ship.Graphic.Size.HalfHeight) }, Math.roundTo(ship.MovementController.Rotation * 57.2957795, 2), { X: Math.round(ship.MovementController.Velocity.X), Y: Math.round(ship.MovementController.Velocity.Y) }, pingBack, command.CommandID);
         }

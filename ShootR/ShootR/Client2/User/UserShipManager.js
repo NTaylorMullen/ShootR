@@ -8,23 +8,23 @@
 var ShootR;
 (function (ShootR) {
     var UserShipManager = (function () {
-        function UserShipManager(_myShipId, _shipManager, _collisionManager, input, _camera, serverAdapter) {
+        function UserShipManager(ControlledShipId, _shipManager, _collisionManager, input, _camera, serverAdapter) {
             var _this = this;
-            this._myShipId = _myShipId;
+            this.ControlledShipId = ControlledShipId;
             this._shipManager = _shipManager;
             this._collisionManager = _collisionManager;
             this._camera = _camera;
             this._proxy = serverAdapter.Proxy;
             this._currentCommand = 0;
             this._commandList = [];
-            this._userCameraController = new ShootR.UserCameraController(this._myShipId, this._shipManager, this._camera);
+            this._userCameraController = new ShootR.UserCameraController(this.ControlledShipId, this._shipManager, this._camera);
             this._enqueuedCommands = [];
             this._lastSync = new Date();
             this.LatencyResolver = new ShootR.LatencyResolver(serverAdapter);
 
             this._collisionManager.OnCollision.Bind(function (ship, boundary) {
                 if (ship instanceof ShootR.Ship && boundary instanceof ShootR.MapBoundary) {
-                    if (ship.ID === _this._myShipId) {
+                    if (ship.ID === _this.ControlledShipId) {
                         for (var i = ShootR.ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
                             _this._enqueuedCommands.push((function (i) {
                                 return function () {
@@ -37,7 +37,7 @@ var ShootR;
             });
 
             this._shipInputController = new ShootR.ShipInputController(input.Keyboard, function (direction, startMoving) {
-                var ship = _this._shipManager.GetShip(_this._myShipId);
+                var ship = _this._shipManager.GetShip(_this.ControlledShipId);
 
                 if (ship && ship.MovementController.Controllable && ship.LifeController.Alive) {
                     if (startMoving) {
@@ -74,11 +74,10 @@ var ShootR;
             });
         }
         UserShipManager.prototype.LoadPayload = function (payload) {
-            var serverCommand = payload.LastCommandProcessed, ship = this._shipManager.GetShip(this._myShipId), serverCommandIndex, command;
+            var serverCommand = payload.LastCommandProcessed, ship = this._shipManager.GetShip(this.ControlledShipId), serverCommandIndex, command;
 
             if (ship) {
                 ship.Graphic.HideLifeBar();
-                ship.MovementController.UserControlled = true;
                 ship.LevelManager.UpdateExperience(payload.Experience, payload.ExperienceToNextLevel);
 
                 if (this._commandList.length >= 1) {
@@ -104,7 +103,7 @@ var ShootR;
         };
 
         UserShipManager.prototype.Update = function (gameTime) {
-            var ship = this._shipManager.GetShip(this._myShipId);
+            var ship = this._shipManager.GetShip(this.ControlledShipId);
 
             if (ship) {
                 while (this._enqueuedCommands.length > 0) {
@@ -121,7 +120,7 @@ var ShootR;
         };
 
         UserShipManager.prototype.Invoke = function (method, pingBack, command) {
-            var ship = this._shipManager.GetShip(this._myShipId);
+            var ship = this._shipManager.GetShip(this.ControlledShipId);
 
             this._proxy.invoke(method, command.Command, { X: Math.round(ship.MovementController.Position.X - ship.Graphic.Size.HalfWidth), Y: Math.round(ship.MovementController.Position.Y - ship.Graphic.Size.HalfHeight) }, Math.roundTo(ship.MovementController.Rotation * 57.2957795, 2), { X: Math.round(ship.MovementController.Velocity.X), Y: Math.round(ship.MovementController.Velocity.Y) }, pingBack, command.CommandID);
         };

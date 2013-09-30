@@ -39,6 +39,7 @@ declare module ShootR.Server {
         Level: number;
         Abilities: IAbilityData;
         MovementController: IShipMovementControllerData;
+        UserControlled?: boolean;
     }
 
     export interface IBulletData extends ICollidableData {

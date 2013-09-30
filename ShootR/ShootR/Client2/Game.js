@@ -26,15 +26,17 @@ var ShootR;
             var _this = this;
             _super.call(this, gameCanvas);
 
-            this.Configuration.UpdateRate = 1000 / initializationData.Configuration.gameConfig.UPDATE_INTERVAL;
-            this.Configuration.DrawOnlyAfterUpdate = false;
-
-            this._payloads = new Array();
             Game.GameConfiguration = new ShootR.ConfigurationManager(initializationData.Configuration);
-            this._shipManager = new ShootR.ShipManager(this.Scene.Camera, this.Scene, this.CollisionManager, this.Content);
+
+            this.Configuration.DrawOnlyAfterUpdate = false;
+            this.Configuration.CollisionConfiguration.MinQuadTreeNodeSize = new eg.Size2d(75);
+            this.Configuration.CollisionConfiguration.InitialQuadTreeSize = new eg.Size2d(10125);
+
+            this._bufferedViewport = new eg.Bounds.BoundingRectangle(this.Scene.Camera.Position, this.Scene.Camera.Size.Add(ShootR.GameScreen.SCREEN_BUFFER_AREA));
+            this._shipManager = new ShootR.ShipManager(this._bufferedViewport, this.Scene, this.CollisionManager, this.Content);
             this._shipManager.Initialize(new ShootR.UserShipManager(initializationData.ShipID, this._shipManager, this.CollisionManager, this.Input, this.Scene.Camera, serverAdapter));
-            this._bulletManager = new ShootR.BulletManager(this.Scene.Camera, this.Scene, this.Content);
-            this._powerupManager = new ShootR.PowerupManager(this.Scene.Camera, this.Scene, this.Content);
+            this._bulletManager = new ShootR.BulletManager(this._bufferedViewport, this.Scene, this.Content);
+            this._powerupManager = new ShootR.PowerupManager(this._bufferedViewport, this.Scene, this.Content);
             this._map = new ShootR.Map(this.Scene, this.CollisionManager, this.Content, this.Input.Keyboard, serverAdapter);
             this._debugManager = new ShootR.Debug.DebugManager(initializationData.ShipID, this);
             this._hud = new ShootR.HUDManager(initializationData, this._shipManager, this._map.AreaRenderer, this.Input.Keyboard, serverAdapter);
@@ -49,6 +51,7 @@ var ShootR;
 
             gameScreen.OnResize.Bind(function (newSize) {
                 _this._hud.OnScreenResize(newSize);
+                _this._bufferedViewport.Size = newSize.Add(ShootR.GameScreen.SCREEN_BUFFER_AREA);
             });
         }
         Game.prototype.LoadContent = function () {
@@ -77,6 +80,8 @@ var ShootR;
         };
 
         Game.prototype.Update = function (gameTime) {
+            this._bufferedViewport.Position = this.Scene.Camera.Position;
+
             this._shipManager.Update(gameTime);
             this._bulletManager.Update(gameTime);
             this._powerupManager.Update(gameTime);
