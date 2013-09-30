@@ -25,14 +25,12 @@ var ShootR;
             this.ScreenResizeEvent();
         }
         GameScreen.prototype.UpdateGameCanvas = function () {
-            var canvasHeight = this.Viewport.Height - this._gameHUDHeight;
-
             this._gameCanvas.attr("width", this.Viewport.Width);
-            this._gameCanvas.attr("height", canvasHeight);
+            this._gameCanvas.attr("height", this.Viewport.Height);
 
             if (this._popUpHolder) {
                 this._popUpHolder.css("width", this.Viewport.Width);
-                this._popUpHolder.css("height", canvasHeight);
+                this._popUpHolder.css("height", this.Viewport.Height);
             }
         };
 
@@ -54,7 +52,7 @@ var ShootR;
         };
 
         GameScreen.prototype.UpdateViewport = function () {
-            return new eg.Size2d(Math.max(Math.min($(window).width(), GameScreen.MAX_SCREEN_WIDTH), GameScreen.MIN_SCREEN_WIDTH), Math.max(Math.min($(window).height(), GameScreen.MAX_SCREEN_HEIGHT), GameScreen.MIN_SCREEN_HEIGHT));
+            return new eg.Size2d(Math.max(Math.min($(window).width(), GameScreen.MAX_SCREEN_WIDTH), GameScreen.MIN_SCREEN_WIDTH), Math.max(Math.min($(window).height() - this._gameHUDHeight, GameScreen.MAX_SCREEN_HEIGHT), GameScreen.MIN_SCREEN_HEIGHT));
         };
 
         GameScreen.prototype.SendNewViewportToServer = function () {

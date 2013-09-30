@@ -35,14 +35,12 @@ module ShootR {
         public OnResize: eg.EventHandler1<eg.Size2d>;
 
         private UpdateGameCanvas(): void {
-            var canvasHeight: number = this.Viewport.Height - this._gameHUDHeight;
-
             this._gameCanvas.attr("width", this.Viewport.Width);
-            this._gameCanvas.attr("height", canvasHeight);
+            this._gameCanvas.attr("height", this.Viewport.Height);
 
             if (this._popUpHolder) {
                 this._popUpHolder.css("width", this.Viewport.Width);
-                this._popUpHolder.css("height", canvasHeight);
+                this._popUpHolder.css("height", this.Viewport.Height);
             }
         }
 
@@ -65,7 +63,7 @@ module ShootR {
         public UpdateViewport(): eg.Size2d {
             return new eg.Size2d(
                 Math.max(Math.min($(window).width(), GameScreen.MAX_SCREEN_WIDTH), GameScreen.MIN_SCREEN_WIDTH),
-                Math.max(Math.min($(window).height(), GameScreen.MAX_SCREEN_HEIGHT), GameScreen.MIN_SCREEN_HEIGHT)
+                Math.max(Math.min($(window).height() - this._gameHUDHeight, GameScreen.MAX_SCREEN_HEIGHT), GameScreen.MIN_SCREEN_HEIGHT)
                 );
         }
 

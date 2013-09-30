@@ -50,7 +50,7 @@ var ShootR;
         HUDManager.prototype.OnScreenResize = function (newViewport) {
             this._gameHUD.css("width", newViewport.Width);
             this._gameHUD.css("height", this._gameHUDHeight);
-            this._gameHUD.css("top", newViewport.Height - this._gameHUDHeight);
+            this._gameHUD.css("top", newViewport.Height);
             this._shipHealthMonitor.OnScreenResize();
             this.CenterDoublePopup(newViewport);
 
@@ -69,7 +69,7 @@ var ShootR;
 
         HUDManager.prototype.CenterDoublePopup = function (newViewport) {
             // The left is handled by the css
-            this._doublePopupHolder.css("top", ((newViewport.Height - this._gameHUDHeight) / 2) - this._doublePopupHolder.height() / 2);
+            this._doublePopupHolder.css("top", (newViewport.Height / 2) - this._doublePopupHolder.height() / 2);
         };
 
         HUDManager.prototype.LoadPayload = function (payload) {

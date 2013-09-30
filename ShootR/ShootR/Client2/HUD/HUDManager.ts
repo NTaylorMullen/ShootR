@@ -63,7 +63,7 @@ module ShootR {
         public OnScreenResize(newViewport: eg.Size2d): void {
             this._gameHUD.css("width", newViewport.Width);
             this._gameHUD.css("height", this._gameHUDHeight);
-            this._gameHUD.css("top", newViewport.Height - this._gameHUDHeight);
+            this._gameHUD.css("top", newViewport.Height);
             this._shipHealthMonitor.OnScreenResize();
             this.CenterDoublePopup(newViewport);
 
@@ -86,7 +86,7 @@ module ShootR {
 
         public CenterDoublePopup(newViewport: eg.Size2d): void {
             // The left is handled by the css
-            this._doublePopupHolder.css("top", ((newViewport.Height - this._gameHUDHeight) / 2) - this._doublePopupHolder.height() / 2);
+            this._doublePopupHolder.css("top", (newViewport.Height / 2) - this._doublePopupHolder.height() / 2);
         }
 
         public LoadPayload(payload: Server.IPayloadData): void {
