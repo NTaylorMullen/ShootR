@@ -46,8 +46,6 @@ namespace ShootR
         public int CurrentLeaderboardPosition { get; set; }
         public bool DeathOccured { get; set; }
 
-        public long LastCommandID { get; set; }
-
         public virtual void PushToClient(object[] payload, IHubContext context)
         {
             context.Clients.Client(ConnectionID).d(payload);

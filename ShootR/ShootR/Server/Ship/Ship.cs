@@ -123,7 +123,7 @@ namespace ShootR
             }
         }
 
-        public virtual void ActivateAbility(string abilityName, Vector2 at, double angle, Vector2 velocity, long commandID)
+        public virtual void ActivateAbility(string abilityName, Vector2 at, double angle, Vector2 velocity)
         {
             Host.IdleManager.RecordActivity();
 
@@ -132,11 +132,10 @@ namespace ShootR
                 _interpolationManager.SyncMovement(at, angle, velocity);
 
                 AbilityHandler.Activate(abilityName);
-                Host.LastCommandID = commandID;
             });
         }
 
-        public virtual void DeactivateAbility(string abilityName, Vector2 at, double angle, Vector2 velocity, long commandID)
+        public virtual void DeactivateAbility(string abilityName, Vector2 at, double angle, Vector2 velocity)
         {
             Host.IdleManager.RecordActivity();
 
@@ -145,11 +144,10 @@ namespace ShootR
                 _interpolationManager.SyncMovement(at, angle, velocity);
 
                 AbilityHandler.Deactivate(abilityName);
-                Host.LastCommandID = commandID;
             });
         }
 
-        public virtual void StartMoving(Movement where, Vector2 at, double angle, Vector2 velocity, long commandID)
+        public virtual void StartMoving(Movement where, Vector2 at, double angle, Vector2 velocity)
         {
             Host.IdleManager.RecordActivity();
 
@@ -158,11 +156,10 @@ namespace ShootR
                 _interpolationManager.SyncMovement(at, angle, velocity);
 
                 MovementController.StartMoving(where);
-                Host.LastCommandID = commandID;
             });
         }
 
-        public virtual void StopMoving(Movement where, Vector2 at, double angle, Vector2 velocity, long commandID)
+        public virtual void StopMoving(Movement where, Vector2 at, double angle, Vector2 velocity)
         {
             Host.IdleManager.RecordActivity();
 
@@ -171,7 +168,6 @@ namespace ShootR
                 _interpolationManager.SyncMovement(at, angle, velocity);
 
                 MovementController.StopMoving(where);
-                Host.LastCommandID = commandID;
             });
         }
 
@@ -183,7 +179,7 @@ namespace ShootR
             });
         }
 
-        public void ResetMoving(List<Movement> movementList, Vector2 at, double angle, Vector2 velocity, long commandID)
+        public void ResetMoving(List<Movement> movementList, Vector2 at, double angle, Vector2 velocity)
         {
             _enqueuedCommands.Enqueue(() =>
             {
@@ -193,8 +189,6 @@ namespace ShootR
                 {
                     MovementController.StopMoving(m);
                 }
-
-                Host.LastCommandID = commandID;
             });
         }
 

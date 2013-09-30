@@ -171,7 +171,7 @@ namespace ShootR
         /// Resets all movement flags on the ship
         /// </summary>
         /// <param name="pingBack"></param>
-        public void resetMovement(List<string> movementList, Vector2 at, double angle, Vector2 velocity, bool pingBack, long commandID)
+        public void resetMovement(List<string> movementList, Vector2 at, double angle, Vector2 velocity, bool pingBack)
         {
             if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
             {
@@ -192,7 +192,7 @@ namespace ShootR
                             result.Add((Movement)Enum.Parse(typeof(Movement), where));
                         }
 
-                        ship.ResetMoving(result, at, angle, velocity, commandID);
+                        ship.ResetMoving(result, at, angle, velocity);
                     }
                 }
                 catch (Exception e)
@@ -202,7 +202,7 @@ namespace ShootR
             }
         }
 
-        public void startAndStopMovement(string toStop, string toStart, Vector2 at, double angle, Vector2 velocity, bool pingBack, long commandID)
+        public void startAndStopMovement(string toStop, string toStart, Vector2 at, double angle, Vector2 velocity, bool pingBack)
         {
             if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
             {
@@ -219,8 +219,8 @@ namespace ShootR
                     {
                         Movement whereToStop = (Movement)Enum.Parse(typeof(Movement), toStop);
                         Movement whereToStart = (Movement)Enum.Parse(typeof(Movement), toStart);
-                        ship.StopMoving(whereToStop, at, angle, velocity, commandID);
-                        ship.StartMoving(whereToStart, at, angle, velocity, commandID);
+                        ship.StopMoving(whereToStop, at, angle, velocity);
+                        ship.StartMoving(whereToStart, at, angle, velocity);
                     }
                 }
                 catch (Exception e)
@@ -234,7 +234,7 @@ namespace ShootR
         /// Registers the start of a movement on a clint.  Fires when the client presses a movement hotkey.
         /// </summary>
         /// <param name="movement">Direction to start moving</param>
-        public void registerMoveStart(string movement, Vector2 at, double angle, Vector2 velocity, bool pingBack, long commandID)
+        public void registerMoveStart(string movement, Vector2 at, double angle, Vector2 velocity, bool pingBack)
         {
             if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
             {
@@ -250,7 +250,7 @@ namespace ShootR
                     if (ship.Controllable.Value)
                     {
                         Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-                        ship.StartMoving(where, at, angle, velocity, commandID);
+                        ship.StartMoving(where, at, angle, velocity);
                     }
                 }
                 catch (Exception e)
@@ -264,7 +264,7 @@ namespace ShootR
         /// Registers the stop of a movement on a client.  Fires when the client presses a movement hotkey.
         /// </summary>
         /// <param name="movement">Direction to stop moving</param>
-        public void registerMoveStop(string movement, Vector2 at, double angle, Vector2 velocity, bool pingBack, long commandID)
+        public void registerMoveStop(string movement, Vector2 at, double angle, Vector2 velocity, bool pingBack)
         {
             if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
             {
@@ -280,7 +280,7 @@ namespace ShootR
                     if (ship.Controllable.Value)
                     {
                         Movement where = (Movement)Enum.Parse(typeof(Movement), movement);
-                        ship.StopMoving(where, at, angle, velocity, commandID);
+                        ship.StopMoving(where, at, angle, velocity);
                     }
                 }
                 catch (Exception e)
@@ -290,7 +290,7 @@ namespace ShootR
             }
         }
 
-        public void registerAbilityStart(string abilityName, Vector2 at, double angle, Vector2 velocity, bool pingBack, long commandID)
+        public void registerAbilityStart(string abilityName, Vector2 at, double angle, Vector2 velocity, bool pingBack)
         {
             if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
             {
@@ -305,7 +305,7 @@ namespace ShootR
 
                     if (ship.Controllable.Value)
                     {
-                        ship.ActivateAbility(abilityName, at, angle, velocity, commandID);
+                        ship.ActivateAbility(abilityName, at, angle, velocity);
                     }
                 }
                 catch (Exception e)
@@ -314,7 +314,7 @@ namespace ShootR
             }
         }
 
-        public void registerAbilityStop(string abilityName, Vector2 at, double angle, Vector2 velocity, bool pingBack, long commandID)
+        public void registerAbilityStop(string abilityName, Vector2 at, double angle, Vector2 velocity, bool pingBack)
         {
             if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
             {
@@ -329,7 +329,7 @@ namespace ShootR
 
                     if (ship.Controllable.Value)
                     {
-                        ship.DeactivateAbility(abilityName, at, angle, velocity, commandID);
+                        ship.DeactivateAbility(abilityName, at, angle, velocity);
                     }
                 }
                 catch (Exception e)

@@ -14,8 +14,6 @@ module ShootR {
         public LatencyResolver: LatencyResolver;
 
         private _shipInputController: ShipInputController;
-        private _currentCommand: number;
-        private _commandList: IShipCommand[];
         private _userCameraController: UserCameraController;
         private _enqueuedCommands: Array<Function>;
         private _proxy: HubProxy;
@@ -23,8 +21,6 @@ module ShootR {
 
         constructor(public ControlledShipId: number, private _shipManager: ShipManager, private _collisionManager: eg.Collision.CollisionManager, input: eg.Input.InputManager, private _camera: eg.Rendering.Camera2d, serverAdapter: Server.ServerAdapter) {
             this._proxy = serverAdapter.Proxy;
-            this._currentCommand = 0;
-            this._commandList = [];
             this._userCameraController = new UserCameraController(this.ControlledShipId, this._shipManager, this._camera);
             this._enqueuedCommands = [];
             this._lastSync = new Date();
@@ -37,6 +33,8 @@ module ShootR {
                             this._enqueuedCommands.push(((i) => {
                                     return () => {
                                     this.Invoke("registerMoveStop", false, this.NewMovementCommand(ShipMovementController.MOVING_DIRECTIONS[i], false));
+
+                                    ship.MovementController.StopMoving(ShipMovementController.MOVING_DIRECTIONS[i]);
                                 }
                             })(i));
                         }
@@ -84,34 +82,11 @@ module ShootR {
         }
 
         public LoadPayload(payload: Server.IPayloadData): void {
-            var serverCommand: number = payload.LastCommandProcessed,
-                ship: Ship = this._shipManager.GetShip(this.ControlledShipId),
-                serverCommandIndex: number,
-                command: IShipCommand;
+            var ship: Ship = this._shipManager.GetShip(this.ControlledShipId);
 
             if (ship) {
                 ship.Graphic.HideLifeBar();
                 ship.LevelManager.UpdateExperience(payload.Experience, payload.ExperienceToNextLevel);
-
-                if (this._commandList.length >= 1) {
-                    serverCommandIndex = this._commandList.length - (this._currentCommand - serverCommand);
-
-                    for (var i = serverCommandIndex; i < this._commandList.length; i++) {
-                        command = this._commandList[i];
-
-                        if (command.IsAbility) {
-                            if (command.Start) {
-                                ship.AbilityHandler.Activate(command.Command)
-                        } else {
-                                ship.AbilityHandler.Deactivate(command.Command)
-                        }
-                        } else {
-                            ship.MovementController.Moving[command.Command] = command.Start;
-                        }
-                    }
-
-                    this._commandList.splice(0, serverCommandIndex);
-                }
             }
         }
 
@@ -135,38 +110,31 @@ module ShootR {
         private Invoke(method: string, pingBack: boolean, command: IShipCommand): void {
             var ship: Ship = this._shipManager.GetShip(this.ControlledShipId);
 
-            this._proxy.invoke(method, command.Command, { X: Math.round(ship.MovementController.Position.X - ship.Graphic.Size.HalfWidth), Y: Math.round(ship.MovementController.Position.Y - ship.Graphic.Size.HalfHeight) }, Math.roundTo(ship.MovementController.Rotation * 57.2957795, 2), { X: Math.round(ship.MovementController.Velocity.X), Y: Math.round(ship.MovementController.Velocity.Y) }, pingBack, command.CommandID);
+            this._proxy.invoke(method, command.Command, { X: Math.round(ship.MovementController.Position.X - ship.Graphic.Size.HalfWidth), Y: Math.round(ship.MovementController.Position.Y - ship.Graphic.Size.HalfHeight) }, Math.roundTo(ship.MovementController.Rotation * 57.2957795, 2), { X: Math.round(ship.MovementController.Velocity.X), Y: Math.round(ship.MovementController.Velocity.Y) }, pingBack);
         }
 
         private NewMovementCommand(direction: string, startMoving: boolean): IShipCommand {
             var command: IShipCommand = {
-                CommandID: ++this._currentCommand,
                 Command: direction,
                 Start: startMoving,
                 IsAbility: false
             };
-
-            this._commandList.push(command);
 
             return command;
         }
 
         private NewAbilityCommand(ability: string, startMoving: boolean): IShipCommand {
             var command: IShipCommand = {
-                CommandID: ++this._currentCommand,
                 Command: ability,
                 Start: startMoving,
                 IsAbility: true
             };
-
-            this._commandList.push(command);
 
             return command;
         }
     }
 
     interface IShipCommand {
-        CommandID: number;
         Command: string;
         Start: boolean;
         IsAbility: boolean;
