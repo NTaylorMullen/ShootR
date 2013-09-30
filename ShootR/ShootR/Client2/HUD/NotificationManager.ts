@@ -71,7 +71,7 @@ module ShootR {
             var newNotification: JQuery = this.notificationBase.clone(),
                 notificationText: JQuery = newNotification.find("p");
 
-            notificationText.text(message);
+            notificationText[0].innerHTML = message;
 
             this.notifications.append(newNotification);
 

@@ -46,8 +46,8 @@ module ShootR {
         private YouDied(by: string, byPhoto: string): void {
             var quote: number = Math.floor(Math.random() * this._randomQuotes.length);
 
-            this._topLineQuote.text(this._randomQuotes[quote][0]);
-            this._botLineQuote.text(this._randomQuotes[quote][1]);
+            this._topLineQuote[0].innerHTML = this._randomQuotes[quote][0];
+            this._botLineQuote[0].innerHTML = this._randomQuotes[quote][1];
 
             this._killedByName.text(by);
             this._killedByPhoto.attr("src", byPhoto);
@@ -58,11 +58,11 @@ module ShootR {
             this._popupWindows.addClass("goLeft");
 
             this._fadeIns.fadeIn(1000);
-            this._respawnTime.text(DeathScreen.RESPAWN_TIMER.Seconds.toString());
+            this._respawnTime[0].innerHTML = DeathScreen.RESPAWN_TIMER.Seconds.toString();
 
             var interval = setInterval(() => {
-                var left: number = parseInt(this._respawnTime.text()) - 1;
-                this._respawnTime.text(left.toString());
+                var left: number = parseInt(this._respawnTime[0].innerHTML) - 1;
+                this._respawnTime[0].innerHTML = left.toString();
 
                 if (left === 0) {
                     clearInterval(interval);

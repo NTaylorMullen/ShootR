@@ -37,8 +37,8 @@ var ShootR;
                 this._myPosition = newPosition;
                 this._lastOutOf = outOf;
 
-                this._globalRanking.text(this._myPosition.toString());
-                this._globalRankingLB.text(this._myPosition + " of " + outOf);
+                this._globalRanking[0].innerHTML = this._myPosition.toString();
+                this._globalRankingLB[0].innerHTML = this._myPosition + " of " + outOf;
             }
         };
 
@@ -48,13 +48,13 @@ var ShootR;
                     this._koStatusCount = kills - this._lastKills;
                     this._killsEle.stop(true);
                     this._killsEle.animate({ color: "#7F7F7F" }, 500).animate({ color: "#FFFFFF" }, 500);
-                    this._killsEle.text(kills.toString());
+                    this._killsEle[0].innerHTML = kills.toString();
                 }
 
                 if (deaths != this._lastDeaths) {
                     this._deathsEle.stop(true);
                     this._deathsEle.animate({ color: "#7F7F7F" }, 500).animate({ color: "#FFFFFF" }, 500);
-                    this._deathsEle.text(deaths.toString());
+                    this._deathsEle[0].innerHTML = deaths.toString();
                 }
 
                 var finalRatio;
@@ -77,7 +77,7 @@ var ShootR;
                     finalRatio = kRatio + ":" + dRatio;
                 }
 
-                this._kdRatioEle.text(finalRatio);
+                this._kdRatioEle[0].innerHTML = finalRatio;
 
                 this._lastKills = kills;
                 this._lastDeaths = deaths;

@@ -17,13 +17,13 @@ module ShootR {
         constructor(private _areaRenderer: AreaRenderer, private _userShipManager: UserShipManager) { }
 
         public LoadPayload(payload: Server.IPayloadData): void {
-            this._latency.text(this._userShipManager.LatencyResolver.Latency);
-            this._worldBullets.text(payload.BulletsInWorld.toString());
-            this._worldTargets.text(payload.ShipsInWorld.toString());            
+            this._latency[0].innerHTML = this._userShipManager.LatencyResolver.Latency;
+            this._worldBullets[0].innerHTML = payload.BulletsInWorld.toString();
+            this._worldTargets[0].innerHTML = payload.ShipsInWorld.toString();
         }
 
         public Update(ship: Ship): void {
-            this._area.text(this._areaRenderer.AreaFromPosition(ship.MovementController.Position).toString());
+            this._area[0].innerHTML = this._areaRenderer.AreaFromPosition(ship.MovementController.Position).toString();
         }
     }
 

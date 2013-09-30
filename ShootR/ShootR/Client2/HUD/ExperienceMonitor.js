@@ -26,7 +26,7 @@ var ShootR;
 
                     this._experienceBar.css('width', '0%');
                     this._popupHolder.css("display", "block");
-                    this._currentLevelNotification.text(ship.LevelManager.Level.toString());
+                    this._currentLevelNotification[0].innerHTML = ship.LevelManager.Level.toString();
                     this._levelNotification.animate({ top: 0 }, 1000).delay(3000).animate({ top: -234 }, 1000, function () {
                         that._popupHolder.css("display", "none");
                     });
@@ -34,7 +34,7 @@ var ShootR;
                     experienceIncrease = ship.LevelManager.Experience - this._lastExperience;
                 }
 
-                this._currentExperience.text(ship.LevelManager.Experience + "/" + ship.LevelManager.ExperienceToNextLevel);
+                this._currentExperience[0].innerHTML = ship.LevelManager.Experience + "/" + ship.LevelManager.ExperienceToNextLevel;
 
                 experiencePercentage = (ship.LevelManager.Experience / ship.LevelManager.ExperienceToNextLevel) * 100;
 
@@ -47,7 +47,7 @@ var ShootR;
                 this._lastExperience = ship.LevelManager.Experience;
                 this._lastExperienceToNextLevel = ship.LevelManager.ExperienceToNextLevel;
 
-                this._currentLevel.text(ship.LevelManager.Level.toString());
+                this._currentLevel[0].innerHTML = ship.LevelManager.Level.toString();
             }
         };
         ExperienceMonitor.ANIMATE_SPEED = 500;

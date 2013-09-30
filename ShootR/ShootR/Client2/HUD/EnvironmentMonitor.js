@@ -17,13 +17,13 @@ var ShootR;
             this._area = $("#Area");
         }
         EnvironmentMonitor.prototype.LoadPayload = function (payload) {
-            this._latency.text(this._userShipManager.LatencyResolver.Latency);
-            this._worldBullets.text(payload.BulletsInWorld.toString());
-            this._worldTargets.text(payload.ShipsInWorld.toString());
+            this._latency[0].innerHTML = this._userShipManager.LatencyResolver.Latency;
+            this._worldBullets[0].innerHTML = payload.BulletsInWorld.toString();
+            this._worldTargets[0].innerHTML = payload.ShipsInWorld.toString();
         };
 
         EnvironmentMonitor.prototype.Update = function (ship) {
-            this._area.text(this._areaRenderer.AreaFromPosition(ship.MovementController.Position).toString());
+            this._area[0].innerHTML = this._areaRenderer.AreaFromPosition(ship.MovementController.Position).toString();
         };
         return EnvironmentMonitor;
     })();

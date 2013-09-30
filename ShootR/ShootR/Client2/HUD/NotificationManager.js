@@ -69,7 +69,7 @@ var ShootR;
             var _this = this;
             var newNotification = this.notificationBase.clone(), notificationText = newNotification.find("p");
 
-            notificationText.text(message);
+            notificationText[0].innerHTML = message;
 
             this.notifications.append(newNotification);
 

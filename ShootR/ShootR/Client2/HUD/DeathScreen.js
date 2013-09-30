@@ -41,8 +41,8 @@ var ShootR;
             var _this = this;
             var quote = Math.floor(Math.random() * this._randomQuotes.length);
 
-            this._topLineQuote.text(this._randomQuotes[quote][0]);
-            this._botLineQuote.text(this._randomQuotes[quote][1]);
+            this._topLineQuote[0].innerHTML = this._randomQuotes[quote][0];
+            this._botLineQuote[0].innerHTML = this._randomQuotes[quote][1];
 
             this._killedByName.text(by);
             this._killedByPhoto.attr("src", byPhoto);
@@ -53,11 +53,11 @@ var ShootR;
             this._popupWindows.addClass("goLeft");
 
             this._fadeIns.fadeIn(1000);
-            this._respawnTime.text(DeathScreen.RESPAWN_TIMER.Seconds.toString());
+            this._respawnTime[0].innerHTML = DeathScreen.RESPAWN_TIMER.Seconds.toString();
 
             var interval = setInterval(function () {
-                var left = parseInt(_this._respawnTime.text()) - 1;
-                _this._respawnTime.text(left.toString());
+                var left = parseInt(_this._respawnTime[0].innerHTML) - 1;
+                _this._respawnTime[0].innerHTML = left.toString();
 
                 if (left === 0) {
                     clearInterval(interval);

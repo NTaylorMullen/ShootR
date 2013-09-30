@@ -46,7 +46,7 @@ module ShootR {
                 }
 
                 this._lastHealth = ship.LifeController.Health;
-                this._healthText.text(this._lastHealth + "/" + this._maxHealth);
+                this._healthText[0].innerHTML = this._lastHealth + "/" + this._maxHealth;
                 this._currentHealthBar.stop(true);
                 this._currentHealthHeart.stop(true);
 
