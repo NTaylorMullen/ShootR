@@ -30,7 +30,7 @@ module ShootR {
             this.LifeController = new ShipLifeController(payload);
             this.LevelManager = new ShipLevelManager(payload);
 
-            this.Graphic = new ShipGraphic(this.LevelManager, this.LifeController, payload.MovementController.Position, Ship.SIZE, contentManager);
+            this.Graphic = new ShipGraphic(this.LevelManager, this.LifeController, payload.MovementController.Position, payload.MovementController.Rotation, Ship.SIZE, contentManager);
 
             // Going to use the rectangle to "hold" all the other graphics
             super(this.Graphic.GetDrawBounds());
@@ -41,7 +41,7 @@ module ShootR {
             this.AbilityHandler = new ShipAbilityHandler(this);
             this.AnimationHandler = new ShipAnimationHandler(this, contentManager);
 
-            this.LoadPayload(payload);
+            this.LoadPayload(payload, true);
         }
 
         public OnExplosion: eg.EventHandler;
@@ -56,9 +56,9 @@ module ShootR {
             this.Graphic.Update(gameTime);
         }
 
-        public LoadPayload(payload: Server.IShipData): void {
+        public LoadPayload(payload: Server.IShipData, forceMovement?: boolean): void {
             this.ID = payload.ID;
-            this.MovementController.LoadPayload(payload.MovementController);
+            this.MovementController.LoadPayload(payload.MovementController, forceMovement);
             this.LifeController.LoadPayload(payload);
             this.LevelManager.LoadPayload(payload);
         }

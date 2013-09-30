@@ -14,7 +14,7 @@ module ShootR {
         public static MAX_SCREEN_HEIGHT: number = 10000;
         public static MIN_SCREEN_WIDTH: number = -1;
         public static MIN_SCREEN_HEIGHT: number = -1;
-        public static SCREEN_BUFFER_AREA: number = 100;
+        public static SCREEN_BUFFER_AREA: number = 200;
 
         public Viewport: eg.Size2d;
 

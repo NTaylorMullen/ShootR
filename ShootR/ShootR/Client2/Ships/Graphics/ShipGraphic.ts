@@ -14,11 +14,12 @@ module ShootR {
         private _lifeBar: ShipLifeGraphic;
         private _statusGraphic: ShipStatusTextGraphic;
 
-        constructor(levelManager: ShipLevelManager, lifeController: ShipLifeController, position: eg.Vector2d, size: eg.Size2d, contentManager: eg.Content.ContentManager) {
+        constructor(levelManager: ShipLevelManager, lifeController: ShipLifeController, position: eg.Vector2d, rotation: number, size: eg.Size2d, contentManager: eg.Content.ContentManager) {
             // The Graphic color is transparent because all graphics that represent a ship will be added as a child.
             super(position.X, position.Y, size.Width, size.Height, eg.Graphics.Color.Transparent);            
 
             this.Body = new ShipBodyGraphic(levelManager);
+            this.RotateShip(rotation);
             this._damageGraphic = new ShipDamageGraphic(lifeController, contentManager);
             this._lifeBar = new ShipLifeGraphic(lifeController);
             this._statusGraphic = new ShipStatusTextGraphic(levelManager, lifeController);

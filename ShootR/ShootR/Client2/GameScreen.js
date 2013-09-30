@@ -62,7 +62,7 @@ var ShootR;
         GameScreen.MAX_SCREEN_HEIGHT = 10000;
         GameScreen.MIN_SCREEN_WIDTH = -1;
         GameScreen.MIN_SCREEN_HEIGHT = -1;
-        GameScreen.SCREEN_BUFFER_AREA = 100;
+        GameScreen.SCREEN_BUFFER_AREA = 200;
         return GameScreen;
     })();
     ShootR.GameScreen = GameScreen;

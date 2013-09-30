@@ -15,11 +15,12 @@ var ShootR;
 (function (ShootR) {
     var ShipGraphic = (function (_super) {
         __extends(ShipGraphic, _super);
-        function ShipGraphic(levelManager, lifeController, position, size, contentManager) {
+        function ShipGraphic(levelManager, lifeController, position, rotation, size, contentManager) {
             // The Graphic color is transparent because all graphics that represent a ship will be added as a child.
             _super.call(this, position.X, position.Y, size.Width, size.Height, eg.Graphics.Color.Transparent);
 
             this.Body = new ShootR.ShipBodyGraphic(levelManager);
+            this.RotateShip(rotation);
             this._damageGraphic = new ShootR.ShipDamageGraphic(lifeController, contentManager);
             this._lifeBar = new ShootR.ShipLifeGraphic(lifeController);
             this._statusGraphic = new ShootR.ShipStatusTextGraphic(levelManager, lifeController);

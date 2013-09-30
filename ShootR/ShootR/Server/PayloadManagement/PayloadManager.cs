@@ -8,7 +8,7 @@ namespace ShootR
 {
     public class PayloadManager
     {
-        public const int SCREEN_BUFFER_AREA = 100; // Send X extra pixels down to the client to allow for latency between client and server
+        public const int SCREEN_BUFFER_AREA = 200; // Send X extra pixels down to the client to allow for latency between client and server
 
         public PayloadCompressor Compressor = new PayloadCompressor();
 

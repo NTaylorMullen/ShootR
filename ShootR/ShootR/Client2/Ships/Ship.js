@@ -23,7 +23,7 @@ var ShootR;
             this.LifeController = new ShootR.ShipLifeController(payload);
             this.LevelManager = new ShootR.ShipLevelManager(payload);
 
-            this.Graphic = new ShootR.ShipGraphic(this.LevelManager, this.LifeController, payload.MovementController.Position, Ship.SIZE, contentManager);
+            this.Graphic = new ShootR.ShipGraphic(this.LevelManager, this.LifeController, payload.MovementController.Position, payload.MovementController.Rotation, Ship.SIZE, contentManager);
 
             // Going to use the rectangle to "hold" all the other graphics
             _super.call(this, this.Graphic.GetDrawBounds());
@@ -34,7 +34,7 @@ var ShootR;
             this.AbilityHandler = new ShootR.ShipAbilityHandler(this);
             this.AnimationHandler = new ShootR.ShipAnimationHandler(this, contentManager);
 
-            this.LoadPayload(payload);
+            this.LoadPayload(payload, true);
         }
         Ship.prototype.Update = function (gameTime) {
             this.AbilityHandler.Update(gameTime);
@@ -46,9 +46,9 @@ var ShootR;
             this.Graphic.Update(gameTime);
         };
 
-        Ship.prototype.LoadPayload = function (payload) {
+        Ship.prototype.LoadPayload = function (payload, forceMovement) {
             this.ID = payload.ID;
-            this.MovementController.LoadPayload(payload.MovementController);
+            this.MovementController.LoadPayload(payload.MovementController, forceMovement);
             this.LifeController.LoadPayload(payload);
             this.LevelManager.LoadPayload(payload);
         };

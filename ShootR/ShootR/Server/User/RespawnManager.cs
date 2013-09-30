@@ -29,6 +29,9 @@ namespace ShootR
             {
                 ship.LifeController.HealFull();
                 ship.MovementController.Position = GetRandomStartPosition();
+                ship.MovementController.Velocity = Vector2.Zero;
+                ship.MovementController.Rotation = _gen.Next(0, 360);
+                ship.MovementController.StopMovement();
                 ship.Disposed = false;
                 ship.Controllable.Value = true;
                 _gameHandler.AddShipToGame(ship);

@@ -210,7 +210,7 @@ namespace ShootR
 
             while (_enqueuedCommands.Count > 0)
             {
-                if (_enqueuedCommands.TryDequeue(out command))
+                if (_enqueuedCommands.TryDequeue(out command) && !this.Disposed)
                 {
                     command();
                 }
