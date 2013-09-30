@@ -7,12 +7,14 @@
 module ShootR {
 
     export class GameScreen {
+        private _gameHUDHeight: number = $("#gameHUD").height();
+
         // Initially set to really high, this will be changed by the configuration
-        static MAX_SCREEN_WIDTH: number = 10000;
-        static MAX_SCREEN_HEIGHT: number = 10000;
-        static MIN_SCREEN_WIDTH: number = -1;
-        static MIN_SCREEN_HEIGHT: number = -1;
-        static SCREEN_BUFFER_AREA: number = 100;
+        public static MAX_SCREEN_WIDTH: number = 10000;
+        public static MAX_SCREEN_HEIGHT: number = 10000;
+        public static MIN_SCREEN_WIDTH: number = -1;
+        public static MIN_SCREEN_HEIGHT: number = -1;
+        public static SCREEN_BUFFER_AREA: number = 100;
 
         public Viewport: eg.Size2d;
 
@@ -33,12 +35,14 @@ module ShootR {
         public OnResize: eg.EventHandler1<eg.Size2d>;
 
         private UpdateGameCanvas(): void {
+            var canvasHeight: number = this.Viewport.Height - this._gameHUDHeight;
+
             this._gameCanvas.attr("width", this.Viewport.Width);
-            this._gameCanvas.attr("height", this.Viewport.Height);
+            this._gameCanvas.attr("height", canvasHeight);
 
             if (this._popUpHolder) {
                 this._popUpHolder.css("width", this.Viewport.Width);
-                this._popUpHolder.css("height", this.Viewport.Height);
+                this._popUpHolder.css("height", canvasHeight);
             }
         }
 

@@ -11,6 +11,7 @@ var ShootR;
             this._gameCanvas = _gameCanvas;
             this._popUpHolder = _popUpHolder;
             this._serverAdapter = _serverAdapter;
+            this._gameHUDHeight = $("#gameHUD").height();
             this.Viewport = this.UpdateViewport();
             this.OnResize = new eg.EventHandler1();
 
@@ -24,12 +25,14 @@ var ShootR;
             this.ScreenResizeEvent();
         }
         GameScreen.prototype.UpdateGameCanvas = function () {
+            var canvasHeight = this.Viewport.Height - this._gameHUDHeight;
+
             this._gameCanvas.attr("width", this.Viewport.Width);
-            this._gameCanvas.attr("height", this.Viewport.Height);
+            this._gameCanvas.attr("height", canvasHeight);
 
             if (this._popUpHolder) {
                 this._popUpHolder.css("width", this.Viewport.Width);
-                this._popUpHolder.css("height", this.Viewport.Height);
+                this._popUpHolder.css("height", canvasHeight);
             }
         };
 

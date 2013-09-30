@@ -60,9 +60,6 @@ module ShootR {
             });
         }
 
-        public OnMapResize(newSize: eg.Size2d): void {
-        }
-
         public OnScreenResize(newViewport: eg.Size2d): void {
             this._gameHUD.css("width", newViewport.Width);
             this._gameHUD.css("height", this._gameHUDHeight);

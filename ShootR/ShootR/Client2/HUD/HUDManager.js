@@ -47,9 +47,6 @@ var ShootR;
                 window.location.reload(true);
             });
         }
-        HUDManager.prototype.OnMapResize = function (newSize) {
-        };
-
         HUDManager.prototype.OnScreenResize = function (newViewport) {
             this._gameHUD.css("width", newViewport.Width);
             this._gameHUD.css("height", this._gameHUDHeight);
