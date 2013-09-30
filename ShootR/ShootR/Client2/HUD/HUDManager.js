@@ -22,6 +22,7 @@ var ShootR;
             this._doublePopupHolder = $("#doublePopupHolder");
             this._locationStats = $("#LocationStatisticsHolder");
             this._shipStats = $("#StatisticHolder");
+            this._logout = $("#logout");
             this._myShipId = initialization.ShipID;
             this._gameHUDHeight = this._gameHUD.height();
             this._shipStatMonitor = new ShootR.ShipStatMonitor();
@@ -33,6 +34,18 @@ var ShootR;
             this._deathScreen = new ShootR.DeathScreen();
             this._notificationManager = new ShootR.NotificationManager(serverAdapter);
             this._userInformationManager = new ShootR.UserInformationManager(initialization.UserInformation);
+
+            this._logout.click(function () {
+                // Clear cookies
+                var c = document.cookie.split(";");
+                for (var i = 0; i < c.length; i++) {
+                    var e = c[i].indexOf("=");
+                    var n = e > -1 ? c[i].substr(0, e) : c[i];
+                    document.cookie = n + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                }
+
+                window.location.reload(true);
+            });
         }
         HUDManager.prototype.OnMapResize = function (newSize) {
         };

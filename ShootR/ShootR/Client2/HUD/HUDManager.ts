@@ -22,6 +22,7 @@ module ShootR {
         private _gameHUDHeight: number;
         private _locationStats: JQuery = $("#LocationStatisticsHolder");
         private _shipStats: JQuery = $("#StatisticHolder");
+        private _logout: JQuery = $("#logout");
         private _shipStatMonitor: ShipStatMonitor;
         private _shipHealthMonitor: HealthMonitor;
         private _shipExperienceMonitor: ExperienceMonitor;
@@ -45,6 +46,18 @@ module ShootR {
             this._deathScreen = new DeathScreen();
             this._notificationManager = new NotificationManager(serverAdapter);
             this._userInformationManager = new UserInformationManager(initialization.UserInformation);
+
+            this._logout.click(() => {
+                // Clear cookies
+                var c = document.cookie.split(";");
+                for (var i = 0; i < c.length; i++) {
+                    var e = c[i].indexOf("=");
+                    var n = e > -1 ? c[i].substr(0, e) : c[i];
+                    document.cookie = n + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                }
+
+                window.location.reload(true);
+            });
         }
 
         public OnMapResize(newSize: eg.Size2d): void {
