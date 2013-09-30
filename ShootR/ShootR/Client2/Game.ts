@@ -31,9 +31,8 @@ module ShootR {
 
             Game.GameConfiguration = new ConfigurationManager(initializationData.Configuration);
 
-            this.Configuration.DrawOnlyAfterUpdate = false;
-            this.Configuration.CollisionConfiguration.MinQuadTreeNodeSize = new eg.Size2d(75);
-            this.Configuration.CollisionConfiguration.InitialQuadTreeSize = new eg.Size2d(10125);
+            this.Configuration.CollisionConfiguration.MinQuadTreeNodeSize = new eg.Size2d(75); // Size of a ship
+            this.Configuration.CollisionConfiguration.InitialQuadTreeSize = new eg.Size2d(10125); // Initial Map Size x 2
 
             this._bufferedViewport = new eg.Bounds.BoundingRectangle(this.Scene.Camera.Position, this.Scene.Camera.Size.Add(GameScreen.SCREEN_BUFFER_AREA));
             this._shipManager = new ShipManager(this._bufferedViewport, this.Scene, this.CollisionManager, this.Content);

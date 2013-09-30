@@ -28,7 +28,6 @@ var ShootR;
 
             Game.GameConfiguration = new ShootR.ConfigurationManager(initializationData.Configuration);
 
-            this.Configuration.DrawOnlyAfterUpdate = false;
             this.Configuration.CollisionConfiguration.MinQuadTreeNodeSize = new eg.Size2d(75);
             this.Configuration.CollisionConfiguration.InitialQuadTreeSize = new eg.Size2d(10125);
 
