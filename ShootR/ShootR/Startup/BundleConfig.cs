@@ -56,6 +56,8 @@ namespace ShootR
                 .Include("~/Client2/Ships/Graphics/ShipDamageGraphic.js")
                 .Include("~/Client2/Ships/Graphics/ShipBodyGraphic.js")
                 .Include("~/Client2/Ships/Graphics/ShipGraphic.js")
+                .Include("~/Client2/Ships/Graphics/StatusText.js")
+                .Include("~/Client2/Ships/Graphics/ShipStatusTextGraphic.js")
                 .Include("~/Client2/Ships/Animations/ShipAnimationHandler.js")
                 .Include("~/Client2/Ships/Animations/ShipBoostAnimation.js")
                 .Include("~/Client2/Ships/Animations/ShipThrustAnimation.js")

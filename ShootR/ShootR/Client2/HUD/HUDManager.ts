@@ -94,6 +94,7 @@ module ShootR {
                 this._shipHealthMonitor.Update(ship);
                 this._shipExperienceMonitor.Update(ship);
                 this._environmentMonitor.Update(ship);
+                this._rankingsManager.Update(ship);
             }
         }
     }

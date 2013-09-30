@@ -16,8 +16,8 @@ module ShootR {
         public Health: number;
         public MaxHealth: number;
 
-        constructor() {
-            super(ShipLifeController.START_LIFE);
+        constructor(payload: Server.IShipData) {
+            super(payload.LifeController.Health, payload.MaxLife);
         }
     }
 

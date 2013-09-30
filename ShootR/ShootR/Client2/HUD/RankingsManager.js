@@ -1,6 +1,7 @@
 ﻿/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
+/// <reference path="../Ships/Ship.ts" />
 var ShootR;
 (function (ShootR) {
     var RankingsManager = (function () {
@@ -11,10 +12,19 @@ var ShootR;
             this._killsEle = $("#Kills");
             this._deathsEle = $("#Deaths");
             this._kdRatioEle = $("#KDRatio");
+            this._koStatusCount = this._lastKills = 0;
         }
         RankingsManager.prototype.LoadPayload = function (payload) {
             this.UpdateLeaderboard(payload.LeaderboardPosition, payload.ShipsInWorld);
             this.UpdateKillsDeaths(payload.Kills, payload.Deaths);
+        };
+
+        RankingsManager.prototype.Update = function (ship) {
+            while (this._koStatusCount !== 0) {
+                ship.Graphic.Status("K.O.", 50, eg.Graphics.Color.White, RankingsManager.KO_FADE_DURATION);
+
+                this._koStatusCount--;
+            }
         };
 
         RankingsManager.prototype.UpdateLeaderboard = function (newPosition, outOf) {
@@ -35,6 +45,7 @@ var ShootR;
         RankingsManager.prototype.UpdateKillsDeaths = function (kills, deaths) {
             if (kills != this._lastKills || deaths != this._lastDeaths) {
                 if (kills != this._lastKills) {
+                    this._koStatusCount = kills - this._lastKills;
                     this._killsEle.stop(true);
                     this._killsEle.animate({ color: "#7F7F7F" }, 500).animate({ color: "#FFFFFF" }, 500);
                     this._killsEle.text(kills.toString());
@@ -72,6 +83,7 @@ var ShootR;
                 this._lastDeaths = deaths;
             }
         };
+        RankingsManager.KO_FADE_DURATION = eg.TimeSpan.FromSeconds(3);
         return RankingsManager;
     })();
     ShootR.RankingsManager = RankingsManager;

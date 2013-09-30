@@ -20,7 +20,7 @@ var ShootR;
             this._destroyed = false;
             this.OnExplosion = new eg.EventHandler();
 
-            this.LifeController = new ShootR.ShipLifeController();
+            this.LifeController = new ShootR.ShipLifeController(payload);
             this.LevelManager = new ShootR.ShipLevelManager(payload);
 
             this.Graphic = new ShootR.ShipGraphic(this.LevelManager, this.LifeController, payload.MovementController.Position, Ship.SIZE, contentManager);
@@ -41,6 +41,7 @@ var ShootR;
 
             // Updates rotation
             this.Graphic.RotateShip(this.MovementController.Rotation);
+            this.Graphic.Update(gameTime);
         };
 
         Ship.prototype.LoadPayload = function (payload) {

@@ -11,8 +11,8 @@ var ShootR;
 (function (ShootR) {
     var ShipLifeController = (function (_super) {
         __extends(ShipLifeController, _super);
-        function ShipLifeController() {
-            _super.call(this, ShipLifeController.START_LIFE);
+        function ShipLifeController(payload) {
+            _super.call(this, payload.LifeController.Health, payload.MaxLife);
         }
         ShipLifeController.START_LIFE = 100;
         ShipLifeController.BAD_COLOR = eg.Graphics.Color.FromHex("#ED1E79");

@@ -24,15 +24,21 @@ module ShootR {
 
             this._overlay = new eg.Graphics.Rectangle(0, 0, width, ShipLifeGraphic.HEIGHT, this.OverlayColor());
 
-            this._lifeController.OnLifeChange.Bind((health: number, maxLife: number) => {
-                var healthPercentage: number = health / maxLife;
-
-                this._overlay.Color = this.OverlayColor();
-                this._overlay.Size.Width = healthPercentage * (width);
-                this._overlay.Position.X = -(width - this._overlay.Size.Width) * .5;
+            this._lifeController.OnLifeChange.Bind((health: number, maxHealth: number) => {
+                this.UpdateGraphic(health, maxHealth);
             });
 
+            this.UpdateGraphic(lifeController.Health, lifeController.MaxHealth);
+
             this.AddChild(this._overlay);
+        }
+
+        private UpdateGraphic(health: number, maxHealth: number): void {
+            var healthPercentage: number = health / maxHealth;
+
+            this._overlay.Color = this.OverlayColor();
+            this._overlay.Size.Width = healthPercentage * (this.Size.Width);
+            this._overlay.Position.X = -(this.Size.Width - this._overlay.Size.Width) * .5;
         }
 
         private OverlayColor(): eg.Graphics.Color {

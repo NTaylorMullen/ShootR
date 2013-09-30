@@ -3,9 +3,10 @@
 var ShootR;
 (function (ShootR) {
     var LifeController = (function () {
-        function LifeController(startLife) {
+        function LifeController(health, maxHealth) {
             this.Alive = true;
-            this.MaxHealth = this.Health = startLife;
+            this.Health = health;
+            this.MaxHealth = maxHealth;
             this.OnLifeChange = new eg.EventHandler2();
         }
         Object.defineProperty(LifeController.prototype, "HealthPercent", {

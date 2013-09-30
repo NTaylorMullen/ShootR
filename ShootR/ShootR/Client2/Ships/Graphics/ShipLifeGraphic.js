@@ -22,16 +22,22 @@ var ShootR;
 
             this._overlay = new eg.Graphics.Rectangle(0, 0, width, ShipLifeGraphic.HEIGHT, this.OverlayColor());
 
-            this._lifeController.OnLifeChange.Bind(function (health, maxLife) {
-                var healthPercentage = health / maxLife;
-
-                _this._overlay.Color = _this.OverlayColor();
-                _this._overlay.Size.Width = healthPercentage * (width);
-                _this._overlay.Position.X = -(width - _this._overlay.Size.Width) * .5;
+            this._lifeController.OnLifeChange.Bind(function (health, maxHealth) {
+                _this.UpdateGraphic(health, maxHealth);
             });
+
+            this.UpdateGraphic(lifeController.Health, lifeController.MaxHealth);
 
             this.AddChild(this._overlay);
         }
+        ShipLifeGraphic.prototype.UpdateGraphic = function (health, maxHealth) {
+            var healthPercentage = health / maxHealth;
+
+            this._overlay.Color = this.OverlayColor();
+            this._overlay.Size.Width = healthPercentage * (this.Size.Width);
+            this._overlay.Position.X = -(this.Size.Width - this._overlay.Size.Width) * .5;
+        };
+
         ShipLifeGraphic.prototype.OverlayColor = function () {
             var healthPercentage = this._lifeController.HealthPercent;
 

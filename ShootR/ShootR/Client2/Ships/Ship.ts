@@ -27,7 +27,7 @@ module ShootR {
             this._destroyed = false;
             this.OnExplosion = new eg.EventHandler();
 
-            this.LifeController = new ShipLifeController();
+            this.LifeController = new ShipLifeController(payload);
             this.LevelManager = new ShipLevelManager(payload);
 
             this.Graphic = new ShipGraphic(this.LevelManager, this.LifeController, payload.MovementController.Position, Ship.SIZE, contentManager);
@@ -51,6 +51,7 @@ module ShootR {
 
             // Updates rotation
             this.Graphic.RotateShip(this.MovementController.Rotation);
+            this.Graphic.Update(gameTime);
         }
 
         public LoadPayload(payload: Server.IShipData): void {

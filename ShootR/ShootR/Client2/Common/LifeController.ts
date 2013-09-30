@@ -8,9 +8,10 @@ module ShootR {
         public Health: number;
         public MaxHealth: number;
 
-        constructor(startLife: number) {
+        constructor(health: number, maxHealth: number) {
             this.Alive = true;
-            this.MaxHealth = this.Health = startLife;
+            this.Health = health;
+            this.MaxHealth = maxHealth;
             this.OnLifeChange = new eg.EventHandler2<number, number>();
         }
 

@@ -320,6 +320,8 @@
     <TypeScriptCompile Include="Client2\Server\IPayloadDefinitions.ts" />
     <TypeScriptCompile Include="Client2\Ships\Graphics\ShipBodyGraphic.ts" />
     <TypeScriptCompile Include="Client2\Ships\Graphics\ShipDamageGraphic.ts" />
+    <TypeScriptCompile Include="Client2\Ships\Graphics\ShipStatusTextGraphic.ts" />
+    <TypeScriptCompile Include="Client2\Ships\Graphics\StatusText.ts" />
     <TypeScriptCompile Include="Client2\Ships\IMoving.ts" />
     <TypeScriptCompile Include="Client2\Ships\Abilities\MovementAbility.ts" />
     <Content Include="Client2\Ships\Abilities\MovementAbility.js">

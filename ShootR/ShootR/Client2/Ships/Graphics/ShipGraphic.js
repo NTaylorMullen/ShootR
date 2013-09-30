@@ -4,6 +4,7 @@
 /// <reference path="ShipBodyGraphic.ts" />
 /// <reference path="../Ship.ts" />
 /// <reference path="../Levels/ShipLevelManager.ts" />
+/// <reference path="ShipStatusTextGraphic.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -21,12 +22,18 @@ var ShootR;
             this.Body = new ShootR.ShipBodyGraphic(levelManager);
             this._damageGraphic = new ShootR.ShipDamageGraphic(lifeController, contentManager);
             this._lifeBar = new ShootR.ShipLifeGraphic(lifeController);
+            this._statusGraphic = new ShootR.ShipStatusTextGraphic(levelManager, lifeController);
 
             this.AddChild(this.Body);
             this.AddChild(this._lifeBar);
+            this.AddChild(this._statusGraphic);
 
             this.Body.AddChild(this._damageGraphic);
         }
+        ShipGraphic.prototype.Status = function (text, size, color, fadeDuration, reverseDirection) {
+            this._statusGraphic.Status(text, size, color, fadeDuration, reverseDirection);
+        };
+
         ShipGraphic.prototype.AddChildToShip = function (child) {
             this.Body.AddChild(child);
         };
@@ -42,6 +49,10 @@ var ShootR;
 
         ShipGraphic.prototype.HideLifeBar = function () {
             this._lifeBar.Visible = false;
+        };
+
+        ShipGraphic.prototype.Update = function (gameTime) {
+            this._statusGraphic.Update(gameTime);
         };
         return ShipGraphic;
     })(eg.Graphics.Rectangle);

@@ -1,10 +1,13 @@
 ﻿/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
+/// <reference path="../Ships/Ship.ts" />
 
 module ShootR {
 
     export class RankingsManager {
+        public static KO_FADE_DURATION: eg.TimeSpan = eg.TimeSpan.FromSeconds(3);
+
         private _myPosition: number = 0; // Initially set to a very high value so we flash green on leaderboard position first update
         private _globalRanking: JQuery = $("#GlobalRanking");
         private _globalRankingLB: JQuery = $("#GlobalRankingLB");
@@ -14,12 +17,23 @@ module ShootR {
         private _lastKills: number;
         private _lastDeaths: number;
         private _lastOutOf: number;
+        private _koStatusCount: number;
 
-        constructor() { }
+        constructor() {
+            this._koStatusCount = this._lastKills = 0;
+        }
 
         public LoadPayload(payload: Server.IPayloadData): void {
             this.UpdateLeaderboard(payload.LeaderboardPosition, payload.ShipsInWorld);
             this.UpdateKillsDeaths(payload.Kills, payload.Deaths);
+        }
+
+        public Update(ship: Ship): void {
+            while (this._koStatusCount !== 0) {
+                ship.Graphic.Status("K.O.", 50, eg.Graphics.Color.White, RankingsManager.KO_FADE_DURATION);
+
+                this._koStatusCount--;
+            }
         }
 
         private UpdateLeaderboard(newPosition: number, outOf: number): void {
@@ -40,6 +54,7 @@ module ShootR {
         private UpdateKillsDeaths(kills: number, deaths: number): void {
             if (kills != this._lastKills || deaths != this._lastDeaths) {
                 if (kills != this._lastKills) {
+                    this._koStatusCount = kills - this._lastKills;
                     this._killsEle.stop(true);
                     this._killsEle.animate({ color: "#7F7F7F" }, 500).animate({ color: "#FFFFFF" }, 500);
                     this._killsEle.text(kills.toString());
