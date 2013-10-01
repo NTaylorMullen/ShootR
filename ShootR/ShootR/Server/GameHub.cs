@@ -53,10 +53,11 @@ namespace ShootR
         /// </summary>
         public double fire()
         {
-            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            try
             {
-                try
+                if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
                 {
+
                     Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
 
                     if (ship.Controllable.Value)
@@ -64,13 +65,17 @@ namespace ShootR
                         ship.WeaponController.Fire(DateTime.UtcNow);
                     }
                     return ship.WeaponController.Energy;
+
                 }
-                catch (Exception e)
-                {
-                    ErrorLog.Instance.Log(e);
-                }
+                throw new Exception("Could not find user when firing.");
+
             }
-            throw new Exception();
+            catch (Exception e)
+            {
+                ErrorLog.Instance.Log(e);
+            }
+
+            return 0;
         }
 
         /// <summary>
@@ -150,7 +155,14 @@ namespace ShootR
 
         public void readyForPayloads()
         {
-            _game.UserHandler.GetUser(Context.ConnectionId).ReadyForPayloads = true;
+            try
+            {
+                _game.UserHandler.GetUser(Context.ConnectionId).ReadyForPayloads = true;
+            }
+            catch (Exception e)
+            {
+                ErrorLog.Instance.Log(e);
+            }
         }
 
         public virtual void syncMovement(Vector2 at, double angle, Vector2 velocity)
@@ -163,6 +175,7 @@ namespace ShootR
                 }
                 catch (Exception e)
                 {
+                    ErrorLog.Instance.Log(e);
                 }
             }
         }
@@ -197,7 +210,7 @@ namespace ShootR
                 }
                 catch (Exception e)
                 {
-                    //ErrorLog.Instance.Log(e);
+                    ErrorLog.Instance.Log(e);
                 }
             }
         }
@@ -225,7 +238,7 @@ namespace ShootR
                 }
                 catch (Exception e)
                 {
-                    //ErrorLog.Instance.Log(e);
+                    ErrorLog.Instance.Log(e);
                 }
             }
         }
@@ -255,7 +268,7 @@ namespace ShootR
                 }
                 catch (Exception e)
                 {
-                    //ErrorLog.Instance.Log(e);
+                    ErrorLog.Instance.Log(e);
                 }
             }
         }
@@ -285,7 +298,7 @@ namespace ShootR
                 }
                 catch (Exception e)
                 {
-                    //ErrorLog.Instance.Log(e);
+                    ErrorLog.Instance.Log(e);
                 }
             }
         }
@@ -310,6 +323,7 @@ namespace ShootR
                 }
                 catch (Exception e)
                 {
+                    ErrorLog.Instance.Log(e);
                 }
             }
         }
@@ -334,6 +348,7 @@ namespace ShootR
                 }
                 catch (Exception e)
                 {
+                    ErrorLog.Instance.Log(e);
                 }
             }
         }
@@ -347,27 +362,48 @@ namespace ShootR
 
         public void changeViewport(int viewportWidth, int viewportHeight)
         {
-            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            try
             {
-                _game.UserHandler.GetUser(Context.ConnectionId).Viewport = new Size(viewportWidth, viewportHeight);
+                if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+                {
+                    _game.UserHandler.GetUser(Context.ConnectionId).Viewport = new Size(viewportWidth, viewportHeight);
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorLog.Instance.Log(e);
             }
         }
 
         public void readyForLeaderboardPayloads()
         {
-            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            try
             {
-                _game.UserHandler.GetUser(Context.ConnectionId).IdleManager.RecordActivity();
-                _game.Leaderboard.RequestLeaderboard(Context.ConnectionId);
+                if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+                {
+                    _game.UserHandler.GetUser(Context.ConnectionId).IdleManager.RecordActivity();
+                    _game.Leaderboard.RequestLeaderboard(Context.ConnectionId);
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorLog.Instance.Log(e);
             }
         }
 
         public void stopLeaderboardPayloads()
         {
-            if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+            try
             {
-                _game.UserHandler.GetUser(Context.ConnectionId).IdleManager.RecordActivity();
-                _game.Leaderboard.StopRequestingLeaderboard(Context.ConnectionId);
+                if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+                {
+                    _game.UserHandler.GetUser(Context.ConnectionId).IdleManager.RecordActivity();
+                    _game.Leaderboard.StopRequestingLeaderboard(Context.ConnectionId);
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorLog.Instance.Log(e);
             }
         }
 
