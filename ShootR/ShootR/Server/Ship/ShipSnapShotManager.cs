@@ -14,7 +14,7 @@ namespace ShootR
 
         public ShipSnapShotManager(Ship ship)
         {
-            _snapShotLifetime = TimeSpan.FromMilliseconds(Game.Instance.Configuration.gameConfig.DRAW_INTERVAL * 3);
+            _snapShotLifetime = TimeSpan.FromMilliseconds(Game.Instance.Configuration.gameConfig.DRAW_INTERVAL * 1.5);
 
             _snapShotTail = new BoundsSnapShot
             {
@@ -58,8 +58,8 @@ namespace ShootR
 
                 _snapShotTail = _snapShotTail.Next;
 
-                _bounds.X = Convert.ToInt32(_ship.MovementController.Position.X);
-                _bounds.Y = Convert.ToInt32(_ship.MovementController.Position.Y);
+                _bounds.X = Convert.ToInt32(_snapShotHead.Position.X);
+                _bounds.Y = Convert.ToInt32(_snapShotHead.Position.Y);
             }
         }
 

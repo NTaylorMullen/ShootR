@@ -6,7 +6,7 @@ module ShootR {
     export class ShipLifeGraphic extends eg.Graphics.Rectangle {
         public static BACKGROUND_COLOR: eg.Graphics.Color = eg.Graphics.Color.FromHex("7F767D");
         public static BORDER_COLOR: eg.Graphics.Color = eg.Graphics.Color.Black;
-        public static SHIP_Y_OFFSET: number = 15;
+        public static Y_OFFSET: number = 15;
         public static SHIP_WIDTH_PARTIAL: number = .8;
         public static HEIGHT: number = 5;
 
@@ -16,7 +16,7 @@ module ShootR {
         constructor(lifeController: ShipLifeController) {
             var width = Ship.SIZE.Width * ShipLifeGraphic.SHIP_WIDTH_PARTIAL;
 
-            super(0, Ship.SIZE.HalfHeight + ShipLifeGraphic.SHIP_Y_OFFSET, width, ShipLifeGraphic.HEIGHT, ShipLifeGraphic.BACKGROUND_COLOR);
+            super(0, Ship.SIZE.HalfHeight + ShipLifeGraphic.Y_OFFSET, width, ShipLifeGraphic.HEIGHT, ShipLifeGraphic.BACKGROUND_COLOR);
 
             this._lifeController = lifeController;
 

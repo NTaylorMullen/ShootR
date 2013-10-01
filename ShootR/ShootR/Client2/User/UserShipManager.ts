@@ -85,7 +85,6 @@ module ShootR {
             var ship: Ship = this._shipManager.GetShip(this.ControlledShipId);
 
             if (ship) {
-                ship.Graphic.HideLifeBar();
                 ship.LevelManager.UpdateExperience(payload.Experience, payload.ExperienceToNextLevel);
             }
         }

@@ -30,7 +30,7 @@ module ShootR {
             this.LifeController = new ShipLifeController(payload);
             this.LevelManager = new ShipLevelManager(payload);
 
-            this.Graphic = new ShipGraphic(this.LevelManager, this.LifeController, payload.MovementController.Position, payload.MovementController.Rotation, Ship.SIZE, contentManager);
+            this.Graphic = new ShipGraphic(payload.Name, payload.UserControlled, this.LevelManager, this.LifeController, payload.MovementController.Position, payload.MovementController.Rotation, Ship.SIZE, contentManager);
 
             // Going to use the rectangle to "hold" all the other graphics
             super(this.Graphic.GetDrawBounds());

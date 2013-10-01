@@ -77,7 +77,6 @@ var ShootR;
             var ship = this._shipManager.GetShip(this.ControlledShipId);
 
             if (ship) {
-                ship.Graphic.HideLifeBar();
                 ship.LevelManager.UpdateExperience(payload.Experience, payload.ExperienceToNextLevel);
             }
         };

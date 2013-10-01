@@ -66,7 +66,7 @@ var ShootR;
                 this.StartInterpolationPayload(this._payloadBuffer.shift());
             }
         };
-        ShipInterpolationManager.PAYLOAD_BUFFER = 1;
+        ShipInterpolationManager.PAYLOAD_BUFFER = 2;
         return ShipInterpolationManager;
     })();
     ShootR.ShipInterpolationManager = ShipInterpolationManager;

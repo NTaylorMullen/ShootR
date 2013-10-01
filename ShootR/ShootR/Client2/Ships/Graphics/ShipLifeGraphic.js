@@ -14,7 +14,7 @@ var ShootR;
             var _this = this;
             var width = ShootR.Ship.SIZE.Width * ShipLifeGraphic.SHIP_WIDTH_PARTIAL;
 
-            _super.call(this, 0, ShootR.Ship.SIZE.HalfHeight + ShipLifeGraphic.SHIP_Y_OFFSET, width, ShipLifeGraphic.HEIGHT, ShipLifeGraphic.BACKGROUND_COLOR);
+            _super.call(this, 0, ShootR.Ship.SIZE.HalfHeight + ShipLifeGraphic.Y_OFFSET, width, ShipLifeGraphic.HEIGHT, ShipLifeGraphic.BACKGROUND_COLOR);
 
             this._lifeController = lifeController;
 
@@ -51,7 +51,7 @@ var ShootR;
         };
         ShipLifeGraphic.BACKGROUND_COLOR = eg.Graphics.Color.FromHex("7F767D");
         ShipLifeGraphic.BORDER_COLOR = eg.Graphics.Color.Black;
-        ShipLifeGraphic.SHIP_Y_OFFSET = 15;
+        ShipLifeGraphic.Y_OFFSET = 15;
         ShipLifeGraphic.SHIP_WIDTH_PARTIAL = .8;
         ShipLifeGraphic.HEIGHT = 5;
         return ShipLifeGraphic;

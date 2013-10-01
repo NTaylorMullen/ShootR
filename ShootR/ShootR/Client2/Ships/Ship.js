@@ -23,7 +23,7 @@ var ShootR;
             this.LifeController = new ShootR.ShipLifeController(payload);
             this.LevelManager = new ShootR.ShipLevelManager(payload);
 
-            this.Graphic = new ShootR.ShipGraphic(this.LevelManager, this.LifeController, payload.MovementController.Position, payload.MovementController.Rotation, Ship.SIZE, contentManager);
+            this.Graphic = new ShootR.ShipGraphic(payload.Name, payload.UserControlled, this.LevelManager, this.LifeController, payload.MovementController.Position, payload.MovementController.Rotation, Ship.SIZE, contentManager);
 
             // Going to use the rectangle to "hold" all the other graphics
             _super.call(this, this.Graphic.GetDrawBounds());
