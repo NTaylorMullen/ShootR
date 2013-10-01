@@ -155,6 +155,15 @@
     <Content Include="Client2\Bullets\BulletMovementController.js">
       <DependentUpon>BulletMovementController.ts</DependentUpon>
     </Content>
+    <Content Include="Client2\Common\LifeController.js">
+      <DependentUpon>LifeController.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Debug\DebugManager.js">
+      <DependentUpon>DebugManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Debug\ServerGhost.js">
+      <DependentUpon>ServerGhost.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\HUD\DeathScreen.js">
       <DependentUpon>DeathScreen.ts</DependentUpon>
     </Content>
@@ -179,17 +188,32 @@
     <Content Include="Client2\HUD\HealthMonitor.min.js">
       <DependentUpon>HealthMonitor.ts</DependentUpon>
     </Content>
+    <Content Include="Client2\HUD\HUDManager.js">
+      <DependentUpon>HUDManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\LeaderboardManager.js">
+      <DependentUpon>LeaderboardManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\HUD\NotificationManager.js">
       <DependentUpon>NotificationManager.ts</DependentUpon>
     </Content>
     <Content Include="Client2\HUD\NotificationManager.min.js">
       <DependentUpon>NotificationManager.ts</DependentUpon>
     </Content>
+    <Content Include="Client2\HUD\RankingsManager.js">
+      <DependentUpon>RankingsManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\HUD\ShipStatMonitor.js">
       <DependentUpon>ShipStatMonitor.ts</DependentUpon>
     </Content>
     <Content Include="Client2\HUD\ShipStatMonitor.min.js">
       <DependentUpon>ShipStatMonitor.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\HUD\UserInformationManager.js">
+      <DependentUpon>UserInformationManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Powerups\Graphics\HealthPackGraphic.js">
+      <DependentUpon>HealthPackGraphic.ts</DependentUpon>
     </Content>
     <Content Include="Client2\Powerups\HealthPack.js">
       <DependentUpon>HealthPack.ts</DependentUpon>
@@ -348,8 +372,23 @@
       <DependentUpon>ShipThrustAnimation.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client2\Ships\Graphics\ShipLifeGraphic.ts" />
+    <Content Include="Client2\Ships\Graphics\ShipBodyGraphic.js">
+      <DependentUpon>ShipBodyGraphic.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Graphics\ShipDamageGraphic.js">
+      <DependentUpon>ShipDamageGraphic.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Ships\Graphics\ShipLifeGraphic.js">
       <DependentUpon>ShipLifeGraphic.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Graphics\ShipNameGraphic.js">
+      <DependentUpon>ShipNameGraphic.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Graphics\ShipStatusTextGraphic.js">
+      <DependentUpon>ShipStatusTextGraphic.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Ships\Graphics\StatusText.js">
+      <DependentUpon>StatusText.ts</DependentUpon>
     </Content>
     <Content Include="Client2\Ships\IMoving.js">
       <DependentUpon>IMoving.ts</DependentUpon>
@@ -382,6 +421,9 @@
     </Content>
     <TypeScriptCompile Include="Client2\Ships\Levels\ShipLevelManager.ts" />
     <TypeScriptCompile Include="Client2\Ships\Ship.ts" />
+    <Content Include="Client2\Ships\Levels\ShipLevelManager.js">
+      <DependentUpon>ShipLevelManager.ts</DependentUpon>
+    </Content>
     <Content Include="Client2\Ships\Ship.js">
       <DependentUpon>Ship.ts</DependentUpon>
     </Content>
@@ -418,6 +460,18 @@
     <TypeScriptCompile Include="Client2\User\LatencyResolver.ts" />
     <TypeScriptCompile Include="Client2\User\UserCameraController.ts" />
     <TypeScriptCompile Include="Client2\User\UserShipManager.ts" />
+    <Content Include="Client2\Space\Area.js">
+      <DependentUpon>Area.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\Space\AreaRenderer.js">
+      <DependentUpon>AreaRenderer.ts</DependentUpon>
+    </Content>
+    <Content Include="Client2\User\LatencyResolver.js" >
+		<DependentUpon>LatencyResolver.ts</DependentUpon>
+	</Content>
+    <Content Include="Client2\User\UserCameraController.js" >
+		<DependentUpon>UserCameraController.ts</DependentUpon>
+	</Content>
     <Content Include="Client2\User\UserShipManager.js">
       <DependentUpon>UserShipManager.ts</DependentUpon>
     </Content>

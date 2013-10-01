@@ -89,6 +89,12 @@ namespace ShootR
                 .Include("~/Client2/Game.js")
                 .Include("~/Client2/Main.js"));
 
+            bundles.Add(new StyleBundle("~/bundles/gamecss")
+                .Include("~/Styles/game.css")
+                .Include("~/Styles/gameHUD.css")
+                .Include("~/Styles/popups.css"));
+
+            /*
             bundles.Add(new ScriptBundle("~/bundles/gamejs2")
                 .Include("~/Client/Utilities/Vector2.js")
                 .Include("~/Client/Utilities/ValueRef.js")
@@ -144,11 +150,7 @@ namespace ShootR
                 .Include("~/Client/HUD/GameDetailManager.js")
                 .Include("~/Client/HUD/HUDManager.js")
                 .Include("~/Client/HUD/Animation/TextAnimation.js")
-                .Include("~/Client/Main.js"));
-            bundles.Add(new StyleBundle("~/bundles/gamecss")
-                .Include("~/Styles/game.css")
-                .Include("~/Styles/gameHUD.css")
-                .Include("~/Styles/popups.css"));
+                .Include("~/Client/Main.js"));            
 
             bundles.Add(new ScriptBundle("~/bundles/controllerjs")
                 .Include("~/Client/Utilities/Vector2.js")
@@ -164,7 +166,7 @@ namespace ShootR
                 .Include("~/Client/GameController/Adapters/TouchAdapter.js")
                 .Include("~/Client/GameController/TouchController.js")
                 .Include("~/Client/Space/CanvasRenderer.js")
-                .Include("~/Client/GameController/controllerMain.js"));
+                .Include("~/Client/GameController/controllerMain.js"));*/
         }
     }
 }
