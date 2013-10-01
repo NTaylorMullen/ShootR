@@ -206,71 +206,26 @@
     <Content Include="Client2\Powerups\PowerupManager.js">
       <DependentUpon>PowerupManager.ts</DependentUpon>
     </Content>
-    <Content Include="Client2\Ships\Abilities\Ability.js.map">
-      <DependentUpon>Ability.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Client2\Common\LifeController.ts" />
     <TypeScriptCompile Include="Client2\Debug\DebugManager.ts" />
     <TypeScriptCompile Include="Client2\Debug\ServerGhost.ts" />
-    <Content Include="Client2\Powerups\HealthPack.js.map">
-      <DependentUpon>HealthPack.ts</DependentUpon>
-    </Content>
-    <Content Include="Client2\HUD\HealthMonitor.js.map">
-      <DependentUpon>HealthMonitor.ts</DependentUpon>
-    </Content>
     <Content Include="Client2\HUD\HealthMonitor.ts" />
-    <Content Include="Client2\HUD\ExperienceMonitor.js.map">
-      <DependentUpon>ExperienceMonitor.ts</DependentUpon>
-    </Content>
     <Content Include="Client2\HUD\ExperienceMonitor.ts" />
-    <Content Include="Client2\HUD\EnvironmentMonitor.js.map">
-      <DependentUpon>EnvironmentMonitor.ts</DependentUpon>
-    </Content>
     <Content Include="Client2\HUD\EnvironmentMonitor.ts" />
-    <Content Include="Client2\HUD\DeathScreen.min.js.map">
-      <DependentUpon>DeathScreen.js</DependentUpon>
-    </Content>
-    <Content Include="Client2\HUD\DeathScreen.js.map">
-      <DependentUpon>DeathScreen.ts</DependentUpon>
-    </Content>
     <Content Include="Client2\HUD\DeathScreen.ts" />
     <TypeScriptCompile Include="Client2\HUD\HUDManager.ts" />
-    <Content Include="Client2\HUD\ShipStatMonitor.js.map">
-      <DependentUpon>ShipStatMonitor.ts</DependentUpon>
-    </Content>
     <Content Include="Client2\HUD\ShipStatMonitor.ts" />
     <TypeScriptCompile Include="Client2\HUD\LeaderboardManager.ts" />
-    <Content Include="Client2\HUD\NotificationManager.js.map">
-      <DependentUpon>NotificationManager.ts</DependentUpon>
-    </Content>
     <Content Include="Client2\HUD\NotificationManager.ts" />
     <TypeScriptCompile Include="Client2\HUD\RankingsManager.ts" />
     <TypeScriptCompile Include="Client2\HUD\UserInformationManager.ts" />
     <TypeScriptCompile Include="Client2\Powerups\Graphics\HealthPackGraphic.ts" />
     <TypeScriptCompile Include="Client2\Powerups\HealthPack.ts" />
-    <Content Include="Client2\Powerups\Powerup.js.map">
-      <DependentUpon>Powerup.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Client2\Powerups\Powerup.ts" />
-    <Content Include="Client2\Powerups\PowerupManager.js.map">
-      <DependentUpon>PowerupManager.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Client2\Powerups\PowerupManager.ts" />
     <TypeScriptCompile Include="Client2\Ships\Abilities\Ability.ts" />
     <Content Include="Client2\Ships\Abilities\Ability.js">
       <DependentUpon>Ability.ts</DependentUpon>
-    </Content>
-    <Content Include="Client2\Ships\Abilities\AbilityHandlers\AbilityHandler.js.map">
-      <DependentUpon>AbilityHandler.ts</DependentUpon>
-    </Content>
-    <Content Include="Client2\Ships\Abilities\AbilityHandlers\ShipAbilityHandler.js.map">
-      <DependentUpon>ShipAbilityHandler.ts</DependentUpon>
-    </Content>
-    <Content Include="Client2\Ships\Abilities\Boost.js.map">
-      <DependentUpon>Boost.ts</DependentUpon>
-    </Content>
-    <Content Include="Client2\Ships\Abilities\MovementAbility.js.map">
-      <DependentUpon>MovementAbility.ts</DependentUpon>
     </Content>
     <None Include="Client\Abilities\AbilityHandlers\AbilityHandler.ts" />
     <TypeScriptCompile Include="Client2\Main.ts" />
