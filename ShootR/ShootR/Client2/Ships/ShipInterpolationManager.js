@@ -55,6 +55,8 @@ var ShootR;
             this._rotationInterpolation.From = this._movementController.Rotation;
             this._rotationInterpolation.To = payload.Rotation;
 
+            // console.log("Interpolating " + this._positionInterpolation.From.Distance(this._positionInterpolation.To) + " pixels over " + this._positionInterpolation.Duration.Milliseconds + " ms.");
+            // console.log("Interpolating " + Math.abs(this._rotationInterpolation.From - this._rotationInterpolation.To) * 57.2957795  + " degrees over " + this._rotationInterpolation.Duration.Milliseconds + " ms.");
             this._positionInterpolation.Restart();
             this._rotationInterpolation.Restart();
 
@@ -62,7 +64,7 @@ var ShootR;
         };
 
         ShipInterpolationManager.prototype.Interpolate = function () {
-            if (!this._positionInterpolation.IsPlaying() && this._payloadBuffer.length > 0) {
+            if (this._payloadBuffer.length > 0) {
                 this.StartInterpolationPayload(this._payloadBuffer.shift());
             }
         };

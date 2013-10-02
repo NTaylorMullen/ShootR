@@ -141,8 +141,6 @@ var ShootR;
         ShipMovementController.DRAG_COEFFICIENT = .2;
         ShipMovementController.ROTATE_SPEED = Math.PI;
         ShipMovementController.MOVING_DIRECTIONS = ["RotatingLeft", "RotatingRight", "Forward", "Backward"];
-        ShipMovementController.INTERPOLATE_POSITION_THRESHOLD = 10;
-        ShipMovementController.INTERPOLATE_ROTATION_THRESHOLD = 15;
         return ShipMovementController;
     })(eg.MovementControllers.MovementController);
     ShootR.ShipMovementController = ShipMovementController;

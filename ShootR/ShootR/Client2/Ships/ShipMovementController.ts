@@ -11,9 +11,7 @@ module ShootR {
         public static DRAG_AREA: number = 5;
         public static DRAG_COEFFICIENT: number = .2;
         public static ROTATE_SPEED: number = Math.PI;
-        public static MOVING_DIRECTIONS: string[] = ["RotatingLeft", "RotatingRight", "Forward", "Backward"];
-        public static INTERPOLATE_POSITION_THRESHOLD: number = 10;
-        public static INTERPOLATE_ROTATION_THRESHOLD: number = 15;
+        public static MOVING_DIRECTIONS: string[] = ["RotatingLeft", "RotatingRight", "Forward", "Backward"];        
 
         public Moving: IMoving;
         public Mass: number;
