@@ -49,6 +49,7 @@ var ShootR;
             for (var i = 0; i < gridCount; i++) {
                 for (var j = 0; j < gridCount; j++) {
                     area = new ShootR.Area(locationOffset + this._areaSize.Width * j, locationOffset + this._areaSize.Width * i, this._areaSize.Width, AreaRenderer.AREA_LETTERS[j] + (i + 1));
+                    area.ZIndex = -1;
                     this._areas.push(area);
                     this._scene.Add(area);
                 }

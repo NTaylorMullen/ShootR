@@ -68,6 +68,7 @@ var ShootR;
 
             for (var i = 0; i < corners.length; i++) {
                 boundary = new ShootR.MapBoundary(new eg.Vector2d(corners[i].X, corners[i].Y), new eg.Vector2d(corners[(i + 1) % corners.length].X, corners[(i + 1) % corners.length].Y));
+                boundary.Graphic.ZIndex = -1;
                 this._collisionManager.Monitor(boundary, true);
                 this._scene.Add(boundary.Graphic);
                 this._boundaries.push(boundary);
