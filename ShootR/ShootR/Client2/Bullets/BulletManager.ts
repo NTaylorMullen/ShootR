@@ -32,6 +32,10 @@ module ShootR {
                 }
 
                 if (bullet.Disposed) {
+                    if (bullet.Collided) {
+                        this._bullets[bullet.ID].MovementController.Position = bullet.CollidedAt;
+                    }
+
                     this._bullets[bullet.ID].Destroy(bullet.Collided);
                 }
             }

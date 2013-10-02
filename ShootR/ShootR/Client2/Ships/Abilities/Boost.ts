@@ -33,7 +33,7 @@ module ShootR {
         }
 
         public Deactivate(): void {
-            if (this.Activate) {
+            if (this.Active) {
                 this.ResetSpeed();
                 super.Deactivate();
                 this._movementController.Moving.Forward = false;

@@ -51,6 +51,7 @@ var ShootR;
             this.MovementController.LoadPayload(payload.MovementController, forceMovement);
             this.LifeController.LoadPayload(payload);
             this.LevelManager.LoadPayload(payload);
+            this.AbilityHandler.LoadPayload(payload.Abilities);
         };
 
         Ship.prototype.Destroy = function (explode) {

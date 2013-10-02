@@ -61,6 +61,7 @@ module ShootR {
             this.MovementController.LoadPayload(payload.MovementController, forceMovement);
             this.LifeController.LoadPayload(payload);
             this.LevelManager.LoadPayload(payload);
+            this.AbilityHandler.LoadPayload(payload.Abilities);
         }
 
         public Destroy(explode: boolean = false): void {

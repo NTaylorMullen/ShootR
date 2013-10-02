@@ -1,5 +1,6 @@
 /// <reference path="../../../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../../../Space/MapBoundary.ts" />
+/// <reference path="../../../Server/IPayloadDefinitions.ts" />
 /// <reference path="../../Ship.ts" />
 /// <reference path="../Boost.ts" />
 /// <reference path="AbilityHandler.ts" />
@@ -20,6 +21,14 @@ module ShootR {
                     this.Boost.Deactivate();
                 }
             });
+        }
+
+        public LoadPayload(payload: Server.IAbilityData): void {
+            if (payload.Boost && !this.Boost.Active) {
+                this.Boost.Activate();
+            } else if (!payload.Boost) {
+                this.Boost.Deactivate();
+            }
         }
     }
 

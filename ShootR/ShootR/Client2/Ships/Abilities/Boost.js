@@ -32,7 +32,7 @@ var ShootR;
         };
 
         Boost.prototype.Deactivate = function () {
-            if (this.Activate) {
+            if (this.Active) {
                 this.ResetSpeed();
                 _super.prototype.Deactivate.call(this);
                 this._movementController.Moving.Forward = false;
