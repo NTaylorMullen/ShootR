@@ -60,7 +60,8 @@ var ShootR;
                 this.Proxy.invoke("initializeClient", userInformation.RegistrationID).done(function (initialization) {
                     if (!initialization) {
                         if (count >= ServerAdapter.NEGOTIATE_RETRIES) {
-                            alert("Could not negotiate with server, please refresh the page.");
+                            console.log("Could not negotiate with server, refreshing the page.");
+                            window.location.reload();
                         } else {
                             setTimeout(function () {
                                 _this.TryInitialize(userInformation, onComplete, count + 1);

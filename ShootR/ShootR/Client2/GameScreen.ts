@@ -21,6 +21,7 @@ module ShootR {
         constructor(private _gameCanvas: JQuery, private _popUpHolder: JQuery, private _serverAdapter: Server.ServerAdapter) {
             this.Viewport = this.UpdateViewport();
             this.OnResize = new eg.EventHandler1<eg.Size2d>();
+            this.OnResizeComplete = new eg.EventHandler();
 
             $(window).resize(() => {
                 // Wait till window has officially finished resizing (wait a quarter second).
@@ -29,10 +30,15 @@ module ShootR {
                 }, 250);
             });
 
-            this.ScreenResizeEvent();
+            this.ForceResizeCheck();
         }
 
         public OnResize: eg.EventHandler1<eg.Size2d>;
+        public OnResizeComplete: eg.EventHandler;
+
+        public ForceResizeCheck(): void {
+            this.ScreenResizeEvent();
+        }
 
         private UpdateGameCanvas(): void {
             this._gameCanvas.attr("width", this.Viewport.Width);
@@ -57,6 +63,7 @@ module ShootR {
             this.UpdateScreen();
             setTimeout(() => {
                 this.UpdateScreen();
+                this.OnResizeComplete.Trigger();
             }, 1500); // Re-calculate in-case there were scrollbars
         }
 

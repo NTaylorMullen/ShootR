@@ -69,7 +69,8 @@ module ShootR.Server {
             this.Proxy.invoke("initializeClient", userInformation.RegistrationID).done((initialization: IClientInitialization) => {
                 if (!initialization) {
                     if (count >= ServerAdapter.NEGOTIATE_RETRIES) {
-                        alert("Could not negotiate with server, please refresh the page.");
+                        console.log("Could not negotiate with server, refreshing the page.");
+                        window.location.reload();
                     } else {
                         setTimeout(() => {
                             this.TryInitialize(userInformation, onComplete, count + 1);

@@ -9,13 +9,20 @@ $(function () {
     var connection = (<any>$.connection).h,
         gameCanvas: JQuery = $("#game"),
         popUpHolder: JQuery = $("#popUpHolder"),
+        gameContent: JQuery = $("#gameContent"),
+        loadContent: JQuery = $("#loadContent"),
         game: ShootR.Game,
-        gameScreen: ShootR.GameScreen,
-        serverAdapter: ShootR.Server.ServerAdapter = new ShootR.Server.ServerAdapter($.connection.hub, (<any>$.connection).h, "shootr.state");    
+        serverAdapter: ShootR.Server.ServerAdapter = new ShootR.Server.ServerAdapter($.connection.hub, (<any>$.connection).h, "shootr.state"),
+        gameScreen: ShootR.GameScreen = new ShootR.GameScreen(gameCanvas, popUpHolder, serverAdapter);
 
-    serverAdapter.Negotiate().done((initializationData: ShootR.Server.IClientInitialization) => {
-        gameScreen = new ShootR.GameScreen(gameCanvas, popUpHolder, serverAdapter);
-        game = new ShootR.Game(<HTMLCanvasElement>gameCanvas[0], gameScreen, serverAdapter, initializationData);
-    });
+    gameScreen.OnResizeComplete.BindFor(() => {
+        serverAdapter.Negotiate().done((initializationData: ShootR.Server.IClientInitialization) => {
+            loadContent.hide();
+            gameContent.show();
+
+            game = new ShootR.Game(<HTMLCanvasElement>gameCanvas[0], gameScreen, serverAdapter, initializationData);
+            gameScreen.ForceResizeCheck();
+        });
+    }, 1);
 
 });

@@ -14,6 +14,7 @@ var ShootR;
             this._gameHUDHeight = $("#gameHUD").height();
             this.Viewport = this.UpdateViewport();
             this.OnResize = new eg.EventHandler1();
+            this.OnResizeComplete = new eg.EventHandler();
 
             $(window).resize(function () {
                 // Wait till window has officially finished resizing (wait a quarter second).
@@ -22,8 +23,12 @@ var ShootR;
                 }, 250);
             });
 
-            this.ScreenResizeEvent();
+            this.ForceResizeCheck();
         }
+        GameScreen.prototype.ForceResizeCheck = function () {
+            this.ScreenResizeEvent();
+        };
+
         GameScreen.prototype.UpdateGameCanvas = function () {
             this._gameCanvas.attr("width", this.Viewport.Width);
             this._gameCanvas.attr("height", this.Viewport.Height);
@@ -48,6 +53,7 @@ var ShootR;
             this.UpdateScreen();
             setTimeout(function () {
                 _this.UpdateScreen();
+                _this.OnResizeComplete.Trigger();
             }, 1500);
         };
 

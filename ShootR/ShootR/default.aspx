@@ -21,7 +21,10 @@
         <uc:Login runat="server" ID="LoginScripts"></uc:Login>
 
         <asp:Panel runat="server" ID="GameScripts" Visible="false">
-            <div id="gameContent">
+            <div id="loadContent" style="position: absolute; width: 100%;">
+                <p style="position: relative; text-align: center; color:white; font-size:3em; font-family: 'Segoe UI'; font-weight: bolder; margin-top: 200px;"><b>Loading, Please Wait...</b></p>
+            </div>
+            <div id="gameContent" style="display:none;">
                 <a href="https://github.com/NTaylorMullen/ShootR" style="z-index: 10001;" target="_blank">
                     <img style="z-index: 10001; position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub" />
                 </a>
