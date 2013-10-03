@@ -865,15 +865,15 @@ var EndGate;
         };
 
         EventHandler.prototype.BindFor = function (action, triggerCount) {
-            var that = this, triggers = 0;
-
-            this._actions.push(function () {
+            var that = this, triggers = 0, toBeBound = function () {
                 if (++triggers >= triggerCount) {
-                    that.Unbind(action);
+                    that.Unbind(toBeBound);
                 }
 
                 action.apply(this, arguments);
-            });
+            };
+
+            this._actions.push(toBeBound);
         };
 
         EventHandler.prototype.Unbind = function (action) {
