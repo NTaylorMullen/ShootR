@@ -18,9 +18,11 @@ module ShootR {
         private _lastDeaths: number;
         private _lastOutOf: number;
         private _koStatusCount: number;
+        private _initialLoad: boolean;
 
         constructor() {
             this._koStatusCount = this._lastKills = 0;
+            this._initialLoad = true;
         }
 
         public LoadPayload(payload: Server.IPayloadData): void {
@@ -29,7 +31,13 @@ module ShootR {
         }
 
         public Update(ship: Ship): void {
-            while (this._koStatusCount !== 0) {
+            if (this._initialLoad) {
+                this._initialLoad = false;
+                this._koStatusCount = 0;
+                return;
+            }
+
+            while (this._koStatusCount !== 0) {                
                 ship.Graphic.Status("K.O.", 50, eg.Graphics.Color.White, RankingsManager.KO_FADE_DURATION);
 
                 this._koStatusCount--;

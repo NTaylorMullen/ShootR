@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="../Ships/Ship.ts" />
@@ -13,6 +13,7 @@ var ShootR;
             this._deathsEle = $("#Deaths");
             this._kdRatioEle = $("#KDRatio");
             this._koStatusCount = this._lastKills = 0;
+            this._initialLoad = true;
         }
         RankingsManager.prototype.LoadPayload = function (payload) {
             this.UpdateLeaderboard(payload.LeaderboardPosition, payload.ShipsInWorld);
@@ -20,6 +21,12 @@ var ShootR;
         };
 
         RankingsManager.prototype.Update = function (ship) {
+            if (this._initialLoad) {
+                this._initialLoad = false;
+                this._koStatusCount = 0;
+                return;
+            }
+
             while (this._koStatusCount !== 0) {
                 ship.Graphic.Status("K.O.", 50, eg.Graphics.Color.White, RankingsManager.KO_FADE_DURATION);
 
