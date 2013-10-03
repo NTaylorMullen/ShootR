@@ -12,24 +12,37 @@ var ShootR;
             this._movementTween.OnChange.Bind(function (newPosition) {
                 _this._camera.Position = newPosition;
             });
-            this._movementTween.OnComplete.Bind(function (_) {
-                _this._movementTween.Play();
-            });
-            this._movementTween.Play();
+
+            this._started = false;
         }
         UserCameraController.prototype.Update = function (gameTime) {
-            var ship = this._shipManager.GetShip(this._myShipId), distance, positionIncrementor;
+            var ship = this._shipManager.GetShip(this._myShipId), distance;
 
             if (ship) {
+                if (!this._started) {
+                    this._started = true;
+                    this._camera.Position = ship.MovementController.Position;
+                    return;
+                }
+
                 distance = ship.MovementController.Position.Distance(this._camera.Position).Magnitude();
 
-                positionIncrementor = ship.MovementController.Position.Subtract(this._camera.Position).Unit().Multiply(distance * (gameTime.Elapsed.Seconds / UserCameraController.MOVEMENT_TIME.Seconds));
-
-                this._camera.Position = this._camera.Position.Add(positionIncrementor);
+                if (!this._movementTween.IsPlaying()) {
+                    if (distance < UserCameraController.DISTANCE_THRESHOLD) {
+                        this._camera.Position = ship.MovementController.Position;
+                    } else {
+                        this._movementTween.From = this._camera.Position;
+                        this._movementTween.To = ship.MovementController.Position;
+                        this._movementTween.Duration = UserCameraController.MOVEMENT_TIME;
+                        this._movementTween.Restart();
+                    }
+                } else {
+                    this._movementTween.Update(gameTime);
+                }
             }
         };
-        UserCameraController.DISTANCE_THRESHOLD = 50;
-        UserCameraController.MOVEMENT_TIME = eg.TimeSpan.FromSeconds(.15);
+        UserCameraController.DISTANCE_THRESHOLD = 100;
+        UserCameraController.MOVEMENT_TIME = eg.TimeSpan.FromMilliseconds(500);
         return UserCameraController;
     })();
     ShootR.UserCameraController = UserCameraController;
