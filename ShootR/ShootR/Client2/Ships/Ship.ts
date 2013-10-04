@@ -42,6 +42,8 @@ module ShootR {
             this.AnimationHandler = new ShipAnimationHandler(this, contentManager);
 
             this.LoadPayload(payload, true);
+
+            this.Graphic.RotateShip(this.MovementController.Rotation);
         }
 
         public OnExplosion: eg.EventHandler;

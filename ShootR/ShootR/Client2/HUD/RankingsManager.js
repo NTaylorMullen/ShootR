@@ -1,4 +1,4 @@
-/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+﻿/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="../Ships/Ship.ts" />

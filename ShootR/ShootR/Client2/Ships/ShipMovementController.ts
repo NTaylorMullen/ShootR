@@ -49,7 +49,12 @@ module ShootR {
         public OnMove: eg.EventHandler1<eg.MovementControllers.IMoveEvent>;
 
         public LoadPayload(payload: Server.IShipMovementControllerData, forceMovement?: boolean): void {
-            this._interpolationManager.LoadPayload(payload);
+            if (!forceMovement) {
+                this._interpolationManager.LoadPayload(payload);
+            } else {
+                this.Position = payload.Position;
+                this.Rotation = payload.Rotation;
+            }
 
             if (!this.UserControlled || forceMovement) {
                 this.Mass = payload.Mass;

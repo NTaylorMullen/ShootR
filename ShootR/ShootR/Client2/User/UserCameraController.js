@@ -33,15 +33,16 @@ var ShootR;
                     } else {
                         this._movementTween.From = this._camera.Position;
                         this._movementTween.To = ship.MovementController.Position;
-                        this._movementTween.Duration = UserCameraController.MOVEMENT_TIME;
                         this._movementTween.Restart();
                     }
                 } else {
-                    this._movementTween.Update(gameTime);
+                    this._movementTween.To = ship.MovementController.Position;
                 }
             }
+
+            this._movementTween.Update(gameTime);
         };
-        UserCameraController.DISTANCE_THRESHOLD = 100;
+        UserCameraController.DISTANCE_THRESHOLD = 500;
         UserCameraController.MOVEMENT_TIME = eg.TimeSpan.FromMilliseconds(500);
         return UserCameraController;
     })();

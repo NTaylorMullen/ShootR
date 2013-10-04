@@ -35,7 +35,12 @@ var ShootR;
             this.OnMove = new eg.EventHandler1();
         }
         ShipMovementController.prototype.LoadPayload = function (payload, forceMovement) {
-            this._interpolationManager.LoadPayload(payload);
+            if (!forceMovement) {
+                this._interpolationManager.LoadPayload(payload);
+            } else {
+                this.Position = payload.Position;
+                this.Rotation = payload.Rotation;
+            }
 
             if (!this.UserControlled || forceMovement) {
                 this.Mass = payload.Mass;

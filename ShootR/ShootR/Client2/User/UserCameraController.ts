@@ -4,7 +4,7 @@
 module ShootR {
 
     export class UserCameraController implements eg.IUpdateable {
-        public static DISTANCE_THRESHOLD: number = 100;
+        public static DISTANCE_THRESHOLD: number = 500;
         public static MOVEMENT_TIME: eg.TimeSpan = eg.TimeSpan.FromMilliseconds(500);
 
         private _movementTween: eg.Tweening.Vector2dTween;
@@ -39,13 +39,14 @@ module ShootR {
                     } else {
                         this._movementTween.From = this._camera.Position;
                         this._movementTween.To = ship.MovementController.Position;
-                        this._movementTween.Duration = UserCameraController.MOVEMENT_TIME;
                         this._movementTween.Restart();
                     }
                 } else {
-                    this._movementTween.Update(gameTime);
+                    this._movementTween.To = ship.MovementController.Position;
                 }
             }
+
+            this._movementTween.Update(gameTime);
         }
     }
 

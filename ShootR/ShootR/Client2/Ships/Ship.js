@@ -35,6 +35,8 @@ var ShootR;
             this.AnimationHandler = new ShootR.ShipAnimationHandler(this, contentManager);
 
             this.LoadPayload(payload, true);
+
+            this.Graphic.RotateShip(this.MovementController.Rotation);
         }
         Ship.prototype.Update = function (gameTime) {
             this.AbilityHandler.Update(gameTime);

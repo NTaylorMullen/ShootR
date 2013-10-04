@@ -13,9 +13,20 @@ var ShootR;
         ShipStatMonitor.prototype.Update = function (ship) {
             var speed = Math.round(Math.sqrt(Math.pow(ship.MovementController.Velocity.X, 2) + Math.pow(ship.MovementController.Velocity.Y, 2))), increasedLife = ship.LifeController.MaxHealth - ShootR.ShipLifeController.START_LIFE, increasedDamage = Math.round((ship.LevelManager.Level - 1) * ShootR.Ship.DAMAGE_INCREASE_RATE * 10) / 10;
 
-            this._speedHolder.text(speed.toString());
-            this._healthHolder.text(increasedLife.toString());
-            this._damageHolder.text(increasedDamage.toString());
+            if (this._lastSpeed !== speed) {
+                this._speedHolder[0].innerHTML = speed.toString();
+                this._lastSpeed = speed;
+            }
+
+            if (this._lastIncreasedLife !== increasedLife) {
+                this._healthHolder[0].innerHTML = increasedLife.toString();
+                this._lastIncreasedLife = increasedLife;
+            }
+
+            if (this._lastDamage !== increasedDamage) {
+                this._damageHolder[0].innerHTML = increasedDamage.toString();
+                this._lastDamage = increasedDamage;
+            }
         };
         return ShipStatMonitor;
     })();
