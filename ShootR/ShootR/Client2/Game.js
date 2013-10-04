@@ -31,6 +31,11 @@ var ShootR;
             this.Configuration.CollisionConfiguration.MinQuadTreeNodeSize = new eg.Size2d(75);
             this.Configuration.CollisionConfiguration.InitialQuadTreeSize = new eg.Size2d(10125);
 
+            // Focus game canvas on click
+            this.Input.Mouse.OnClick.Bind(function (_) {
+                window.focus();
+            });
+
             this._bufferedViewport = new eg.Bounds.BoundingRectangle(this.Scene.Camera.Position, this.Scene.Camera.Size.Add(ShootR.GameScreen.SCREEN_BUFFER_AREA));
             this._shipManager = new ShootR.ShipManager(this._bufferedViewport, this.Scene, this.CollisionManager, this.Content);
             this._shipManager.Initialize(new ShootR.UserShipManager(initializationData.ShipID, this._shipManager, this.CollisionManager, this.Input, this.Scene.Camera, serverAdapter));

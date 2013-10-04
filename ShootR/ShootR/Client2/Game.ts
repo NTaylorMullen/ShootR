@@ -34,6 +34,11 @@ module ShootR {
             this.Configuration.CollisionConfiguration.MinQuadTreeNodeSize = new eg.Size2d(75); // Size of a ship
             this.Configuration.CollisionConfiguration.InitialQuadTreeSize = new eg.Size2d(10125); // Initial Map Size x 2
 
+            // Focus game canvas on click
+            this.Input.Mouse.OnClick.Bind((_) => {
+                window.focus();
+            });
+
             this._bufferedViewport = new eg.Bounds.BoundingRectangle(this.Scene.Camera.Position, this.Scene.Camera.Size.Add(GameScreen.SCREEN_BUFFER_AREA));
             this._shipManager = new ShipManager(this._bufferedViewport, this.Scene, this.CollisionManager, this.Content);
             this._shipManager.Initialize(new UserShipManager(initializationData.ShipID, this._shipManager, this.CollisionManager, this.Input, this.Scene.Camera, serverAdapter));
