@@ -44,7 +44,8 @@ module ShootR {
             var bounceMultiplier: eg.Vector2d,
                 side: eg.Vector2d = this.Graphic.From.Subtract(this.Graphic.To);
 
-            ship.MovementController.StopAllMovement();
+            ship.MovementController.StopMoving("Forward");
+            ship.MovementController.StopMoving("Backward");
             ship.AnimationHandler.StopAllAnimations();
 
             this.RepositionShipInBounds(ship);

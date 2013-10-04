@@ -39,7 +39,8 @@ var ShootR;
         MapBoundary.prototype.HandleShipCollision = function (ship) {
             var bounceMultiplier, side = this.Graphic.From.Subtract(this.Graphic.To);
 
-            ship.MovementController.StopAllMovement();
+            ship.MovementController.StopMoving("Forward");
+            ship.MovementController.StopMoving("Backward");
             ship.AnimationHandler.StopAllAnimations();
 
             this.RepositionShipInBounds(ship);

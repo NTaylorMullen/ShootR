@@ -32,9 +32,8 @@ module ShootR {
                         for (var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
                             this._enqueuedCommands.push(((i) => {
                                     return () => {
-                                    this.Invoke("registerMoveStop", false, this.NewMovementCommand(ShipMovementController.MOVING_DIRECTIONS[i], false));
-
-                                    ship.MovementController.StopMoving(ShipMovementController.MOVING_DIRECTIONS[i]);
+                                    this.Invoke("registerMoveStop", false, this.NewMovementCommand("Forward", false));
+                                    this.Invoke("registerMoveStop", false, this.NewMovementCommand("Backward", false));
                                 }
                             })(i));
                         }

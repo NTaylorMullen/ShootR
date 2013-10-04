@@ -26,9 +26,8 @@ var ShootR;
                         for (var i = ShootR.ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
                             _this._enqueuedCommands.push((function (i) {
                                 return function () {
-                                    _this.Invoke("registerMoveStop", false, _this.NewMovementCommand(ShootR.ShipMovementController.MOVING_DIRECTIONS[i], false));
-
-                                    ship.MovementController.StopMoving(ShootR.ShipMovementController.MOVING_DIRECTIONS[i]);
+                                    _this.Invoke("registerMoveStop", false, _this.NewMovementCommand("Forward", false));
+                                    _this.Invoke("registerMoveStop", false, _this.NewMovementCommand("Backward", false));
                                 };
                             })(i));
                         }
