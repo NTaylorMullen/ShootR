@@ -1,15 +1,19 @@
 ShootR
 ======
 
-Multiplayer space ship game built on the SignalR framework.  This is a work in progress.  I will be updating the Issue list with features to be added as I have time.
+Multiplayer space ship game powered by [SignalR] (http://www.asp.net/signalr) and [EndGate] (http://endgate.net/).
 
-NOTE:  Have tons to do when it comes to organizing the repository structure =)
+To play ShootR visit http://shootr.signalr.net/.
 
 In order to run ShootR locally you must do the following:  
-1. Pull down the ShootR code.  
-2. Use nuget to install latest SignalR. (Search SignalR in nuget, set filters to "Include Pre-release")  
-3. Have fun =] 
+1. If you have VS2012: Install the latest TypeScript version. http://www.microsoft.com/en-us/download/details.aspx?id=34790
+2. Pull down ShootR source.
+3. Checkout master.
+4. Learn [SignalR] (http://www.asp.net/signalr).
+5. Learn [EndGate] (http://endgate.net).
+6. Have fun =]
 
-Final comment: The ShootR code needs to be refactored greatly!  It was put together quickly and will be refactored (and expanded) in the coming months.
+Feel free to stop by and say hi at http://jabbr.net/#/rooms/ShootR.
 
-Feel free to stop by and say hi at http://jabbr.net/#/rooms/ShootR and http://jabbr.net/#/rooms/signalr
+SignalR Source: https://github.com/SignalR/SignalR
+EndGate Source: https://github.com/ntaylormullen/endgate
