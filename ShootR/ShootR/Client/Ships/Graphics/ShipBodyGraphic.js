@@ -12,14 +12,14 @@ var ShootR;
         __extends(ShipBodyGraphic, _super);
         function ShipBodyGraphic(levelManager) {
             var _this = this;
-            _super.call(this, 0, 0, ShipBodyGraphic._bodyGraphics[levelManager.Level]);
+            _super.call(this, 0, 0, this.DetermineBody(levelManager));
 
             levelManager.OnLevelChange.Bind(function (newLevel) {
-                _this.Image = ShipBodyGraphic._bodyGraphics[levelManager.Level];
+                _this.Image = _this.DetermineBody(levelManager);
             });
         }
         ShipBodyGraphic.prototype.DetermineBody = function (levelManager) {
-            ShipBodyGraphic._bodyGraphics[Math.min(levelManager.Level, 13)];
+            return ShipBodyGraphic._bodyGraphics[Math.min(levelManager.Level, 13)];
         };
 
         ShipBodyGraphic.LoadShipBodies = // Made as a static so we don't have to construct the ship bodies every time a new ship is created.

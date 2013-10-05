@@ -7,15 +7,15 @@ module ShootR {
         private static _bodyGraphics: Array<eg.Graphics.ImageSource>;
 
         constructor(levelManager: ShipLevelManager) {
-            super(0, 0, ShipBodyGraphic._bodyGraphics[levelManager.Level]);
+            super(0, 0, this.DetermineBody(levelManager));
 
             levelManager.OnLevelChange.Bind((newLevel: number) => {
-                this.Image = ShipBodyGraphic._bodyGraphics[levelManager.Level];
+                this.Image = this.DetermineBody(levelManager);
             });
         }
 
-        private DetermineBody(levelManager: ShipLevelManager): void {
-            ShipBodyGraphic._bodyGraphics[Math.min(levelManager.Level, 13)];
+        private DetermineBody(levelManager: ShipLevelManager): eg.Graphics.ImageSource {
+            return ShipBodyGraphic._bodyGraphics[Math.min(levelManager.Level, 13)];
         }
 
         // Made as a static so we don't have to construct the ship bodies every time a new ship is created.
