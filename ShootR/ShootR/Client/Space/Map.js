@@ -1,49 +1,86 @@
-/// <reference path="../Utilities/Vector2.ts" />
-/// <reference path="../Utilities/Size.ts" />
-/// <reference path="CanvasRenderer.ts" />
-/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="../Ship/Ship.ts" />
-/// <reference path="../Bullet/Bullet.ts" />
-var Map2 = (function () {
-    function Map2() {
-    }
-    Map2.prototype.mapContains = function (position, width, height) {
-        return (position.X >= 0 && position.X + width <= Map2.WIDTH && position.Y >= 0 && position.Y + height <= Map2.HEIGHT);
-    };
+/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../Server/ServerAdapter.ts" />
+/// <reference path="MapBoundary.ts" />
+/// <reference path="AreaRenderer.ts" />
+var ShootR;
+(function (ShootR) {
+    var Map = (function () {
+        function Map(_scene, _collisionManager, _contentManager, _keyboard, serverAdapter) {
+            var _this = this;
+            this._scene = _scene;
+            this._collisionManager = _collisionManager;
+            this._contentManager = _contentManager;
+            this._keyboard = _keyboard;
+            this._boundaries = new Array();
+            this._backgroundTiles = new Array();
 
-    Map2.prototype.CheckBoundaryCollisions = function (ships, bullets) {
-        for (var key in ships) {
-            if (!this.mapContains(ships[key].MovementController.Position, ships[key].WIDTH, ships[key].HEIGHT)) {
-                var bounceMultiplier;
+            this.BuildBackground();
+            this.BuildBoundaries();
+            this.BuildAreas();
 
-                $(ships[key]).triggerHandler("OnOutOfBounds");
+            serverAdapter.OnMapResize.Bind(function (newSize) {
+                Map.SIZE = newSize;
+                _this.BuildBackground();
+                _this.BuildBoundaries();
+                _this.AreaRenderer.OnMapResize(newSize);
+            });
+        }
+        Map.prototype.BuildBackground = function () {
+            var _this = this;
+            var source = this._contentManager.GetImage("StarBackground"), build = function () {
+                // Add 2 to give a buffer on both sides of the map
+                var tileCount = (Map.SIZE.Width / source.ClipSize.Width) + 2, templateTile = new eg.Graphics.Sprite2d(0, 0, source, source.ClipSize.Width, source.ClipSize.Height), tile;
 
-                if (ships[key].MovementController.Position.X < 0 || (ships[key].MovementController.Position.X + ships[key].WIDTH) > Map2.WIDTH) {
-                    bounceMultiplier = new Vector2(-Map2.BARRIER_DEPRECATION, Map2.BARRIER_DEPRECATION);
-                } else if (ships[key].MovementController.Position.Y < 0 || (ships[key].MovementController.Position.Y + ships[key].HEIGHT) > Map2.HEIGHT) {
-                    bounceMultiplier = new Vector2(Map2.BARRIER_DEPRECATION, -Map2.BARRIER_DEPRECATION);
+                templateTile.ZIndex = -2;
+
+                for (var i = 0; i < _this._backgroundTiles.length; i++) {
+                    _this._backgroundTiles[i].Dispose();
                 }
 
-                ships[key].MovementController.RepositionInBounds(ships[key].WIDTH, ships[key].HEIGHT);
+                _this._backgroundTiles = new Array();
 
-                // Reverse velocity, aka bounce
-                ships[key].MovementController.Forces = Vector2.MultiplyV(ships[key].MovementController.Forces, bounceMultiplier);
-                ships[key].MovementController.Velocity = Vector2.MultiplyV(ships[key].MovementController.Velocity, bounceMultiplier);
+                for (var i = 0; i < tileCount; i++) {
+                    for (var j = 0; j < tileCount; j++) {
+                        tile = templateTile.Clone();
+                        tile.Position.X = j * source.ClipSize.Width - source.ClipSize.HalfWidth;
+                        tile.Position.Y = i * source.ClipSize.Height - source.ClipSize.HalfHeight;
+                        _this._scene.Add(tile);
+                        _this._backgroundTiles.push(tile);
+                    }
+                }
+            };
+
+            if (source.IsLoaded()) {
+                build();
+            } else {
+                source.OnLoaded.Bind(build);
             }
-        }
+        };
 
-        for (var key in bullets) {
-            if (!this.mapContains(bullets[key].MovementController.Position, bullets[key].WIDTH, bullets[key].HEIGHT)) {
-                bullets[key].Visible = false;
-                bullets[key].MovementController.Velocity.X = 0;
-                bullets[key].MovementController.Velocity.Y = 0;
+        Map.prototype.BuildBoundaries = function () {
+            var corners = new Array(new eg.Vector2d(-2, -2), new eg.Vector2d(Map.SIZE.Width + 2, -2), new eg.Vector2d(Map.SIZE.Width + 2, Map.SIZE.Height + 2), new eg.Vector2d(-2, Map.SIZE.Height + 2)), boundary;
+
+            for (var i = 0; i < this._boundaries.length; i++) {
+                this._boundaries[i].Dispose();
             }
-        }
-    };
 
-    Map2.prototype.Draw = function () {
-        CanvasContext.drawMapBoundary(new Size(Map2.WIDTH, Map2.HEIGHT));
-    };
-    Map2.BARRIER_DEPRECATION = .75;
-    return Map2;
-})();
+            this._boundaries = new Array();
+
+            for (var i = 0; i < corners.length; i++) {
+                boundary = new ShootR.MapBoundary(new eg.Vector2d(corners[i].X, corners[i].Y), new eg.Vector2d(corners[(i + 1) % corners.length].X, corners[(i + 1) % corners.length].Y));
+                boundary.Graphic.ZIndex = -1;
+                this._collisionManager.Monitor(boundary, true);
+                this._scene.Add(boundary.Graphic);
+                this._boundaries.push(boundary);
+            }
+        };
+
+        Map.prototype.BuildAreas = function () {
+            this.AreaRenderer = new ShootR.AreaRenderer(this._scene, this._keyboard);
+            this.AreaRenderer.OnMapResize(Map.SIZE);
+        };
+        return Map;
+    })();
+    ShootR.Map = Map;
+})(ShootR || (ShootR = {}));
+//# sourceMappingURL=Map.js.map

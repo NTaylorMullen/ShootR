@@ -1,52 +1,56 @@
+/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="../Powerups/HealthPack.ts" />
 /// <reference path="../Powerups/Powerup.ts" />
-/// <reference path="../Utilities/GameTime.ts" />
-/// <reference path="../Interfaces/PayloadDefinitions.d.ts" />
-/// <reference path="../Space/CanvasRenderer.ts" />
-var PowerupManager = (function () {
-    function PowerupManager() {
-        this.Powerups = {};
-    }
-    PowerupManager.prototype.UpdatePowerups = function (powerupList, gameTime) {
-        var powerupsCount = powerupList.length;
+var ShootR;
+(function (ShootR) {
+    var PowerupManager = (function () {
+        function PowerupManager(_viewport, _scene, _contentManager) {
+            this._viewport = _viewport;
+            this._scene = _scene;
+            this._contentManager = _contentManager;
+            this._powerups = {};
+        }
+        PowerupManager.prototype.LoadPayload = function (payload) {
+            var _this = this;
+            var powerupPayload = payload.Powerups, powerup;
 
-        for (var i = 0; i < powerupsCount; i++) {
-            var currentPowerup = powerupList[i], id = currentPowerup.ID;
+            for (var i = 0; i < powerupPayload.length; i++) {
+                powerup = powerupPayload[i];
 
-            var movementController = currentPowerup.MovementController;
+                if (!this._powerups[powerup.ID]) {
+                    if (powerup.Type === 1) {
+                        this._powerups[powerup.ID] = new ShootR.HealthPack(powerup, this._contentManager);
+                    }
 
-            delete currentPowerup.MovementController;
+                    this._scene.Add(this._powerups[powerup.ID].Graphic);
 
-            if (this.Powerups[id]) {
-                this.Powerups[id].UpdateProperties(currentPowerup);
-            } else {
-                if (currentPowerup.Type === 1) {
-                    this.Powerups[id] = new HealthPack(currentPowerup, movementController.Position);
+                    this._powerups[powerup.ID].OnDisposed.Bind(function (powerup) {
+                        delete _this._powerups[(powerup).ID];
+                    });
+                } else {
+                    this._powerups[powerup.ID].LoadPayload(powerup);
+                }
+
+                if (powerup.Disposed) {
+                    this._powerups[powerup.ID].Destroy();
                 }
             }
+        };
 
-            this.Powerups[id].MovementController.UpdateMovementController(movementController);
-
-            if (this.Powerups[id].Disposed) {
-                this.Powerups[id].Destroy();
-                delete this.Powerups[id];
-            } else {
-                this.Powerups[id].Update(gameTime);
+        PowerupManager.prototype.Update = function (gameTime) {
+            for (var id in this._powerups) {
+                this._powerups[id].Update(gameTime);
             }
-        }
-    };
 
-    PowerupManager.prototype.Update = function (gameTime) {
-        for (var key in this.Powerups) {
-            if (CanvasContext.Camera.InView(this.Powerups[key]) && !this.Powerups[key].Disposed) {
-                this.Powerups[key].Update(gameTime);
-                this.Powerups[key].Draw();
-            } else {
-                this.Powerups[key].Destroy();
-                delete this.Powerups[key];
+            for (var id in this._powerups) {
+                if (!this._powerups[id].Bounds.IntersectsRectangle(this._viewport)) {
+                    this._powerups[id].Destroy();
+                }
             }
-        }
-    };
-    return PowerupManager;
-})();
+        };
+        return PowerupManager;
+    })();
+    ShootR.PowerupManager = PowerupManager;
+})(ShootR || (ShootR = {}));
 //# sourceMappingURL=PowerupManager.js.map

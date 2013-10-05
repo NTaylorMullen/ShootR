@@ -1,52 +1,34 @@
+/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="Powerup.ts" />
-/// <reference path="../Managers/spritify.ts" />
-/// <reference path="../Utilities/ImageAssets.ts" />
-/// <reference path="../Utilities/Vector2.ts" />
-/// <reference path="../Utilities/GameTime.ts" />
-/// <reference path="../Collidable/MovementControllers/StationaryMovementController.ts" />
+/// <reference path="Graphics/HealthPackGraphic.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var HealthPack = (function (_super) {
-    __extends(HealthPack, _super);
-    function HealthPack(properties, position) {
-        _super.call(this, properties);
+var ShootR;
+(function (ShootR) {
+    var HealthPack = (function (_super) {
+        __extends(HealthPack, _super);
+        function HealthPack(payload, contentManager) {
+            _super.call(this, payload, new ShootR.HealthPackGraphic(payload.MovementController.Position, contentManager));
 
-        this.WIDTH = HealthPack.WIDTH;
-        this.HEIGHT = HealthPack.HEIGHT;
-        this.MovementController = new StationaryMovementController(position);
-
-        this._spawnedAt = new Date().getTime();
-        this.InitializeAnimationCanvas();
-        this.UpdateAnimationCanvasSize(new Size(this.WIDTH, this.HEIGHT));
-
-        this._animation = new spritify({
-            image: IMAGE_ASSETS.HealthPack,
-            drawOn: this.AnimationCanvasContext,
-            X: 0,
-            Y: 0,
-            frameCount: 18,
-            fps: 18,
-            spriteSheetSize: new Size(450, 100),
-            frameSize: new Size(this.WIDTH, this.HEIGHT),
-            Rotation: 0,
-            autoPlay: false,
-            loop: true
-        });
-
-        this._animation.Play();
-        this.AnimationDrawList.push(this._animation);
-    }
-    HealthPack.prototype.Update = function (gameTime) {
-        if (gameTime.Now.getTime() - this._spawnedAt >= HealthPack.LIFE_SPAN) {
-            this.Disposed = true;
+            this._spawnedAt = new Date();
         }
+        HealthPack.prototype.Update = function (gameTime) {
+            if (eg.TimeSpan.DateSpan(this._spawnedAt, gameTime.Now).Milliseconds >= HealthPack.LIFE_SPAN.Milliseconds) {
+                this.Destroy();
+                return;
+            }
 
-        this._animation.Update(gameTime.Now);
-    };
-    return HealthPack;
-})(Powerup);
+            (this.Graphic).Update(gameTime);
+        };
+        HealthPack.SIZE = new eg.Size2d(50);
+        HealthPack.LIFE_SPAN = eg.TimeSpan.FromSeconds(6);
+        return HealthPack;
+    })(ShootR.Powerup);
+    ShootR.HealthPack = HealthPack;
+})(ShootR || (ShootR = {}));
 //# sourceMappingURL=HealthPack.js.map

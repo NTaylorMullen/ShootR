@@ -1,21 +1,32 @@
-/// <reference path="../Ship/ShipController.ts" />
-/// <reference path="../Space/Map.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
-var EnvironmentMonitor = (function () {
-    function EnvironmentMonitor(_myShip) {
-        this._myShip = _myShip;
-        this._latency = $("#Latency");
-        this._worldTargets = $("#WorldTargets");
-        this._worldBullets = $("#WorldBullets");
-        this._area = $("#Area");
-        this._areaLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-    }
-    EnvironmentMonitor.prototype.Update = function (payload) {
-        var mapSize = Map2.WIDTH, areaSize = Math.max(Math.round(mapSize / 26), 1000);
+/// <reference path="../Server/IPayloadDefinitions.ts" />
+/// <reference path="../Space/Map.ts" />
+/// <reference path="../Space/AreaRenderer.ts" />
+/// <reference path="../Ships/Ship.ts" />
+/// <reference path="../User/UserShipManager.ts" />
+var ShootR;
+(function (ShootR) {
+    var EnvironmentMonitor = (function () {
+        function EnvironmentMonitor(_areaRenderer, _userShipManager) {
+            this._areaRenderer = _areaRenderer;
+            this._userShipManager = _userShipManager;
+            this._latency = $("#Latency");
+            this._worldTargets = $("#WorldTargets");
+            this._worldBullets = $("#WorldBullets");
+            this._area = $("#Area");
+        }
+        EnvironmentMonitor.prototype.LoadPayload = function (payload) {
+            this._latency[0].innerHTML = this._userShipManager.LatencyResolver.Latency;
+            this._worldBullets[0].innerHTML = payload.BulletsInWorld.toString();
+            this._worldTargets[0].innerHTML = payload.ShipsInWorld.toString();
+        };
 
-        this._latency.html(this._myShip.LatencyResolver.Latency);
-        this._worldBullets.html(payload.BulletsInWorld);
-        this._worldTargets.html(payload.ShipsInWorld);
-    };
-    return EnvironmentMonitor;
-})();
+        EnvironmentMonitor.prototype.Update = function (ship) {
+            this._area[0].innerHTML = this._areaRenderer.AreaFromPosition(ship.MovementController.Position).toString();
+        };
+        return EnvironmentMonitor;
+    })();
+    ShootR.EnvironmentMonitor = EnvironmentMonitor;
+})(ShootR || (ShootR = {}));
+//# sourceMappingURL=EnvironmentMonitor.js.map

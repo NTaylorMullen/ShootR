@@ -1,111 +1,67 @@
-/// <reference path="../Utilities/Vector2.ts" />
-/// <reference path="../Utilities/Size.ts" />
-/// <reference path="CanvasRenderer.ts" />
-/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="../Ship/ShipController.ts" />
-var AreaRenderer = (function () {
-    function AreaRenderer(myShip, mapSize) {
-        this._showMap = true;
-        this._areaLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        this._hudArea = $("#Area");
-        this.OnMapResize(mapSize);
-        this._myShip = myShip;
+/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../Ships/Ship.ts" />
+/// <reference path="../Ships/ShipManager.ts" />
+/// <reference path="Area.ts" />
+var ShootR;
+(function (ShootR) {
+    var AreaRenderer = (function () {
+        function AreaRenderer(_scene, keyboard) {
+            var _this = this;
+            this._scene = _scene;
+            this._active = true;
+            this._areas = new Array();
 
-        this.applyKeyboardMappings();
-    }
-    AreaRenderer.prototype.applyKeyboardMappings = function () {
-        var that = this;
-        shortcut.add(AreaRenderer.KEYBOARD_MAPPING, function () {
-            that._showMap = !that._showMap;
-        });
-    };
+            keyboard.OnCommandPress(AreaRenderer.KEYBOARD_MAPPING, function () {
+                _this._active = !_this._active;
 
-    AreaRenderer.prototype.drawSectorMap = function (sectorPosition, letterIndex, sectorNumber) {
-        // Determine where in the box we are
-        var sectors = this.getBoxPositions(sectorPosition, letterIndex, sectorNumber);
-
-        for (var i = sectors.length - 1; i >= 0; i--) {
-            this.drawAreaBox(sectors[i]);
+                for (var i = 0; i < _this._areas.length; i++) {
+                    _this._areas[i].Visible = _this._active;
+                }
+            });
         }
-    };
+        AreaRenderer.prototype.OnMapResize = function (newSize) {
+            this._mapSize = newSize;
+            this._areaSize = new eg.Size2d(Math.max(Math.round(newSize.Width / AreaRenderer.AREA_LETTERS.length), 1000));
 
-    AreaRenderer.prototype.drawAreaBox = function (where) {
-        CanvasContext.strokeSquare(where.Position, this._areaSize, AreaRenderer.AREA_BOX_COLOR);
-        CanvasContext.drawText(where.Sector, where.Position.X + AreaRenderer.AREA_TEXT_MARGIN, where.Position.Y + AreaRenderer.AREA_TEXT_MARGIN, AreaRenderer.AREA_TEXT_COLOR, false, "start", "top");
-        CanvasContext.drawText(where.Sector, where.Position.X + AreaRenderer.AREA_TEXT_MARGIN, where.Position.Y + this._areaSize.Width - AreaRenderer.AREA_TEXT_MARGIN, AreaRenderer.AREA_TEXT_COLOR, false, "start", "bottom");
-        CanvasContext.drawText(where.Sector, where.Position.X + this._areaSize.Width - AreaRenderer.AREA_TEXT_MARGIN, where.Position.Y + AreaRenderer.AREA_TEXT_MARGIN, AreaRenderer.AREA_TEXT_COLOR, false, "end", "top");
-        CanvasContext.drawText(where.Sector, where.Position.X + this._areaSize.Width - AreaRenderer.AREA_TEXT_MARGIN, where.Position.Y + this._areaSize.Width - AreaRenderer.AREA_TEXT_MARGIN, AreaRenderer.AREA_TEXT_COLOR, false, "end", "bottom");
-    };
-
-    AreaRenderer.prototype.getBoxPosition = function (boxIndex) {
-        return new Vector2(Math.ceil(boxIndex % 3), Math.floor(boxIndex / 3));
-    };
-
-    AreaRenderer.prototype.getBoxPositions = function (currentSector, letterIndex, sectorNumber) {
-        var sectorPositions = [], topLeftSector = Vector2.SubtractVFromN(currentSector, this._areaSize.Width), that = this;
-
-        // Will always have the current sector in view
-        sectorPositions.push({
-            Position: currentSector,
-            Sector: that._areaLetters[letterIndex--] + sectorNumber--
-        });
-
-        var cameraCheckObj = {
-            MovementController: {
-                Position: topLeftSector
-            },
-            WIDTH: this._areaSize.Width,
-            HEIGHT: this._areaSize.Height
+            // On every map resize we need to rebuild the sectors so that they fit within the map
+            this.BuildSectors();
         };
 
-        for (var i = 0; i < 9; i++) {
-            if (i !== 4) {
-                var boxRelativePosition = this.getBoxPosition(i), spos = Vector2.MultiplyN(boxRelativePosition, this._areaSize.Width);
+        AreaRenderer.prototype.AreaFromPosition = function (position) {
+            var letter = AreaRenderer.AREA_LETTERS[Math.max(Math.floor(position.X / this._areaSize.Width), 0)], sectorNumber = Math.max(Math.ceil(position.Y / this._areaSize.Height), 1);
 
-                spos = Vector2.AddV(spos, topLeftSector);
+            return letter + sectorNumber.toString();
+        };
 
-                if (spos.X >= 0 && spos.Y >= 0 && spos.X + this._areaSize.Width <= this._mapSize && spos.Y + this._areaSize.Width <= this._mapSize) {
-                    cameraCheckObj.MovementController.Position = spos;
-                    if (CanvasContext.Camera.InView(cameraCheckObj)) {
-                        sectorPositions.push({
-                            Position: spos,
-                            Sector: that._areaLetters[letterIndex + boxRelativePosition.X] + (sectorNumber + boxRelativePosition.Y)
-                        });
-                    }
+        AreaRenderer.prototype.BuildSectors = function () {
+            var gridCount = this._mapSize.Width / this._areaSize.Width, locationOffset = this._areaSize.HalfWidth, area;
+
+            if (gridCount % 1 !== 0) {
+                throw new Error("Area size does not divide evenly into the map size.");
+            }
+
+            for (var i = 0; i < this._areas.length; i++) {
+                this._areas[i].Dispose();
+            }
+
+            this._areas = new Array();
+
+            for (var i = 0; i < gridCount; i++) {
+                for (var j = 0; j < gridCount; j++) {
+                    area = new ShootR.Area(locationOffset + this._areaSize.Width * j, locationOffset + this._areaSize.Width * i, this._areaSize.Width, AreaRenderer.AREA_LETTERS[j] + (i + 1));
+                    area.ZIndex = -1;
+                    this._areas.push(area);
+                    this._scene.Add(area);
                 }
             }
-        }
-
-        return sectorPositions;
-    };
-
-    AreaRenderer.prototype.OnMapResize = function (newSize) {
-        // Both are square so height is same as width, don't need to do the extra calculations
-        this._mapSize = newSize;
-        var temp = Math.max(Math.round(this._mapSize / this._areaLetters.length), 1000);
-        this._areaSize = new Size(temp);
-    };
-
-    // Need to take in the camera to determine what we should draw
-    AreaRenderer.prototype.Draw = function () {
-        // Draw sector lines
-        var letterIndex = Math.max(Math.floor(this._myShip.MovementController.Position.X / this._areaSize.Width), 0), letterSector = this._areaLetters[letterIndex], sectorNumber = Math.max(Math.ceil(this._myShip.MovementController.Position.Y / this._areaSize.Height), 1), sectorPosition = new Vector2(letterIndex * this._areaSize.Width, (sectorNumber - 1) * this._areaSize.Width);
-
-        if (this._showMap) {
-            this.drawSectorMap(sectorPosition, letterIndex, sectorNumber);
-        }
-
-        // Fill out the HUD
-        this._hudArea.html(letterSector + sectorNumber);
-    };
-
-    AreaRenderer.prototype.Update = function () {
-        this.Draw();
-    };
-    AreaRenderer.AREA_BOX_COLOR = "#304665";
-    AreaRenderer.AREA_TEXT_COLOR = "#3fa9f5";
-    AreaRenderer.AREA_TEXT_MARGIN = 13;
-    AreaRenderer.KEYBOARD_MAPPING = "m";
-    return AreaRenderer;
-})();
+        };
+        AreaRenderer.AREA_BOX_COLOR = eg.Graphics.Color.FromHex("#304665");
+        AreaRenderer.AREA_TEXT_COLOR = eg.Graphics.Color.FromHex("#3fa9f5");
+        AreaRenderer.AREA_TEXT_MARGE = 17;
+        AreaRenderer.KEYBOARD_MAPPING = "m";
+        AreaRenderer.AREA_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        return AreaRenderer;
+    })();
+    ShootR.AreaRenderer = AreaRenderer;
+})(ShootR || (ShootR = {}));
 //# sourceMappingURL=AreaRenderer.js.map

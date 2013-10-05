@@ -1,61 +1,58 @@
+/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../Server/IPayloadDefinitions.ts" />
 /// <reference path="../Powerups/HealthPack.ts" />
 /// <reference path="../Powerups/Powerup.ts" />
-/// <reference path="../Utilities/GameTime.ts" />
-/// <reference path="../Interfaces/PayloadDefinitions.d.ts" />
-/// <reference path="../Space/CanvasRenderer.ts" />
 
-class PowerupManager {
-    public Powerups: { [s: number]: Powerup; };
+module ShootR {
 
-    constructor () {
-        this.Powerups = {};
-    }
+    export class PowerupManager {
+        private _powerups: { [id: number]: Powerup; };
 
-    public UpdatePowerups (powerupList: IPowerupData[], gameTime: GameTime): void {
-        var powerupsCount = powerupList.length;
+        constructor(private _viewport: eg.Bounds.BoundingRectangle, private _scene: eg.Rendering.Scene2d, private _contentManager: eg.Content.ContentManager) {
+            this._powerups = {};
+        }
 
-        for (var i = 0; i < powerupsCount; i++) {
-            var currentPowerup: any = powerupList[i],
-                id: number = currentPowerup.ID;
+        public LoadPayload(payload: Server.IPayloadData): void {
+            var powerupPayload: Array<Server.IPowerupData> = payload.Powerups,
+                powerup: Server.IPowerupData;
 
-            var movementController = currentPowerup.MovementController;
+            for (var i = 0; i < powerupPayload.length; i++) {
+                powerup = powerupPayload[i];
 
-            delete currentPowerup.MovementController;
+                if (!this._powerups[powerup.ID]) {
+                    if (powerup.Type === 1) {
+                        this._powerups[powerup.ID] = new HealthPack(powerup, this._contentManager);
+                    }
 
-            // If bullet exists then we need to move it, aka update it.
-            if (this.Powerups[id]) {
-                this.Powerups[id].UpdateProperties(currentPowerup);
-            }
-            else {
-                if (currentPowerup.Type === 1) {
-                    this.Powerups[id] = new HealthPack(currentPowerup, movementController.Position);
+                    this._scene.Add(this._powerups[powerup.ID].Graphic);
+
+                    this._powerups[powerup.ID].OnDisposed.Bind((powerup) => {
+                        delete this._powerups[(<Powerup>powerup).ID];
+                    });
+                } else {
+                    this._powerups[powerup.ID].LoadPayload(powerup);
+                }
+
+                if (powerup.Disposed) {
+                    this._powerups[powerup.ID].Destroy();
                 }
             }
+        }
 
-            this.Powerups[id].MovementController.UpdateMovementController(movementController);
+        public Update(gameTime: eg.GameTime): void {
+            // Update positions first
+            for (var id in this._powerups) {
+                this._powerups[id].Update(gameTime);
+            }
 
-            // Ensure that the bullet has not yet been disposed
-            if (this.Powerups[id].Disposed) {
-                this.Powerups[id].Destroy();
-                delete this.Powerups[id];
-            }
-            else {
-                this.Powerups[id].Update(gameTime);
-            }
-        }        
-    }
-
-    public Update(gameTime: GameTime): void {
-        for (var key in this.Powerups) {
-            // Ensure that the Ship is in view
-            if (CanvasContext.Camera.InView(this.Powerups[key]) && !this.Powerups[key].Disposed) {
-                this.Powerups[key].Update(gameTime);
-                this.Powerups[key].Draw();
-            }
-            else { // Bullet is not in view
-                this.Powerups[key].Destroy();
-                delete this.Powerups[key];
+            // Update positions first
+            for (var id in this._powerups) {
+                // Check for "in-bounds" to see what powerups we should destroy
+                if (!this._powerups[id].Bounds.IntersectsRectangle(this._viewport)) {
+                    this._powerups[id].Destroy();
+                }
             }
         }
     }
+
 }

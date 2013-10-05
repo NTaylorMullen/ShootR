@@ -1,61 +1,39 @@
-/// <reference path="../Utilities/Vector2.ts" />
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
-function CalculatePO(from, time) {
-    return ((new Date().getTime() - from.getTime()) / time);
-}
+var ShootR;
+(function (ShootR) {
+    function StandardDeviation(arr) {
+        var average = Average(arr), sum = 0;
 
-function CalculatePOS(from) {
-    return CalculatePO(from, 1000);
-}
+        for (var i = 0; i < arr.length; i++) {
+            sum += Math.pow(arr[i] - average, 2);
+        }
 
-function CalculateLength(A, B) {
-    return Math.sqrt(Math.pow(A.X - B.X, 2) + Math.pow(A.Y - B.Y, 2));
-}
-
-function CalculateDistance(A, B) {
-    return new Vector2(Math.abs(B.X - A.X), Math.abs(B.Y - A.Y));
-}
-
-function CalculateAngle(A, B) {
-    var deltas = Vector2.SubtractV(A, B), angle = Math.atan2(deltas.Y, deltas.X) * -180 / Math.PI;
-
-    if (angle < 0) {
-        angle += 360;
+        return Math.sqrt(sum / (arr.length - 1));
     }
+    ShootR.StandardDeviation = StandardDeviation;
 
-    return angle;
-}
+    function Average(arr) {
+        var sum = 0;
+        for (var i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
 
-function StandardDeviation(arr) {
-    var average = Average(arr), sum = 0;
-
-    for (var i = 0; i < arr.length; i++) {
-        sum += Math.pow(arr[i] - average, 2);
+        return sum / arr.length;
     }
+    ShootR.Average = Average;
 
-    return Math.sqrt(sum / (arr.length - 1));
-}
+    ShootR.delay = (function () {
+        var timer = 0;
+        return function (callback, ms) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
 
-function Average(arr) {
-    var sum = 0;
-    for (var i = 0; i < arr.length; i++) {
-        sum += arr[i];
-    }
-
-    return sum / arr.length;
-}
-
-var delay = (function () {
-    var timer = 0;
-    return function (callback, ms) {
-        clearTimeout(timer);
-        timer = setTimeout(callback, ms);
+    jQuery.fn.flash = function (color, duration) {
+        this.stop(true);
+        var current = this.css('backgroundColor');
+        this.animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2).animate({ backgroundColor: current }, duration / 2);
     };
-})();
-
-jQuery.fn.flash = function (color, duration) {
-    this.stop(true);
-    var current = this.css('backgroundColor');
-    this.animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2).animate({ backgroundColor: current }, duration / 2);
-};
+})(ShootR || (ShootR = {}));
 //# sourceMappingURL=UtilityFunctions.js.map

@@ -1,53 +1,96 @@
-/// <reference path="../Utilities/Vector2.ts" />
-/// <reference path="../Utilities/Size.ts" />
-/// <reference path="CanvasRenderer.ts" />
-/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="../Ship/Ship.ts" />
-/// <reference path="../Bullet/Bullet.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../Server/ServerAdapter.ts" />
+/// <reference path="MapBoundary.ts" />
+/// <reference path="AreaRenderer.ts" />
 
-class Map2 {
-    static WIDTH: number;
-    static HEIGHT: number;
-    static BARRIER_DEPRECATION: number = .75;
+module ShootR {
 
-    private mapContains(position: Vector2, width: number, height: number): bool {
-        return (position.X >= 0 && position.X + width <= Map2.WIDTH &&
-            position.Y >= 0 && position.Y + height <= Map2.HEIGHT);
-    }
+    export class Map {
+        public static SIZE: eg.Size2d;
+        public static BARRIER_DEPRECATION: number;
 
-    public CheckBoundaryCollisions(ships: { [s: number]: Ship; }, bullets: { [s: number]: Bullet; }): void {
-        for (var key in ships) {
-            if (!this.mapContains(ships[key].MovementController.Position, ships[key].WIDTH, ships[key].HEIGHT)) {
-                var bounceMultiplier: Vector2;
+        private _backgroundTiles: Array<eg.Graphics.Sprite2d>;
+        private _boundaries: Array<MapBoundary>;
+        public AreaRenderer: AreaRenderer;
 
-                $(ships[key]).triggerHandler("OnOutOfBounds");
+        constructor(private _scene: eg.Rendering.Scene2d, private _collisionManager: eg.Collision.CollisionManager, private _contentManager: eg.Content.ContentManager, private _keyboard: eg.Input.KeyboardHandler, serverAdapter: Server.ServerAdapter) {
+            this._boundaries = new Array<MapBoundary>();
+            this._backgroundTiles = new Array<eg.Graphics.Sprite2d>();
 
-                // Collided with left or right side
-                if (ships[key].MovementController.Position.X < 0 || (ships[key].MovementController.Position.X + ships[key].WIDTH) > Map2.WIDTH) {
-                    bounceMultiplier = new Vector2(-Map2.BARRIER_DEPRECATION, Map2.BARRIER_DEPRECATION);
-                }
-                else if (ships[key].MovementController.Position.Y < 0 || (ships[key].MovementController.Position.Y + ships[key].HEIGHT) > Map2.HEIGHT) { // Top or bottom                
-                    bounceMultiplier = new Vector2(Map2.BARRIER_DEPRECATION, -Map2.BARRIER_DEPRECATION);
-                }
+            this.BuildBackground();
+            this.BuildBoundaries();
+            this.BuildAreas();
 
-                ships[key].MovementController.RepositionInBounds(ships[key].WIDTH, ships[key].HEIGHT);
+            serverAdapter.OnMapResize.Bind((newSize: eg.Size2d) => {
+                Map.SIZE = newSize;
+                this.BuildBackground();
+                this.BuildBoundaries();
+                this.AreaRenderer.OnMapResize(newSize);
+            });
+        }
 
-                // Reverse velocity, aka bounce
-                ships[key].MovementController.Forces = Vector2.MultiplyV(ships[key].MovementController.Forces, bounceMultiplier);
-                ships[key].MovementController.Velocity = Vector2.MultiplyV(ships[key].MovementController.Velocity, bounceMultiplier);
+        private BuildBackground(): void {
+            var source: eg.Graphics.ImageSource = this._contentManager.GetImage("StarBackground"),
+                build = () => {
+                    // Add 2 to give a buffer on both sides of the map
+                    var tileCount: number = (Map.SIZE.Width / source.ClipSize.Width) + 2,
+                        templateTile: eg.Graphics.Sprite2d = new eg.Graphics.Sprite2d(0, 0, source, source.ClipSize.Width, source.ClipSize.Height),
+                        tile: eg.Graphics.Sprite2d;
+
+                    templateTile.ZIndex = -2;
+
+                    // Clean up any existing tiles so that we can create new ones (also used to resize the map).
+                    for (var i = 0; i < this._backgroundTiles.length; i++) {
+                        this._backgroundTiles[i].Dispose();
+                    }
+
+                    this._backgroundTiles = new Array<eg.Graphics.Sprite2d>();
+
+                    for (var i = 0; i < tileCount; i++) {
+                        for (var j = 0; j < tileCount; j++) {
+                            tile = templateTile.Clone();
+                            tile.Position.X = j * source.ClipSize.Width - source.ClipSize.HalfWidth;
+                            tile.Position.Y = i * source.ClipSize.Height - source.ClipSize.HalfHeight;
+                            this._scene.Add(tile);
+                            this._backgroundTiles.push(tile);
+                        }
+                    }
+                };
+
+            if (source.IsLoaded()) {
+                build();
+            } else {
+                source.OnLoaded.Bind(build);
             }
         }
 
-        for (var key in bullets) {
-            if (!this.mapContains(bullets[key].MovementController.Position, bullets[key].WIDTH, bullets[key].HEIGHT)) {
-                bullets[key].Visible = false;
-                bullets[key].MovementController.Velocity.X = 0;
-                bullets[key].MovementController.Velocity.Y = 0;
+        private BuildBoundaries(): void {
+            var corners: Array<eg.Vector2d> = new Array<eg.Vector2d>(
+                new eg.Vector2d(-2, -2),
+                new eg.Vector2d(Map.SIZE.Width + 2, -2),
+                new eg.Vector2d(Map.SIZE.Width + 2, Map.SIZE.Height + 2),
+                new eg.Vector2d(-2, Map.SIZE.Height + 2)),
+                boundary: MapBoundary;
+
+            for (var i = 0; i < this._boundaries.length; i++) {
+                this._boundaries[i].Dispose();
             }
+
+            this._boundaries = new Array<MapBoundary>();
+
+            for (var i = 0; i < corners.length; i++) {
+                boundary = new MapBoundary(new eg.Vector2d(corners[i].X, corners[i].Y), new eg.Vector2d(corners[(i + 1) % corners.length].X, corners[(i + 1) % corners.length].Y));
+                boundary.Graphic.ZIndex = -1;
+                this._collisionManager.Monitor(boundary, true);
+                this._scene.Add(boundary.Graphic);
+                this._boundaries.push(boundary);
+            }
+        }
+
+        private BuildAreas(): void {
+            this.AreaRenderer = new AreaRenderer(this._scene, this._keyboard);
+            this.AreaRenderer.OnMapResize(Map.SIZE);
         }
     }
 
-    public Draw(): void {
-        CanvasContext.drawMapBoundary(new Size(Map2.WIDTH, Map2.HEIGHT));
-    }
 }
