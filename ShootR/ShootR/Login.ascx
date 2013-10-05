@@ -10,7 +10,7 @@
     <div class="row">
         <div class="span6">
             <h1>ShootR</h1>
-            <p>Powered by <a href="http://signalr.net/">SignalR</a></p>
+            <p>Powered by <a href="http://signalr.net/" target="_blank">SignalR</a> and <a href="http://endgate.net" target="_blank">EndGate</a>.</p>
         </div>
     </div>
 
