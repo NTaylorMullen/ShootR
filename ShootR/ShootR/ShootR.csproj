@@ -416,6 +416,7 @@
     <Content Include="Images\HUD\skull_deaths.png" />
     <Content Include="Images\HUD\toast_btn_active.png" />
     <Content Include="Images\Laser.png" />
+    <Content Include="Images\Loading.png" />
     <Content Include="Images\Page\badge_LEVEL.png" />
     <Content Include="Images\Page\death_note.png" />
     <Content Include="Images\Page\GitHubForkMe.png" />

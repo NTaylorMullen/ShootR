@@ -22,7 +22,10 @@
 
         <asp:Panel runat="server" ID="GameScripts" Visible="false">
             <div id="loadContent" style="position: absolute; width: 100%;">
-                <p style="position: relative; text-align: center; color:white; font-size:3em; font-family: 'Segoe UI'; font-weight: bolder; margin-top: 200px;"><b>Loading, Please Wait...</b></p>
+                <img style="position: relative; margin: 120px auto 0; display: block;" alt="Loading..." src="/Images/Loading.png"></img>
+                <div class="progress progress-striped active" style="position: relative; margin: 15px auto 0; width: 280px;">
+                    <div class="progress-bar" style="width: 100%;height:100%;"></div>
+                </div>
             </div>
             <div id="gameContent" style="display:none;">
                 <a href="https://github.com/NTaylorMullen/ShootR" style="z-index: 10001;" target="_blank">
