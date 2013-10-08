@@ -161,8 +161,14 @@
     <Content Include="Client\Debug\DebugManager.js">
       <DependentUpon>DebugManager.ts</DependentUpon>
     </Content>
+    <Content Include="Client\Debug\GameInformer.js">
+      <DependentUpon>GameInformer.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Debug\ServerGhost.js">
       <DependentUpon>ServerGhost.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Debug\UpdateRate.js">
+	   <DependentUpon>UpdateRate.ts</DependentUpon>
     </Content>
     <Content Include="Client\HUD\DeathScreen.js">
       <DependentUpon>DeathScreen.ts</DependentUpon>
@@ -207,12 +213,14 @@
       <DependentUpon>PowerupManager.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\Common\LifeController.ts" />
+    <TypeScriptCompile Include="Client\Debug\GameInformer.ts" />
     <TypeScriptCompile Include="Client\Debug\DebugManager.ts" />
     <TypeScriptCompile Include="Client\Debug\ServerGhost.ts" />
     <Content Include="Client\HUD\HealthMonitor.ts" />
     <Content Include="Client\HUD\ExperienceMonitor.ts" />
     <Content Include="Client\HUD\EnvironmentMonitor.ts" />
     <Content Include="Client\HUD\DeathScreen.ts" />
+    <TypeScriptCompile Include="Client\Debug\UpdateRate.ts" />
     <TypeScriptCompile Include="Client\HUD\HUDManager.ts" />
     <Content Include="Client\HUD\ShipStatMonitor.ts" />
     <TypeScriptCompile Include="Client\HUD\LeaderboardManager.ts" />

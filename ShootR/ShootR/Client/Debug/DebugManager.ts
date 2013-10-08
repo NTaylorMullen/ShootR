@@ -1,4 +1,6 @@
 /// <reference path="ServerGhost.ts" />
+/// <reference path="GameInformer.ts" />
+/// <reference path="UpdateRate.ts" />
 /// <reference path="../Game.ts" />
 
 module ShootR.Debug {
@@ -7,12 +9,18 @@ module ShootR.Debug {
         public static DEBUG_FLAG: string = "debug";
 
         private _serverGhost: ServerGhost;
+        private _gameInformer: GameInformer;
+        private _updateRate: UpdateRate;
         private _debugMode: boolean;
 
         constructor(myShipId: number, game: Game) {
-            this._serverGhost = new ServerGhost(myShipId, game.Scene, game.Content);
-
             this._debugMode = this.GetUrlVars()[DebugManager.DEBUG_FLAG] === "true";
+
+            if (this._debugMode) {
+                this._serverGhost = new ServerGhost(myShipId, game.Scene, game.Content);
+                this._gameInformer = new GameInformer(game.Scene);
+                this._updateRate = new UpdateRate(this._gameInformer, game);
+            }
         }
 
         public LoadPayload(payload: Server.IPayloadData): void {
@@ -23,6 +31,8 @@ module ShootR.Debug {
 
         public Update(gameTime: eg.GameTime): void {
             if (this._debugMode) {
+                this._updateRate.Update(gameTime);
+                this._gameInformer.Update(gameTime);
                 this._serverGhost.Update(gameTime);
             }
         }

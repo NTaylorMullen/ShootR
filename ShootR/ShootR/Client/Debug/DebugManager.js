@@ -1,13 +1,19 @@
 var ShootR;
 (function (ShootR) {
     /// <reference path="ServerGhost.ts" />
+    /// <reference path="GameInformer.ts" />
+    /// <reference path="UpdateRate.ts" />
     /// <reference path="../Game.ts" />
     (function (Debug) {
         var DebugManager = (function () {
             function DebugManager(myShipId, game) {
-                this._serverGhost = new Debug.ServerGhost(myShipId, game.Scene, game.Content);
-
                 this._debugMode = this.GetUrlVars()[DebugManager.DEBUG_FLAG] === "true";
+
+                if (this._debugMode) {
+                    this._serverGhost = new Debug.ServerGhost(myShipId, game.Scene, game.Content);
+                    this._gameInformer = new Debug.GameInformer(game.Scene);
+                    this._updateRate = new Debug.UpdateRate(this._gameInformer, game);
+                }
             }
             DebugManager.prototype.LoadPayload = function (payload) {
                 if (this._debugMode) {
@@ -17,6 +23,8 @@ var ShootR;
 
             DebugManager.prototype.Update = function (gameTime) {
                 if (this._debugMode) {
+                    this._updateRate.Update(gameTime);
+                    this._gameInformer.Update(gameTime);
                     this._serverGhost.Update(gameTime);
                 }
             };

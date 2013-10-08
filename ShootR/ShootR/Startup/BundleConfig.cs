@@ -74,6 +74,8 @@ namespace ShootR
                 .Include("~/Client/User/LatencyResolver.js")
                 .Include("~/Client/User/UserShipManager.js")
                 .Include("~/Client/Ships/ShipManager.js")
+                .Include("~/Client/Debug/UpdateRate.js")
+                .Include("~/Client/Debug/GameInformer.js")
                 .Include("~/Client/Debug/ServerGhost.js")
                 .Include("~/Client/Debug/DebugManager.js")
                 .Include("~/Client/HUD/UserInformationManager.js")
