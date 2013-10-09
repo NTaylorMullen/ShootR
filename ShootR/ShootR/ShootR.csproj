@@ -161,14 +161,23 @@
     <Content Include="Client\Debug\DebugManager.js">
       <DependentUpon>DebugManager.ts</DependentUpon>
     </Content>
+    <Content Include="Client\Debug\DrawRate.js">
+      <DependentUpon>DrawRate.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Debug\GameInformer.js">
       <DependentUpon>GameInformer.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Debug\PayloadRate.js">
+      <DependentUpon>PayloadRate.ts</DependentUpon>
+    </Content>
+    <Content Include="Client\Debug\RateMonitor.js">
+      <DependentUpon>RateMonitor.ts</DependentUpon>
     </Content>
     <Content Include="Client\Debug\ServerGhost.js">
       <DependentUpon>ServerGhost.ts</DependentUpon>
     </Content>
     <Content Include="Client\Debug\UpdateRate.js">
-	   <DependentUpon>UpdateRate.ts</DependentUpon>
+      <DependentUpon>UpdateRate.ts</DependentUpon>
     </Content>
     <Content Include="Client\HUD\DeathScreen.js">
       <DependentUpon>DeathScreen.ts</DependentUpon>
@@ -213,8 +222,11 @@
       <DependentUpon>PowerupManager.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\Common\LifeController.ts" />
+    <TypeScriptCompile Include="Client\Debug\DrawRate.ts" />
     <TypeScriptCompile Include="Client\Debug\GameInformer.ts" />
     <TypeScriptCompile Include="Client\Debug\DebugManager.ts" />
+    <TypeScriptCompile Include="Client\Debug\PayloadRate.ts" />
+    <TypeScriptCompile Include="Client\Debug\RateMonitor.ts" />
     <TypeScriptCompile Include="Client\Debug\ServerGhost.ts" />
     <Content Include="Client\HUD\HealthMonitor.ts" />
     <Content Include="Client\HUD\ExperienceMonitor.ts" />

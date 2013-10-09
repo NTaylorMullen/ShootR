@@ -96,6 +96,13 @@ module ShootR {
             this._hud.Update(gameTime);
             this._debugManager.Update(gameTime);            
         }
+
+        // Most drawing takes place via the Scene.
+        // This method can be used to draw items to the game screen with raw canvas API's.
+        // I don't do this because there's no need :), i only update the debug manager in order to track the draw rate.
+        public Draw(context: CanvasRenderingContext2D): void {
+            this._debugManager.Draw(context);
+        }
     }
 
 }

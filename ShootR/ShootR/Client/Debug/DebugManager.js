@@ -3,6 +3,7 @@ var ShootR;
     /// <reference path="ServerGhost.ts" />
     /// <reference path="GameInformer.ts" />
     /// <reference path="UpdateRate.ts" />
+    /// <reference path="DrawRate.ts" />
     /// <reference path="../Game.ts" />
     (function (Debug) {
         var DebugManager = (function () {
@@ -13,10 +14,13 @@ var ShootR;
                     this._serverGhost = new Debug.ServerGhost(myShipId, game.Scene, game.Content);
                     this._gameInformer = new Debug.GameInformer(game.Scene);
                     this._updateRate = new Debug.UpdateRate(this._gameInformer, game);
+                    this._drawRate = new Debug.DrawRate(this._gameInformer);
+                    this._payloadRate = new Debug.PayloadRate(this._gameInformer);
                 }
             }
             DebugManager.prototype.LoadPayload = function (payload) {
                 if (this._debugMode) {
+                    this._payloadRate.LoadPayload(payload);
                     this._serverGhost.LoadPayload(payload.Ships);
                 }
             };
@@ -24,8 +28,16 @@ var ShootR;
             DebugManager.prototype.Update = function (gameTime) {
                 if (this._debugMode) {
                     this._updateRate.Update(gameTime);
+                    this._drawRate.Update(gameTime);
+                    this._payloadRate.Update(gameTime);
                     this._gameInformer.Update(gameTime);
                     this._serverGhost.Update(gameTime);
+                }
+            };
+
+            DebugManager.prototype.Draw = function (context) {
+                if (this._debugMode) {
+                    this._drawRate.Draw(context);
                 }
             };
 

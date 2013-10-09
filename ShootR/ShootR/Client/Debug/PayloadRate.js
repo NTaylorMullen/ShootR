@@ -8,23 +8,22 @@ var ShootR;
 (function (ShootR) {
     /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
     /// <reference path="GameInformer.ts" />
+    /// <reference path="../Game.ts" />
     /// <reference path="RateMonitor.ts" />
     (function (Debug) {
-        var UpdateRate = (function (_super) {
-            __extends(UpdateRate, _super);
-            function UpdateRate(informer, game) {
-                _super.call(this, UpdateRate.TITLE, informer, game.Configuration.UpdateRate);
+        var PayloadRate = (function (_super) {
+            __extends(PayloadRate, _super);
+            function PayloadRate(informer) {
+                _super.call(this, PayloadRate.TITLE, informer, 1000 / ShootR.Game.GameConfiguration.gameConfig.DRAW_INTERVAL);
             }
-            UpdateRate.prototype.Update = function (gameTime) {
+            PayloadRate.prototype.LoadPayload = function (payload) {
                 this.MarkRate();
-
-                _super.prototype.Update.call(this, gameTime);
             };
-            UpdateRate.TITLE = "Update Rate";
-            return UpdateRate;
+            PayloadRate.TITLE = "Payload Rate";
+            return PayloadRate;
         })(Debug.RateMonitor);
-        Debug.UpdateRate = UpdateRate;
+        Debug.PayloadRate = PayloadRate;
     })(ShootR.Debug || (ShootR.Debug = {}));
     var Debug = ShootR.Debug;
 })(ShootR || (ShootR = {}));
-//# sourceMappingURL=UpdateRate.js.map
+//# sourceMappingURL=PayloadRate.js.map

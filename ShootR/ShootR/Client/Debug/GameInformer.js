@@ -5,7 +5,7 @@ var ShootR;
         var GameInformer = (function () {
             function GameInformer(_scene) {
                 this._scene = _scene;
-                this._yOffset = GameInformer.ITEM_OFFSET;
+                this._yOffset = GameInformer.PADDING;
                 this._holder = new eg.Graphics.Rectangle(0, 0, 0, 0, GameInformer.HOLDER_BACGROUND_COLOR);
                 this._holder.Opacity = .3;
                 this._holder.Border(2, eg.Graphics.Color.White);
@@ -15,17 +15,27 @@ var ShootR;
                 this._scene.Add(this._holder);
             }
             GameInformer.prototype.AddTextualInformation = function (title) {
-                var textBounds = new eg.Bounds.BoundingRectangle(eg.Vector2d.Zero, GameInformer.MAX_TEXT_SIZE), titleGraphic = new eg.Graphics.Text2d(GameInformer.PADDING, this._yOffset + textBounds.Size.HalfHeight, title + ": ", GameInformer.TITLE_TEXT_COLOR), valueGraphic;
+                var textBounds = new eg.Bounds.BoundingRectangle(eg.Vector2d.Zero, GameInformer.MAX_TEXT_SIZE), titleGraphic = new eg.Graphics.Text2d(GameInformer.PADDING, this._yOffset + textBounds.Size.HalfHeight, title + ": ", GameInformer.TITLE_TEXT_COLOR), valueGraphic, currentHolderSize = this._holder.Size.Clone(), sizeDifference, currentChildren = this._holder.GetChildren();
 
                 titleGraphic.FontSettings.FontWeight = "bold";
                 titleGraphic.Align = "left";
+                titleGraphic.FontSettings.FontSize = GameInformer.TITLE_TEXT_SIZE + "px";
+                titleGraphic.FontSettings.FontFamily = GameInformer.TEXT_FONT;
 
                 this.ResizeHolder(textBounds);
+
+                sizeDifference = this._holder.Size.Subtract(currentHolderSize).Multiply(.5);
+
+                for (var i = 0; i < currentChildren.length; i++) {
+                    currentChildren[i].Position = currentChildren[i].Position.Subtract(sizeDifference);
+                }
 
                 titleGraphic.Position = titleGraphic.Position.Subtract(this._holder.Size.Multiply(.5));
 
                 valueGraphic = new eg.Graphics.Text2d(titleGraphic.Position.X + GameInformer.MAX_TEXT_SIZE.Width * 2 / 3 - GameInformer.PADDING, titleGraphic.Position.Y, "");
                 valueGraphic.Align = "left";
+                valueGraphic.FontSettings.FontSize = GameInformer.VALUE_TEXT_SIZE + "px";
+                valueGraphic.FontSettings.FontFamily = GameInformer.TEXT_FONT;
 
                 this._holder.AddChild(titleGraphic);
                 this._holder.AddChild(valueGraphic);
@@ -66,11 +76,14 @@ var ShootR;
 
                 this._holder.Size.Height = this._yOffset + GameInformer.PADDING - GameInformer.ITEM_OFFSET;
             };
-            GameInformer.ITEM_OFFSET = 5;
+            GameInformer.ITEM_OFFSET = 3;
             GameInformer.PADDING = 15;
-            GameInformer.MAX_TEXT_SIZE = new eg.Size2d(150, 20);
+            GameInformer.MAX_TEXT_SIZE = new eg.Size2d(200, 20);
             GameInformer.TITLE_TEXT_COLOR = eg.Graphics.Color.White;
             GameInformer.HOLDER_BACGROUND_COLOR = eg.Graphics.Color.Gray;
+            GameInformer.TITLE_TEXT_SIZE = 13;
+            GameInformer.VALUE_TEXT_SIZE = 12;
+            GameInformer.TEXT_FONT = eg.Graphics.Assets.FontFamily.Verdana;
             return GameInformer;
         })();
         Debug.GameInformer = GameInformer;

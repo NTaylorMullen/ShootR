@@ -10,21 +10,19 @@ var ShootR;
     /// <reference path="GameInformer.ts" />
     /// <reference path="RateMonitor.ts" />
     (function (Debug) {
-        var UpdateRate = (function (_super) {
-            __extends(UpdateRate, _super);
-            function UpdateRate(informer, game) {
-                _super.call(this, UpdateRate.TITLE, informer, game.Configuration.UpdateRate);
+        var DrawRate = (function (_super) {
+            __extends(DrawRate, _super);
+            function DrawRate(informer) {
+                _super.call(this, DrawRate.TITLE, informer, 60);
             }
-            UpdateRate.prototype.Update = function (gameTime) {
+            DrawRate.prototype.Draw = function (context) {
                 this.MarkRate();
-
-                _super.prototype.Update.call(this, gameTime);
             };
-            UpdateRate.TITLE = "Update Rate";
-            return UpdateRate;
+            DrawRate.TITLE = "Draw Rate";
+            return DrawRate;
         })(Debug.RateMonitor);
-        Debug.UpdateRate = UpdateRate;
+        Debug.DrawRate = DrawRate;
     })(ShootR.Debug || (ShootR.Debug = {}));
     var Debug = ShootR.Debug;
 })(ShootR || (ShootR = {}));
-//# sourceMappingURL=UpdateRate.js.map
+//# sourceMappingURL=DrawRate.js.map
