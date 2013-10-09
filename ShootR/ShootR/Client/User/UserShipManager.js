@@ -16,7 +16,6 @@ var ShootR;
             this._camera = _camera;
             this._proxy = serverAdapter.Proxy;
             this._userCameraController = new ShootR.UserCameraController(this.ControlledShipId, this._shipManager, this._camera);
-            this._enqueuedCommands = [];
             this._lastSync = new Date();
             this.LatencyResolver = new ShootR.LatencyResolver(serverAdapter);
 
@@ -24,12 +23,8 @@ var ShootR;
                 if (ship instanceof ShootR.Ship && boundary instanceof ShootR.MapBoundary) {
                     if (ship.ID === _this.ControlledShipId) {
                         for (var i = ShootR.ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
-                            _this._enqueuedCommands.push((function (i) {
-                                return function () {
-                                    _this.Invoke("registerMoveStop", false, _this.NewMovementCommand("Forward", false));
-                                    _this.Invoke("registerMoveStop", false, _this.NewMovementCommand("Backward", false));
-                                };
-                            })(i));
+                            _this.Invoke("registerMoveStop", false, _this.NewMovementCommand("Forward", false));
+                            _this.Invoke("registerMoveStop", false, _this.NewMovementCommand("Backward", false));
                         }
                     }
                 }
@@ -41,28 +36,20 @@ var ShootR;
                 if (ship && ship.MovementController.Controllable && ship.LifeController.Alive) {
                     if (startMoving) {
                         if (direction === "Boost") {
-                            _this._enqueuedCommands.push(function () {
-                                _this.Invoke("registerAbilityStart", _this.LatencyResolver.TryRequestPing(), _this.NewAbilityCommand(direction, true));
+                            _this.Invoke("registerAbilityStart", _this.LatencyResolver.TryRequestPing(), _this.NewAbilityCommand(direction, true));
 
-                                ship.AbilityHandler.Activate(direction);
-                            });
-
-                            return;
+                            ship.AbilityHandler.Activate(direction);
                             // Don't want to trigger a server command if we're already moving in the direction
                         } else if (!ship.MovementController.IsMovingInDirection(direction)) {
-                            _this._enqueuedCommands.push(function () {
-                                _this.Invoke("registerMoveStart", _this.LatencyResolver.TryRequestPing(), _this.NewMovementCommand(direction, true));
+                            _this.Invoke("registerMoveStart", _this.LatencyResolver.TryRequestPing(), _this.NewMovementCommand(direction, true));
 
-                                ship.MovementController.Move(direction, startMoving);
-                            });
+                            ship.MovementController.Move(direction, startMoving);
                         }
                     } else {
                         if (ship.MovementController.IsMovingInDirection(direction)) {
-                            _this._enqueuedCommands.push(function () {
-                                _this.Invoke("registerMoveStop", _this.LatencyResolver.TryRequestPing(), _this.NewMovementCommand(direction, false));
+                            _this.Invoke("registerMoveStop", _this.LatencyResolver.TryRequestPing(), _this.NewMovementCommand(direction, false));
 
-                                ship.MovementController.Move(direction, startMoving);
-                            });
+                            ship.MovementController.Move(direction, startMoving);
                         }
                     }
                 }
@@ -84,10 +71,6 @@ var ShootR;
             var ship = this._shipManager.GetShip(this.ControlledShipId);
 
             if (ship) {
-                while (this._enqueuedCommands.length > 0) {
-                    this._enqueuedCommands.shift()();
-                }
-
                 if (eg.TimeSpan.DateSpan(this._lastSync, gameTime.Now).Seconds > UserShipManager.SYNC_INTERVAL.Seconds && ship.LifeController.Alive) {
                     this._lastSync = gameTime.Now;
                     this._proxy.invoke("syncMovement", { X: Math.round(ship.MovementController.Position.X - ship.Graphic.Size.HalfWidth), Y: Math.round(ship.MovementController.Position.Y - ship.Graphic.Size.HalfHeight) }, Math.roundTo(ship.MovementController.Rotation * 57.2957795, 2), { X: Math.round(ship.MovementController.Velocity.X), Y: Math.round(ship.MovementController.Velocity.Y) });
