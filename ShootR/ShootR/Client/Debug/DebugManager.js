@@ -4,10 +4,12 @@ var ShootR;
     /// <reference path="GameInformer.ts" />
     /// <reference path="UpdateRate.ts" />
     /// <reference path="DrawRate.ts" />
+    /// <reference path="ConnectionMonitor.ts" />
+    /// <reference path="../Server/ServerAdapter.ts" />
     /// <reference path="../Game.ts" />
     (function (Debug) {
         var DebugManager = (function () {
-            function DebugManager(myShipId, game) {
+            function DebugManager(myShipId, game, serverAdapter) {
                 this._debugMode = this.GetUrlVars()[DebugManager.DEBUG_FLAG] === "true";
 
                 if (this._debugMode) {
@@ -16,6 +18,7 @@ var ShootR;
                     this._updateRate = new Debug.UpdateRate(this._gameInformer, game);
                     this._drawRate = new Debug.DrawRate(this._gameInformer);
                     this._payloadRate = new Debug.PayloadRate(this._gameInformer);
+                    this._connectionMonitor = new Debug.ConnectionMonitor(this._gameInformer, serverAdapter);
                 }
             }
             DebugManager.prototype.LoadPayload = function (payload) {

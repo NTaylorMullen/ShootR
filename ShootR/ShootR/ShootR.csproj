@@ -158,6 +158,9 @@
     <Content Include="Client\Common\LifeController.js">
       <DependentUpon>LifeController.ts</DependentUpon>
     </Content>
+    <Content Include="Client\Debug\ConnectionMonitor.js">
+      <DependentUpon>ConnectionMonitor.ts</DependentUpon>
+    </Content>
     <Content Include="Client\Debug\DebugManager.js">
       <DependentUpon>DebugManager.ts</DependentUpon>
     </Content>
@@ -222,6 +225,7 @@
       <DependentUpon>PowerupManager.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Client\Common\LifeController.ts" />
+    <TypeScriptCompile Include="Client\Debug\ConnectionMonitor.ts" />
     <TypeScriptCompile Include="Client\Debug\DrawRate.ts" />
     <TypeScriptCompile Include="Client\Debug\GameInformer.ts" />
     <TypeScriptCompile Include="Client\Debug\DebugManager.ts" />

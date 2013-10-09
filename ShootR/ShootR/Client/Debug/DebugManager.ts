@@ -2,6 +2,8 @@
 /// <reference path="GameInformer.ts" />
 /// <reference path="UpdateRate.ts" />
 /// <reference path="DrawRate.ts" />
+/// <reference path="ConnectionMonitor.ts" />
+/// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="../Game.ts" />
 
 module ShootR.Debug {
@@ -14,9 +16,10 @@ module ShootR.Debug {
         private _updateRate: UpdateRate;
         private _drawRate: DrawRate;
         private _payloadRate: PayloadRate;
+        private _connectionMonitor: ConnectionMonitor;
         private _debugMode: boolean;
 
-        constructor(myShipId: number, game: Game) {
+        constructor(myShipId: number, game: Game, serverAdapter: Server.ServerAdapter) {
             this._debugMode = this.GetUrlVars()[DebugManager.DEBUG_FLAG] === "true";
 
             if (this._debugMode) {
@@ -25,6 +28,7 @@ module ShootR.Debug {
                 this._updateRate = new UpdateRate(this._gameInformer, game);
                 this._drawRate = new DrawRate(this._gameInformer);
                 this._payloadRate = new PayloadRate(this._gameInformer);
+                this._connectionMonitor = new ConnectionMonitor(this._gameInformer, serverAdapter);
             }
         }
 

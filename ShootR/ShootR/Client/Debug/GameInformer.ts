@@ -5,7 +5,7 @@ module ShootR.Debug {
     export class GameInformer {
         public static ITEM_OFFSET: number = 3;
         public static PADDING: number = 15;
-        public static MAX_TEXT_SIZE: eg.Size2d = new eg.Size2d(200, 20);
+        public static MAX_TEXT_SIZE: eg.Size2d = new eg.Size2d(250, 20);
         public static TITLE_TEXT_COLOR: eg.Graphics.Color = eg.Graphics.Color.White;
         public static HOLDER_BACGROUND_COLOR: eg.Graphics.Color = eg.Graphics.Color.Gray;
         public static TITLE_TEXT_SIZE: number = 13;

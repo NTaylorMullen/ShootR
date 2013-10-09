@@ -9,9 +9,9 @@ var ShootR;
     /// <reference path="IClientInitialization.ts" />
     (function (Server) {
         var ServerAdapter = (function () {
-            function ServerAdapter(_connection, Proxy, authCookieName) {
+            function ServerAdapter(Connection, Proxy, authCookieName) {
                 var _this = this;
-                this._connection = _connection;
+                this.Connection = Connection;
                 this.Proxy = Proxy;
                 var savedProxyInvoke = this.Proxy.invoke;
 
@@ -25,7 +25,7 @@ var ShootR;
                 this._connectionManager = new Server.ServerConnectionManager(authCookieName);
 
                 (this.Proxy.invoke) = function () {
-                    if ((_this._connection).state === $.signalR.connectionState.connected) {
+                    if ((_this.Connection).state === $.signalR.connectionState.connected) {
                         return savedProxyInvoke.apply(_this.Proxy, arguments);
                     }
                 };
@@ -36,7 +36,7 @@ var ShootR;
 
                 this.Wire();
 
-                this._connection.start().done(function () {
+                this.Connection.start().done(function () {
                     _this.TryInitialize(userInformation, function (initialization) {
                         initialization.UserInformation = userInformation;
                         _this._payloadDecompressor = new Server.PayloadDecompressor(initialization.CompressionContracts);
@@ -51,7 +51,7 @@ var ShootR;
             };
 
             ServerAdapter.prototype.Stop = function () {
-                this._connection.stop();
+                this.Connection.stop();
             };
 
             ServerAdapter.prototype.TryInitialize = function (userInformation, onComplete, count) {

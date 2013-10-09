@@ -42,7 +42,7 @@ var ShootR;
             this._bulletManager = new ShootR.BulletManager(this._bufferedViewport, this.Scene, this.Content);
             this._powerupManager = new ShootR.PowerupManager(this._bufferedViewport, this.Scene, this.Content);
             this._map = new ShootR.Map(this.Scene, this.CollisionManager, this.Content, this.Input.Keyboard, serverAdapter);
-            this._debugManager = new ShootR.Debug.DebugManager(initializationData.ShipID, this);
+            this._debugManager = new ShootR.Debug.DebugManager(initializationData.ShipID, this, serverAdapter);
             this._hud = new ShootR.HUDManager(initializationData, this._shipManager, this._map.AreaRenderer, this.Input.Keyboard, serverAdapter);
 
             serverAdapter.OnPayload.Bind(function (payload) {

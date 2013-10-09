@@ -78,7 +78,7 @@ var ShootR;
             };
             GameInformer.ITEM_OFFSET = 3;
             GameInformer.PADDING = 15;
-            GameInformer.MAX_TEXT_SIZE = new eg.Size2d(200, 20);
+            GameInformer.MAX_TEXT_SIZE = new eg.Size2d(250, 20);
             GameInformer.TITLE_TEXT_COLOR = eg.Graphics.Color.White;
             GameInformer.HOLDER_BACGROUND_COLOR = eg.Graphics.Color.Gray;
             GameInformer.TITLE_TEXT_SIZE = 13;

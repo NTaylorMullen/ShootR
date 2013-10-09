@@ -80,6 +80,7 @@ namespace ShootR
                 .Include("~/Client/Debug/PayloadRate.js")
                 .Include("~/Client/Debug/GameInformer.js")
                 .Include("~/Client/Debug/ServerGhost.js")
+                .Include("~/Client/Debug/ConnectionMonitor.js")
                 .Include("~/Client/Debug/DebugManager.js")
                 .Include("~/Client/HUD/UserInformationManager.js")
                 .Include("~/Client/HUD/NotificationManager.js")

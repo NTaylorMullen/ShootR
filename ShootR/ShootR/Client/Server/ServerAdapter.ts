@@ -22,7 +22,7 @@ module ShootR.Server {
         private _payloadDecompressor: PayloadDecompressor;
         private _connectionManager: ServerConnectionManager;
 
-        constructor(private _connection: HubConnection, public Proxy: HubProxy, authCookieName: string) {
+        constructor(public Connection: HubConnection, public Proxy: HubProxy, authCookieName: string) {
             var savedProxyInvoke = this.Proxy.invoke;
 
             this.OnPayload = new eg.EventHandler1<IPayloadData>();
@@ -35,7 +35,7 @@ module ShootR.Server {
             this._connectionManager = new ServerConnectionManager(authCookieName);
 
             (<any>this.Proxy.invoke) = () => {
-                if ((<any>this._connection).state === $.signalR.connectionState.connected) {
+                if ((<any>this.Connection).state === $.signalR.connectionState.connected) {
                     return savedProxyInvoke.apply(this.Proxy, arguments);
                 }
             };
@@ -47,7 +47,7 @@ module ShootR.Server {
 
             this.Wire();
 
-            this._connection.start().done(() => {
+            this.Connection.start().done(() => {
                 this.TryInitialize(userInformation, (initialization: IClientInitialization) => {
                     initialization.UserInformation = userInformation;
                     this._payloadDecompressor = new PayloadDecompressor(initialization.CompressionContracts);
@@ -62,7 +62,7 @@ module ShootR.Server {
         }
 
         public Stop(): void {
-            this._connection.stop();
+            this.Connection.stop();
         }
 
         private TryInitialize(userInformation: IUserInformation, onComplete: (initialization: IClientInitialization) => void, count: number = 0): void {
