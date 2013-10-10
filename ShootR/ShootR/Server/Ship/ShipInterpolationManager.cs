@@ -79,11 +79,6 @@ namespace ShootR
                 Interpolating = true;
                 _tweensComplete = 0;
 
-                if ((velocity.Length() / Math.Max(_movementController.Velocity.Length(), 1)) >= 1.2)
-                {
-                    velocity = _movementController.Velocity;
-                }
-
                 _movementController.Velocity = velocity;
 
                 _rotationTween.From = _movementController.Rotation;
@@ -93,7 +88,7 @@ namespace ShootR
 
                 _positionTween.From = _movementController.Position;
                 _positionTween.To = at;
-                _positionTween.Duration = _rotationTween.DurationFromSpeed(Math.Max(velocity.Length(), 1));
+                _positionTween.Duration = _positionTween.DurationFromSpeed(900);
                 _positionTween.Restart();
             }
         }
