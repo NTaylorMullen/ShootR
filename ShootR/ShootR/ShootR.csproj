@@ -476,8 +476,8 @@
     <Content Include="Images\SpriteSheets\thrust_start.png" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\endgate-0.2.0-beta1.d.ts" />
+    <Content Include="Scripts\endgate2-0.2.0-beta1.js" />
     <Content Include="Scripts\endgate-0.2.0-beta1.js" />
-    <Content Include="Scripts\endgate-0.2.0-beta1.min.js" />
     <None Include="Properties\PublishProfiles\filePublish.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />

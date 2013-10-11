@@ -24,10 +24,13 @@ module ShootR {
             keyboard.OnCommandPress(AreaRenderer.KEYBOARD_MAPPING, () => {
                 this._active = !this._active;
 
-                for (var i = 0; i < this._areas.length; i++) {
-                    this._areas[i].Visible = this._active;
-                }
+                this.UpdateVisible();
             });
+
+            // IE is the only browser that can handle the performance, therefore this check sees if we're NOT an ie
+            if (!(!!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/)))) {
+                this.Hide();
+            }
         }
 
         public OnMapResize(newSize: eg.Size2d): void {
@@ -43,6 +46,16 @@ module ShootR {
                 sectorNumber: number = Math.max(Math.ceil(position.Y / this._areaSize.Height), 1);
 
             return letter + sectorNumber.toString();
+        }
+
+        public Show(): void {
+            this._active = true;
+            this.UpdateVisible();
+        }
+
+        public Hide(): void {
+            this._active = false;
+            this.UpdateVisible();
         }
 
         private BuildSectors(): void {
@@ -68,6 +81,14 @@ module ShootR {
                     this._areas.push(area);
                     this._scene.Add(area);
                 }
+            }
+
+            this.UpdateVisible();
+        }
+
+        private UpdateVisible(): void {
+            for (var i = 0; i < this._areas.length; i++) {
+                this._areas[i].Visible = this._active;
             }
         }
     }
