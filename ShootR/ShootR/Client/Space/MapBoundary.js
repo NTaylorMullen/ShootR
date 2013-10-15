@@ -1,4 +1,4 @@
-/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
 /// <reference path="../Ships/Ship.ts" />
 /// <reference path="Map.ts" />
 var __extends = this.__extends || function (d, b) {

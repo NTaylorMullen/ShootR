@@ -1,6 +1,6 @@
 var ShootR;
 (function (ShootR) {
-    /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+    /// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
     (function (Debug) {
         var GameInformer = (function () {
             function GameInformer(_scene) {

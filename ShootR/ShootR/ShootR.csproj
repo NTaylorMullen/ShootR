@@ -475,10 +475,10 @@
     <Content Include="Images\SpriteSheets\thrust_basic.png" />
     <Content Include="Images\SpriteSheets\thrust_start.png" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\endgate-0.2.0-beta1.d.ts" />
-    <Content Include="Scripts\endgate2-0.2.0-beta1.js" />
-    <Content Include="Scripts\endgate-0.2.0-beta1.js" />
     <None Include="Properties\PublishProfiles\filePublish.pubxml" />
+    <Content Include="Scripts\endgate-0.2.0.js" />
+    <Content Include="Scripts\endgate-0.2.0.min.js" />
+    <Content Include="Scripts\endgate-0.2.0.min.js.map" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
@@ -512,6 +512,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <TypeScriptCompile Include="Scripts\endgate-0.2.0.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="admin.aspx.cs">

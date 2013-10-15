@@ -1,4 +1,4 @@
-/// <reference path="../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../Scripts/endgate-0.2.0.d.ts" />
 /// <reference path="../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Scripts/typings/signalr/signalr.d.ts" />
 /// <reference path="Debug/DebugManager.ts" />
@@ -33,11 +33,6 @@ module ShootR {
 
             this.Configuration.CollisionConfiguration.MinQuadTreeNodeSize = new eg.Size2d(75); // Size of a ship
             this.Configuration.CollisionConfiguration.InitialQuadTreeSize = new eg.Size2d(10125); // Initial Map Size x 2
-
-            // Focus game canvas on click
-            this.Input.Mouse.OnClick.Bind((_) => {
-                window.focus();
-            });
 
             this._bufferedViewport = new eg.Bounds.BoundingRectangle(this.Scene.Camera.Position, this.Scene.Camera.Size.Add(GameScreen.SCREEN_BUFFER_AREA));
             this._shipManager = new ShipManager(this._bufferedViewport, this.Scene, this.CollisionManager, this.Content);

@@ -1528,7 +1528,7 @@ declare module EndGate.Graphics {
         /**
         * Gets the base image source.  Should not be modified once the ImageSource has been constructed
         */
-        public Source: HTMLImageElement;    
+        public Source: HTMLImageElement;     
         /**
         * Creates a new instance of the ImageSource object with a pre-loaded image object.
         * @param image Image object to use as the source.
@@ -2085,7 +2085,7 @@ declare module EndGate.Graphics {
         /**
         * Gets an EventHandler that is triggered when the R, G, B, or A values of this Color change.
         */
-        public OnChange : any;
+        public OnChange : EndGate.EventHandler1<Color>;
         /**
         * Gets or sets the current red channel. Value must be an integer between 0 and 255 inclusive.
         */
@@ -2550,7 +2550,7 @@ declare module EndGate.Graphics {
         /**
         * Returns a Color object set to the color named color Orchid.
         */
-        static Orchid : any;
+        static Orchid : Color;
         /**
         * Returns a Color object set to the color named color PaleGoldenRod.
         */
@@ -3779,6 +3779,7 @@ declare module EndGate.Graphics {
     }
 }
 interface Number extends EndGate.ICloneable {
+    Clone: () => Number;
 }
 declare module EndGate.MapLoaders {
     /**
@@ -4054,9 +4055,6 @@ declare module EndGate.Tweening {
         */
         constructor(from: EndGate.Vector2d, to: EndGate.Vector2d, duration: EndGate.TimeSpan, tweeningFunction: Tweening.Functions.ITweeningFunction); 
     }
-}
-interface Number extends EndGate.ICloneable {
-    Clone: () => Number;
 }
 declare module EndGate.Tweening {
     /**
