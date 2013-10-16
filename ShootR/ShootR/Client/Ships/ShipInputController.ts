@@ -5,7 +5,7 @@
 module ShootR {
 
     export class ShipInputController {
-        public static DOUBLE_TAP_AFTER: eg.TimeSpan = eg.TimeSpan.FromMilliseconds(175);
+        public static DOUBLE_TAP_AFTER: eg.TimeSpan = eg.TimeSpan.FromMilliseconds(350);
 
         private _directions: IMoving;
         private _lastBoostTap: Date;

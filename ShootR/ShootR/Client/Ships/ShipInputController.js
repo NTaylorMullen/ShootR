@@ -49,7 +49,7 @@ var ShootR;
                 });
             }
         };
-        ShipInputController.DOUBLE_TAP_AFTER = eg.TimeSpan.FromMilliseconds(175);
+        ShipInputController.DOUBLE_TAP_AFTER = eg.TimeSpan.FromMilliseconds(350);
         return ShipInputController;
     })();
     ShootR.ShipInputController = ShipInputController;
