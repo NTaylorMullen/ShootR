@@ -2,6 +2,12 @@
 /// <reference path="../Server/ServerAdapter.ts" />
 var ShootR;
 (function (ShootR) {
+    (function (ChatMessageType) {
+        ChatMessageType[ChatMessageType["User"] = 0] = "User";
+        ChatMessageType[ChatMessageType["System"] = 1] = "System";
+    })(ShootR.ChatMessageType || (ShootR.ChatMessageType = {}));
+    var ChatMessageType = ShootR.ChatMessageType;
+
     var ChatMessage = (function () {
         function ChatMessage(From, Message, Type) {
             this.From = From;
@@ -15,32 +21,32 @@ var ShootR;
     var Chat = (function () {
         function Chat(serverAdapter) {
             var _this = this;
-            this.document = $(document);
-            this.chatContainer = $("#chat");
-            this.chatBox = $("<input>").attr("id", "chatbox").attr("type", "input").attr("autocomplete", "off");
-            this.chatBoxContainer = $("<li>");
-            this.colors = [
-                eg.Graphics.Color.Red,
-                eg.Graphics.Color.Orange,
-                eg.Graphics.Color.Yellow,
-                eg.Graphics.Color.Green,
-                eg.Graphics.Color.Blue,
-                eg.Graphics.Color.Purple,
-                eg.Graphics.Color.White,
-                eg.Graphics.Color.Cyan
+            this._document = $(document);
+            this._chatContainer = $("#chat");
+            this._chatBox = $("<input>").attr("id", "chatbox").attr("type", "input").attr("autocomplete", "off");
+            this._chatBoxContainer = $("<li>");
+            this._chatBoxVisible = false;
+            this._colors = [
+                eg.Graphics.Color.Red.toString(),
+                eg.Graphics.Color.Orange.toString(),
+                eg.Graphics.Color.Yellow.toString(),
+                eg.Graphics.Color.Green.toString(),
+                eg.Graphics.Color.Blue.toString(),
+                eg.Graphics.Color.Purple.toString(),
+                eg.Graphics.Color.White.toString(),
+                eg.Graphics.Color.Cyan.toString()
             ];
-            var self = this;
+            this._systemMessageColor = eg.Graphics.Color.Yellow.toString();
             serverAdapter.OnMessageReceived.Bind(function (chat) {
-                console.log(chat);
-                self.AddMessage(chat);
+                _this.AddMessage(chat);
             });
 
-            this.chatBoxContainer.append(this.chatBox);
-            this.document.keydown(function (key) {
+            this._chatBoxContainer.append(this._chatBox);
+            this._document.keyup(function (key) {
                 switch (key.keyCode) {
                     case 13:
-                        if (_this.chatBoxContainer.is(":visible")) {
-                            var message = _this.chatBox.val();
+                        if (_this._chatBoxVisible) {
+                            var message = _this._chatBox.val();
                             if (message) {
                                 serverAdapter.Proxy.invoke("sendMessage", message);
                             }
@@ -49,67 +55,63 @@ var ShootR;
                             _this.ShowChatBox();
                         }
 
-                        key.preventDefault();
-                        key.stopPropagation();
+                        _this.StopPropogation(key);
                         break;
 
                     case 84:
-                        if (!_this.chatBoxContainer.is(":visible")) {
+                        if (!_this._chatBoxVisible) {
                             _this.ShowChatBox();
-
-                            key.preventDefault();
-                            key.stopPropagation();
+                            _this.StopPropogation(key);
                         }
 
                         break;
 
                     case 27:
-                        if (_this.chatBoxContainer.is(":visible")) {
+                        if (_this._chatBoxVisible) {
                             _this.HideChatBox();
-                            key.preventDefault();
-                            key.stopPropagation();
+                            _this.StopPropogation(key);
                         }
                         break;
                 }
             });
         }
+        Chat.prototype.StopPropogation = function (key) {
+            key.preventDefault();
+            key.stopPropagation();
+        };
+
         Chat.prototype.ShowChatBox = function () {
-            this.chatContainer.append(this.chatBoxContainer);
-            this.chatBoxContainer.show();
-            this.chatBox.focus();
+            this._chatContainer.append(this._chatBoxContainer);
+            this._chatBoxContainer.show();
+            this._chatBox.focus();
+            this._chatBoxVisible = true;
         };
 
         Chat.prototype.HideChatBox = function () {
-            this.chatBox.val("");
-            this.chatBoxContainer.remove();
+            this._chatBox.val("");
+            this._chatBoxContainer.remove();
+            this._chatBoxVisible = false;
         };
 
         Chat.prototype.AddMessage = function (chatMessage) {
-            if (chatMessage.Type == 0) {
-                var color = this.colors[this.GetHashCode(chatMessage.From) % this.colors.length];
+            if (chatMessage.Type === ChatMessageType.User) {
+                var color = this._colors[this.GetHashCode(chatMessage.From) % this._colors.length], playerName = $("<span>").text(chatMessage.From).css("color", color), message = $("<span>").append($("<div/>").text(chatMessage.Message).text());
 
-                var playerName = $("<span>").text(chatMessage.From).css("color", color.toString());
-                var message = $("<span>").append($("<div/>").text(chatMessage.Message).text());
-
-                var li = $("<li>").append(playerName).append($("<span>").text(": ")).append(message);
-
-                this.chatContainer.append(li);
+                this._chatContainer.append($("<li>").append(playerName).append($("<span>").text(": ")).append(message));
             }
 
-            if (chatMessage.Type === 1) {
-                var li = $("<li>").append(chatMessage.Message).css("color", eg.Graphics.Color.Yellow.toString());
-
-                this.chatContainer.append(li);
+            if (chatMessage.Type === ChatMessageType.System) {
+                this._chatContainer.append($("<li>").append(chatMessage.Message).css("color", this._systemMessageColor));
             }
 
-            if (this.chatContainer.children.length > 100) {
-                this.chatContainer.children[0].remove();
+            if (this._chatContainer.children.length > 100) {
+                this._chatContainer.children[0].remove();
             }
         };
 
         Chat.prototype.GetHashCode = function (name) {
             var hash = 0, i, c, l;
-            if (name.length == 0)
+            if (name.length === 0)
                 return hash;
             for (i = 0, l = name.length; i < l; i++) {
                 c = name.charCodeAt(i);

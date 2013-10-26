@@ -7,6 +7,7 @@ var ShootR;
     /// <reference path="ServerConnectionManager.ts" />
     /// <reference path="IUserInformation.ts" />
     /// <reference path="IClientInitialization.ts" />
+    /// <reference path="../HUD/Chat.ts" />
     (function (Server) {
         var ServerAdapter = (function () {
             function ServerAdapter(Connection, Proxy, authCookieName) {
@@ -100,7 +101,7 @@ var ShootR;
                     _this.OnMapResize.Trigger(new eg.Size2d(size.Width, size.Height));
                 });
 
-                this.Proxy.on("receiveMessage", function (from, message, type) {
+                this.Proxy.on("chatMessage", function (from, message, type) {
                     _this.OnMessageReceived.Trigger(new ShootR.ChatMessage(from, message, type));
                 });
             };

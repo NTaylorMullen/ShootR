@@ -409,11 +409,21 @@ namespace ShootR
 
         public void sendMessage(string message)
         {
-            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
-            var from = ship.Name;
+            try
+            {
+                if (_game.UserHandler.UserExistsAndReady(Context.ConnectionId))
+                {
+                    Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+                    var from = ship.Name;
 
-            //send a message to #shootr using the jabbr c# client later
-            Clients.All.receiveMessage(from, message, 0 /* standard message */);
+                    //TODO: send a message to #shootr using the jabbr c# client later
+                    Clients.All.chatMessage(from, message, 0 /* standard message */);
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorLog.Instance.Log(e);
+            }
         }
         #endregion
     }

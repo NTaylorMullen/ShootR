@@ -1,40 +1,46 @@
 /// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
 /// <reference path="../Server/ServerAdapter.ts" />
 module ShootR {
+    export enum ChatMessageType {
+        User = 0,
+        System = 1
+    }
+
     export class ChatMessage {
-        constructor(public From: string, public Message: string, public Type: number) { }
+        constructor(public From: string, public Message: string, public Type: ChatMessageType) { }
     }
 
     export class Chat {
-        private document: JQuery = $(document);
-        private chatContainer: JQuery = $("#chat");
-        private chatBox: JQuery = $("<input>").attr("id", "chatbox").attr("type", "input").attr("autocomplete", "off");
-        private chatBoxContainer: JQuery = $("<li>");
-        private colors: eg.Graphics.Color[] = [
-            eg.Graphics.Color.Red,
-            eg.Graphics.Color.Orange,
-            eg.Graphics.Color.Yellow,
-            eg.Graphics.Color.Green,
-            eg.Graphics.Color.Blue,
-            eg.Graphics.Color.Purple,
-            eg.Graphics.Color.White,
-            eg.Graphics.Color.Cyan
+        private _document: JQuery = $(document);
+        private _chatContainer: JQuery = $("#chat");
+        private _chatBox: JQuery = $("<input>").attr("id", "chatbox").attr("type", "input").attr("autocomplete", "off");
+        private _chatBoxContainer: JQuery = $("<li>");
+        private _chatBoxVisible: boolean = false;
+        private _colors: string[] = [
+            eg.Graphics.Color.Red.toString(),
+            eg.Graphics.Color.Orange.toString(),
+            eg.Graphics.Color.Yellow.toString(),
+            eg.Graphics.Color.Green.toString(),
+            eg.Graphics.Color.Blue.toString(),
+            eg.Graphics.Color.Purple.toString(),
+            eg.Graphics.Color.White.toString(),
+            eg.Graphics.Color.Cyan.toString()
         ];
 
+        private _systemMessageColor: string = eg.Graphics.Color.Yellow.toString();
+
         constructor(serverAdapter: Server.ServerAdapter) {
-            var self = this;
-            serverAdapter.OnMessageReceived.Bind(function (chat: ChatMessage) {
-                console.log(chat);
-                self.AddMessage(chat);
+            serverAdapter.OnMessageReceived.Bind((chat: ChatMessage) => {
+                this.AddMessage(chat);
             });
 
-            this.chatBoxContainer.append(this.chatBox);
-            this.document.keydown((key) => {
+            this._chatBoxContainer.append(this._chatBox);
+            this._document.keyup((key) => {
                 switch (key.keyCode) {
                     //if they press enter
                     case 13:
-                        if (this.chatBoxContainer.is(":visible")) {
-                            var message = this.chatBox.val();
+                        if (this._chatBoxVisible) {
+                            var message = this._chatBox.val();
                             if (message) {
                                 serverAdapter.Proxy.invoke("sendMessage", message);
                             }
@@ -43,77 +49,76 @@ module ShootR {
                             this.ShowChatBox();
                         }
 
-                        key.preventDefault();
-                        key.stopPropagation();
+                        this.StopPropogation(key);
                         break;
 
                     //the letter 't'
                     case 84:
-                        if (!this.chatBoxContainer.is(":visible")) {
+                        if (!this._chatBoxVisible) {
                             this.ShowChatBox();
-
-                            key.preventDefault();
-                            key.stopPropagation();
+                            this.StopPropogation(key);
                         }
                         //determine status of chat box
                         break;
 
+                    //escape key
                     case 27: //close the chat box if open
-                        if (this.chatBoxContainer.is(":visible")) {
+                        if (this._chatBoxVisible) {
                             this.HideChatBox();
-                            key.preventDefault();
-                            key.stopPropagation();
+                            this.StopPropogation(key);
                         }
                         break;
                 }
             });
         }
 
+        private StopPropogation(key): void {
+            key.preventDefault();
+            key.stopPropagation();
+        }
+
         private ShowChatBox() : void {
-            this.chatContainer.append(this.chatBoxContainer);
-            this.chatBoxContainer.show();
-            this.chatBox.focus();
+            this._chatContainer.append(this._chatBoxContainer);
+            this._chatBoxContainer.show();
+            this._chatBox.focus();
+            this._chatBoxVisible = true;
         }
 
         private HideChatBox(): void {
-            this.chatBox.val("");
-            this.chatBoxContainer.remove();
+            this._chatBox.val("");
+            this._chatBoxContainer.remove();
+            this._chatBoxVisible = false;
         }
 
         private AddMessage(chatMessage: ShootR.ChatMessage): void {
 
             //User message
-            if (chatMessage.Type == 0) {
-                var color = this.colors[this.GetHashCode(chatMessage.From) % this.colors.length];
+            if (chatMessage.Type === ChatMessageType.User) {
+                var color = this._colors[this.GetHashCode(chatMessage.From) % this._colors.length],
+                    playerName = $("<span>").text(chatMessage.From).css("color", color),
+                    message = $("<span>").append($("<div/>").text(chatMessage.Message).text());
 
-                var playerName = $("<span>").text(chatMessage.From).css("color", color.toString());
-                var message = $("<span>").append($("<div/>").text(chatMessage.Message).text());
-
-                var li = $("<li>")
+                this._chatContainer.append($("<li>")
                     .append(playerName)
                     .append($("<span>").text(": "))
-                    .append(message);
-
-                this.chatContainer.append(li);
+                    .append(message));
             }
 
             //System message
-            if (chatMessage.Type === 1) {
-                var li = $("<li>")
+            if (chatMessage.Type === ChatMessageType.System) {
+                this._chatContainer.append($("<li>")
                     .append(chatMessage.Message)
-                    .css("color", eg.Graphics.Color.Yellow.toString());
-
-                this.chatContainer.append(li);
+                    .css("color", this._systemMessageColor));
             }
 
-            if (this.chatContainer.children.length > 100) {
-                this.chatContainer.children[0].remove();
+            if (this._chatContainer.children.length > 100) {
+                this._chatContainer.children[0].remove();
             }
         }
 
         private GetHashCode(name: string): number {
             var hash = 0, i, c, l;
-            if (name.length == 0) return hash;
+            if (name.length === 0) return hash;
             for (i = 0, l = name.length; i < l; i++) {
                 c = name.charCodeAt(i);
                 hash = ((hash << 5) - hash) + c;
