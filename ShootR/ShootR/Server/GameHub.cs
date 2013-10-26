@@ -407,6 +407,14 @@ namespace ShootR
             }
         }
 
+        public void sendMessage(string message)
+        {
+            Ship ship = _game.UserHandler.GetUserShip(Context.ConnectionId);
+            var from = ship.Name;
+
+            //send a message to #shootr using the jabbr c# client later
+            Clients.All.receiveMessage(from, message, 0 /* standard message */);
+        }
         #endregion
     }
 }

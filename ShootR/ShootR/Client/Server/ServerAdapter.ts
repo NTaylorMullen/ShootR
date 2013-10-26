@@ -18,6 +18,7 @@ module ShootR.Server {
         public OnControlTransferred: eg.EventHandler;
         public OnPingRequest: eg.EventHandler;
         public OnMapResize: eg.EventHandler1<eg.Size2d>;
+        public OnMessageReceived: eg.EventHandler1<ShootR.ChatMessage>;
 
         private _payloadDecompressor: PayloadDecompressor;
         private _connectionManager: ServerConnectionManager;
@@ -31,6 +32,7 @@ module ShootR.Server {
             this.OnControlTransferred = new eg.EventHandler();
             this.OnPingRequest = new eg.EventHandler();
             this.OnMapResize = new eg.EventHandler1<eg.Size2d>();
+            this.OnMessageReceived = new eg.EventHandler1<ShootR.ChatMessage>();
 
             this._connectionManager = new ServerConnectionManager(authCookieName);
 
@@ -105,6 +107,10 @@ module ShootR.Server {
 
             this.Proxy.on("mapSizeIncreased", (size: any) => {
                 this.OnMapResize.Trigger(new eg.Size2d(size.Width, size.Height));
+            });
+
+            this.Proxy.on("receiveMessage", (from: string, message: string, type: number) => {
+                this.OnMessageReceived.Trigger(new ShootR.ChatMessage(from, message, type));
             });
         }
     }

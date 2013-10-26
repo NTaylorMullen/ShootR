@@ -232,6 +232,7 @@
     <Content Include="Client\HUD\EnvironmentMonitor.ts" />
     <Content Include="Client\HUD\DeathScreen.ts" />
     <TypeScriptCompile Include="Client\Debug\UpdateRate.ts" />
+    <TypeScriptCompile Include="Client\HUD\Chat.ts" />
     <TypeScriptCompile Include="Client\HUD\HUDManager.ts" />
     <Content Include="Client\HUD\ShipStatMonitor.ts" />
     <TypeScriptCompile Include="Client\HUD\LeaderboardManager.ts" />
@@ -494,6 +495,7 @@
     <Content Include="Scripts\typings\jquery\jquery.d.ts" />
     <Content Include="Scripts\typings\signalr\signalr.d.ts" />
     <Content Include="Styles\bootstrap.min.css" />
+    <Content Include="Styles\chat.css" />
     <Content Include="Styles\controller.css" />
     <Content Include="Styles\game.css" />
     <Content Include="Styles\gameHUD.css" />

@@ -21,6 +21,7 @@ var ShootR;
                 this.OnControlTransferred = new eg.EventHandler();
                 this.OnPingRequest = new eg.EventHandler();
                 this.OnMapResize = new eg.EventHandler1();
+                this.OnMessageReceived = new eg.EventHandler1();
 
                 this._connectionManager = new Server.ServerConnectionManager(authCookieName);
 
@@ -97,6 +98,10 @@ var ShootR;
 
                 this.Proxy.on("mapSizeIncreased", function (size) {
                     _this.OnMapResize.Trigger(new eg.Size2d(size.Width, size.Height));
+                });
+
+                this.Proxy.on("receiveMessage", function (from, message, type) {
+                    _this.OnMessageReceived.Trigger(new ShootR.ChatMessage(from, message, type));
                 });
             };
             ServerAdapter.NEGOTIATE_RETRIES = 3;
