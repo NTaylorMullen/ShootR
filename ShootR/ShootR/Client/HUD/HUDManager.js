@@ -13,6 +13,7 @@
 /// <reference path="DeathScreen.ts" />
 /// <reference path="NotificationManager.ts" />
 /// <reference path="UserInformationManager.ts" />
+/// <reference path="Chat.ts" />
 var ShootR;
 (function (ShootR) {
     var HUDManager = (function () {
@@ -34,6 +35,7 @@ var ShootR;
             this._deathScreen = new ShootR.DeathScreen();
             this._notificationManager = new ShootR.NotificationManager(serverAdapter);
             this._userInformationManager = new ShootR.UserInformationManager(initialization.UserInformation);
+            this._chat = new ShootR.Chat(serverAdapter);
 
             this._logout.click(function () {
                 // Clear cookies

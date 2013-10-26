@@ -92,11 +92,13 @@ namespace ShootR
                 .Include("~/Client/HUD/HealthMonitor.js")
                 .Include("~/Client/HUD/ShipStatMonitor.js")
                 .Include("~/Client/HUD/HUDManager.js")
+                .Include("~/Client/HUD/Chat.js")
                 .Include("~/Client/Game.js")
                 .Include("~/Client/Main.js"));
 
             bundles.Add(new StyleBundle("~/bundles/gamecss")
                 .Include("~/Styles/game.css")
+                .Include("~/Styles/chat.css")
                 .Include("~/Styles/gameHUD.css")
                 .Include("~/Styles/popups.css"));
         }
