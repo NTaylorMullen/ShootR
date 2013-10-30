@@ -43,7 +43,7 @@ module ShootR {
                         if (this._chatBoxVisible) {
                             var message = this._chatBox.val();
                             if (message) {
-                                this.AddMessage(new ChatMessage(this._userInformation.Name, message, 0));
+                                this.AddMessage(new ChatMessage(this._userInformation.Name, message, ChatMessageType.User));
                                 serverAdapter.Proxy.invoke("sendMessage", message);
                             }
                             this.HideChatBox();
@@ -100,6 +100,8 @@ module ShootR {
                     playerName = $("<span>").text(chatMessage.From).css("color", color),
                     message = $("<span>").append($("<div/>").text(chatMessage.Message).html().replace(/\"/g, "&quot;"));
 
+                //only insert new items before the chat box so that the chat box stays at the
+                //bottom of the screen and doesn't scroll up.
                 if (this._chatBoxVisible) {
                     $("<li>")
                         .append(playerName)

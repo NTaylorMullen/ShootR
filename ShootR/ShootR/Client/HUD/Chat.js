@@ -49,7 +49,7 @@ var ShootR;
                         if (_this._chatBoxVisible) {
                             var message = _this._chatBox.val();
                             if (message) {
-                                _this.AddMessage(new ChatMessage(_this._userInformation.Name, message, 0));
+                                _this.AddMessage(new ChatMessage(_this._userInformation.Name, message, ChatMessageType.User));
                                 serverAdapter.Proxy.invoke("sendMessage", message);
                             }
                             _this.HideChatBox();
