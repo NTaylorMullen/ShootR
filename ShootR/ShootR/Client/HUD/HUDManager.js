@@ -35,7 +35,7 @@ var ShootR;
             this._deathScreen = new ShootR.DeathScreen();
             this._notificationManager = new ShootR.NotificationManager(serverAdapter);
             this._userInformationManager = new ShootR.UserInformationManager(initialization.UserInformation);
-            this._chat = new ShootR.Chat(serverAdapter);
+            this._chat = new ShootR.Chat(initialization.UserInformation, serverAdapter);
 
             this._logout.click(function () {
                 // Clear cookies

@@ -19,8 +19,9 @@ var ShootR;
     ShootR.ChatMessage = ChatMessage;
 
     var Chat = (function () {
-        function Chat(serverAdapter) {
+        function Chat(_userInformation, serverAdapter) {
             var _this = this;
+            this._userInformation = _userInformation;
             this._document = $(document);
             this._chatContainer = $("#chat");
             this._chatBox = $("<input>").attr("id", "chatbox").attr("type", "input").attr("autocomplete", "off");
@@ -42,12 +43,13 @@ var ShootR;
             });
 
             this._chatBoxContainer.append(this._chatBox);
-            this._document.keyup(function (key) {
+            this._document.keydown(function (key) {
                 switch (key.keyCode) {
                     case 13:
                         if (_this._chatBoxVisible) {
                             var message = _this._chatBox.val();
                             if (message) {
+                                _this.AddMessage(new ChatMessage(_this._userInformation.Name, message, ChatMessageType.User));
                                 serverAdapter.Proxy.invoke("sendMessage", message);
                             }
                             _this.HideChatBox();
@@ -95,9 +97,13 @@ var ShootR;
 
         Chat.prototype.AddMessage = function (chatMessage) {
             if (chatMessage.Type === ChatMessageType.User) {
-                var color = this._colors[this.GetHashCode(chatMessage.From) % this._colors.length], playerName = $("<span>").text(chatMessage.From).css("color", color), message = $("<span>").append($("<div/>").text(chatMessage.Message).text());
+                var color = this._colors[this.GetHashCode(chatMessage.From) % this._colors.length], playerName = $("<span>").text(chatMessage.From).css("color", color), message = $("<span>").append($("<div/>").text(chatMessage.Message).html().replace(/\"/g, "&quot;"));
 
-                this._chatContainer.append($("<li>").append(playerName).append($("<span>").text(": ")).append(message));
+                if (this._chatBoxVisible) {
+                    $("<li>").append(playerName).append($("<span>").text(": ")).append(message).insertBefore(this._chatBoxContainer);
+                } else {
+                    this._chatContainer.append($("<li>").append(playerName).append($("<span>").text(": ")).append(message));
+                }
             }
 
             if (chatMessage.Type === ChatMessageType.System) {

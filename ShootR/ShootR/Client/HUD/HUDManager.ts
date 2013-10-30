@@ -48,7 +48,7 @@ module ShootR {
             this._deathScreen = new DeathScreen();
             this._notificationManager = new NotificationManager(serverAdapter);
             this._userInformationManager = new UserInformationManager(initialization.UserInformation);
-            this._chat = new Chat(serverAdapter);
+            this._chat = new Chat(initialization.UserInformation, serverAdapter);
 
             this._logout.click(() => {
                 // Clear cookies

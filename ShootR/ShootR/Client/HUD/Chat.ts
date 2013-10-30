@@ -11,6 +11,7 @@ module ShootR {
     }
 
     export class Chat {
+        private _myShipId: number;
         private _document: JQuery = $(document);
         private _chatContainer: JQuery = $("#chat");
         private _chatBox: JQuery = $("<input>").attr("id", "chatbox").attr("type", "input").attr("autocomplete", "off");
@@ -29,19 +30,20 @@ module ShootR {
 
         private _systemMessageColor: string = eg.Graphics.Color.Yellow.toString();
 
-        constructor(serverAdapter: Server.ServerAdapter) {
+        constructor(private _userInformation: Server.IUserInformation, serverAdapter: Server.ServerAdapter) {
             serverAdapter.OnMessageReceived.Bind((chat: ChatMessage) => {
                 this.AddMessage(chat);
             });
 
             this._chatBoxContainer.append(this._chatBox);
-            this._document.keyup((key) => {
+            this._document.keydown((key) => {
                 switch (key.keyCode) {
                     //if they press enter
                     case 13:
                         if (this._chatBoxVisible) {
                             var message = this._chatBox.val();
                             if (message) {
+                                this.AddMessage(new ChatMessage(this._userInformation.Name, message, ChatMessageType.User));
                                 serverAdapter.Proxy.invoke("sendMessage", message);
                             }
                             this.HideChatBox();
@@ -96,12 +98,22 @@ module ShootR {
             if (chatMessage.Type === ChatMessageType.User) {
                 var color = this._colors[this.GetHashCode(chatMessage.From) % this._colors.length],
                     playerName = $("<span>").text(chatMessage.From).css("color", color),
-                    message = $("<span>").append($("<div/>").text(chatMessage.Message).text());
+                    message = $("<span>").append($("<div/>").text(chatMessage.Message).html().replace(/\"/g, "&quot;"));
 
-                this._chatContainer.append($("<li>")
-                    .append(playerName)
-                    .append($("<span>").text(": "))
-                    .append(message));
+                //only insert new items before the chat box so that the chat box stays at the
+                //bottom of the screen and doesn't scroll up.
+                if (this._chatBoxVisible) {
+                    $("<li>")
+                        .append(playerName)
+                        .append($("<span>").text(": "))
+                        .append(message)
+                        .insertBefore(this._chatBoxContainer);
+                } else {
+                    this._chatContainer.append($("<li>")
+                        .append(playerName)
+                        .append($("<span>").text(": "))
+                        .append(message));
+                }
             }
 
             //System message

@@ -417,7 +417,7 @@ namespace ShootR
                     var from = ship.Name;
 
                     //TODO: send a message to #shootr using the jabbr c# client later
-                    Clients.All.chatMessage(from, message, 0 /* standard message */);
+                    Clients.Others.chatMessage(from, message, 0 /* standard message */);
                 }
             }
             catch (Exception e)
