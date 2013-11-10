@@ -233,6 +233,9 @@
     <Content Include="Client\HUD\DeathScreen.ts" />
     <TypeScriptCompile Include="Client\Debug\UpdateRate.ts" />
     <TypeScriptCompile Include="Client\HUD\Chat.ts" />
+    <Content Include="Client\HUD\Chat.js">
+      <DependentUpon>Chat.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Client\HUD\HUDManager.ts" />
     <Content Include="Client\HUD\ShipStatMonitor.ts" />
     <TypeScriptCompile Include="Client\HUD\LeaderboardManager.ts" />
