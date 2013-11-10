@@ -17,3 +17,6 @@ Feel free to stop by and say hi at http://jabbr.net/#/rooms/ShootR.
 
 **SignalR Source**: https://github.com/SignalR/SignalR  
 **EndGate Source**: https://github.com/ntaylormullen/endgate  
+
+*Note* to restore packages in the ShootR solution, you'll need to make sure Visual Studio is configured to restore missing packages. You'll also need to add the nightly build feed from the Asp.Net web stack to your NuGet package sources, which is located here: http://www.myget.org/F/aspnetwebstacknightly/
+
