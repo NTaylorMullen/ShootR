@@ -1,4 +1,4 @@
-/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
 /// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="MapBoundary.ts" />
 /// <reference path="AreaRenderer.ts" />
@@ -58,7 +58,7 @@ var ShootR;
         };
 
         Map.prototype.BuildBoundaries = function () {
-            var corners = new Array(new eg.Vector2d(-2, -2), new eg.Vector2d(Map.SIZE.Width + 2, -2), new eg.Vector2d(Map.SIZE.Width + 2, Map.SIZE.Height + 2), new eg.Vector2d(-2, Map.SIZE.Height + 2)), boundary;
+            var corners = new Array(new eg.Vector2d(0, 0), new eg.Vector2d(Map.SIZE.Width, 0), new eg.Vector2d(Map.SIZE.Width, Map.SIZE.Height), new eg.Vector2d(0, Map.SIZE.Height)), boundary;
 
             for (var i = 0; i < this._boundaries.length; i++) {
                 this._boundaries[i].Dispose();

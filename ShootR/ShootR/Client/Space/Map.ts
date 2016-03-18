@@ -1,4 +1,4 @@
-/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
 /// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="MapBoundary.ts" />
 /// <reference path="AreaRenderer.ts" />
@@ -66,10 +66,10 @@ module ShootR {
 
         private BuildBoundaries(): void {
             var corners: Array<eg.Vector2d> = new Array<eg.Vector2d>(
-                new eg.Vector2d(-2, -2),
-                new eg.Vector2d(Map.SIZE.Width + 2, -2),
-                new eg.Vector2d(Map.SIZE.Width + 2, Map.SIZE.Height + 2),
-                new eg.Vector2d(-2, Map.SIZE.Height + 2)),
+                new eg.Vector2d(0, 0),
+                new eg.Vector2d(Map.SIZE.Width, 0),
+                new eg.Vector2d(Map.SIZE.Width, Map.SIZE.Height),
+                new eg.Vector2d(0, Map.SIZE.Height)),
                 boundary: MapBoundary;
 
             for (var i = 0; i < this._boundaries.length; i++) {

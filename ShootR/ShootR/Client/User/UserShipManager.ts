@@ -1,4 +1,4 @@
-/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
 /// <reference path="../Ships/ShipManager.ts" />
 /// <reference path="../Ships/ShipInputController.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
@@ -15,14 +15,12 @@ module ShootR {
 
         private _shipInputController: ShipInputController;
         private _userCameraController: UserCameraController;
-        private _enqueuedCommands: Array<Function>;
         private _proxy: HubProxy;
         private _lastSync: Date;
 
         constructor(public ControlledShipId: number, private _shipManager: ShipManager, private _collisionManager: eg.Collision.CollisionManager, input: eg.Input.InputManager, private _camera: eg.Rendering.Camera2d, serverAdapter: Server.ServerAdapter) {
             this._proxy = serverAdapter.Proxy;
             this._userCameraController = new UserCameraController(this.ControlledShipId, this._shipManager, this._camera);
-            this._enqueuedCommands = [];
             this._lastSync = new Date();
             this.LatencyResolver = new LatencyResolver(serverAdapter);
 
@@ -30,12 +28,8 @@ module ShootR {
                 if (ship instanceof Ship && boundary instanceof MapBoundary) {
                     if (ship.ID === this.ControlledShipId) {
                         for (var i = ShipMovementController.MOVING_DIRECTIONS.length - 1; i >= 0; i--) {
-                            this._enqueuedCommands.push(((i) => {
-                                    return () => {
-                                    this.Invoke("registerMoveStop", false, this.NewMovementCommand("Forward", false));
-                                    this.Invoke("registerMoveStop", false, this.NewMovementCommand("Backward", false));
-                                }
-                            })(i));
+                            this.Invoke("registerMoveStop", false, this.NewMovementCommand("Forward", false));
+                            this.Invoke("registerMoveStop", false, this.NewMovementCommand("Backward", false));
                         }
                     }
                 }
@@ -47,29 +41,21 @@ module ShootR {
                 if (ship && ship.MovementController.Controllable && ship.LifeController.Alive) {
                     if (startMoving) {
                         if (direction === "Boost") {
-                            this._enqueuedCommands.push(() => {
-                                this.Invoke("registerAbilityStart", this.LatencyResolver.TryRequestPing(), this.NewAbilityCommand(direction, true));
+                            this.Invoke("registerAbilityStart", this.LatencyResolver.TryRequestPing(), this.NewAbilityCommand(direction, true));
 
-                                ship.AbilityHandler.Activate(direction);
-                            });
-
-                            return;
+                            ship.AbilityHandler.Activate(direction);
                             // Don't want to trigger a server command if we're already moving in the direction
                         } else if (!ship.MovementController.IsMovingInDirection(direction)) {
-                            this._enqueuedCommands.push(() => {
-                                this.Invoke("registerMoveStart", this.LatencyResolver.TryRequestPing(), this.NewMovementCommand(direction, true));
+                            this.Invoke("registerMoveStart", this.LatencyResolver.TryRequestPing(), this.NewMovementCommand(direction, true));
 
-                                ship.MovementController.Move(direction, startMoving);
-                            });
+                            ship.MovementController.Move(direction, startMoving);
                         }
                     } else {
                         // Don't want to trigger a server command if we're already moving in the direction
                         if (ship.MovementController.IsMovingInDirection(direction)) {
-                            this._enqueuedCommands.push(() => {
-                                this.Invoke("registerMoveStop", this.LatencyResolver.TryRequestPing(), this.NewMovementCommand(direction, false));
+                            this.Invoke("registerMoveStop", this.LatencyResolver.TryRequestPing(), this.NewMovementCommand(direction, false));
 
-                                ship.MovementController.Move(direction, startMoving);
-                            });
+                            ship.MovementController.Move(direction, startMoving);
                         }
                     }
                 }
@@ -92,10 +78,6 @@ module ShootR {
             var ship = this._shipManager.GetShip(this.ControlledShipId);
 
             if (ship) {
-                while (this._enqueuedCommands.length > 0) {
-                    this._enqueuedCommands.shift()();
-                }
-
                 if (eg.TimeSpan.DateSpan(this._lastSync, gameTime.Now).Seconds > UserShipManager.SYNC_INTERVAL.Seconds && ship.LifeController.Alive) {
                     this._lastSync = gameTime.Now;
                     this._proxy.invoke("syncMovement", { X: Math.round(ship.MovementController.Position.X - ship.Graphic.Size.HalfWidth), Y: Math.round(ship.MovementController.Position.Y - ship.Graphic.Size.HalfHeight) }, Math.roundTo(ship.MovementController.Rotation * 57.2957795, 2), { X: Math.round(ship.MovementController.Velocity.X), Y: Math.round(ship.MovementController.Velocity.Y) });

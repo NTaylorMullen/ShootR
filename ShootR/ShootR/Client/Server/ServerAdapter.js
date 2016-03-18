@@ -1,12 +1,13 @@
 var ShootR;
 (function (ShootR) {
-    /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+    /// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
     /// <reference path="../../Scripts/typings/signalr/signalr.d.ts" />
     /// <reference path="IPayloadDefinitions.ts" />
     /// <reference path="PayloadDecompressor.ts" />
     /// <reference path="ServerConnectionManager.ts" />
     /// <reference path="IUserInformation.ts" />
     /// <reference path="IClientInitialization.ts" />
+    /// <reference path="../HUD/Chat.ts" />
     (function (Server) {
         var ServerAdapter = (function () {
             function ServerAdapter(Connection, Proxy, authCookieName) {
@@ -21,6 +22,7 @@ var ShootR;
                 this.OnControlTransferred = new eg.EventHandler();
                 this.OnPingRequest = new eg.EventHandler();
                 this.OnMapResize = new eg.EventHandler1();
+                this.OnMessageReceived = new eg.EventHandler1();
 
                 this._connectionManager = new Server.ServerConnectionManager(authCookieName);
 
@@ -97,6 +99,10 @@ var ShootR;
 
                 this.Proxy.on("mapSizeIncreased", function (size) {
                     _this.OnMapResize.Trigger(new eg.Size2d(size.Width, size.Height));
+                });
+
+                this.Proxy.on("chatMessage", function (from, message, type) {
+                    _this.OnMessageReceived.Trigger(new ShootR.ChatMessage(from, message, type));
                 });
             };
             ServerAdapter.NEGOTIATE_RETRIES = 3;

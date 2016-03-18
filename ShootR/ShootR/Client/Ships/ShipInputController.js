@@ -1,4 +1,4 @@
-/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
 /// <reference path="IMoving.ts" />
 /// <reference path="ShipFireController.ts" />
 var ShootR;
@@ -49,7 +49,7 @@ var ShootR;
                 });
             }
         };
-        ShipInputController.DOUBLE_TAP_AFTER = eg.TimeSpan.FromMilliseconds(175);
+        ShipInputController.DOUBLE_TAP_AFTER = eg.TimeSpan.FromMilliseconds(350);
         return ShipInputController;
     })();
     ShootR.ShipInputController = ShipInputController;

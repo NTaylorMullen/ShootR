@@ -17,7 +17,6 @@ namespace ShootR
         private Vector2Tween _positionTween;
         private NumberTween _rotationTween;
         private ShipMovementController _movementController;
-        private Vector2 _pendingVelociity;
         private int _tweensComplete;
         private object _lock;
         private Action _onComplete;
@@ -29,7 +28,7 @@ namespace ShootR
             _rotationTween = new NumberTween(0, 0, 1);
             _tweensComplete = 0;
             _lock = new object();
-            _onComplete = () => 
+            _onComplete = () =>
             {
                 lock (_lock)
                 {
@@ -37,7 +36,6 @@ namespace ShootR
                     {
                         Interpolating = false;
                         _tweensComplete = 0;
-                        _movementController.Velocity = _pendingVelociity;
                     }
                 }
             };
@@ -81,6 +79,8 @@ namespace ShootR
                 Interpolating = true;
                 _tweensComplete = 0;
 
+                _movementController.Velocity = velocity;
+
                 _rotationTween.From = _movementController.Rotation;
                 _rotationTween.To = angle;
                 _rotationTween.Duration = _rotationTween.DurationFromSpeed(ShipMovementController.ROTATE_SPEED);
@@ -88,17 +88,8 @@ namespace ShootR
 
                 _positionTween.From = _movementController.Position;
                 _positionTween.To = at;
-                _positionTween.Duration = _rotationTween.DurationFromSpeed(Math.Max(_movementController.Velocity.Length(), 1));
+                _positionTween.Duration = _positionTween.DurationFromSpeed(900);
                 _positionTween.Restart();
-
-                if ((velocity.Length() / Math.Max(_movementController.Velocity.Length(), 1)) < 1.2)
-                {
-                    _pendingVelociity = velocity;
-                }
-                else
-                {
-                    _pendingVelociity = _movementController.Velocity;
-                }
             }
         }
     }

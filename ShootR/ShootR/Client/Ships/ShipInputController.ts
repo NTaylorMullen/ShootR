@@ -1,11 +1,11 @@
-/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
 /// <reference path="IMoving.ts" />
 /// <reference path="ShipFireController.ts" />
 
 module ShootR {
 
     export class ShipInputController {
-        public static DOUBLE_TAP_AFTER: eg.TimeSpan = eg.TimeSpan.FromMilliseconds(175);
+        public static DOUBLE_TAP_AFTER: eg.TimeSpan = eg.TimeSpan.FromMilliseconds(350);
 
         private _directions: IMoving;
         private _lastBoostTap: Date;

@@ -1,4 +1,4 @@
-/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
 /// <reference path="../Ships/Ship.ts" />
 /// <reference path="Map.ts" />
 var __extends = this.__extends || function (d, b) {
@@ -37,7 +37,7 @@ var ShootR;
         };
 
         MapBoundary.prototype.HandleShipCollision = function (ship) {
-            var bounceMultiplier, side = this.Graphic.From.Subtract(this.Graphic.To);
+            var bounceMultiplier;
 
             ship.MovementController.StopMoving("Forward");
             ship.MovementController.StopMoving("Backward");
@@ -52,16 +52,16 @@ var ShootR;
 
         // Ugly
         MapBoundary.prototype.RepositionShipInBounds = function (ship) {
-            if (ship.MovementController.Position.X - ShootR.Ship.SIZE.HalfWidth < 0) {
-                ship.MovementController.Position.X = ShootR.Ship.SIZE.HalfWidth;
-            } else if (ship.MovementController.Position.X + ShootR.Ship.SIZE.HalfWidth > ShootR.Map.SIZE.Width) {
-                ship.MovementController.Position.X = ShootR.Map.SIZE.Width - ShootR.Ship.SIZE.HalfWidth;
+            if (ship.MovementController.Position.X - ShootR.Ship.SIZE.HalfWidth <= 1) {
+                ship.MovementController.Position.X = ShootR.Ship.SIZE.HalfWidth + 3;
+            } else if (ship.MovementController.Position.X + ShootR.Ship.SIZE.HalfWidth >= ShootR.Map.SIZE.Width - 1) {
+                ship.MovementController.Position.X = ShootR.Map.SIZE.Width - ShootR.Ship.SIZE.HalfWidth - 3;
             }
 
-            if (ship.MovementController.Position.Y - ShootR.Ship.SIZE.HalfHeight < 0) {
-                ship.MovementController.Position.Y = ShootR.Ship.SIZE.HalfHeight;
-            } else if (ship.MovementController.Position.Y + ShootR.Ship.SIZE.HalfHeight > ShootR.Map.SIZE.Height) {
-                ship.MovementController.Position.Y = ShootR.Map.SIZE.Height - ShootR.Ship.SIZE.HalfHeight;
+            if (ship.MovementController.Position.Y - ShootR.Ship.SIZE.HalfHeight <= 1) {
+                ship.MovementController.Position.Y = ShootR.Ship.SIZE.HalfHeight + 3;
+            } else if (ship.MovementController.Position.Y + ShootR.Ship.SIZE.HalfHeight >= ShootR.Map.SIZE.Height - 1) {
+                ship.MovementController.Position.Y = ShootR.Map.SIZE.Height - ShootR.Ship.SIZE.HalfHeight - 3;
             }
         };
         MapBoundary.Color = eg.Graphics.Color.FromHex("#3fa9f5");

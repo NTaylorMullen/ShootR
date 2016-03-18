@@ -1,4 +1,4 @@
-/// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+/// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../Server/ServerAdapter.ts" />
 /// <reference path="../Server/IPayloadDefinitions.ts" />
@@ -13,6 +13,7 @@
 /// <reference path="DeathScreen.ts" />
 /// <reference path="NotificationManager.ts" />
 /// <reference path="UserInformationManager.ts" />
+/// <reference path="Chat.ts" />
 
 module ShootR {
 
@@ -32,6 +33,7 @@ module ShootR {
         private _deathScreen: DeathScreen;
         private _notificationManager: NotificationManager;
         private _userInformationManager: UserInformationManager;
+        private _chat: Chat;
         private _myShipId: number;
 
         constructor(initialization: Server.IClientInitialization, private _shipManager: ShipManager, areaRenderer: AreaRenderer, keyboard: eg.Input.KeyboardHandler, serverAdapter: Server.ServerAdapter) {
@@ -46,6 +48,7 @@ module ShootR {
             this._deathScreen = new DeathScreen();
             this._notificationManager = new NotificationManager(serverAdapter);
             this._userInformationManager = new UserInformationManager(initialization.UserInformation);
+            this._chat = new Chat(initialization.UserInformation, serverAdapter);
 
             this._logout.click(() => {
                 // Clear cookies

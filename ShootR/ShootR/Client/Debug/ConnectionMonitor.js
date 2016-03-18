@@ -1,6 +1,6 @@
 var ShootR;
 (function (ShootR) {
-    /// <reference path="../../Scripts/endgate-0.2.0-beta1.d.ts" />
+    /// <reference path="../../Scripts/endgate-0.2.0.d.ts" />
     /// <reference path="../../Scripts/typings/signalr/signalr.d.ts" />
     /// <reference path="../Server/ServerAdapter.ts" />
     /// <reference path="GameInformer.ts" />

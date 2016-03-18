@@ -1,0 +1,20 @@
+﻿ul#chat {
+    color: white;
+    font-family: 'SegoeUISemibold';
+    position: absolute;
+    bottom: 125px;
+    width: 33%;
+}
+
+ul#chat li input#chatbox {
+    border: none;
+    padding: 2px;
+    margin: 0;
+    color: white;
+    background: #000080;
+    width: 100%;
+}
+
+ul#chat li input#chatbox:focus {
+    outline: none;
+}
