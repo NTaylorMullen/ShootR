@@ -18,7 +18,7 @@ Feel free to stop by and say hi at http://jabbr.net/#/rooms/ShootR.
 **SignalR Source**: https://github.com/SignalR/SignalR  
 **EndGate Source**: https://github.com/ntaylormullen/endgate  
 
-###Building for the First Time###
+### Building for the First Time ###
 The latest versions of Visual Studio are now cofigured to restore missing packages in solutions that you open, however, ShootR uses packages from a custom package source. 
 To restore packages in the ShootR solution, you'll need to make sure that your installation of Visual Studio is configured to [restore missing packages] (http://docs.nuget.org/docs/workflows/using-nuget-without-committing-packages). 
 
